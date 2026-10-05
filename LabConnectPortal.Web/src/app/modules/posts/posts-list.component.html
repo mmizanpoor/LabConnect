@@ -1,0 +1,150 @@
+<div class="max-w-7xl mx-auto py-8 px-5 pb-10" dir="rtl">
+  <h1 class="m-0 mb-5 text-2xl font-bold text-gray-900">{{ titleKey | transloco }}</h1>
+
+  <div class="w-full mb-5 flex flex-col sm:flex-row items-stretch gap-3">
+    <form class="relative flex items-stretch flex-1 min-w-0 rounded-full bg-[#f0f0f0] overflow-hidden transition-[background-color,box-shadow] focus-within:bg-[#ececec] focus-within:shadow-[0_0_0_2px_rgb(53_80_124/0.25)]" (submit)="onSearch($event)">
+      <mat-icon class="absolute top-1/2 end-[0.95rem] -translate-y-1/2 text-gray-400 !text-xl !w-5 !h-5 pointer-events-none">search</mat-icon>
+      <input
+        type="search"
+        class="flex-1 min-w-0 h-11 border-0 bg-transparent py-0 ps-[5.5rem] pe-11 font-inherit text-gray-900 outline-none placeholder:text-gray-400 [&::-webkit-search-cancel-button]:hidden"
+        [formControl]="searchInput"
+        [placeholder]="'modules.posts.searchPlaceholder' | transloco"
+        [attr.aria-label]="'modules.posts.searchPlaceholder' | transloco"
+        autocomplete="off"
+      />
+      <button type="submit" class="shrink-0 self-stretch border-0 bg-[#35507c] text-white px-5 font-inherit text-sm font-semibold cursor-pointer transition-colors hover:bg-[#2a4062]">
+        {{ 'shared.search' | transloco }}
+      </button>
+    </form>
+
+    <div #groupFilter class="posts-group-filter shrink-0" [class.is-open]="groupFilterOpen">
+      <button
+        type="button"
+        class="posts-group-filter__trigger"
+        [disabled]="groupsLoading"
+        [attr.aria-expanded]="groupFilterOpen"
+        [attr.aria-label]="'modules.posts.filterByGroup' | transloco"
+        (click)="toggleGroupFilter()"
+      >
+        <span class="posts-group-filter__value">{{ selectedGroupLabel }}</span>
+        <span class="posts-group-filter__icon" aria-hidden="true">
+          <mat-icon>expand_more</mat-icon>
+        </span>
+      </button>
+
+      @if (groupFilterOpen) {
+        <div class="posts-group-filter__menu" role="listbox" [attr.aria-label]="'modules.posts.filterByGroup' | transloco">
+          <button
+            type="button"
+            class="posts-group-filter__option"
+            role="option"
+            [class.is-selected]="!contentGroupId"
+            [attr.aria-selected]="!contentGroupId"
+            (click)="selectGroup(null)"
+          >
+            {{ 'modules.posts.allGroups' | transloco }}
+          </button>
+          @for (group of groups; track group.contentGroupId) {
+            <button
+              type="button"
+              class="posts-group-filter__option"
+              role="option"
+              [class.is-selected]="contentGroupId === group.contentGroupId"
+              [attr.aria-selected]="contentGroupId === group.contentGroupId"
+              (click)="selectGroup(group.contentGroupId)"
+            >
+              {{ group.title }}
+            </button>
+          }
+        </div>
+      }
+    </div>
+  </div>
+
+  <section class="py-5 px-6 pb-6 border border-gray-200 rounded-[0.875rem] bg-white">
+    @if (groupTitle || searchTerm) {
+      <div class="flex flex-wrap items-stretch gap-3 mb-5 max-sm:flex-col">
+        @if (groupTitle) {
+          <div class="flex items-center justify-between gap-4 flex-1 min-w-0 py-3 px-4 border border-gray-200 rounded-lg bg-gray-50">
+            <span class="text-sm text-gray-700">
+              {{ 'modules.posts.filteredByGroup' | transloco: { group: groupTitle } }}
+            </span>
+            <button type="button" class="p-0 border-0 bg-transparent text-[#35507c] text-sm font-semibold cursor-pointer whitespace-nowrap hover:text-[#2a4062]" (click)="clearGroupFilter()">
+              {{ 'modules.posts.clearFilter' | transloco }}
+            </button>
+          </div>
+        }
+
+        @if (searchTerm) {
+          <div class="flex items-center justify-between gap-4 flex-1 min-w-0 py-3 px-4 border border-gray-200 rounded-lg bg-gray-50">
+            <span class="text-sm text-gray-700">
+              {{ 'modules.posts.filteredBySearch' | transloco: { term: searchTerm } }}
+            </span>
+            <button type="button" class="p-0 border-0 bg-transparent text-[#35507c] text-sm font-semibold cursor-pointer whitespace-nowrap hover:text-[#2a4062]" (click)="clearSearchFilter()">
+              {{ 'modules.posts.clearFilter' | transloco }}
+            </button>
+          </div>
+        }
+      </div>
+    }
+
+    @if (error) {
+      <div class="bg-red-50 text-red-700 py-3 px-4 rounded-lg mb-4">{{ error }}</div>
+    }
+
+    @if (loading && !posts.length) {
+      <p class="text-gray-500">{{ 'shared.loading' | transloco }}</p>
+    } @else if (!posts.length) {
+      <div class="posts-empty mx-auto flex w-full max-w-lg flex-col items-center px-4 py-12 text-center sm:py-16">
+        <div class="posts-empty__visual relative mb-7" aria-hidden="true">
+          <div class="posts-empty__glow"></div>
+          <div class="posts-empty__card posts-empty__card--back"></div>
+          <div class="posts-empty__card posts-empty__card--front">
+            <span class="posts-empty__icon">
+              <mat-icon>article</mat-icon>
+            </span>
+            <span class="posts-empty__lines">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+          </div>
+        </div>
+
+        <h2 class="posts-empty__title m-0 mb-2 text-[1.35rem] font-extrabold tracking-tight text-slate-900">
+          {{ 'modules.posts.emptyTitle' | transloco }}
+        </h2>
+        <p class="posts-empty__hint m-0 mb-6 max-w-sm text-[0.9375rem] leading-7 text-slate-500">
+          @if (hasActiveFilters()) {
+            {{ 'modules.posts.emptyFilteredHint' | transloco }}
+          } @else {
+            {{ 'modules.posts.emptyHint' | transloco }}
+          }
+        </p>
+
+        @if (hasActiveFilters()) {
+          <button
+            type="button"
+            class="posts-empty__cta inline-flex cursor-pointer items-center gap-2 rounded-xl border-0 bg-[#35507c] px-5 py-3 font-inherit text-sm font-bold text-white transition hover:bg-[#2a4063]"
+            (click)="clearAllFilters()"
+          >
+            <mat-icon class="!h-5 !w-5 !text-[1.25rem]">filter_alt_off</mat-icon>
+            {{ 'modules.posts.clearFilter' | transloco }}
+          </button>
+        }
+      </div>
+    } @else {
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-6">
+        @for (post of posts; track post.contentPostId) {
+          <app-post-card [post]="post" />
+        }
+      </div>
+      @if (hasMorePosts) {
+        <div #loadMoreSentinel class="h-px w-full invisible pointer-events-none" aria-hidden="true"></div>
+      }
+      @if (loadingMore) {
+        <p class="text-gray-500 text-center py-4 pb-8 text-sm">{{ 'shared.loading' | transloco }}</p>
+      }
+    }
+  </section>
+</div>

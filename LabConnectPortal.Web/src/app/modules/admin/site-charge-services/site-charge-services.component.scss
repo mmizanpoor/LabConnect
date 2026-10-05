@@ -1,0 +1,215 @@
+:host {
+  display: block;
+  min-height: 100%;
+}
+
+.site-charge-admin {
+  box-sizing: border-box;
+  padding: 0.75rem;
+}
+
+.site-charge-admin__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+
+  h1 {
+    margin: 0;
+    color: #0f172a;
+    font-size: 1.125rem;
+    font-weight: 700;
+  }
+
+  p {
+    margin: 0.35rem 0 0;
+    color: #64748b;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+  }
+}
+
+.site-charge-admin__alert {
+  margin-bottom: 0.75rem;
+  padding: 0.7rem 0.9rem;
+  border-radius: 5px;
+  font-size: 0.8125rem;
+}
+
+.site-charge-admin__alert--error {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.site-charge-admin__alert--success {
+  background: #f0fdf4;
+  color: #15803d;
+}
+
+.site-charge-admin__loading,
+.site-charge-admin__empty {
+  margin: 0;
+  color: #94a3b8;
+  font-size: 0.8125rem;
+}
+
+.site-charge-admin__layout {
+  display: grid;
+  grid-template-columns: minmax(14rem, 18rem) minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: start;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.site-charge-admin__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 0.55rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 5px;
+  background: #fff;
+}
+
+.site-charge-admin__list-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  width: 100%;
+  padding: 0.7rem 0.75rem;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  background: #f8fafc;
+  color: inherit;
+  text-align: start;
+  cursor: pointer;
+
+  &.is-active {
+    border-color: #6f97c2;
+    background: #f0f5fb;
+  }
+}
+
+.site-charge-admin__list-title {
+  color: #0f172a;
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+
+.site-charge-admin__list-meta {
+  color: #64748b;
+  font-size: 0.7rem;
+}
+
+.site-charge-admin__badge {
+  align-self: flex-start;
+  margin-top: 0.2rem;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  background: #dcfce7;
+  color: #15803d;
+  font-size: 0.65rem;
+  font-weight: 700;
+
+  &.is-off {
+    background: #fee2e2;
+    color: #b91c1c;
+  }
+}
+
+.site-charge-admin__editor {
+  padding: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 5px;
+  background: #fff;
+}
+
+.site-charge-admin__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.site-charge-admin__span-2 {
+  grid-column: 1 / -1;
+}
+
+.site-charge-admin__active {
+  display: flex;
+  align-items: center;
+  min-height: 2.75rem;
+}
+
+.site-charge-admin__prices-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin: 1.1rem 0 0.35rem;
+
+  h2 {
+    margin: 0;
+    color: #0f172a;
+    font-size: 0.875rem;
+    font-weight: 700;
+  }
+}
+
+.site-charge-admin__mode-hint {
+  margin: 0 0 0.75rem;
+  color: #64748b;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.site-charge-admin__prices {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.site-charge-admin__price-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr)) auto;
+  gap: 0.5rem;
+  align-items: end;
+  padding: 0.65rem;
+  border: 1px solid #eef2f7;
+  border-radius: 5px;
+  background: #f8fafc;
+}
+
+.site-charge-admin__remove {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  margin-bottom: 0.15rem;
+  border: 1px solid #fecaca;
+  border-radius: 5px;
+  background: #fff;
+  color: #dc2626;
+  cursor: pointer;
+
+  mat-icon {
+    width: 1.1rem !important;
+    height: 1.1rem !important;
+    font-size: 1.1rem !important;
+  }
+}
+
+.site-charge-admin__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}

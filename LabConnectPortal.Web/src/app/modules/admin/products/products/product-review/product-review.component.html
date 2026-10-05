@@ -1,0 +1,355 @@
+<div class="pr" dir="rtl">
+  <div class="pr__shell">
+    @if (error) {
+      <div class="pr__alert pr__alert--error" role="alert">{{ error }}</div>
+    }
+    @if (success) {
+      <div class="pr__alert pr__alert--success" role="status">{{ success }}</div>
+    }
+
+    @if (loading) {
+      <div class="pr__toolbar">
+        <base-back-button
+          link="/admin/products"
+          ariaLabelKey="modules.admin.products.backToList"
+        />
+      </div>
+      <p class="pr__loading">{{ 'shared.loading' | transloco }}</p>
+    } @else if (!product) {
+      <div class="pr__toolbar">
+        <base-back-button
+          link="/admin/products"
+          ariaLabelKey="modules.admin.products.backToList"
+        />
+      </div>
+    } @else {
+      <!-- Single form container: page does not scroll; this panel scrolls -->
+      <div class="pr__panel">
+        <div class="pr__status" [attr.data-tone]="statusTone">
+          <base-back-button
+            class="pr__status-back"
+            link="/admin/products"
+            ariaLabelKey="modules.admin.products.backToList"
+          />
+          <mat-icon class="pr__status-icon" aria-hidden="true">schedule</mat-icon>
+          <span class="pr__status-label">{{ statusLabel }}</span>
+        </div>
+
+        <header class="pr__hero">
+          <div class="pr__hero-media">
+            @if (heroImagePath; as path) {
+              <img [src]="imageUrl(path)" [alt]="product.title" />
+            } @else {
+              <div class="pr__hero-empty">
+                <mat-icon>image</mat-icon>
+              </div>
+            }
+          </div>
+
+          <div class="pr__hero-body">
+            <h1 class="pr__title">{{ product.title }}</h1>
+
+            <div class="pr__tags">
+              @if (product.brandTitle) {
+                <span class="pr__tag pr__tag--brand">{{ product.brandTitle }}</span>
+              }
+              @for (cat of product.categoryTitles; track cat) {
+                <span class="pr__tag">{{ cat }}</span>
+              }
+              @if (product.productCategoryGroupName) {
+                <span class="pr__tag pr__tag--muted">{{ product.productCategoryGroupName }}</span>
+              }
+            </div>
+
+            @if (hasDescription) {
+              <p class="pr__lead">{{ shortDescription }}</p>
+            }
+
+            <dl class="pr__highlights">
+              <div>
+                <dt>
+                  <mat-icon>sell</mat-icon>
+                  {{ 'modules.admin.products.fields.brand' | transloco }}
+                </dt>
+                <dd>{{ product.brandTitle || '—' }}</dd>
+              </div>
+              <div>
+                <dt>
+                  <mat-icon>category</mat-icon>
+                  {{ 'modules.admin.products.fields.categories' | transloco }}
+                </dt>
+                <dd>{{ categoriesText }}</dd>
+              </div>
+              <div>
+                <dt>
+                  <mat-icon>payments</mat-icon>
+                  {{ 'modules.admin.products.fields.price' | transloco }}
+                </dt>
+                <dd>
+                  {{ formatPrice(product.price) }}
+                  @if (product.isNegotiablePrice) {
+                    <em>{{ 'modules.admin.products.fields.negotiablePrice' | transloco }}</em>
+                  }
+                </dd>
+              </div>
+              <div>
+                <dt>
+                  <mat-icon>inventory_2</mat-icon>
+                  {{ 'modules.admin.products.fields.stock' | transloco }}
+                </dt>
+                <dd>{{ product.stockQuantity ?? '—' }}</dd>
+              </div>
+              <div>
+                <dt>
+                  <mat-icon>history</mat-icon>
+                  {{ 'modules.admin.products.fields.isUsed' | transloco }}
+                </dt>
+                <dd>{{ (product.isUsed ? 'shared.yes' : 'shared.no') | transloco }}</dd>
+              </div>
+              <div>
+                <dt>
+                  <mat-icon>event</mat-icon>
+                  {{ 'modules.admin.products.reviewMeta.submittedAt' | transloco }}
+                </dt>
+                <dd>{{ formatJalaliDateShort(product.submittedAt || product.createdAt) }}</dd>
+              </div>
+            </dl>
+          </div>
+        </header>
+
+        <section class="pr__section pr__section--meta">
+          <dl class="pr__meta">
+            <div>
+              <dt>{{ 'modules.admin.products.fields.center' | transloco }}</dt>
+              <dd>{{ product.createdByCenterName || '—' }}</dd>
+            </div>
+            <div>
+              <dt>{{ 'modules.admin.products.columns.createdBy' | transloco }}</dt>
+              <dd>{{ product.createdByUserName || '—' }}</dd>
+            </div>
+            <div>
+              <dt>{{ 'modules.admin.products.fields.warranty' | transloco }}</dt>
+              <dd>{{ product.warranty || '—' }}</dd>
+            </div>
+            <div>
+              <dt>{{ 'modules.admin.products.fields.discountPercent' | transloco }}</dt>
+              <dd>{{ product.discountPercent != null ? product.discountPercent + '٪' : '—' }}</dd>
+            </div>
+            <div>
+              <dt>{{ 'modules.admin.products.columns.updatedAt' | transloco }}</dt>
+              <dd>{{ formatJalaliDateShort(product.updatedAt) }}</dd>
+            </div>
+            @if (product.approvedAt) {
+              <div>
+                <dt>{{ 'modules.admin.products.reviewMeta.approvedAt' | transloco }}</dt>
+                <dd>{{ formatJalaliDateShort(product.approvedAt) }}</dd>
+              </div>
+            }
+          </dl>
+        </section>
+
+        @if (product.rejectionReason) {
+          <section class="pr__banner-reject">
+            <strong>{{ 'modules.admin.products.rejectionReason' | transloco }}</strong>
+            <p>{{ product.rejectionReason }}</p>
+          </section>
+        }
+
+        <section class="pr__loc">
+          <h2 class="pr__section-title">
+            <mat-icon>place</mat-icon>
+            {{ 'modules.admin.products.locationShort' | transloco }}
+          </h2>
+          <div class="pr__loc-body">
+            <div class="pr__loc-info">
+              <p class="pr__loc-address">{{ locationText }}</p>
+              @if (hasCoordinates) {
+                <a
+                  class="pr__loc-link"
+                  [href]="mapExternalUrl"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <span>{{ 'modules.admin.products.viewOnMap' | transloco }}</span>
+                  <mat-icon>open_in_new</mat-icon>
+                </a>
+              }
+            </div>
+            @if (hasCoordinates) {
+              <div class="pr__loc-thumb" aria-hidden="true">
+                <app-location-map-picker
+                  [latitude]="product.latitude!"
+                  [longitude]="product.longitude!"
+                  [disabled]="true"
+                  [compact]="true"
+                />
+              </div>
+            }
+          </div>
+        </section>
+
+        <section class="pr__section">
+          <h2 class="pr__section-title">
+            <mat-icon>list_alt</mat-icon>
+            {{ 'modules.admin.products.attributesSectionShort' | transloco }}
+          </h2>
+          @if (product.attributeValues.length) {
+            <dl class="pr__attrs">
+              @for (attr of product.attributeValues; track attr.productAttributeId) {
+                <div [class]="attributeRowClass(attr)">
+                  <dt>{{ attr.attributeTitle }}</dt>
+                  <dd>{{ formatAttributeValue(attr) }}</dd>
+                </div>
+              }
+            </dl>
+          } @else {
+            <p class="pr__empty">{{ 'modules.admin.products.reviewEmpty.attributes' | transloco }}</p>
+          }
+        </section>
+
+        <section class="pr__section">
+          <h2 class="pr__section-title">
+            <mat-icon>description</mat-icon>
+            {{ 'modules.admin.products.fields.description' | transloco }}
+          </h2>
+          @if (hasDescription) {
+            <div
+              class="pr__prose ck-content [&_img]:mx-auto [&_img]:block [&_img]:h-auto [&_img]:max-w-full [&_a]:text-[#35507c]"
+              [innerHTML]="descriptionHtml()"
+            ></div>
+          } @else {
+            <p class="pr__prose">
+              {{ 'modules.admin.products.reviewEmpty.description' | transloco }}
+            </p>
+          }
+        </section>
+
+        <section class="pr__section">
+          <h2 class="pr__section-title">
+            <mat-icon>photo_library</mat-icon>
+            {{ 'modules.admin.products.moreImagesSection' | transloco }}
+          </h2>
+          @if (galleryImages.length) {
+            <div class="pr__gallery">
+              @for (image of galleryImages; track image.id) {
+                <a
+                  [href]="imageUrl(image.imagePath)"
+                  target="_blank"
+                  rel="noopener"
+                  [attr.aria-label]="product.title"
+                >
+                  <img [src]="imageUrl(image.imagePath)" [alt]="product.title" />
+                </a>
+              }
+            </div>
+          } @else {
+            <p class="pr__empty">{{ 'modules.admin.products.noImages' | transloco }}</p>
+          }
+        </section>
+
+        @if (product.expertReviews.length) {
+          <section class="pr__section">
+            <h2 class="pr__section-title">
+              <mat-icon>info</mat-icon>
+              {{ 'modules.admin.products.otherInfoSection' | transloco }}
+            </h2>
+            <div class="pr__reviews">
+              @for (review of product.expertReviews; track $index) {
+                <article>
+                  <h3>{{ review.title }}</h3>
+                  <p>{{ review.description }}</p>
+                </article>
+              }
+            </div>
+          </section>
+        }
+
+        @if (isPending) {
+          <section class="pr__section pr__notes">
+            <h2 class="pr__section-title">
+              <mat-icon>edit_note</mat-icon>
+              {{ 'modules.admin.products.adminNotesTitle' | transloco }}
+            </h2>
+            <textarea
+              class="pr__notes-input"
+              rows="3"
+              maxlength="1000"
+              [formControl]="adminNotes"
+              [placeholder]="'modules.admin.products.adminNotesPlaceholder' | transloco"
+            ></textarea>
+            <div class="pr__notes-count">{{ adminNotes.value.length }}/1000</div>
+          </section>
+        }
+      </div>
+
+      <footer class="pr__footer" dir="rtl">
+        <div class="pr__footer-actions">
+          @if (isPending) {
+            <base-button
+              type="button"
+              color="green"
+              size="md"
+              [loading]="submitting"
+              [disabled]="submitting"
+              (click)="approve()"
+            >
+              {{ 'modules.admin.products.approveAndPublish' | transloco }}
+            </base-button>
+            <base-button
+              type="button"
+              color="orange"
+              size="md"
+              [loading]="submitting"
+              [disabled]="submitting"
+              (click)="requestRevision()"
+            >
+              {{ 'modules.admin.products.needsRevision' | transloco }}
+            </base-button>
+            <base-button
+              type="button"
+              color="warn"
+              size="md"
+              [loading]="submitting"
+              [disabled]="submitting"
+              (click)="reject()"
+            >
+              {{ 'modules.admin.products.rejectListing' | transloco }}
+            </base-button>
+          }
+
+          @if (isApproved) {
+            <base-button
+              type="button"
+              color="warn"
+              size="md"
+              [loading]="submitting"
+              [disabled]="submitting"
+              (click)="unpublish()"
+            >
+              {{ 'modules.admin.products.unpublish' | transloco }}
+            </base-button>
+          }
+
+          @if (isUnpublished) {
+            <base-button
+              type="button"
+              color="blue"
+              size="md"
+              [loading]="submitting"
+              [disabled]="submitting"
+              (click)="republish()"
+            >
+              {{ 'modules.admin.products.republish' | transloco }}
+            </base-button>
+          }
+
+          @if (canUpdate) {
+            <base-button type="button" color="soft" size="md" (click)="openEdit()">
+              {{ 'shared.edit' | transloco }}
+            </base-button>
+          }
+        </div>
+      </footer>
+    }
+  </div>
+</div>

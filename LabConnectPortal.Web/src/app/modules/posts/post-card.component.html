@@ -1,0 +1,66 @@
+@if (post.externalLink) {
+  <a class="block no-underline text-inherit h-full" [href]="post.externalLink" target="_blank" rel="noopener noreferrer">
+    <article class="flex flex-col h-full border border-gray-200 rounded-xl overflow-hidden bg-white transition-shadow hover:shadow-[0_4px_14px_rgb(0_0_0/8%)]">
+      <ng-container [ngTemplateOutlet]="body" />
+    </article>
+  </a>
+} @else {
+  <a class="block no-underline text-inherit h-full" [routerLink]="detailLink()">
+    <article class="flex flex-col h-full border border-gray-200 rounded-xl overflow-hidden bg-white transition-shadow hover:shadow-[0_4px_14px_rgb(0_0_0/8%)]">
+      <ng-container [ngTemplateOutlet]="body" />
+    </article>
+  </a>
+}
+
+<ng-template #body>
+  <div
+    class="relative shrink-0 overflow-hidden bg-gray-100"
+    [style.aspect-ratio]="imageAspectRatio()"
+  >
+    @if (imageUrl()) {
+      <img
+        [src]="imageUrl()"
+        [alt]="post.title"
+        class="absolute inset-0 block h-full w-full object-cover"
+        loading="lazy"
+      />
+    } @else {
+      <div class="absolute inset-0 bg-gradient-to-br from-[#eef2f7] to-gray-50"></div>
+    }
+  </div>
+  <div
+    class="flex flex-col flex-1 gap-2 p-4"
+    [class.p-3]="layout === 'home'"
+    [class.gap-0]="layout === 'home'"
+    [class.flex-none]="layout === 'home'"
+    [class.shrink-0]="layout === 'home'"
+  >
+    @if (layout !== 'home' && post.groupTitle) {
+      <span class="text-xs text-gray-500">{{ post.groupTitle }}</span>
+    }
+    <h3
+      class="m-0 font-semibold text-gray-900"
+      [class.text-base]="layout !== 'home'"
+      [class.leading-[1.45]]="layout !== 'home'"
+      [class.text-[0.9375rem]]="layout === 'home'"
+      [class.leading-[1.4375]]="layout === 'home'"
+      [class.line-clamp-2]="layout === 'home'"
+      [class.min-h-[calc(0.9375rem*1.4375*2)]]="layout === 'home'"
+      [class.max-h-[calc(0.9375rem*1.4375*2)]]="layout === 'home'"
+      [class.break-words]="layout === 'home'"
+    >{{ post.title }}</h3>
+    @if (layout !== 'home' && post.shortDescription) {
+      <p class="m-0 text-sm leading-relaxed text-gray-600 line-clamp-3">{{ post.shortDescription }}</p>
+    }
+    @if (layout !== 'home') {
+      <div class="flex flex-wrap gap-3 mt-auto pt-2 text-xs text-gray-400">
+        @if (formattedDate()) {
+          <span>{{ formattedDate() }}</span>
+        }
+        @if (post.showAuthor && post.authorName) {
+          <span>{{ post.authorName }}</span>
+        }
+      </div>
+    }
+  </div>
+</ng-template>

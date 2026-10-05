@@ -1,0 +1,81 @@
+<base-dialog [title]="'modules.profile.testInfos.editDialog.title' | transloco">
+  <div class="min-w-[280px]" dir="rtl">
+    <p class="m-0 mb-4 text-sm text-slate-500">
+      {{ data.row.fullName || data.row.shortName || '—' }}
+    </p>
+
+    @if (loading) {
+    <div class="flex flex-col items-center gap-3 py-10 text-slate-500">
+      <mat-icon class="animate-spin">hourglass_top</mat-icon>
+      <p class="m-0 text-sm">{{ "shared.loading" | transloco }}</p>
+    </div>
+    } @else {
+    @if (error) {
+    <div class="mb-4 rounded-lg bg-red-50 p-3 text-sm text-red-700">{{ error }}</div>
+    }
+
+    <form [formGroup]="form" class="flex flex-col gap-4">
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <base-form-field
+          class="w-full"
+          layout="floating"
+          icon="tag"
+          [label]="'modules.profile.testInfos.columns.cpnCode' | transloco"
+          [control]="form.controls.cpnCode"
+        />
+        <base-form-field
+          class="w-full"
+          layout="floating"
+          icon="badge"
+          [label]="'modules.profile.testInfos.columns.nationalCode' | transloco"
+          [control]="form.controls.nationalCode"
+        />
+        <base-form-field
+          class="w-full"
+          layout="floating"
+          icon="payments"
+          type="number"
+          [label]="'modules.profile.testInfos.columns.approvePrice' | transloco"
+          [control]="form.controls.approvePrice"
+        />
+      </div>
+
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <base-form-field
+          class="w-full"
+          layout="floating"
+          icon="devices"
+          [select]="true"
+          [options]="deviceGroupOptions"
+          [label]="'modules.profile.testInfos.editDialog.deviceGroup' | transloco"
+          [control]="form.controls.deviceGroupId"
+        />
+        <base-form-field
+          class="w-full"
+          layout="floating"
+          icon="inventory_2"
+          [select]="true"
+          [options]="kitGroupOptions"
+          [label]="'modules.profile.testInfos.editDialog.kitGroup' | transloco"
+          [control]="form.controls.kitGroupId"
+        />
+      </div>
+    </form>
+    }
+  </div>
+
+  <div baseDialogActions class="flex items-center justify-end gap-2">
+    <base-button type="button" color="warn" size="sm" (click)="cancel()">
+      {{ "shared.cancel" | transloco }}
+    </base-button>
+    <base-button
+        color="green"
+        size="sm"
+        [disabled]="loading || form.invalid"
+        [loading]="saving"
+        (click)="save()"
+      >
+        {{ "shared.save" | transloco }}
+      </base-button>
+  </div>
+</base-dialog>

@@ -1,0 +1,192 @@
+<div class="site-charge-admin" dir="rtl">
+  <header class="site-charge-admin__header">
+    <div>
+      <h1>{{ "modules.admin.siteChargeServices.title" | transloco }}</h1>
+      <p>{{ "modules.admin.siteChargeServices.subtitle" | transloco }}</p>
+    </div>
+    @if (canCreate && availableCodesToCreate) {
+    <base-button color="blue" size="sm" type="button" (click)="startCreate()">
+      {{ "modules.admin.siteChargeServices.add" | transloco }}
+    </base-button>
+    }
+  </header>
+
+  @if (error) {
+  <div class="site-charge-admin__alert site-charge-admin__alert--error">{{ error }}</div>
+  }
+  @if (success) {
+  <div class="site-charge-admin__alert site-charge-admin__alert--success">{{ success }}</div>
+  }
+
+  @if (loading) {
+  <p class="site-charge-admin__loading">{{ "shared.loading" | transloco }}</p>
+  } @else {
+  <div class="site-charge-admin__layout">
+    <aside class="site-charge-admin__list">
+      @if (!services.length && !isCreating) {
+      <p class="site-charge-admin__empty">
+        {{ "modules.admin.siteChargeServices.empty" | transloco }}
+      </p>
+      }
+      @for (service of services; track service.siteChargeServiceId) {
+      <button
+        type="button"
+        class="site-charge-admin__list-item"
+        [class.is-active]="!isCreating && selectedId === service.siteChargeServiceId"
+        (click)="selectService(service)"
+      >
+        <span class="site-charge-admin__list-title">{{ service.title }}</span>
+        <span class="site-charge-admin__list-meta">
+          {{ codeLabel(service.code) }} · {{ modeLabel(service.pricingMode) }}
+        </span>
+        <span
+          class="site-charge-admin__badge"
+          [class.is-off]="!service.isActive"
+        >
+          {{
+            (service.isActive
+              ? "modules.admin.siteChargeServices.active"
+              : "modules.admin.siteChargeServices.inactive") | transloco
+          }}
+        </span>
+      </button>
+      }
+    </aside>
+
+    <section class="site-charge-admin__editor">
+      <form [formGroup]="form" class="site-charge-admin__form">
+        <div class="site-charge-admin__grid">
+          <base-form-field
+            layout="floating"
+            [select]="true"
+            [required]="true"
+            [options]="codeOptions"
+            [label]="'modules.admin.siteChargeServices.fields.code' | transloco"
+            [control]="form.controls.code"
+          />
+          <base-form-field
+            layout="floating"
+            [required]="true"
+            [label]="'modules.admin.siteChargeServices.fields.title' | transloco"
+            [control]="form.controls.title"
+          />
+          <base-form-field
+            class="site-charge-admin__span-2"
+            layout="floating"
+            [label]="'modules.admin.siteChargeServices.fields.description' | transloco"
+            [control]="form.controls.description"
+          />
+          <base-form-field
+            layout="floating"
+            [select]="true"
+            [required]="true"
+            [options]="pricingModeOptions"
+            [label]="'modules.admin.siteChargeServices.fields.pricingMode' | transloco"
+            [control]="form.controls.pricingMode"
+          />
+          <div class="site-charge-admin__active">
+            <base-checkbox formControlName="isActive">
+              {{ "modules.admin.siteChargeServices.fields.isActive" | transloco }}
+            </base-checkbox>
+          </div>
+        </div>
+
+        <div class="site-charge-admin__prices-head">
+          <h2>{{ "modules.admin.siteChargeServices.pricesTitle" | transloco }}</h2>
+          @if (canUpdate && !isFixed) {
+          <base-button color="soft" size="sm" type="button" (click)="addPriceRow()">
+            {{ "modules.admin.siteChargeServices.addPrice" | transloco }}
+          </base-button>
+          }
+        </div>
+
+        <p class="site-charge-admin__mode-hint">
+          @if (isFixed) {
+          {{ "modules.admin.siteChargeServices.hints.fixed" | transloco }}
+          } @else if (isRange) {
+          {{ "modules.admin.siteChargeServices.hints.range" | transloco }}
+          } @else {
+          {{ "modules.admin.siteChargeServices.hints.package" | transloco }}
+          }
+        </p>
+
+        <div class="site-charge-admin__prices" formArrayName="prices">
+          @for (row of prices.controls; track $index; let i = $index) {
+          <div class="site-charge-admin__price-row" [formGroupName]="i">
+            @if (isPackage) {
+            <base-form-field
+              layout="floating"
+              [label]="'modules.admin.siteChargeServices.fields.packageTitle' | transloco"
+              [control]="$any(row).controls.title"
+            />
+            <base-form-field
+              layout="floating"
+              type="number"
+              [required]="true"
+              [label]="'modules.admin.siteChargeServices.fields.packageQuantity' | transloco"
+              [control]="$any(row).controls.packageQuantity"
+            />
+            } @else if (isRange) {
+            <base-form-field
+              layout="floating"
+              type="number"
+              [required]="true"
+              [label]="'modules.admin.siteChargeServices.fields.minQuantity' | transloco"
+              [control]="$any(row).controls.minQuantity"
+            />
+            <base-form-field
+              layout="floating"
+              type="number"
+              [label]="'modules.admin.siteChargeServices.fields.maxQuantity' | transloco"
+              [control]="$any(row).controls.maxQuantity"
+            />
+            }
+            <base-form-field
+              layout="floating"
+              type="number"
+              [required]="true"
+              [label]="
+                (isPackage
+                  ? 'modules.admin.siteChargeServices.fields.packagePrice'
+                  : 'modules.admin.siteChargeServices.fields.unitPrice') | transloco
+              "
+              [control]="$any(row).controls.price"
+            />
+            @if (canUpdate && !isFixed && prices.length > 1) {
+            <button
+              type="button"
+              class="site-charge-admin__remove"
+              (click)="removePriceRow(i)"
+              [attr.aria-label]="'shared.delete' | transloco"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+            }
+          </div>
+          }
+        </div>
+
+        @if (canUpdate) {
+        <div class="site-charge-admin__actions">
+          @if (canDelete && !isCreating && selectedId != null) {
+          <base-button color="warn" size="sm" type="button" (click)="deleteSelected()">
+            {{ "shared.delete" | transloco }}
+          </base-button>
+          }
+          <base-button
+            color="green"
+            size="sm"
+            type="button"
+            [loading]="saving"
+            [disabled]="saving"
+            (click)="save()"
+          >
+            {{ "shared.save" | transloco }}
+          </base-button>
+        </div>
+        }
+      </form>
+    </section>
+  </div>
+  }
+</div>

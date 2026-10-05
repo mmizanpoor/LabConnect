@@ -1,0 +1,23 @@
+<div class="flex min-h-screen flex-col overflow-x-hidden bg-white" dir="rtl">
+  @if (!hideChrome) {
+    <app-site-header />
+    <app-site-breadcrumb />
+  } @else if (canGoBack) {
+    <div class="px-4 py-2">
+      <button
+        type="button"
+        class="inline-flex h-7 w-7 items-center justify-center rounded-full border border-gray-200 bg-white text-[#35507c] shadow-sm transition hover:bg-slate-50"
+        (click)="goBack()"
+        [attr.aria-label]="'shared.back' | transloco"
+      >
+        <mat-icon class="!h-4 !w-4 !text-base leading-none">arrow_forward</mat-icon>
+      </button>
+    </div>
+  }
+  <div class="flex-1">
+    <router-outlet />
+  </div>
+  @if (!hideChrome) {
+    <app-site-footer />
+  }
+</div>

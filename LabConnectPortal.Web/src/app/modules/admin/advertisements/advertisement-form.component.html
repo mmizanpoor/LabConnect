@@ -1,0 +1,97 @@
+<div class="mx-auto max-w-4xl p-6" dir="rtl">
+  <div class="mb-4 flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <base-back-button link="/admin/ads" ariaLabelKey="modules.admin.advertisements.backToList" />
+    </div>
+  </div>
+
+  @if (error) {
+    <div class="mb-4 rounded-[5px] border border-red-100 bg-red-50 p-3 text-sm text-red-700">
+      {{ error }}
+    </div>
+  }
+
+  @if (loading) {
+    <p class="text-gray-500">{{ 'shared.loading' | transloco }}</p>
+  } @else {
+    <form
+      [formGroup]="form"
+      class="overflow-hidden rounded-[5px] border border-slate-200 bg-white shadow-[0_1px_3px_rgba(15,23,42,0.06)]"
+    >
+      <section class="border-b border-slate-100 p-5 md:p-6">
+        <h2 class="mb-4 text-lg font-semibold text-slate-800">
+          {{ 'modules.admin.advertisements.sections.basic' | transloco }}
+        </h2>
+        <div class="flex flex-col gap-4">
+          <base-form-field
+            class="w-full"
+            layout="floating"
+            [required]="true"
+            [label]="'modules.admin.advertisements.fields.title' | transloco"
+            [control]="form.controls.title"
+            [maxLength]="300"
+          />
+          <base-form-field
+            class="w-full"
+            layout="floating"
+            [multiline]="true"
+            [rows]="3"
+            [label]="'modules.admin.advertisements.fields.shortDescription' | transloco"
+            [control]="form.controls.shortDescription"
+            [maxLength]="500"
+          />
+          <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <base-form-field
+              class="w-full"
+              layout="floating"
+              icon="event"
+              [required]="true"
+              [jalaliDate]="true"
+              [label]="'modules.admin.advertisements.fields.startAt' | transloco"
+              [control]="form.controls.startAt"
+            />
+            <base-form-field
+              class="w-full"
+              layout="floating"
+              icon="event"
+              [required]="true"
+              [jalaliDate]="true"
+              [label]="'modules.admin.advertisements.fields.endAt' | transloco"
+              [control]="form.controls.endAt"
+            />
+          </div>
+          <base-checkbox formControlName="isActive">
+            {{ 'modules.admin.advertisements.fields.isActive' | transloco }}
+          </base-checkbox>
+          <base-image-upload
+            [label]="'modules.admin.advertisements.fields.image' | transloco"
+            previewShape="square"
+            [previewSize]="160"
+            [clearable]="true"
+            [imageUrl]="imagePreviewUrl"
+            [fileName]="imageFileName"
+            [loading]="uploadingImage"
+            (fileSelected)="onImageSelected($event)"
+            (cleared)="removeImage()"
+          />
+        </div>
+      </section>
+
+      <div class="flex justify-end gap-2 p-5 md:p-6">
+        <base-button type="button" color="warn" size="sm" (click)="backToList()">
+          {{ 'shared.cancel' | transloco }}
+        </base-button>
+        <base-button
+          type="button"
+          color="green"
+          size="sm"
+          [loading]="saving"
+          [disabled]="saving || uploadingImage || form.invalid"
+          (click)="save()"
+        >
+          {{ 'shared.save' | transloco }}
+        </base-button>
+      </div>
+    </form>
+  }
+</div>

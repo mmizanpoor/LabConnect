@@ -1,0 +1,61 @@
+<div
+  class="mx-auto box-border flex h-full min-h-0 w-full flex-col overflow-hidden p-4"
+  dir="rtl"
+>
+  @if (canCreate) {
+    <div class="mb-3 flex shrink-0 items-center justify-end">
+      <base-button color="blue" size="sm" routerLink="/profile/job-postings/new">
+        {{ "modules.profile.jobPostings.add" | transloco }}
+      </base-button>
+    </div>
+  }
+
+  @if (showProfileStatusMessage && !canManageJobPostings) {
+    <div
+      class="mb-3 shrink-0 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900"
+    >
+      <p>{{ profileBannerKey | transloco }}</p>
+      @if (centerProfile?.rejectionReason; as reason) {
+        <p class="mt-1">
+          {{ "modules.profile.center.rejectionBanner.reason" | transloco }}:
+          {{ reason }}
+        </p>
+      }
+      <a
+        routerLink="/profile/center"
+        class="mt-2 inline-block font-medium text-teal-700"
+      >
+        {{ "modules.profile.jobPostings.goToCenterProfile" | transloco }}
+      </a>
+    </div>
+  }
+
+  @if (error) {
+    <div class="mb-3 shrink-0 rounded-lg bg-red-50 p-3 text-sm text-red-700">
+      {{ error }}
+    </div>
+  }
+
+  <div
+    class="base-grid-panel flex min-h-0 flex-1 flex-col overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm"
+  >
+    <base-grid
+      gridId="c4b35c3a-5dd0-4f44-8b2d-97baf7a6c1d0"
+      class="min-h-0 w-full flex-1"
+      [visibleOrder]="false"
+      [columnDefs]="colDef"
+      [dataSource$]="list$"
+      [disabled]="loading"
+      [toolbarDisabled]="true"
+      forceDirection="rtl"
+    />
+  </div>
+
+  <base-paging
+    class="shrink-0"
+    [page]="page"
+    [pageSize]="pageSize"
+    [totalCount]="totalCount"
+    (pageChange)="onPageChange($event)"
+  />
+</div>

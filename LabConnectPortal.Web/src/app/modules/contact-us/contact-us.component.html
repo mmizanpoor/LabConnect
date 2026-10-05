@@ -1,0 +1,83 @@
+<div class="max-w-7xl mx-auto py-8 px-5 pb-10" dir="rtl">
+  <h1 class="m-0 mb-5 text-2xl font-bold text-gray-900">{{ 'modules.contactUs.title' | transloco }}</h1>
+
+  @if (loading) {
+    <p class="text-gray-500">{{ 'shared.loading' | transloco }}</p>
+  } @else if (!hasContactInfo && !hasGoogleMap) {
+    <section class="p-6 border border-gray-200 rounded-[0.875rem] bg-white">
+      <p class="text-gray-500">{{ 'modules.contactUs.empty' | transloco }}</p>
+    </section>
+  } @else {
+    <section
+      class="p-6 border border-gray-200 rounded-[0.875rem] bg-white max-[900px]:grid-cols-1"
+      [class.grid]="hasGoogleMap"
+      [class.grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]]="hasGoogleMap"
+      [class.gap-8]="hasGoogleMap"
+      [class.items-start]="hasGoogleMap"
+    >
+      @if (hasContactInfo) {
+        <div>
+          <h2 class="flex items-center gap-2 m-0 mb-5 text-base font-bold text-gray-900">
+            <span class="w-[0.45rem] h-[0.45rem] rounded-full bg-[#35507c] shrink-0" aria-hidden="true"></span>
+            {{ 'modules.contactUs.infoTitle' | transloco }}
+          </h2>
+
+          <ul class="list-none m-0 p-0 flex flex-col gap-4">
+            @if (settings?.footerAddress?.trim()) {
+              <li class="flex items-start gap-3">
+                <mat-icon class="text-[#35507c] !text-[1.375rem] !w-[1.375rem] !h-[1.375rem] shrink-0 mt-0.5">location_on</mat-icon>
+                <div class="flex flex-col gap-1 min-w-0">
+                  <span class="text-[0.8125rem] font-semibold text-gray-500">{{ 'modules.home.footer.address' | transloco }}</span>
+                  <span class="text-[0.9375rem] text-gray-900 leading-[1.7]">{{ settings!.footerAddress }}</span>
+                </div>
+              </li>
+            }
+            @if (settings?.supportLandline?.trim()) {
+              <li class="flex items-start gap-3">
+                <mat-icon class="text-[#35507c] !text-[1.375rem] !w-[1.375rem] !h-[1.375rem] shrink-0 mt-0.5">call</mat-icon>
+                <div class="flex flex-col gap-1 min-w-0">
+                  <span class="text-[0.8125rem] font-semibold text-gray-500">{{ 'modules.home.footer.landline' | transloco }}</span>
+                  <a class="text-[0.9375rem] text-[#35507c] leading-[1.7] no-underline hover:text-[#2a4062] hover:underline" [href]="'tel:' + settings!.supportLandline" dir="ltr">
+                    {{ settings!.supportLandline }}
+                  </a>
+                </div>
+              </li>
+            }
+            @if (settings?.supportMobile?.trim()) {
+              <li class="flex items-start gap-3">
+                <mat-icon class="text-[#35507c] !text-[1.375rem] !w-[1.375rem] !h-[1.375rem] shrink-0 mt-0.5">smartphone</mat-icon>
+                <div class="flex flex-col gap-1 min-w-0">
+                  <span class="text-[0.8125rem] font-semibold text-gray-500">{{ 'modules.home.footer.mobile' | transloco }}</span>
+                  <a class="text-[0.9375rem] text-[#35507c] leading-[1.7] no-underline hover:text-[#2a4062] hover:underline" [href]="'tel:' + settings!.supportMobile" dir="ltr">
+                    {{ settings!.supportMobile }}
+                  </a>
+                </div>
+              </li>
+            }
+            @if (settings?.footerEmail?.trim()) {
+              <li class="flex items-start gap-3">
+                <mat-icon class="text-[#35507c] !text-[1.375rem] !w-[1.375rem] !h-[1.375rem] shrink-0 mt-0.5">mail</mat-icon>
+                <div class="flex flex-col gap-1 min-w-0">
+                  <span class="text-[0.8125rem] font-semibold text-gray-500">{{ 'modules.home.footer.email' | transloco }}</span>
+                  <a class="text-[0.9375rem] text-[#35507c] leading-[1.7] no-underline hover:text-[#2a4062] hover:underline" [href]="'mailto:' + settings!.footerEmail" dir="ltr">
+                    {{ settings!.footerEmail }}
+                  </a>
+                </div>
+              </li>
+            }
+          </ul>
+        </div>
+      }
+
+      @if (hasGoogleMap) {
+        <div>
+          <h2 class="flex items-center gap-2 m-0 mb-5 text-base font-bold text-gray-900">
+            <span class="w-[0.45rem] h-[0.45rem] rounded-full bg-[#35507c] shrink-0" aria-hidden="true"></span>
+            {{ 'modules.contactUs.mapTitle' | transloco }}
+          </h2>
+          <div class="overflow-hidden rounded-[0.625rem] border border-gray-200 bg-gray-50 min-h-72 [&_iframe]:block [&_iframe]:w-full [&_iframe]:min-h-72 [&_iframe]:border-0" [innerHTML]="googleMapHtml"></div>
+        </div>
+      }
+    </section>
+  }
+</div>

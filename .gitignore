@@ -1,0 +1,19 @@
+# Visual Studio
+.vs/
+[Bb]in/
+[Oo]bj/
+
+# Angular
+node_modules/
+dist/
+.angular/
+
+# Build output
+_build_out/
+
+# ASP.NET
+LabConnectPortal.Api/wwwroot/*
+!LabConnectPortal.Api/wwwroot/.gitkeep
+
+# User-specific files
+*.csproj.user

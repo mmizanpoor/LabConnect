@@ -1,0 +1,233 @@
+<div class="mx-auto max-w-6xl p-6" dir="rtl">
+  <div class="mb-4 flex items-center gap-2">
+    <base-back-button
+      link="/profile/agreements"
+      ariaLabelKey="modules.profile.agreements.form.backToList"
+    />
+    <h1 class="text-2xl font-bold text-gray-900">
+      {{ "modules.profile.agreements.form.title" | transloco }}
+    </h1>
+  </div>
+
+  @if (error) {
+  <div class="mb-4 rounded-[5px] border border-red-100 bg-red-50 p-3 text-sm text-red-700">
+    {{ error }}
+  </div>
+  } @if (isAddendum) {
+  <div class="mb-4 rounded-[5px] border border-blue-100 bg-blue-50 p-3 text-sm text-blue-800">
+    {{ "modules.profile.agreements.form.addendumHint" | transloco }}
+  </div>
+  } @if (loading) {
+  <p class="text-gray-500">{{ "shared.loading" | transloco }}</p>
+  }<!-- @else if (!requestId) {
+    <div class="rounded-lg bg-amber-50 p-4 text-sm text-amber-800">
+      {{ 'modules.profile.agreements.form.noRequestHint' | transloco }}
+    </div>
+  } @else { -->
+  <form
+    [formGroup]="form"
+    class="overflow-hidden rounded-[5px] border border-slate-200 bg-white shadow-[0_1px_3px_rgba(15,23,42,0.06)]"
+    (ngSubmit)="save()"
+  >
+    <section class="border-b border-slate-100 p-5 md:p-6">
+      <h2 class="mb-4 text-lg font-semibold text-slate-800">
+        {{ "modules.profile.agreements.form.sections.basic" | transloco }}
+      </h2>
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <base-form-field
+          class="w-full"
+          layout="floating"
+          icon="title"
+          [required]="true"
+          [label]="'modules.profile.agreements.form.fields.title' | transloco"
+          [control]="form.controls.title"
+        />
+        <base-form-field
+          class="w-full"
+          layout="floating"
+          icon="tag"
+          [required]="true"
+          [readOnly]="isAddendum"
+          [label]="
+            'modules.profile.agreements.form.fields.contractNumber' | transloco
+          "
+          [control]="form.controls.contractNumber"
+        />
+        <base-form-field
+          class="w-full"
+          layout="floating"
+          [required]="true"
+          [jalaliDate]="true"
+          [label]="
+            'modules.profile.agreements.form.fields.startDate' | transloco
+          "
+          [control]="form.controls.startDate"
+        />
+        <base-form-field
+          class="w-full"
+          layout="floating"
+          [required]="true"
+          [jalaliDate]="true"
+          [readOnly]="isAddendum"
+          [label]="'modules.profile.agreements.form.fields.expDate' | transloco"
+          [control]="form.controls.expDate"
+        />
+        <base-form-field
+          class="w-full"
+          layout="floating"
+          icon="science"
+          [readOnly]="true"
+          [label]="'modules.profile.agreements.form.fields.primaryLab' | transloco"
+          [control]="form.controls.primaryLab"
+        />
+        <base-form-field
+          class="w-full"
+          layout="floating"
+          icon="science"
+          [readOnly]="true"
+          [label]="'modules.profile.agreements.form.fields.receiverLab' | transloco"
+          [control]="form.controls.receiverLab"
+        />
+      </div>
+    </section>
+
+    <section class="border-b border-slate-100 p-5 md:p-6">
+      <h2 class="mb-4 text-lg font-semibold text-slate-800">
+        {{ "modules.profile.agreements.form.sections.text" | transloco }}
+      </h2>
+      <div class="h-[520px] min-h-[520px] overflow-hidden rounded-[5px] border border-slate-200">
+        <app-document-editor [enableRtl]="true" />
+      </div>
+    </section>
+
+    <section class="border-b border-slate-100 p-5 md:p-6">
+      <div class="mb-3 flex items-center justify-between gap-3">
+        <h2 class="m-0 text-lg font-semibold text-slate-800">
+          {{
+            "modules.profile.agreements.form.sections.attachments" | transloco
+          }}
+        </h2>
+        <label
+          class="inline-flex cursor-pointer items-center gap-2 rounded-[5px] border border-slate-200 px-3 py-1.5 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50"
+        >
+          <mat-icon class="!h-5 !w-5 !text-base">upload_file</mat-icon>
+          {{ "modules.profile.agreements.form.addAttachment" | transloco }}
+          <input
+            type="file"
+            class="hidden"
+            accept="image/*,application/pdf"
+            multiple
+            (change)="onAttachmentSelected($event)"
+          />
+        </label>
+      </div>
+      @if (attachmentError) {
+      <p class="mb-2 text-sm text-red-600">{{ attachmentError }}</p>
+      } @if (!attachments.length) {
+      <p class="text-sm text-slate-500">
+        {{ "modules.profile.agreements.form.noAttachments" | transloco }}
+      </p>
+      } @else {
+      <ul class="m-0 flex flex-col gap-2 p-0">
+        @for (item of attachments; track item.fileName; let i = $index) {
+        <li
+          class="flex items-center justify-between rounded-[5px] border border-slate-200 px-3 py-2 text-sm"
+        >
+          <span>{{ item.fileName }}</span>
+          <button mat-icon-button type="button" (click)="removeAttachment(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </li>
+        }
+      </ul>
+      }
+    </section>
+
+    @if (testRows.length) {
+    <section class="border-b border-slate-100 p-5 md:p-6">
+      <h2 class="mb-4 text-lg font-semibold text-slate-800">
+        {{ "modules.profile.agreements.form.sections.tests" | transloco }}
+      </h2>
+      <div class="overflow-x-auto rounded-[5px] border border-slate-200">
+        <table mat-table [dataSource]="testRows" class="w-full">
+          <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef class="!text-center !w-12">
+              <base-checkbox
+                [checked]="allSelected"
+                [indeterminate]="someSelected"
+                (checkedChange)="toggleSelectAll($event)"
+              ></base-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row" class="!text-center !w-12">
+              <base-checkbox
+                [checked]="row.selected"
+                (checkedChange)="toggleRow(row, $event)"
+              ></base-checkbox>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="cpnCode">
+            <th mat-header-cell *matHeaderCellDef class="!text-right">
+              {{ "modules.profile.testInfos.columns.cpnCode" | transloco }}
+            </th>
+            <td mat-cell *matCellDef="let row" class="!text-right text-sm">
+              {{ row.cpnCode || "—" }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="fullName">
+            <th mat-header-cell *matHeaderCellDef class="!text-right">
+              {{ "modules.profile.testInfos.columns.fullName" | transloco }}
+            </th>
+            <td mat-cell *matCellDef="let row" class="!text-right text-sm">
+              {{ row.fullName || "—" }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="discount">
+            <th mat-header-cell *matHeaderCellDef class="!text-right">
+              {{ "modules.profile.specialOffers.columns.discount" | transloco }}
+            </th>
+            <td mat-cell *matCellDef="let row" class="!text-right text-sm">
+              {{ row.discount != null ? row.discount + "%" : "—" }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="approvePrice">
+            <th mat-header-cell *matHeaderCellDef class="!text-right">
+              {{
+                "modules.profile.agreements.form.columns.basePrice" | transloco
+              }}
+            </th>
+            <td mat-cell *matCellDef="let row" class="!text-right text-sm">
+              {{ formatPrice(row.approvePrice ?? null) }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="approvedPrice">
+            <th mat-header-cell *matHeaderCellDef class="!text-right">
+              {{
+                "modules.profile.agreements.form.columns.approvedPrice"
+                  | transloco
+              }}
+            </th>
+            <td
+              mat-cell
+              *matCellDef="let row"
+              class="!text-right text-sm font-semibold text-lab"
+            >
+              {{ formatPrice(calcApprovedPrice(row)) }}
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </div>
+    </section>
+    }
+
+    @if (canCreate) {
+      <div class="flex justify-end bg-slate-50/70 px-5 py-4 md:px-6">
+        <base-button type="submit" color="green" size="sm" [disabled]="saving">
+          {{ "modules.profile.agreements.form.save" | transloco }}
+        </base-button>
+      </div>
+    }
+  </form>
+  <!-- } -->
+</div>

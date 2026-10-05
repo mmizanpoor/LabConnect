@@ -1,0 +1,338 @@
+<base-dialog
+  [title]="'modules.admin.users.resumeDialog.title' | transloco: { name: data.fullName }"
+>
+  <div class="max-h-[75vh] overflow-y-auto" dir="rtl">
+    @if (loading) {
+      <div class="flex flex-col items-center justify-center gap-3 py-16 text-gray-500">
+        <mat-spinner diameter="40"></mat-spinner>
+        <p>{{ "modules.admin.users.resumeDialog.loading" | transloco }}</p>
+      </div>
+    } @else if (error) {
+      <div class="rounded-lg bg-red-50 p-4 text-sm text-red-700">{{ error }}</div>
+    } @else if (resume) {
+      <section
+        class="mb-4 flex items-center gap-5 rounded-2xl border border-teal-200 bg-gradient-to-br from-teal-50 via-cyan-50 to-slate-50 p-5"
+      >
+        <div class="shrink-0">
+          @if (photoUrl) {
+            <img
+              [src]="photoUrl"
+              [alt]="data.fullName"
+              class="h-20 w-20 rounded-full border-[3px] border-white object-cover shadow-[0_4px_12px_rgb(15_118_110/15%)]"
+            />
+          } @else {
+            <div
+              class="flex h-20 w-20 items-center justify-center rounded-full border-[3px] border-white bg-slate-200 text-slate-500 shadow-[0_4px_12px_rgb(15_118_110/15%)]"
+            >
+              <mat-icon class="!h-10 !w-10 !text-[2.5rem]">person</mat-icon>
+            </div>
+          }
+        </div>
+        <div>
+          <h3 class="text-xl font-bold text-slate-800">
+            {{ resume.firstName }} {{ resume.lastName }}
+          </h3>
+          <p class="mt-1 font-medium text-teal-700">
+            {{ resume.basicInfo.jobTitle || ("modules.profile.resume.empty" | transloco) }}
+          </p>
+          <p class="mt-2 text-sm text-slate-500">
+            {{ resume.mobileNumber }}
+            @if (resume.personalInfo.email) {
+              <span class="mx-2">•</span>
+              {{ resume.personalInfo.email }}
+            }
+          </p>
+          @if (resume.basicInfo.employmentStatus !== null && resume.basicInfo.employmentStatus !== undefined) {
+            <span
+              class="mt-3 inline-block rounded-full border border-teal-200 bg-white px-3 py-1 text-xs font-semibold text-teal-800"
+            >
+              {{ enumLabel("employmentStatus", EmploymentStatus, resume.basicInfo.employmentStatus) }}
+            </span>
+          }
+        </div>
+      </section>
+
+      @if (resume.aboutMe) {
+        <article class="mb-3 rounded-[0.875rem] border border-slate-200 bg-white p-4 px-5 shadow-sm">
+          <header
+            class="mb-3 flex items-center gap-2 border-b border-slate-100 pb-2 font-bold text-teal-800"
+          >
+            <mat-icon class="!h-5 !w-5 !text-xl">format_quote</mat-icon>
+            {{ "modules.profile.resume.aboutMe.title" | transloco }}
+          </header>
+          <p class="whitespace-pre-line text-sm leading-7 text-slate-700">{{ resume.aboutMe }}</p>
+        </article>
+      }
+
+      <article class="mb-3 rounded-[0.875rem] border border-slate-200 bg-white p-4 px-5 shadow-sm">
+        <header class="mb-3 flex items-center gap-2 border-b border-slate-100 pb-2 font-bold text-teal-800">
+          <mat-icon class="!h-5 !w-5 !text-xl">badge</mat-icon>
+          {{ "modules.profile.resume.personalInfo.title" | transloco }}
+        </header>
+        <div class="grid grid-cols-1 gap-3 text-sm sm:grid-cols-2">
+          <p>
+            <span class="mb-0.5 block text-xs text-slate-500">
+              {{ "modules.profile.resume.personalInfo.mobilePhone" | transloco }}
+            </span>
+            {{ resume.personalInfo.mobilePhone || resume.mobileNumber || ("modules.profile.resume.empty" | transloco) }}
+          </p>
+          <p>
+            <span class="mb-0.5 block text-xs text-slate-500">
+              {{ "modules.profile.resume.personalInfo.province" | transloco }}
+            </span>
+            {{ resume.personalInfo.provinceName || ("modules.profile.resume.empty" | transloco) }}
+          </p>
+          <p>
+            <span class="mb-0.5 block text-xs text-slate-500">
+              {{ "modules.profile.resume.personalInfo.maritalStatus" | transloco }}
+            </span>
+            @if (resume.personalInfo.maritalStatus !== null && resume.personalInfo.maritalStatus !== undefined) {
+              {{ enumLabel("maritalStatus", MaritalStatus, resume.personalInfo.maritalStatus) }}
+            } @else {
+              {{ "modules.profile.resume.empty" | transloco }}
+            }
+          </p>
+          <p>
+            <span class="mb-0.5 block text-xs text-slate-500">
+              {{ "modules.profile.resume.personalInfo.birthYear" | transloco }}
+            </span>
+            {{ resume.personalInfo.birthYear ?? ("modules.profile.resume.empty" | transloco) }}
+          </p>
+          <p>
+            <span class="mb-0.5 block text-xs text-slate-500">
+              {{ "modules.profile.resume.personalInfo.gender" | transloco }}
+            </span>
+            @if (resume.personalInfo.gender !== null && resume.personalInfo.gender !== undefined) {
+              {{ enumLabel("gender", Gender, resume.personalInfo.gender) }}
+            } @else {
+              {{ "modules.profile.resume.empty" | transloco }}
+            }
+          </p>
+          @if (resume.personalInfo.gender === Gender.Male) {
+            <p>
+              <span class="mb-0.5 block text-xs text-slate-500">
+                {{ "modules.profile.resume.personalInfo.militaryStatus" | transloco }}
+              </span>
+              @if (resume.personalInfo.militaryServiceStatus !== null && resume.personalInfo.militaryServiceStatus !== undefined) {
+                {{ enumLabel("militaryStatus", MilitaryServiceStatus, resume.personalInfo.militaryServiceStatus) }}
+              } @else {
+                {{ "modules.profile.resume.empty" | transloco }}
+              }
+            </p>
+          }
+        </div>
+      </article>
+
+      @if (resume.skills.length) {
+        <article class="mb-3 rounded-[0.875rem] border border-slate-200 bg-white p-4 px-5 shadow-sm">
+          <header class="mb-3 flex items-center gap-2 border-b border-slate-100 pb-2 font-bold text-teal-800">
+            <mat-icon class="!h-5 !w-5 !text-xl">psychology</mat-icon>
+            {{ "modules.profile.resume.skills.title" | transloco }}
+          </header>
+          <div class="flex flex-wrap gap-2">
+            @for (skill of resume.skills; track skill.userSkillId ?? skill.skillId) {
+              <span
+                class="inline-flex items-center rounded-full border border-teal-200 bg-teal-50 px-3 py-1.5 text-[0.8125rem] text-teal-900"
+              >
+                {{ skill.skillName }}
+              </span>
+            }
+          </div>
+        </article>
+      }
+
+      @if (resume.workExperiences.length) {
+        <article class="mb-3 rounded-[0.875rem] border border-slate-200 bg-white p-4 px-5 shadow-sm">
+          <header class="mb-3 flex items-center gap-2 border-b border-slate-100 pb-2 font-bold text-teal-800">
+            <mat-icon class="!h-5 !w-5 !text-xl">business</mat-icon>
+            {{ "modules.profile.resume.workExperience.title" | transloco }}
+          </header>
+          <div class="space-y-3">
+            @for (item of resume.workExperiences; track item.workExperienceId ?? $index) {
+              <div class="rounded-xl border-r-[3px] border-teal-500 bg-slate-50 px-4 py-3">
+                <p class="font-semibold text-slate-800">{{ item.jobTitle }} — {{ item.companyName }}</p>
+                <p class="mt-1 text-xs text-slate-500">{{ workPeriod(item) }}</p>
+                @if (item.jobDescription) {
+                  <p class="mt-2 whitespace-pre-line text-sm text-slate-600">{{ item.jobDescription }}</p>
+                }
+              </div>
+            }
+          </div>
+        </article>
+      }
+
+      @if (resume.educations.length) {
+        <article class="mb-3 rounded-[0.875rem] border border-slate-200 bg-white p-4 px-5 shadow-sm">
+          <header class="mb-3 flex items-center gap-2 border-b border-slate-100 pb-2 font-bold text-teal-800">
+            <mat-icon class="!h-5 !w-5 !text-xl">school</mat-icon>
+            {{ "modules.profile.resume.education.title" | transloco }}
+          </header>
+          <div class="space-y-3">
+            @for (item of resume.educations; track item.educationId ?? $index) {
+              <div class="rounded-xl border-r-[3px] border-teal-500 bg-slate-50 px-4 py-3">
+                <p class="font-semibold text-slate-800">
+                  {{ item.fieldOfStudy }} — {{ item.institutionName }}
+                </p>
+                @if (item.degreeLevel !== null && item.degreeLevel !== undefined) {
+                  <p class="mt-1 text-sm text-teal-700">
+                    {{ enumLabel("degreeLevel", DegreeLevel, item.degreeLevel) }}
+                  </p>
+                }
+                <p class="mt-1 text-xs text-slate-500">{{ educationPeriod(item) }}</p>
+                @if (item.description) {
+                  <p class="mt-2 whitespace-pre-line text-sm text-slate-600">{{ item.description }}</p>
+                }
+              </div>
+            }
+          </div>
+        </article>
+      }
+
+      @if (resume.languages.length) {
+        <article class="mb-3 rounded-[0.875rem] border border-slate-200 bg-white p-4 px-5 shadow-sm">
+          <header class="mb-3 flex items-center gap-2 border-b border-slate-100 pb-2 font-bold text-teal-800">
+            <mat-icon class="!h-5 !w-5 !text-xl">translate</mat-icon>
+            {{ "modules.profile.resume.languages.title" | transloco }}
+          </header>
+          <div class="flex flex-wrap gap-2">
+            @for (lang of resume.languages; track lang.userLanguageId ?? lang.languageNameId) {
+              <span
+                class="inline-flex items-center rounded-full border border-teal-200 bg-teal-50 px-3 py-1.5 text-[0.8125rem] text-teal-900"
+              >
+                {{ lang.languageName }}
+                @if (lang.proficiencyLevel !== null && lang.proficiencyLevel !== undefined) {
+                  <span class="text-slate-500">
+                    — {{ enumLabel("languageProficiency", LanguageProficiencyLevel, lang.proficiencyLevel) }}
+                  </span>
+                }
+              </span>
+            }
+          </div>
+        </article>
+      }
+
+      @if (resume.jobPreference) {
+        <article class="mb-3 rounded-[0.875rem] border border-slate-200 bg-white p-4 px-5 shadow-sm">
+          <header class="mb-3 flex items-center gap-2 border-b border-slate-100 pb-2 font-bold text-teal-800">
+            <mat-icon class="!h-5 !w-5 !text-xl">star</mat-icon>
+            {{ "modules.profile.resume.jobPreferences.title" | transloco }}
+          </header>
+          <div class="grid grid-cols-1 gap-3 text-sm sm:grid-cols-2">
+            <p>
+              <span class="mb-0.5 block text-xs text-slate-500">
+                {{ "modules.profile.resume.jobPreferences.provinces" | transloco }}
+              </span>
+              {{ provinceNames(resume.jobPreference.preferredProvinceIds) || ("modules.profile.resume.empty" | transloco) }}
+            </p>
+            <p>
+              <span class="mb-0.5 block text-xs text-slate-500">
+                {{ "modules.profile.resume.jobPreferences.categories" | transloco }}
+              </span>
+              {{ categoryNames(resume.jobPreference.jobCategoryIds) || ("modules.profile.resume.empty" | transloco) }}
+            </p>
+            <p>
+              <span class="mb-0.5 block text-xs text-slate-500">
+                {{ "modules.profile.resume.jobPreferences.seniority" | transloco }}
+              </span>
+              {{ seniorityLabels(resume.jobPreference.seniorityLevels) || ("modules.profile.resume.empty" | transloco) }}
+            </p>
+            <p>
+              <span class="mb-0.5 block text-xs text-slate-500">
+                {{ "modules.profile.resume.jobPreferences.contractTypes" | transloco }}
+              </span>
+              {{ contractLabels(resume.jobPreference.acceptableContractTypes) || ("modules.profile.resume.empty" | transloco) }}
+            </p>
+            <p>
+              <span class="mb-0.5 block text-xs text-slate-500">
+                {{ "modules.profile.resume.jobPreferences.minimumSalary" | transloco }}
+              </span>
+              {{ salaryName(resume.jobPreference.minimumSalaryId) || ("modules.profile.resume.empty" | transloco) }}
+            </p>
+          </div>
+        </article>
+      }
+
+      @if (resume.resumeFile) {
+        <article class="mb-3 rounded-[0.875rem] border border-slate-200 bg-white p-4 px-5 shadow-sm">
+          <header class="mb-3 flex items-center gap-2 border-b border-slate-100 pb-2 font-bold text-teal-800">
+            <mat-icon class="!h-5 !w-5 !text-xl">attach_file</mat-icon>
+            {{ "modules.profile.resume.resumeFile.title" | transloco }}
+          </header>
+          <button
+            type="button"
+            class="flex w-full cursor-pointer items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-right text-sm text-teal-800 transition hover:border-teal-200 hover:bg-teal-50 disabled:cursor-wait disabled:opacity-70"
+            [disabled]="downloadingResume"
+            (click)="downloadResumeFile()"
+          >
+            <mat-icon class="!h-5 !w-5 shrink-0 !text-xl">download</mat-icon>
+            <span class="flex-1 font-semibold text-slate-700">{{ resume.resumeFile.fileName }}</span>
+            @if (downloadingResume) {
+              <span class="text-xs text-slate-500">{{ "shared.loading" | transloco }}</span>
+            } @else {
+              <span class="text-xs text-teal-700">
+                {{ "modules.profile.resume.resumeFile.download" | transloco }}
+              </span>
+            }
+          </button>
+          @if (downloadError) {
+            <p class="mt-2 text-sm text-red-600">{{ downloadError }}</p>
+          }
+        </article>
+      }
+
+      @if (isProductApplication) {
+        <article class="mb-1 rounded-[0.875rem] border border-teal-200 bg-teal-50/60 p-4 px-5">
+          <header class="mb-3 flex items-center gap-2 border-b border-teal-100 pb-2 font-bold text-teal-800">
+            <mat-icon class="!h-5 !w-5 !text-xl">fact_check</mat-icon>
+            {{ 'modules.profile.productResumeApplications.review.title' | transloco }}
+          </header>
+
+          @if (canReview) {
+            <label class="mb-1 block text-xs text-slate-600">
+              {{ 'modules.profile.productResumeApplications.review.reason' | transloco }}
+            </label>
+            <textarea
+              class="mb-3 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 outline-none focus:border-teal-400"
+              rows="3"
+              [formControl]="reviewNotes"
+              [placeholder]="'modules.profile.productResumeApplications.review.reasonPlaceholder' | transloco"
+            ></textarea>
+            @if (reviewError) {
+              <p class="mb-3 text-sm text-red-600">{{ reviewError }}</p>
+            }
+            <div class="flex flex-wrap gap-2">
+              <base-button
+                class="!w-auto"
+                color="green"
+                size="sm"
+                [disabled]="reviewing"
+                [loading]="reviewing"
+                (click)="review(true)"
+              >
+                {{ 'modules.profile.productResumeApplications.review.approve' | transloco }}
+              </base-button>
+              <base-button
+                class="!w-auto"
+                color="warn"
+                size="sm"
+                [disabled]="reviewing"
+                (click)="review(false)"
+              >
+                {{ 'modules.profile.productResumeApplications.review.reject' | transloco }}
+              </base-button>
+            </div>
+          } @else {
+            <p class="mb-2 font-semibold" [class]="statusLabelKey.includes('approved') ? 'text-emerald-700' : statusLabelKey.includes('rejected') ? 'text-red-700' : 'text-amber-700'">
+              {{ statusLabelKey | transloco }}
+            </p>
+            @if (currentReviewNotes) {
+              <p class="whitespace-pre-line rounded-xl bg-white p-3 text-sm text-slate-700">
+                {{ currentReviewNotes }}
+              </p>
+            }
+          }
+        </article>
+      }
+    }
+  </div>
+</base-dialog>

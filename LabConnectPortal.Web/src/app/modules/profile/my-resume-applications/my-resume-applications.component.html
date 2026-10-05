@@ -1,0 +1,31 @@
+<div
+  class="box-border flex h-full min-h-0 w-full flex-col overflow-hidden p-4"
+  dir="rtl"
+>
+  <h1 class="mb-3 m-0 shrink-0 text-xl font-bold text-slate-800">
+    {{ 'modules.profile.myResumeApplications.title' | transloco }}
+  </h1>
+
+  @if (error) {
+    <div class="mb-3 shrink-0 rounded bg-red-50 p-3 text-sm text-red-700">{{ error }}</div>
+  }
+
+  @if (loading) {
+    <p class="text-gray-500">{{ 'shared.loading' | transloco }}</p>
+  } @else {
+    <div class="base-grid-panel flex min-h-0 flex-1 flex-col overflow-hidden">
+      <base-grid
+        gridId="e4c1b8a7-2d91-4f36-8a0e-7c5b9d1f3a22"
+        class="min-h-0 w-full flex-1"
+        [framed]="false"
+        [visibleOrder]="false"
+        [columnDefs]="colDef"
+        [dataSource$]="list$"
+        [disabled]="loading"
+        [toolbarDisabled]="true"
+        [noRowsMessage]="'modules.profile.myResumeApplications.empty' | transloco"
+        forceDirection="rtl"
+      />
+    </div>
+  }
+</div>

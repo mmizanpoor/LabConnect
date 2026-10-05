@@ -1,0 +1,16 @@
+:host {
+  display: block;
+  min-height: 480px;
+  height: 100%;
+}
+
+.document-editor-host {
+  display: block;
+  min-height: 480px;
+  height: 100%;
+}
+
+:host ::ng-deep .e-contextmenu-wrapper {
+  display: none !important;
+  pointer-events: none !important;
+}

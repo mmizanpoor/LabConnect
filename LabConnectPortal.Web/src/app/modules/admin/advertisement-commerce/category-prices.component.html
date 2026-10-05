@@ -1,0 +1,88 @@
+<div class="m-[5px] flex flex-col gap-4" dir="rtl">
+  <div>
+    <h1 class="m-0 text-lg font-bold text-gray-900">
+      {{ 'modules.admin.adCommerce.categoryPrices.title' | transloco }}
+    </h1>
+    <p class="m-0 mt-1 text-sm text-gray-500">
+      {{ 'modules.admin.adCommerce.categoryPrices.subtitle' | transloco }}
+    </p>
+  </div>
+
+  @if (error) {
+    <div class="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{{ error }}</div>
+  }
+  @if (success) {
+    <div class="rounded-lg bg-emerald-50 px-4 py-3 text-sm text-emerald-700">{{ success }}</div>
+  }
+
+  @if (loading) {
+    <p class="text-gray-500">{{ 'shared.loading' | transloco }}</p>
+  } @else if (!rows.length) {
+    <p class="text-gray-500">{{ 'modules.admin.adCommerce.categoryPrices.empty' | transloco }}</p>
+  } @else {
+    @if (canUpdate) {
+      <div class="flex flex-wrap items-end gap-3 rounded-xl border border-gray-200 bg-white px-4 py-3">
+        <div class="flex min-w-[16rem] flex-1 items-center gap-2">
+          <base-form-field
+            class="w-full"
+            layout="floating"
+            type="number"
+            [label]="'modules.admin.adCommerce.categoryPrices.fields.bulkPrice' | transloco"
+            [control]="bulkPrice"
+          />
+          <span class="shrink-0 pb-2 text-xs text-gray-400">
+            {{ 'modules.admin.adCommerce.categoryPrices.currency' | transloco }}
+          </span>
+        </div>
+        <base-button
+          class="apply-bulk-btn"
+          type="button"
+          color="green"
+          size="sm"
+          (click)="applyBulkPrice()"
+        >
+          {{ 'modules.admin.adCommerce.categoryPrices.applyToAll' | transloco }}
+        </base-button>
+      </div>
+    }
+
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+      @for (group of groupedRows(); track group.groupTitle) {
+        <div class="overflow-hidden rounded-xl border border-gray-200 bg-white">
+          <div class="bg-gray-50 px-4 py-3 text-sm font-bold text-gray-800">
+            {{ group.groupTitle }}
+          </div>
+          <div class="divide-y divide-gray-100">
+            @for (row of group.rows; track row.productCategoryId) {
+              <div class="flex flex-wrap items-center gap-3 px-4 py-3 md:flex-nowrap">
+                <div class="min-w-0 flex-1 text-sm font-medium text-gray-900">
+                  {{ row.categoryTitle }}
+                </div>
+                <div class="flex w-full items-center gap-2 md:w-auto md:min-w-[12rem]">
+                  <base-form-field
+                    class="w-full"
+                    layout="floating"
+                    type="number"
+                    [label]="'modules.admin.adCommerce.categoryPrices.fields.price' | transloco"
+                    [control]="row.control"
+                  />
+                  <span class="shrink-0 text-xs text-gray-400">
+                    {{ 'modules.admin.adCommerce.categoryPrices.currency' | transloco }}
+                  </span>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+
+    @if (canUpdate) {
+      <div class="flex justify-end">
+        <base-button type="button" color="blue" size="sm" [loading]="saving" (click)="save()">
+          {{ 'shared.save' | transloco }}
+        </base-button>
+      </div>
+    }
+  }
+</div>

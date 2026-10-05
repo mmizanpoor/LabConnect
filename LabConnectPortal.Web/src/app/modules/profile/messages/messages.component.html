@@ -1,0 +1,166 @@
+<div
+  class="notif-center mx-auto box-border w-full max-w-2xl p-3 sm:p-4"
+  dir="rtl"
+>
+  <div class="notif-shell">
+    @if (error) {
+      <div class="mx-3 mt-3 rounded-[5px] border border-red-100 bg-red-50 px-3 py-2 text-xs text-red-700 sm:mx-3.5">
+        {{ error }}
+      </div>
+    }
+
+    <!-- Header + filters -->
+    <header class="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 border-b border-slate-100/80 px-3 py-3 sm:px-3.5">
+      <div class="flex min-w-0 flex-wrap items-center gap-2">
+        <h1 class="m-0 text-[15px] font-bold text-slate-800 sm:text-base">
+          {{ 'modules.profile.messages.title' | transloco }}
+        </h1>
+        <span
+          class="inline-flex h-[18px] min-w-[18px] items-center justify-center rounded-full border border-slate-200/80 bg-slate-50 px-1.5 text-[10px] font-semibold text-slate-600"
+        >
+          {{ filter === 'unread' ? unreadCount : messages.length }}
+        </span>
+
+        <div class="ms-1 flex items-center gap-0.5 rounded-[5px] border border-slate-200/80 bg-slate-50 p-0.5">
+          <button
+            type="button"
+            class="rounded px-2 py-0.5 text-[10px] font-semibold transition"
+            [class.bg-white]="filter === 'all'"
+            [class.text-slate-700]="filter === 'all'"
+            [class.text-slate-400]="filter !== 'all'"
+            (click)="setFilter('all')"
+          >
+            {{ 'modules.profile.messages.filters.all' | transloco }}
+          </button>
+          <button
+            type="button"
+            class="rounded px-2 py-0.5 text-[10px] font-semibold transition"
+            [class.bg-white]="filter === 'unread'"
+            [class.text-slate-700]="filter === 'unread'"
+            [class.text-slate-400]="filter !== 'unread'"
+            (click)="setFilter('unread')"
+          >
+            {{ 'modules.profile.messages.filters.unread' | transloco }}
+          </button>
+        </div>
+      </div>
+
+      @if (showMarkAll) {
+        <button
+          type="button"
+          class="inline-flex h-7 items-center rounded-[5px] px-2 text-[10px] font-medium text-[#35507c] transition hover:bg-slate-50 disabled:opacity-50"
+          [disabled]="markingAll"
+          (click)="markAllRead()"
+        >
+          {{ 'modules.profile.messages.markAllRead' | transloco }}
+        </button>
+      }
+    </header>
+
+    <!-- List -->
+    <section class="notif-list">
+      @if (loading) {
+        <div class="px-4 py-8 text-center text-xs text-slate-400">
+          {{ 'shared.loading' | transloco }}
+        </div>
+      } @else if (filteredMessages.length === 0) {
+        <div class="flex flex-col items-center justify-center gap-1.5 px-4 py-10 text-center">
+          <div
+            class="flex h-10 w-10 items-center justify-center rounded-[5px] border border-slate-100 bg-slate-50 text-slate-300"
+          >
+            <mat-icon class="!h-5 !w-5 !text-[1.25rem]">notifications_none</mat-icon>
+          </div>
+          <p class="m-0 text-xs font-medium text-slate-600">
+            {{
+              (filter === 'unread'
+                ? 'modules.profile.messages.emptyUnread'
+                : 'modules.profile.messages.empty'
+              ) | transloco
+            }}
+          </p>
+          <p class="m-0 text-[10px] text-slate-400">
+            {{ 'modules.profile.messages.emptyHint' | transloco }}
+          </p>
+        </div>
+      } @else {
+        <ul class="m-0 list-none divide-y divide-slate-200/60 p-0">
+          @for (msg of pagedMessages; track msg.id) {
+            <li>
+              <button
+                type="button"
+                class="notif-row flex w-full items-center gap-2.5 border-0 px-3 py-2.5 text-start sm:gap-3 sm:px-3.5"
+                [class.notif-row--unread]="!msg.isRead"
+                [class.notif-row--read]="msg.isRead"
+                (click)="markRead(msg)"
+              >
+                <span
+                  class="flex h-8 w-8 shrink-0 items-center justify-center rounded-[5px]"
+                  [class]="iconToneClass(msg.type)"
+                >
+                  <mat-icon class="!h-4 !w-4 !text-[1rem]">{{ iconFor(msg) }}</mat-icon>
+                </span>
+
+                <div class="min-w-0 flex-1">
+                  <div class="flex items-start justify-between gap-2">
+                    <h2
+                      class="m-0 min-w-0 flex-1 truncate text-[13px] leading-5"
+                      [class.font-bold]="!msg.isRead"
+                      [class.text-slate-800]="!msg.isRead"
+                      [class.font-medium]="msg.isRead"
+                      [class.text-slate-600]="msg.isRead"
+                      [title]="msg.title"
+                    >
+                      {{ msg.title }}
+                    </h2>
+
+                    <div class="flex shrink-0 items-center gap-1.5 pt-px">
+                      <time class="text-[10px] leading-none text-slate-400">
+                        {{ formatRelativeTime(msg.createdAt) }}
+                      </time>
+                      @if (msg.isRead) {
+                        <span
+                          class="notif-check notif-check--read"
+                          [attr.aria-label]="'modules.profile.messages.actions.viewed' | transloco"
+                        >
+                          <mat-icon>done_all</mat-icon>
+                        </span>
+                      } @else {
+                        <span
+                          class="notif-check notif-check--unread"
+                          [attr.aria-label]="'modules.profile.messages.unread' | transloco"
+                        >
+                          <mat-icon>done</mat-icon>
+                        </span>
+                      }
+                    </div>
+                  </div>
+
+                  <p
+                    class="mt-0.5 m-0 truncate text-[11px] leading-4"
+                    [class.text-slate-600]="!msg.isRead"
+                    [class.text-slate-400]="msg.isRead"
+                    [title]="msg.message"
+                  >
+                    {{ msg.message }}
+                  </p>
+                </div>
+              </button>
+            </li>
+          }
+        </ul>
+
+        @if (hasMore) {
+          <div class="border-t border-slate-100/80 bg-white px-3 py-2 text-center">
+            <button
+              type="button"
+              class="inline-flex h-7 items-center rounded-[5px] px-2.5 text-[11px] font-semibold text-[#35507c] transition hover:bg-slate-50"
+              (click)="loadMore()"
+            >
+              {{ 'modules.profile.messages.loadMore' | transloco }}
+            </button>
+          </div>
+        }
+      }
+    </section>
+  </div>
+</div>

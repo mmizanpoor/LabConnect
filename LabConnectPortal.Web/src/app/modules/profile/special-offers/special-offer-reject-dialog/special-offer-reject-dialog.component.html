@@ -1,0 +1,29 @@
+<div class="p-5" dir="rtl">
+  <div class="mb-4 flex items-start justify-between gap-3">
+    <div>
+      <h2 class="m-0 text-lg font-bold text-slate-900">{{ 'modules.profile.specialOffers.rejectDialog.title' | transloco }}</h2>
+      <p class="m-0 mt-1 text-sm text-slate-500">{{ data.userDisplayName }}</p>
+    </div>
+    <button mat-icon-button type="button" (click)="cancel()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <label class="mb-2 block text-sm font-semibold text-slate-700">
+    {{ 'modules.profile.specialOffers.rejectDialog.reason' | transloco }}
+  </label>
+  <textarea
+    class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none focus:border-lab focus:ring-2 focus:ring-lab/20"
+    rows="4"
+    maxlength="2000"
+    [formControl]="reasonControl"
+    [placeholder]="'modules.profile.specialOffers.rejectDialog.reasonPlaceholder' | transloco"
+  ></textarea>
+
+  <div class="mt-4 flex justify-end gap-2">
+    <base-button type="button" color="warn" size="sm" (click)="cancel()">{{ 'shared.cancel' | transloco }}</base-button>
+    <button mat-flat-button color="warn" type="button" (click)="confirm()">
+      {{ 'modules.profile.specialOffers.rejectDialog.confirm' | transloco }}
+    </button>
+  </div>
+</div>

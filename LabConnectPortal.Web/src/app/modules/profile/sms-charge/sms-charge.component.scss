@@ -1,0 +1,348 @@
+:host {
+  display: block;
+  min-height: 100%;
+  background: #f4f5f7;
+}
+
+.sms-charge {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 36rem;
+  margin: 0 auto;
+  padding: 1rem 1.25rem;
+  background: #f4f5f7;
+}
+
+.sms-charge__toast {
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: calc(100% - 2rem);
+  padding: 0.65rem 1rem;
+  border-radius: 5px;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.14);
+  cursor: pointer;
+  transform: translateX(-50%);
+
+  mat-icon {
+    flex-shrink: 0;
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+    font-size: 1.25rem !important;
+  }
+
+  span {
+    font-size: 0.8125rem;
+    line-height: 1.45;
+  }
+}
+
+.sms-charge__toast--success {
+  border: 1px solid #86efac;
+  background: #f0fdf4;
+  color: #15803d;
+}
+
+.sms-charge__toast--error {
+  border: 1px solid #fecaca;
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.sms-charge__shell {
+  overflow: hidden;
+  border: 1px solid rgb(226 232 240 / 0.45);
+  border-radius: 5px;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+}
+
+.sms-charge__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1rem 1rem 0.875rem;
+  border-bottom: 1px solid rgb(241 245 249 / 0.95);
+  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+}
+
+.sms-charge__header-main {
+  display: flex;
+  min-width: 0;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.sms-charge__header-icon {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 5px;
+  background: #35507c;
+  color: #fff;
+
+  mat-icon {
+    width: 1.35rem !important;
+    height: 1.35rem !important;
+    font-size: 1.35rem !important;
+  }
+}
+
+.sms-charge__title {
+  margin: 0;
+  color: #0f172a;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.sms-charge__hint {
+  margin: 0.25rem 0 0;
+  color: #64748b;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.sms-charge__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: #35507c;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-decoration: none;
+
+  mat-icon {
+    width: 1rem !important;
+    height: 1rem !important;
+    font-size: 1rem !important;
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.sms-charge__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+}
+
+.sms-charge__loading {
+  margin: 0;
+  color: #94a3b8;
+  font-size: 0.8125rem;
+}
+
+.sms-charge__balance {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 0.95rem;
+  border: 1px solid #bbf7d0;
+  border-radius: 5px;
+  background: #f0fdf4;
+}
+
+.sms-charge__balance-icon {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 5px;
+  background: #fff;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+
+  mat-icon {
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+    font-size: 1.25rem !important;
+  }
+}
+
+.sms-charge__balance-label {
+  margin: 0;
+  color: #166534;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.sms-charge__balance-value {
+  margin: 0.15rem 0 0;
+  color: #14532d;
+  font-size: 1.25rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+
+  span {
+    margin-inline-start: 0.35rem;
+    color: #15803d;
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+}
+
+.sms-charge__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: 0.875rem;
+  border: 1px solid rgb(226 232 240 / 0.7);
+  border-radius: 5px;
+  background: #fff;
+}
+
+.sms-charge__panel-head {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: #35507c;
+
+  mat-icon {
+    width: 1.1rem !important;
+    height: 1.1rem !important;
+    font-size: 1.1rem !important;
+  }
+
+  h2 {
+    margin: 0;
+    color: #0f172a;
+    font-size: 0.875rem;
+    font-weight: 700;
+  }
+}
+
+.sms-charge__summary {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 5px;
+  background: #f8fafc;
+}
+
+.sms-charge__packages {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sms-charge__package {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.25rem 0.75rem;
+  align-items: center;
+  width: 100%;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 5px;
+  background: #fff;
+  color: inherit;
+  text-align: start;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+
+  &.is-selected {
+    border-color: #6f97c2;
+    background: #f0f5fb;
+  }
+}
+
+.sms-charge__package-title {
+  grid-column: 1;
+  color: #0f172a;
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+
+.sms-charge__package-qty {
+  grid-column: 1;
+  color: #64748b;
+  font-size: 0.75rem;
+}
+
+.sms-charge__package-price {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  color: #35507c;
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.sms-charge__tiers {
+  margin: 0;
+  padding: 0.55rem 0.75rem;
+  list-style: none;
+  border: 1px dashed #e2e8f0;
+  border-radius: 5px;
+  background: #f8fafc;
+
+  li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    color: #64748b;
+    font-size: 0.75rem;
+
+    & + li {
+      margin-top: 0.35rem;
+      padding-top: 0.35rem;
+      border-top: 1px solid #eef2f7;
+    }
+
+    strong {
+      color: #0f172a;
+      font-variant-numeric: tabular-nums;
+    }
+  }
+}
+
+.sms-charge__summary-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  color: #64748b;
+  font-size: 0.8125rem;
+
+  strong {
+    color: #0f172a;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.sms-charge__summary-row--total {
+  padding-top: 0.45rem;
+  border-top: 1px dashed #e2e8f0;
+  color: #334155;
+  font-weight: 600;
+
+  strong {
+    color: #15803d;
+    font-size: 0.9375rem;
+  }
+}
+
+.sms-charge__stub {
+  margin: 0;
+  color: #94a3b8;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  text-align: center;
+}

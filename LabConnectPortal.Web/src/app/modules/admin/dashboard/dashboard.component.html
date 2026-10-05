@@ -1,0 +1,706 @@
+<div
+  class="admin-dashboard-page mx-auto box-border flex h-full min-h-0 w-full max-w-6xl flex-col overflow-hidden p-3 sm:p-4"
+  dir="rtl"
+>
+  <div class="admin-dashboard-shell min-h-0 flex-1 overflow-x-hidden overflow-y-auto p-3 sm:p-4">
+    <section
+      class="mb-3 flex items-center justify-between gap-4 rounded-[5px] border border-slate-100/80 bg-slate-50/60 px-3.5 py-3"
+    >
+      <div>
+        <div
+          class="mb-1.5 inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-2.5 py-0.5 text-[11px] font-semibold text-blue-700"
+        >
+          <mat-icon class="!h-3.5 !w-3.5 !text-[0.875rem]">insights</mat-icon>
+          <span>{{ 'modules.admin.dashboard.overview' | transloco }}</span>
+        </div>
+        <p class="m-0 max-w-xl text-xs leading-5 text-slate-500">
+          {{ 'modules.admin.dashboard.subtitle' | transloco }}
+        </p>
+      </div>
+      <div
+        class="hidden h-14 w-14 shrink-0 items-center justify-center rounded-[5px] bg-gradient-to-br from-blue-600 to-violet-600 text-white md:flex"
+        aria-hidden="true"
+      >
+        <mat-icon class="!h-7 !w-7 !text-[1.75rem]">dashboard</mat-icon>
+      </div>
+    </section>
+
+    @if (canViewUserStats) {
+      @if (loading) {
+        <div class="mb-3 grid grid-cols-1 gap-1.5 md:grid-cols-5">
+          @for (item of [1, 2, 3, 4, 5]; track item) {
+            <div
+              class="h-16 animate-pulse rounded-[5px] bg-gradient-to-r from-slate-100 via-slate-200 to-slate-100 bg-[length:200%_100%]"
+            ></div>
+          }
+        </div>
+      } @else {
+        @if (statsError) {
+          <p class="mb-3 rounded-[5px] border border-red-100 bg-red-50 px-3 py-2 text-xs text-red-700">
+            {{ statsError }}
+          </p>
+        }
+
+        @if (stats) {
+          <section class="admin-dashboard-section mb-3 p-3">
+            <header class="mb-2.5">
+              <h2 class="m-0 text-sm font-bold text-slate-800">
+                {{ 'modules.admin.dashboard.keyMetrics' | transloco }}
+              </h2>
+            </header>
+
+            <div class="grid grid-cols-1 gap-1.5 sm:grid-cols-2 md:grid-cols-5">
+              @for (card of overviewCards; track card.labelKey) {
+                <article
+                  class="admin-stat-card relative overflow-hidden border border-slate-100/80 border-t-2 px-2.5 py-2"
+                  [class]="theme(card.theme).cardBorder"
+                >
+                  <div class="flex items-center gap-2">
+                    <div
+                      class="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-[5px]"
+                      [class]="theme(card.theme).icon"
+                    >
+                      <mat-icon class="!h-3.5 !w-3.5 !text-[0.875rem]">{{ card.icon }}</mat-icon>
+                    </div>
+                    <div class="min-w-0 flex-1">
+                      <p class="m-0 truncate text-[11px] leading-4 text-slate-500">
+                        {{ card.labelKey | transloco }}
+                      </p>
+                      <div class="mt-0.5 flex items-center justify-between gap-1">
+                        <p class="m-0 text-base font-extrabold tabular-nums text-slate-800">
+                          {{ statValue(card) }}
+                        </p>
+                        @if (card.link) {
+                          <a
+                            [routerLink]="card.link"
+                            class="inline-flex h-5 w-5 items-center justify-center rounded text-slate-300 transition hover:bg-slate-100 hover:text-blue-600"
+                          >
+                            <mat-icon class="!h-3 !w-3 !text-[0.75rem]">arrow_back</mat-icon>
+                          </a>
+                        }
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              }
+            </div>
+          </section>
+        }
+      }
+    }
+
+    @if (canViewAgreements) {
+      <section class="admin-dashboard-section mb-3 p-3">
+        <header class="mb-2.5">
+          <h2 class="m-0 text-sm font-bold text-slate-800">
+            {{ 'modules.admin.dashboard.agreements.title' | transloco }}
+          </h2>
+        </header>
+
+        @if (agreementLoading) {
+          <div class="grid grid-cols-1 gap-1.5 md:grid-cols-3">
+            @for (item of [1, 2, 3]; track item) {
+              <div class="h-14 animate-pulse rounded-[5px] bg-slate-100"></div>
+            }
+          </div>
+        } @else if (agreementStats) {
+          <div class="grid grid-cols-1 gap-1.5 md:grid-cols-3">
+            @for (card of agreementCards; track card.labelKey) {
+              <article
+                class="admin-stat-card relative overflow-hidden border border-slate-100/80 border-t-2 px-2.5 py-2"
+                [class]="theme(card.theme).cardBorder"
+              >
+                <div class="flex items-center gap-2">
+                  <div
+                    class="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-[5px]"
+                    [class]="theme(card.theme).icon"
+                  >
+                    <mat-icon class="!h-3.5 !w-3.5 !text-[0.875rem]">{{ card.icon }}</mat-icon>
+                  </div>
+                  <div class="min-w-0 flex-1">
+                    <p class="m-0 truncate text-[11px] leading-4 text-slate-500">
+                      {{ card.labelKey | transloco }}
+                    </p>
+                    <p class="mt-0.5 m-0 text-base font-extrabold tabular-nums text-slate-800">
+                      {{ agreementStatValue(card) }}
+                    </p>
+                  </div>
+                </div>
+              </article>
+            }
+          </div>
+        } @else if (agreementError) {
+          <p class="rounded-[5px] border border-red-100 bg-red-50 px-3 py-2 text-xs text-red-700">
+            {{ agreementError }}
+          </p>
+        }
+      </section>
+    }
+
+    @if (canViewJobPostings) {
+      <section class="admin-dashboard-section mb-3 p-3">
+        <header class="mb-2.5">
+          <h2 class="m-0 text-sm font-bold text-slate-800">
+            {{ 'modules.admin.dashboard.jobPostings.title' | transloco }}
+          </h2>
+        </header>
+
+        @if (jobPostingLoading) {
+          <div class="grid grid-cols-1 gap-1.5 md:grid-cols-3">
+            @for (item of [1, 2, 3]; track item) {
+              <div class="h-14 animate-pulse rounded-[5px] bg-slate-100"></div>
+            }
+          </div>
+        } @else if (jobPostingStats) {
+          <div class="grid grid-cols-1 gap-1.5 md:grid-cols-3">
+            @for (card of jobPostingCards; track card.labelKey) {
+              <article
+                class="admin-stat-card relative overflow-hidden border border-slate-100/80 border-t-2 px-2.5 py-2"
+                [class]="theme(card.theme).cardBorder"
+              >
+                <div class="flex items-center gap-2">
+                  <div
+                    class="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-[5px]"
+                    [class]="theme(card.theme).icon"
+                  >
+                    <mat-icon class="!h-3.5 !w-3.5 !text-[0.875rem]">{{ card.icon }}</mat-icon>
+                  </div>
+                  <div class="min-w-0 flex-1">
+                    <p class="m-0 truncate text-[11px] leading-4 text-slate-500">
+                      {{ card.labelKey | transloco }}
+                    </p>
+                    <p class="mt-0.5 m-0 text-base font-extrabold tabular-nums text-slate-800">
+                      {{ jobPostingStatValue(card) }}
+                    </p>
+                  </div>
+                </div>
+              </article>
+            }
+          </div>
+        } @else if (jobPostingError) {
+          <p class="rounded-[5px] border border-red-100 bg-red-50 px-3 py-2 text-xs text-red-700">
+            {{ jobPostingError }}
+          </p>
+        }
+      </section>
+    }
+
+  @if (canViewSpecialOffers) {
+    <section class="mb-7">
+      <header class="mb-4">
+        <h2 class="m-0 text-lg font-bold text-slate-800">
+          {{ 'modules.admin.dashboard.specialOffers.title' | transloco }}
+        </h2>
+      </header>
+
+      @if (specialOfferLoading) {
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+          @for (item of [1, 2, 3]; track item) {
+            <div class="h-28 animate-pulse rounded-2xl bg-slate-100"></div>
+          }
+        </div>
+      } @else if (specialOfferStats) {
+        <div>
+          <div class="mb-3 flex items-center justify-between gap-3">
+            <h3 class="m-0 text-sm font-bold text-slate-700">
+              {{ 'modules.admin.dashboard.specialOffers.monthlyTable' | transloco }}
+            </h3>
+            <button
+              type="button"
+              class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-green-200 bg-green-50 text-green-700 transition hover:-translate-y-px hover:border-green-300 hover:bg-green-100"
+              (click)="exportSpecialOffersTable()"
+              [attr.aria-label]="'modules.admin.dashboard.specialOffers.exportExcel' | transloco"
+              [attr.title]="'modules.admin.dashboard.specialOffers.exportExcel' | transloco"
+            >
+              <mat-icon class="!h-5 !w-5 !text-xl" svgIcon="mat_solid:excel"></mat-icon>
+            </button>
+          </div>
+          <div class="overflow-x-auto rounded-xl border border-slate-200 bg-white">
+            <div class="max-h-[calc(2.75rem*11)] overflow-y-auto">
+              <table class="w-full border-collapse text-sm">
+                <thead>
+                  <tr>
+                    <th
+                      class="sticky top-0 z-10 bg-slate-50 px-4 py-3 text-right text-sm font-bold text-slate-600 shadow-[0_1px_0_#f1f5f9]"
+                    >
+                      {{ 'modules.admin.dashboard.specialOffers.table.labCode' | transloco }}
+                    </th>
+                    <th
+                      class="sticky top-0 z-10 bg-slate-50 px-4 py-3 text-right text-sm font-bold text-slate-600 shadow-[0_1px_0_#f1f5f9]"
+                    >
+                      {{ 'modules.admin.dashboard.specialOffers.table.labName' | transloco }}
+                    </th>
+                    <th
+                      class="sticky top-0 z-10 bg-slate-50 px-4 py-3 text-right text-sm font-bold text-slate-600 shadow-[0_1px_0_#f1f5f9]"
+                    >
+                      {{ 'modules.admin.dashboard.specialOffers.table.offerCount' | transloco }}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @if (specialOfferMonthlyRows().length) {
+                    @for (row of specialOfferMonthlyRows(); track row.labCodeNew) {
+                      <tr class="border-b border-slate-100 last:border-b-0">
+                        <td class="px-4 py-3 text-right">{{ row.labCodeNew }}</td>
+                        <td class="px-4 py-3 text-right">{{ row.labName || '—' }}</td>
+                        <td class="px-4 py-3 text-right">{{ row.offerCount }}</td>
+                      </tr>
+                    }
+                  } @else {
+                    <tr>
+                      <td colspan="3" class="px-4 py-6 text-center text-slate-400">
+                        {{ 'modules.admin.dashboard.specialOffers.table.empty' | transloco }}
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      } @else if (specialOfferError) {
+        <p class="rounded-xl border border-red-200 bg-red-50 px-4 py-3.5 text-sm text-red-700">
+          {{ specialOfferError }}
+        </p>
+      }
+    </section>
+  }
+
+  @if (canViewReceptions) {
+    <section class="mb-7">
+      <header class="mb-4 flex items-center justify-between gap-3">
+        <h2 class="m-0 text-lg font-bold text-slate-800">
+          {{ 'modules.admin.dashboard.receptions.title' | transloco }}
+        </h2>
+        <button
+          type="button"
+          class="inline-flex h-9 items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-wait disabled:opacity-60"
+          [disabled]="isReceptionSectionLoading('topLabs')"
+          (click)="loadReceptionSection('topLabs')"
+          [attr.aria-label]="'modules.admin.dashboard.receptions.reload' | transloco"
+          [attr.title]="'modules.admin.dashboard.receptions.reload' | transloco"
+        >
+          <mat-icon
+            class="!h-5 !w-5 !text-xl"
+            [class.animate-spin]="isReceptionSectionLoading('topLabs')"
+          >refresh</mat-icon>
+          <span>{{ 'modules.admin.dashboard.receptions.reload' | transloco }}</span>
+        </button>
+      </header>
+
+      @if (receptionSectionError('topLabs')) {
+        <p class="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3.5 text-sm text-red-700">
+          {{ receptionSectionError('topLabs') }}
+        </p>
+      }
+
+      @if (isReceptionSectionLoading('topLabs') && !isReceptionSectionLoaded('topLabs')) {
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+          @for (item of [1, 2, 3, 4, 5, 6]; track item) {
+            <div class="h-28 animate-pulse rounded-2xl bg-slate-100"></div>
+          }
+        </div>
+      } @else if (isReceptionSectionLoaded('topLabs') && receptionStats) {
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+          @for (card of receptionTopLabCards; track card.labelKey) {
+            <article
+              class="relative overflow-hidden rounded-2xl border border-slate-200 border-t-4 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+              [class]="theme(card.theme).cardBorder"
+            >
+              <div class="mb-4 flex items-start justify-between">
+                <div
+                  class="inline-flex h-12 w-12 items-center justify-center rounded-xl"
+                  [class]="theme(card.theme).icon"
+                >
+                  <mat-icon class="!h-6 !w-6 !text-2xl">{{ card.icon }}</mat-icon>
+                </div>
+              </div>
+              <div class="flex items-center justify-between gap-2">
+                <p class="m-0 min-w-0 flex-1 text-sm text-slate-500">{{ card.labelKey | transloco }}</p>
+                <p class="m-0 shrink-0 text-3xl font-extrabold text-slate-900">
+                  {{ topLabMetric(card)?.count ?? 0 }}
+                </p>
+              </div>
+              <p class="mt-1 text-xs font-semibold text-slate-600">
+                {{ topLabDisplayName(topLabMetric(card)) }}
+              </p>
+            </article>
+          }
+        </div>
+      } @else {
+        <p class="rounded-xl border border-dashed border-slate-200 bg-white px-4 py-8 text-center text-sm text-slate-400">
+          {{ 'modules.admin.dashboard.receptions.loadHint' | transloco }}
+        </p>
+      }
+
+      <div class="mt-5 grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <header class="mb-4 flex items-center justify-between gap-3">
+            <div class="flex min-w-0 items-center gap-2">
+              <mat-icon class="!h-5 !w-5 !text-xl text-amber-500">star</mat-icon>
+              <h3 class="m-0 text-sm font-bold text-slate-700">
+                {{ 'modules.admin.dashboard.receptions.popularTestsMonthly' | transloco }}
+              </h3>
+            </div>
+            <button
+              type="button"
+              class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 text-slate-600 transition hover:border-slate-300 hover:bg-slate-100 disabled:cursor-wait disabled:opacity-60"
+              [disabled]="isReceptionSectionLoading('monthlyPopularTests')"
+              (click)="loadReceptionSection('monthlyPopularTests')"
+              [attr.aria-label]="'modules.admin.dashboard.receptions.reload' | transloco"
+              [attr.title]="'modules.admin.dashboard.receptions.reload' | transloco"
+            >
+              <mat-icon
+                class="!h-5 !w-5 !text-xl"
+                [class.animate-spin]="isReceptionSectionLoading('monthlyPopularTests')"
+              >refresh</mat-icon>
+            </button>
+          </header>
+          @if (receptionSectionError('monthlyPopularTests')) {
+            <p class="mb-3 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+              {{ receptionSectionError('monthlyPopularTests') }}
+            </p>
+          }
+          <div class="overflow-x-auto rounded-xl border border-slate-200 bg-white">
+            <div class="max-h-[calc(2.75rem*11)] overflow-y-auto">
+              @if (isReceptionSectionLoading('monthlyPopularTests') && !isReceptionSectionLoaded('monthlyPopularTests')) {
+                <div class="space-y-2 p-4">
+                  @for (item of [1, 2, 3, 4, 5]; track item) {
+                    <div class="h-8 animate-pulse rounded bg-slate-100"></div>
+                  }
+                </div>
+              } @else if (!isReceptionSectionLoaded('monthlyPopularTests')) {
+                <p class="m-0 px-4 py-10 text-center text-sm text-slate-400">
+                  {{ 'modules.admin.dashboard.receptions.loadHint' | transloco }}
+                </p>
+              } @else {
+                <table class="w-full border-collapse text-sm">
+                  <thead>
+                    <tr>
+                      <th
+                        class="sticky top-0 z-10 bg-slate-50 px-4 py-3 text-right text-sm font-bold text-slate-600 shadow-[0_1px_0_#f1f5f9]"
+                      >
+                        {{ 'modules.admin.dashboard.receptions.popularTestsTable.testName' | transloco }}
+                      </th>
+                      <th
+                        class="sticky top-0 z-10 w-28 bg-slate-50 px-4 py-3 text-right text-sm font-bold text-slate-600 shadow-[0_1px_0_#f1f5f9]"
+                      >
+                        {{ 'modules.admin.dashboard.receptions.popularTestsTable.count' | transloco }}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @if (popularTestRows('monthly').length) {
+                      @for (test of popularTestRows('monthly'); track test.testName) {
+                        <tr class="border-b border-slate-100 last:border-b-0">
+                          <td class="px-4 py-3 text-right font-semibold text-slate-800">{{ test.testName }}</td>
+                          <td class="px-4 py-3 text-right font-bold text-slate-500">{{ test.count }}</td>
+                        </tr>
+                      }
+                    } @else {
+                      <tr>
+                        <td colspan="2" class="px-4 py-6 text-center text-slate-400">
+                          {{ 'modules.admin.dashboard.receptions.table.empty' | transloco }}
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              }
+            </div>
+          </div>
+        </article>
+
+        <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <header class="mb-4 flex items-center justify-between gap-3">
+            <div class="flex min-w-0 items-center gap-2">
+              <mat-icon class="!h-5 !w-5 !text-xl text-amber-500">star</mat-icon>
+              <h3 class="m-0 text-sm font-bold text-slate-700">
+                {{ 'modules.admin.dashboard.receptions.popularTests' | transloco }}
+              </h3>
+            </div>
+            <button
+              type="button"
+              class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 text-slate-600 transition hover:border-slate-300 hover:bg-slate-100 disabled:cursor-wait disabled:opacity-60"
+              [disabled]="isReceptionSectionLoading('yearlyPopularTests')"
+              (click)="loadReceptionSection('yearlyPopularTests')"
+              [attr.aria-label]="'modules.admin.dashboard.receptions.reload' | transloco"
+              [attr.title]="'modules.admin.dashboard.receptions.reload' | transloco"
+            >
+              <mat-icon
+                class="!h-5 !w-5 !text-xl"
+                [class.animate-spin]="isReceptionSectionLoading('yearlyPopularTests')"
+              >refresh</mat-icon>
+            </button>
+          </header>
+          @if (receptionSectionError('yearlyPopularTests')) {
+            <p class="mb-3 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+              {{ receptionSectionError('yearlyPopularTests') }}
+            </p>
+          }
+          <div class="overflow-x-auto rounded-xl border border-slate-200 bg-white">
+            <div class="max-h-[calc(2.75rem*11)] overflow-y-auto">
+              @if (isReceptionSectionLoading('yearlyPopularTests') && !isReceptionSectionLoaded('yearlyPopularTests')) {
+                <div class="space-y-2 p-4">
+                  @for (item of [1, 2, 3, 4, 5]; track item) {
+                    <div class="h-8 animate-pulse rounded bg-slate-100"></div>
+                  }
+                </div>
+              } @else if (!isReceptionSectionLoaded('yearlyPopularTests')) {
+                <p class="m-0 px-4 py-10 text-center text-sm text-slate-400">
+                  {{ 'modules.admin.dashboard.receptions.loadHint' | transloco }}
+                </p>
+              } @else {
+                <table class="w-full border-collapse text-sm">
+                  <thead>
+                    <tr>
+                      <th
+                        class="sticky top-0 z-10 bg-slate-50 px-4 py-3 text-right text-sm font-bold text-slate-600 shadow-[0_1px_0_#f1f5f9]"
+                      >
+                        {{ 'modules.admin.dashboard.receptions.popularTestsTable.testName' | transloco }}
+                      </th>
+                      <th
+                        class="sticky top-0 z-10 w-28 bg-slate-50 px-4 py-3 text-right text-sm font-bold text-slate-600 shadow-[0_1px_0_#f1f5f9]"
+                      >
+                        {{ 'modules.admin.dashboard.receptions.popularTestsTable.count' | transloco }}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @if (popularTestRows('yearly').length) {
+                      @for (test of popularTestRows('yearly'); track test.testName) {
+                        <tr class="border-b border-slate-100 last:border-b-0">
+                          <td class="px-4 py-3 text-right font-semibold text-slate-800">{{ test.testName }}</td>
+                          <td class="px-4 py-3 text-right font-bold text-slate-500">{{ test.count }}</td>
+                        </tr>
+                      }
+                    } @else {
+                      <tr>
+                        <td colspan="2" class="px-4 py-6 text-center text-slate-400">
+                          {{ 'modules.admin.dashboard.receptions.table.empty' | transloco }}
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              }
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="mt-5 grid grid-cols-1 gap-6 lg:grid-cols-2">
+        @for (section of labTableSections; track section.rowsKey) {
+          <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+            <div class="mb-4 flex items-center justify-between gap-3">
+              <h3 class="m-0 text-sm font-bold text-slate-700">{{ section.titleKey | transloco }}</h3>
+              <div class="flex shrink-0 items-center gap-2">
+                <button
+                  type="button"
+                  class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 text-slate-600 transition hover:border-slate-300 hover:bg-slate-100 disabled:cursor-wait disabled:opacity-60"
+                  [disabled]="isReceptionSectionLoading(section.rowsKey)"
+                  (click)="loadReceptionSection(section.rowsKey)"
+                  [attr.aria-label]="'modules.admin.dashboard.receptions.reload' | transloco"
+                  [attr.title]="'modules.admin.dashboard.receptions.reload' | transloco"
+                >
+                  <mat-icon
+                    class="!h-5 !w-5 !text-xl"
+                    [class.animate-spin]="isReceptionSectionLoading(section.rowsKey)"
+                  >refresh</mat-icon>
+                </button>
+                <button
+                  type="button"
+                  class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-green-200 bg-green-50 text-green-700 transition hover:-translate-y-px hover:border-green-300 hover:bg-green-100 disabled:cursor-not-allowed disabled:opacity-50"
+                  [disabled]="!isReceptionSectionLoaded(section.rowsKey) || isReceptionSectionLoading(section.rowsKey)"
+                  (click)="exportLabsTable(section)"
+                  [attr.aria-label]="'modules.admin.dashboard.receptions.exportExcel' | transloco"
+                  [attr.title]="'modules.admin.dashboard.receptions.exportExcel' | transloco"
+                >
+                  <mat-icon class="!h-5 !w-5 !text-xl" svgIcon="mat_solid:excel"></mat-icon>
+                </button>
+              </div>
+            </div>
+            @if (receptionSectionError(section.rowsKey)) {
+              <p class="mb-3 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+                {{ receptionSectionError(section.rowsKey) }}
+              </p>
+            }
+            <div class="overflow-x-auto rounded-xl border border-slate-200 bg-white">
+              <div class="max-h-[calc(2.75rem*11)] overflow-y-auto bg-white">
+                @if (isReceptionSectionLoading(section.rowsKey) && !isReceptionSectionLoaded(section.rowsKey)) {
+                  <div class="space-y-2 p-4">
+                    @for (item of [1, 2, 3, 4, 5]; track item) {
+                      <div class="h-8 animate-pulse rounded bg-slate-100"></div>
+                    }
+                  </div>
+                } @else if (!isReceptionSectionLoaded(section.rowsKey)) {
+                  <p class="m-0 px-4 py-10 text-center text-sm text-slate-400">
+                    {{ 'modules.admin.dashboard.receptions.loadHint' | transloco }}
+                  </p>
+                } @else {
+                  <table class="w-full border-collapse bg-white text-sm">
+                    <thead>
+                      <tr>
+                        <th
+                          class="sticky top-0 z-10 bg-slate-50 px-4 py-3 text-right text-sm font-bold text-slate-600 shadow-[0_1px_0_#f1f5f9]"
+                        >
+                          {{ 'modules.admin.dashboard.receptions.table.labCode' | transloco }}
+                        </th>
+                        <th
+                          class="sticky top-0 z-10 bg-slate-50 px-4 py-3 text-right text-sm font-bold text-slate-600 shadow-[0_1px_0_#f1f5f9]"
+                        >
+                          {{ 'modules.admin.dashboard.receptions.table.labName' | transloco }}
+                        </th>
+                        <th
+                          class="sticky top-0 z-10 bg-slate-50 px-4 py-3 text-right text-sm font-bold text-slate-600 shadow-[0_1px_0_#f1f5f9]"
+                        >
+                          {{ 'modules.admin.dashboard.receptions.table.receptionCount' | transloco }}
+                        </th>
+                        <th
+                          class="sticky top-0 z-10 bg-slate-50 px-4 py-3 text-right text-sm font-bold text-slate-600 shadow-[0_1px_0_#f1f5f9]"
+                        >
+                          {{ 'modules.admin.dashboard.receptions.table.testsCount' | transloco }}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @if (labTableRows(section.rowsKey).length) {
+                        @for (row of labTableRows(section.rowsKey); track row.labCode) {
+                          <tr class="border-b border-slate-100 last:border-b-0">
+                            <td class="px-4 py-3 text-right">{{ row.labCode }}</td>
+                            <td class="px-4 py-3 text-right">{{ labRowDisplayName(row) }}</td>
+                            <td class="px-4 py-3 text-right">{{ row.receptionCount }}</td>
+                            <td class="px-4 py-3 text-right">{{ row.testsCount }}</td>
+                          </tr>
+                        }
+                      } @else {
+                        <tr>
+                          <td colspan="4" class="px-4 py-6 text-center text-slate-400">
+                            {{ 'modules.admin.dashboard.receptions.table.empty' | transloco }}
+                          </td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                }
+              </div>
+            </div>
+          </article>
+        }
+      </div>
+    </section>
+  }
+
+  @if (canViewUserStats && stats) {
+      <div class="mb-7 grid grid-cols-1 gap-4 lg:grid-cols-[1.1fr_0.9fr]">
+        <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <header class="mb-5">
+            <div class="flex items-center gap-2">
+              <mat-icon class="!h-5 !w-5 !text-xl text-slate-500">donut_large</mat-icon>
+              <h2 class="m-0 text-base font-bold text-slate-800">
+                {{ 'modules.admin.dashboard.activitySummary' | transloco }}
+              </h2>
+            </div>
+          </header>
+
+          <div class="flex flex-col items-center gap-5 sm:flex-row">
+            <div
+              class="flex h-36 w-36 shrink-0 items-center justify-center rounded-full"
+              [style.background]="activityRingBackground"
+            >
+              <div
+                class="flex h-[6.75rem] w-[6.75rem] flex-col items-center justify-center rounded-full bg-white shadow-[inset_0_0_0_1px_#e2e8f0]"
+              >
+                <span class="text-2xl font-extrabold text-emerald-700">{{ activeRate }}%</span>
+                <span class="mt-0.5 text-xs text-slate-500">
+                  {{ 'modules.admin.dashboard.activeRate' | transloco }}
+                </span>
+              </div>
+            </div>
+
+            <div class="flex w-full flex-1 flex-col gap-3">
+              <div class="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3.5">
+                <span class="text-sm text-slate-500">
+                  {{ 'modules.admin.dashboard.activeUsers' | transloco }}
+                </span>
+                <span class="text-lg font-bold text-emerald-700">{{ stats.activeUsers }}</span>
+              </div>
+              <div class="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3.5">
+                <span class="text-sm text-slate-500">
+                  {{ 'modules.admin.dashboard.inactiveUsers' | transloco }}
+                </span>
+                <span class="text-lg font-bold text-slate-500">{{ inactiveUsers }}</span>
+              </div>
+              <div class="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3.5">
+                <span class="text-sm text-slate-500">
+                  {{ 'modules.admin.dashboard.totalUsers' | transloco }}
+                </span>
+                <span class="text-lg font-bold text-slate-900">{{ stats.totalUsers }}</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <header class="mb-5">
+            <div class="flex items-center gap-2">
+              <mat-icon class="!h-5 !w-5 !text-xl text-slate-500">category</mat-icon>
+              <h2 class="m-0 text-base font-bold text-slate-800">
+                {{ 'modules.admin.dashboard.userTypes' | transloco }}
+              </h2>
+            </div>
+          </header>
+
+          <div class="flex flex-col gap-3">
+            @for (card of userTypeCards; track card.labelKey) {
+              <a
+                [routerLink]="card.link!"
+                class="flex items-center gap-3.5 rounded-xl border border-slate-100 bg-slate-50 px-4 py-3.5 text-inherit no-underline transition hover:-translate-x-0.5 hover:border-blue-100 hover:bg-white"
+              >
+                <div
+                  class="inline-flex h-10 w-10 items-center justify-center rounded-xl"
+                  [class]="theme(card.theme).icon"
+                >
+                  <mat-icon class="!h-5 !w-5 !text-xl">{{ card.icon }}</mat-icon>
+                </div>
+                <div class="min-w-0 flex-1">
+                  <span class="block text-xs text-slate-500">{{ card.labelKey | transloco }}</span>
+                  <span class="mt-0.5 block text-xl font-extrabold text-slate-900">{{
+                    statValue(card)
+                  }}</span>
+                </div>
+                <mat-icon class="!h-5 !w-5 !text-xl text-slate-400">chevron_left</mat-icon>
+              </a>
+            }
+          </div>
+        </section>
+      </div>
+  }
+
+    <section class="mb-7">
+      <header class="mb-4">
+        <h2 class="m-0 text-lg font-bold text-slate-800">
+          {{ 'modules.admin.dashboard.quickLinks' | transloco }}
+        </h2>
+      </header>
+
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+        @for (link of quickLinks; track link.link) {
+          <a
+            [routerLink]="link.link"
+            class="flex items-center gap-3.5 rounded-xl border border-slate-200 bg-white px-4 py-4 text-inherit no-underline shadow-sm transition hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-md"
+          >
+            <div
+              class="inline-flex h-11 w-11 items-center justify-center rounded-xl"
+              [class]="theme(link.theme).quickLinkIcon"
+            >
+              <mat-icon class="!h-[1.375rem] !w-[1.375rem] !text-[1.375rem]">{{ link.icon }}</mat-icon>
+            </div>
+            <span class="flex-1 text-sm font-semibold text-slate-800">{{ link.labelKey | transloco }}</span>
+            <mat-icon class="!h-[1.125rem] !w-[1.125rem] !text-[1.125rem] text-slate-400">north_west</mat-icon>
+          </a>
+        }
+      </div>
+    </section>
+  </div>
+</div>

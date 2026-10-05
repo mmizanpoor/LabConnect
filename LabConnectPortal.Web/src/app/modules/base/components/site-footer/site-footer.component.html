@@ -1,0 +1,131 @@
+<footer
+  class="mt-auto bg-gradient-to-b from-[#35507c] to-[#2a4063] text-white/90"
+  dir="rtl"
+>
+  <section class="px-0 py-[3.25rem] pb-11">
+    <div
+      class="mx-auto grid max-w-[90rem] grid-cols-1 gap-y-6 px-5 md:grid-cols-2 lg:grid-cols-3"
+      [class.lg:grid-cols-4]="hasTrustBadge"
+    >
+      <div class="min-h-48 px-0 py-2 lg:px-7 lg:first:ps-0 lg:last:pe-0">
+        <h2 class="mb-4 flex items-center gap-2 text-base font-extrabold text-white">
+          <span class="h-[0.45rem] w-[0.45rem] shrink-0 rounded-full bg-white/90" aria-hidden="true"></span>
+          {{ 'modules.home.footer.usefulLinksTitle' | transloco }}
+        </h2>
+        @if (settings?.usefulLinks?.length) {
+          <ul class="m-0 list-none p-0 text-sm leading-[1.9] text-white/80">
+            @for (link of settings!.usefulLinks; track trackLink($index, link)) {
+              <li [class.mt-2]="$index > 0">
+                @if (isExternalLink(link.url)) {
+                  <a
+                    [href]="link.url"
+                    target="_blank"
+                    rel="noopener"
+                    class="text-white/90 no-underline transition hover:text-white"
+                  >
+                    {{ link.title }}
+                  </a>
+                } @else {
+                  <a [routerLink]="link.url" class="text-white/90 no-underline transition hover:text-white">
+                    {{ link.title }}
+                  </a>
+                }
+              </li>
+            }
+          </ul>
+        } @else {
+          <p class="text-white/50">—</p>
+        }
+      </div>
+
+      <div class="min-h-48 px-0 py-2 lg:px-7 lg:first:ps-0 lg:last:pe-0">
+        <h2 class="mb-4 flex items-center gap-2 text-base font-extrabold text-white">
+          <span class="h-[0.45rem] w-[0.45rem] shrink-0 rounded-full bg-white/90" aria-hidden="true"></span>
+          {{ 'modules.home.footer.contactTitle' | transloco }}
+        </h2>
+        @if (settings?.footerAddress?.trim()) {
+          <p class="mb-4 text-justify text-sm leading-[1.85] text-white/80">{{ settings!.footerAddress }}</p>
+        }
+        <ul class="m-0 list-none p-0 text-sm leading-[1.9] text-white/80">
+          @if (settings?.supportLandline?.trim()) {
+            <li>
+              <span class="font-semibold text-white">{{ 'modules.home.footer.landline' | transloco }}:</span>
+              <span dir="ltr">{{ settings!.supportLandline }}</span>
+            </li>
+          }
+          @if (settings?.supportMobile?.trim()) {
+            <li class="mt-0.5">
+              <span class="font-semibold text-white">{{ 'modules.home.footer.mobile' | transloco }}:</span>
+              <span dir="ltr">{{ settings!.supportMobile }}</span>
+            </li>
+          }
+          @if (settings?.footerEmail?.trim()) {
+            <li class="mt-0.5">
+              <span class="font-semibold text-white">{{ 'modules.home.footer.email' | transloco }}:</span>
+              <a
+                [href]="'mailto:' + settings!.footerEmail"
+                dir="ltr"
+                class="text-inherit no-underline hover:text-white"
+              >
+                {{ settings!.footerEmail }}
+              </a>
+            </li>
+          }
+        </ul>
+      </div>
+
+      <div class="flex min-h-48 flex-col items-start px-0 py-2 lg:px-7 lg:first:ps-0 lg:last:pe-0">
+        @if (footerLogoUrl) {
+          <img
+            [src]="footerLogoUrl"
+            [alt]="settings?.siteTitle || 'logo'"
+            class="mb-4 h-auto max-h-[5.5rem] w-auto max-w-full object-contain"
+          />
+        } @else {
+          <h2 class="mb-4 flex items-center gap-2 text-base font-extrabold text-white">
+            <span class="h-[0.45rem] w-[0.45rem] shrink-0 rounded-full bg-white/90" aria-hidden="true"></span>
+            {{ 'modules.home.footer.aboutTitle' | transloco }}
+          </h2>
+        }
+        @if (settings?.footerAboutText?.trim()) {
+          <p class="m-0 text-justify text-sm leading-[1.9] text-white/80">{{ settings!.footerAboutText }}</p>
+        } @else {
+          <p class="text-white/50">—</p>
+        }
+      </div>
+
+      @if (hasTrustBadge) {
+        <div class="min-h-48 px-0 py-2 lg:px-7 lg:first:ps-0 lg:last:pe-0">
+          <h2 class="mb-4 flex items-center gap-2 text-base font-extrabold text-white">
+            <span class="h-[0.45rem] w-[0.45rem] shrink-0 rounded-full bg-white/90" aria-hidden="true"></span>
+            {{ 'modules.home.footer.trustTitle' | transloco }}
+          </h2>
+          <div class="flex flex-wrap items-center gap-3">
+            @if (enamadHtml) {
+              <div [innerHTML]="enamadHtml"></div>
+            } @else if (settings?.enamadLinkUrl) {
+              <a
+                [href]="settings!.enamadLinkUrl!"
+                target="_blank"
+                rel="noopener"
+                class="inline-flex min-h-[5.5rem] min-w-[5.5rem] items-center justify-center rounded-lg border border-white/25 bg-white/[0.08] p-2 text-center text-xs text-white no-underline"
+              >
+                {{ 'modules.home.footer.enamad' | transloco }}
+              </a>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+
+  <section class="px-5 pb-9 pt-5 text-center">
+    <p class="m-0 text-[0.8125rem] text-white/65">
+      @if (settings?.footerCopyrightText?.trim()) {
+        {{ settings!.footerCopyrightText }}
+      } @else {
+        {{ 'modules.home.footer.defaultCopyright' | transloco }}
+      }
+    </p>
+  </section>
+</footer>

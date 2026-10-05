@@ -1,0 +1,150 @@
+<app-resume-section-card
+  icon="contact_page"
+  [title]="'modules.profile.resume.personalInfo.title' | transloco"
+  [complete]="isComplete"
+>
+  @if (!editing) {
+    <button
+      sectionActions
+      type="button"
+      class="inline-flex items-center gap-1 text-sm font-medium text-teal-700 hover:text-teal-800"
+      (click)="startEdit()"
+    >
+      <mat-icon class="!h-4 !w-4 !text-[16px]">edit</mat-icon>
+      {{ 'modules.profile.resume.edit' | transloco }}
+    </button>
+  }
+
+  @if (error) {
+    <div class="mb-4 rounded-xl bg-red-50 p-3 text-sm text-red-700">{{ error }}</div>
+  }
+
+  @if (!editing) {
+    <div class="grid grid-cols-1 gap-2.5 md:grid-cols-2">
+      <app-resume-info-item compact [label]="'shared.email' | transloco">
+        {{ resume.personalInfo.email || ('modules.profile.resume.enter' | transloco) }}
+      </app-resume-info-item>
+      <app-resume-info-item compact [label]="'modules.profile.resume.personalInfo.mobilePhone' | transloco">
+        {{ resume.personalInfo.mobilePhone || ('modules.profile.resume.enter' | transloco) }}
+      </app-resume-info-item>
+      <app-resume-info-item compact [label]="'modules.profile.resume.personalInfo.province' | transloco">
+        {{ resume.personalInfo.provinceName || ('modules.profile.resume.specify' | transloco) }}
+      </app-resume-info-item>
+      <app-resume-info-item compact [label]="'modules.profile.profile.address' | transloco">
+        {{ resume.personalInfo.address || ('modules.profile.resume.enter' | transloco) }}
+      </app-resume-info-item>
+      <app-resume-info-item compact [label]="'modules.profile.resume.personalInfo.maritalStatus' | transloco">
+        @if (resume.personalInfo.maritalStatus != null) {
+          {{ enumTranslateKey('maritalStatus', MaritalStatus, resume.personalInfo.maritalStatus) | transloco }}
+        } @else {
+          {{ 'modules.profile.resume.specify' | transloco }}
+        }
+      </app-resume-info-item>
+      <app-resume-info-item compact [label]="'modules.profile.resume.personalInfo.birthYear' | transloco">
+        {{ resume.personalInfo.birthYear || ('modules.profile.resume.specify' | transloco) }}
+      </app-resume-info-item>
+      <app-resume-info-item compact [label]="'modules.profile.resume.personalInfo.gender' | transloco">
+        @if (resume.personalInfo.gender != null) {
+          {{ enumTranslateKey('gender', Gender, resume.personalInfo.gender) | transloco }}
+        } @else {
+          {{ 'modules.profile.resume.specify' | transloco }}
+        }
+      </app-resume-info-item>
+      @if (resume.personalInfo.gender === Gender.Male) {
+        <app-resume-info-item compact [label]="'modules.profile.resume.personalInfo.militaryStatus' | transloco">
+          @if (resume.personalInfo.militaryServiceStatus != null) {
+            {{
+              enumTranslateKey(
+                'militaryStatus',
+                MilitaryServiceStatus,
+                resume.personalInfo.militaryServiceStatus
+              ) | transloco
+            }}
+          } @else {
+            {{ 'modules.profile.resume.specify' | transloco }}
+          }
+        </app-resume-info-item>
+      }
+    </div>
+  } @else {
+    <form [formGroup]="form" class="grid grid-cols-1 gap-3 md:grid-cols-2">
+      <base-form-field
+        class="w-full"
+        layout="floating"
+        icon="mail"
+        type="email"
+        [label]="'shared.email' | transloco"
+        [control]="form.controls.email"
+      />
+      <base-form-field
+        class="w-full"
+        layout="floating"
+        icon="phone"
+        [label]="'modules.profile.resume.personalInfo.mobilePhone' | transloco"
+        [control]="form.controls.mobilePhone"
+      />
+      <base-form-field
+        class="w-full"
+        layout="floating"
+        icon="location_on"
+        [select]="true"
+        [searchable]="true"
+        [options]="provinceOptions"
+        [label]="'modules.profile.resume.personalInfo.province' | transloco"
+        [control]="form.controls.provinceId"
+      />
+      <base-form-field
+        class="w-full"
+        layout="floating"
+        icon="home"
+        [label]="'modules.profile.profile.address' | transloco"
+        [control]="form.controls.address"
+      />
+      <base-form-field
+        class="w-full"
+        layout="floating"
+        icon="favorite"
+        [select]="true"
+        [options]="maritalStatusOptions"
+        [label]="'modules.profile.resume.personalInfo.maritalStatus' | transloco"
+        [control]="form.controls.maritalStatus"
+      />
+      <base-form-field
+        class="w-full"
+        layout="floating"
+        icon="calendar_month"
+        type="number"
+        [label]="'modules.profile.resume.personalInfo.birthYear' | transloco"
+        [control]="form.controls.birthYear"
+      />
+      <base-form-field
+        class="w-full"
+        layout="floating"
+        icon="wc"
+        [select]="true"
+        [options]="genderOptions"
+        [label]="'modules.profile.resume.personalInfo.gender' | transloco"
+        [control]="form.controls.gender"
+      />
+      @if (showMilitary) {
+        <base-form-field
+          class="w-full"
+          layout="floating"
+          icon="military_tech"
+          [select]="true"
+          [options]="militaryStatusOptions"
+          [label]="'modules.profile.resume.personalInfo.militaryStatus' | transloco"
+          [control]="form.controls.militaryServiceStatus"
+        />
+      }
+    </form>
+    <div class="mt-4 flex gap-2">
+      <base-button color="green" size="sm" [disabled]="saving" [loading]="saving" (click)="save()">
+        {{ 'shared.save' | transloco }}
+      </base-button>
+      <base-button type="button" color="warn" size="sm" (click)="cancel()">
+        {{ 'shared.cancel' | transloco }}
+      </base-button>
+    </div>
+  }
+</app-resume-section-card>

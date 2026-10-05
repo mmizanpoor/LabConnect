@@ -1,0 +1,40 @@
+<app-resume-section-card
+  icon="description"
+  [title]="'modules.profile.resume.resumeFile.title' | transloco"
+  [complete]="isComplete"
+>
+  <p class="mb-4 text-sm text-slate-600">{{ 'modules.profile.resume.resumeFile.hint' | transloco }}</p>
+
+  @if (error) {
+    <div class="mb-4 rounded-xl bg-red-50 p-3 text-sm text-red-700">{{ error }}</div>
+  }
+
+  @if (resume.resumeFile) {
+    <div class="mb-4 flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 p-4">
+      <div>
+        <p class="font-medium text-slate-800">{{ resume.resumeFile.fileName }}</p>
+        <p class="text-sm text-slate-500">{{ (resume.resumeFile.fileSize / 1024 / 1024).toFixed(2) }} MB</p>
+      </div>
+      <div class="flex gap-3">
+        <button type="button" class="text-sm font-medium text-teal-700" (click)="download()">
+          {{ 'modules.profile.resume.resumeFile.download' | transloco }}
+        </button>
+        <button type="button" class="text-sm font-medium text-red-600" [disabled]="deleting" (click)="deleteFile()">
+          {{ 'modules.profile.resume.resumeFile.delete' | transloco }}
+        </button>
+      </div>
+    </div>
+  }
+
+  <label class="flex cursor-pointer flex-col items-center gap-2 rounded-2xl border-2 border-dashed border-slate-200 p-8 text-slate-600 transition hover:border-teal-300 hover:bg-teal-50/40">
+    <mat-icon>cloud_upload</mat-icon>
+    <span>{{ uploading ? ('shared.loading' | transloco) : ('modules.profile.resume.resumeFile.upload' | transloco) }}</span>
+    <span class="text-xs">{{ 'modules.profile.resume.resumeFile.constraints' | transloco }}</span>
+    <input
+      type="file"
+      accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      class="hidden"
+      (change)="onFileSelected($event)"
+    />
+  </label>
+</app-resume-section-card>

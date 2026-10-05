@@ -1,0 +1,44 @@
+<div
+  class="box-border flex h-full min-h-0 w-full flex-col overflow-hidden p-4"
+  dir="rtl"
+>
+  <div class="mb-3 flex shrink-0 items-center gap-2">
+    <base-back-button
+      link="/profile/product-listings"
+      ariaLabelKey="modules.profile.productResumeApplications.backToList"
+    />
+    <h1 class="m-0 min-w-0 truncate text-xl font-bold text-slate-800">
+      {{ 'modules.profile.productResumeApplications.title' | transloco }}
+    </h1>
+  </div>
+
+  @if (error) {
+    <div class="mb-3 shrink-0 rounded bg-red-50 p-3 text-sm text-red-700">{{ error }}</div>
+  }
+
+  @if (loading) {
+    <p class="text-gray-500">{{ 'shared.loading' | transloco }}</p>
+  } @else {
+    <div class="base-grid-panel flex min-h-0 flex-1 flex-col overflow-hidden">
+      <base-grid
+        gridId="b7e2c91a-4d58-4f0a-9c31-8a6e5d2f1b04"
+        class="min-h-0 w-full flex-1"
+        [framed]="false"
+        [visibleOrder]="false"
+        [columnDefs]="colDef"
+        [dataSource$]="list$"
+        [disabled]="loading"
+        [toolbarDisabled]="true"
+        [noRowsMessage]="'modules.profile.productResumeApplications.empty' | transloco"
+        forceDirection="rtl"
+      />
+    </div>
+    <base-paging
+      class="shrink-0"
+      [page]="page"
+      [pageSize]="pageSize"
+      [totalCount]="totalCount"
+      (pageChange)="onPageChange($event)"
+    />
+  }
+</div>

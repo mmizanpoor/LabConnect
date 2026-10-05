@@ -1,0 +1,72 @@
+<app-resume-section-card
+  icon="auto_fix_high"
+  [title]="'modules.profile.resume.skills.title' | transloco"
+  [complete]="isComplete"
+>
+  @if (!editing) {
+    <button
+      sectionActions
+      type="button"
+      class="inline-flex items-center gap-1 text-sm font-medium text-teal-700 hover:text-teal-800"
+      (click)="startEdit()"
+    >
+      <mat-icon class="!h-4 !w-4 !text-[16px]">edit</mat-icon>
+      {{ 'modules.profile.resume.edit' | transloco }}
+    </button>
+  }
+
+  @if (error) {
+    <div class="mb-4 rounded-xl bg-red-50 p-3 text-sm text-red-700">{{ error }}</div>
+  }
+
+  @if (!editing) {
+    <div class="flex flex-wrap gap-2">
+      @for (skill of resume.skills; track skill.skillId) {
+        <span class="rounded-full bg-teal-50 px-3 py-1.5 text-sm font-medium text-teal-800">{{ skill.skillName }}</span>
+      } @empty {
+        <span class="text-sm text-slate-500">{{ 'modules.profile.resume.empty' | transloco }}</span>
+      }
+    </div>
+  } @else {
+    <div class="mb-4 flex flex-wrap gap-2">
+      @for (skill of items; track $index) {
+        <span class="inline-flex items-center gap-1 rounded-full bg-teal-50 px-3 py-1.5 text-sm font-medium text-teal-800">
+          {{ skill.skillName }}
+          <button type="button" class="text-slate-400 hover:text-red-600" (click)="removeSkill($index)">×</button>
+        </span>
+      }
+    </div>
+    <div class="flex items-end gap-2">
+      <base-form-field
+        class="min-w-0 flex-1"
+        layout="floating"
+        [label]="'modules.profile.resume.skills.placeholder' | transloco"
+        [control]="skillInput"
+      />
+      <base-button type="button" color="blue" size="sm" class="mb-1 shrink-0" (click)="addSkill()">
+        {{ 'shared.add' | transloco }}
+      </base-button>
+    </div>
+    @if (suggestions.length) {
+      <div class="mt-2 overflow-hidden rounded-xl border border-slate-200 bg-white">
+        @for (s of suggestions; track s.skillId) {
+          <button
+            type="button"
+            class="block w-full px-3 py-2 text-right text-sm hover:bg-slate-50"
+            (click)="addSkill(s.skillName)"
+          >
+            {{ s.skillName }}
+          </button>
+        }
+      </div>
+    }
+    <div class="mt-4 flex gap-2">
+      <base-button color="green" size="sm" [disabled]="saving" [loading]="saving" (click)="save()">
+        {{ 'shared.save' | transloco }}
+      </base-button>
+      <base-button type="button" color="warn" size="sm" (click)="cancel()">
+        {{ 'shared.cancel' | transloco }}
+      </base-button>
+    </div>
+  }
+</app-resume-section-card>

@@ -1,0 +1,45 @@
+<app-resume-section-card
+  icon="badge"
+  [title]="'modules.profile.resume.aboutMe.title' | transloco"
+  [complete]="isComplete"
+>
+  @if (!editing) {
+    <button
+      sectionActions
+      type="button"
+      class="inline-flex items-center gap-1 text-sm font-medium text-teal-700 hover:text-teal-800"
+      (click)="startEdit()"
+    >
+      <mat-icon class="!h-4 !w-4 !text-[16px]">edit</mat-icon>
+      {{ 'modules.profile.resume.edit' | transloco }}
+    </button>
+  }
+
+  @if (error) {
+    <div class="mb-4 rounded-xl bg-red-50 p-3 text-sm text-red-700">{{ error }}</div>
+  }
+
+  @if (!editing) {
+    <p class="whitespace-pre-wrap text-sm leading-7 text-slate-700">
+      {{ resume.aboutMe || ('modules.profile.resume.aboutMe.placeholder' | transloco) }}
+    </p>
+  } @else {
+    <base-form-field
+      class="w-full"
+      layout="floating"
+      [multiline]="true"
+      [rows]="6"
+      [label]="'modules.profile.resume.aboutMe.title' | transloco"
+      [placeholder]="'modules.profile.resume.aboutMe.placeholder' | transloco"
+      [control]="aboutMe"
+    />
+    <div class="mt-4 flex gap-2">
+      <base-button color="green" size="sm" [disabled]="saving" [loading]="saving" (click)="save()">
+        {{ 'shared.save' | transloco }}
+      </base-button>
+      <base-button type="button" color="warn" size="sm" (click)="cancel()">
+        {{ 'shared.cancel' | transloco }}
+      </base-button>
+    </div>
+  }
+</app-resume-section-card>

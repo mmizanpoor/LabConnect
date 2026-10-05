@@ -1,0 +1,128 @@
+<app-resume-section-card
+  icon="person"
+  [title]="'modules.profile.resume.basicInfo.title' | transloco"
+  [complete]="isComplete"
+>
+  @if (!editing) {
+    <button
+      sectionActions
+      type="button"
+      class="inline-flex items-center gap-1 text-sm font-medium text-teal-700 hover:text-teal-800"
+      (click)="startEdit()"
+    >
+      <mat-icon class="!h-4 !w-4 !text-[16px]">edit</mat-icon>
+      {{ 'modules.profile.resume.edit' | transloco }}
+    </button>
+  }
+
+  @if (error) {
+    <div class="mb-4 rounded-xl bg-red-50 p-3 text-sm text-red-700">{{ error }}</div>
+  }
+
+  @if (!editing) {
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-[1fr_auto]">
+      <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <app-resume-info-item [label]="'modules.profile.resume.basicInfo.fullName' | transloco">
+          {{ resume.firstName }} {{ resume.lastName }}
+        </app-resume-info-item>
+        <app-resume-info-item [label]="'modules.profile.resume.basicInfo.jobTitle' | transloco">
+          {{ resume.basicInfo.jobTitle || ('modules.profile.resume.empty' | transloco) }}
+        </app-resume-info-item>
+        <app-resume-info-item [label]="'modules.profile.resume.basicInfo.employmentStatus' | transloco">
+          @if (resume.basicInfo.employmentStatus != null) {
+            {{ enumTranslateKey('employmentStatus', EmploymentStatus, resume.basicInfo.employmentStatus) | transloco }}
+          } @else {
+            {{ 'modules.profile.resume.empty' | transloco }}
+          }
+        </app-resume-info-item>
+        <app-resume-info-item [label]="'modules.profile.resume.basicInfo.latestWork' | transloco">
+          @if (resume.basicInfo.latestWorkSummary) {
+            {{ resume.basicInfo.latestWorkSummary }}
+          } @else {
+            <button type="button" class="text-teal-700 underline" (click)="scrollToSection('work-experience')">
+              {{ 'modules.profile.resume.basicInfo.addWork' | transloco }}
+            </button>
+          }
+        </app-resume-info-item>
+        <app-resume-info-item class="sm:col-span-2" [label]="'modules.profile.resume.basicInfo.latestEducation' | transloco">
+          @if (latestEducation; as edu) {
+            @if (edu.degreeKey) {
+              {{ edu.degreeKey | transloco }}
+            }
+            @if (edu.field) {
+              <span> — {{ edu.field }}</span>
+            }
+          } @else {
+            <button type="button" class="text-teal-700 underline" (click)="scrollToSection('education')">
+              {{ 'modules.profile.resume.basicInfo.addEducation' | transloco }}
+            </button>
+          }
+        </app-resume-info-item>
+      </div>
+      <div class="flex justify-center md:justify-end">
+        <div class="flex h-28 w-28 items-center justify-center overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
+          @if (photoUrl) {
+            <img [src]="photoUrl" alt="" class="h-full w-full object-cover" />
+          } @else {
+            <mat-icon class="text-4xl text-slate-300">person</mat-icon>
+          }
+        </div>
+      </div>
+    </div>
+  } @else {
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-[1fr_220px]">
+      <form [formGroup]="form" class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <base-form-field
+          class="w-full"
+          layout="floating"
+          icon="badge"
+          [required]="true"
+          [label]="'modules.profile.profile.firstName' | transloco"
+          [control]="form.controls.firstName"
+        />
+        <base-form-field
+          class="w-full"
+          layout="floating"
+          icon="badge"
+          [required]="true"
+          [label]="'modules.profile.profile.lastName' | transloco"
+          [control]="form.controls.lastName"
+        />
+        <base-form-field
+          class="w-full"
+          layout="floating"
+          icon="work"
+          [label]="'modules.profile.resume.basicInfo.jobTitle' | transloco"
+          [control]="form.controls.jobTitle"
+        />
+        <base-form-field
+          class="w-full"
+          layout="floating"
+          icon="work_history"
+          [select]="true"
+          [options]="employmentStatusOptions"
+          [label]="'modules.profile.resume.basicInfo.employmentStatus' | transloco"
+          [control]="form.controls.employmentStatus"
+        />
+      </form>
+      <base-image-upload
+        [label]="'modules.profile.resume.basicInfo.uploadPhoto' | transloco"
+        labelAlign="center"
+        [imageUrl]="photoUrl ?? ''"
+        [loading]="uploading"
+        previewShape="circle"
+        [previewSize]="112"
+        accept="image/jpeg,image/png,image/webp"
+        (fileSelected)="onPhotoSelected($event)"
+      />
+    </div>
+    <div class="mt-4 flex gap-2">
+      <base-button color="green" size="sm" [disabled]="saving" [loading]="saving" (click)="save()">
+        {{ 'shared.save' | transloco }}
+      </base-button>
+      <base-button type="button" color="warn" size="sm" (click)="cancel()">
+        {{ 'shared.cancel' | transloco }}
+      </base-button>
+    </div>
+  }
+</app-resume-section-card>

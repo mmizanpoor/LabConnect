@@ -1,0 +1,14 @@
+<ejs-documenteditorcontainer
+  #documentContainer
+  class="document-editor-host"
+  dir="ltr"
+  [headers]="customHeaders"
+  [serverActionSettings]="actionSettings"
+  [documentEditorSettings]="documentEditorSettings"
+  [enableRtl]="enableRtl"
+  [serviceUrl]="serviceUrl"
+  [toolbarItems]="readonly ? restrictedToolbarItems : normalToolbarItems"
+  [restrictEditing]="readonly"
+  (toolbarClick)="onToolbarClick($event)"
+  (resize)="resize()"
+></ejs-documenteditorcontainer>

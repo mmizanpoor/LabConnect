@@ -1,0 +1,90 @@
+<section class="special-offers" dir="rtl">
+  <aside
+    class="special-offers__aside"
+    [attr.aria-label]="'modules.home.specialOffers.title' | transloco"
+  >
+    <div class="special-offers__aside-content">
+      <span class="special-offers__aside-icon" aria-hidden="true">
+        <mat-icon>local_offer</mat-icon>
+      </span>
+      <h2 class="special-offers__aside-title">
+        {{ "modules.home.specialOffers.title" | transloco }}
+      </h2>
+    </div>
+    <a routerLink="/special-offers" class="special-offers__aside-link">
+      <span>{{ "modules.home.viewAllSpecialOffers" | transloco }}</span>
+      <mat-icon>chevron_left</mat-icon>
+    </a>
+  </aside>
+
+  <div class="special-offers__main">
+    @if (offers.length) {
+    <div class="special-offers__carousel">
+      <app-home-scroll-row>
+        @for (offer of offers; track offer.id) {
+        <a
+          class="special-offers__card"
+          [routerLink]="['/special-offers', offer.id]"
+        >
+          <div class="special-offers__card-body">
+            @if (showLabThumbnail(offer)) {
+            <div class="special-offers__thumbnail">
+              <div class="special-offers__thumbnail-media">
+                @if (showLabLogo(offer)) {
+                <img
+                  [src]="labLogoUrl(offer.labProfileId!)"
+                  [alt]="offer.labName"
+                  loading="lazy"
+                  decoding="async"
+                  (error)="onLogoError(offer.id)"
+                />
+                }
+              </div>
+            </div>
+            }
+
+            <h3 class="special-offers__card-title">{{ offer.title }}</h3>
+
+            <div class="special-offers__card-status">
+              <span class="special-offers__days">
+                <mat-icon>schedule</mat-icon>
+                {{
+                  "modules.home.specialOffers.daysLeft"
+                    | transloco : { count: daysRemaining(offer.endDate) }
+                }}
+              </span>
+              <span class="special-offers__date">
+                <mat-icon>event</mat-icon>
+                <span class="truncate">{{
+                  "modules.home.specialOffers.endsAt"
+                    | transloco : { date: formatEndDate(offer.endDate) }
+                }}</span>
+              </span>
+            </div>
+          </div>
+        </a>
+        }
+      </app-home-scroll-row>
+    </div>
+    } @else {
+    <div class="special-offers__empty" role="status">
+      <div class="flex max-w-sm flex-col items-center text-center">
+        <span
+          class="mb-2 inline-flex h-8 w-8 items-center justify-center rounded-lg bg-[#eef2f7] text-[#4a608a]"
+          aria-hidden="true"
+        >
+          <mat-icon class="!h-4 !w-4 !text-base opacity-80"
+            >local_offer</mat-icon
+          >
+        </span>
+        <p class="m-0 mb-1 text-sm font-semibold text-slate-700">
+          {{ "modules.home.specialOffers.emptyTitle" | transloco }}
+        </p>
+        <p class="m-0 text-[0.8125rem] leading-6 text-slate-500">
+          {{ "modules.home.specialOffers.emptyHint" | transloco }}
+        </p>
+      </div>
+    </div>
+    }
+  </div>
+</section>

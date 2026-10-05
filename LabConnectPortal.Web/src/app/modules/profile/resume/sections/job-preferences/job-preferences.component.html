@@ -1,0 +1,103 @@
+<app-resume-section-card
+  icon="star"
+  [title]="'modules.profile.resume.jobPreferences.title' | transloco"
+  [complete]="isComplete"
+>
+  @if (!editing) {
+    <button
+      sectionActions
+      type="button"
+      class="inline-flex items-center gap-1 text-sm font-medium text-teal-700 hover:text-teal-800"
+      (click)="startEdit()"
+    >
+      <mat-icon class="!h-4 !w-4 !text-[16px]">edit</mat-icon>
+      {{ 'modules.profile.resume.edit' | transloco }}
+    </button>
+  }
+
+  @if (error) {
+    <div class="mb-4 rounded-xl bg-red-50 p-3 text-sm text-red-700">{{ error }}</div>
+  }
+
+  @if (!editing) {
+    <div class="grid grid-cols-1 gap-3 md:grid-cols-2">
+      <app-resume-info-item [label]="'modules.profile.resume.jobPreferences.provinces' | transloco">
+        {{ preferredProvincesDisplay || ('modules.profile.resume.empty' | transloco) }}
+      </app-resume-info-item>
+      <app-resume-info-item [label]="'modules.profile.resume.jobPreferences.categories' | transloco">
+        {{ jobCategoriesDisplay || ('modules.profile.resume.empty' | transloco) }}
+      </app-resume-info-item>
+      <app-resume-info-item [label]="'modules.profile.resume.jobPreferences.seniority' | transloco">
+        {{ seniorityDisplay || ('modules.profile.resume.empty' | transloco) }}
+      </app-resume-info-item>
+      <app-resume-info-item [label]="'modules.profile.resume.jobPreferences.contractTypes' | transloco">
+        {{ contractDisplay || ('modules.profile.resume.empty' | transloco) }}
+      </app-resume-info-item>
+      <app-resume-info-item class="md:col-span-2" [label]="'modules.profile.resume.jobPreferences.minimumSalary' | transloco">
+        {{ salaryName(resume.jobPreference?.minimumSalaryId ?? null) || ('modules.profile.resume.empty' | transloco) }}
+      </app-resume-info-item>
+    </div>
+  } @else {
+    <form [formGroup]="form" class="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <base-form-field
+        class="w-full"
+        layout="floating"
+        icon="location_on"
+        [select]="true"
+        [multiple]="true"
+        [searchable]="true"
+        [options]="provinceOptions"
+        [label]="'modules.profile.resume.jobPreferences.provinces' | transloco"
+        [control]="form.controls.preferredProvinceIds"
+      />
+      <base-form-field
+        class="w-full"
+        layout="floating"
+        icon="category"
+        [select]="true"
+        [multiple]="true"
+        [searchable]="true"
+        [options]="categoryOptions"
+        [label]="'modules.profile.resume.jobPreferences.categories' | transloco"
+        [control]="form.controls.jobCategoryIds"
+      />
+      <div class="rounded-xl bg-slate-50 p-4">
+        <p class="mb-2 text-sm font-semibold text-slate-700">
+          {{ 'modules.profile.resume.jobPreferences.seniority' | transloco }}
+        </p>
+        @for (level of seniorityLevels; track level) {
+          <base-checkbox [checked]="isSeniorityChecked(level)" (checkedChange)="toggleSeniority(level, $event)">
+            {{ enumTranslateKey('seniorityLevel', SeniorityLevel, level) | transloco }}
+          </base-checkbox>
+        }
+      </div>
+      <div class="rounded-xl bg-slate-50 p-4">
+        <p class="mb-2 text-sm font-semibold text-slate-700">
+          {{ 'modules.profile.resume.jobPreferences.contractTypes' | transloco }}
+        </p>
+        @for (type of contractTypes; track type) {
+          <base-checkbox [checked]="isContractChecked(type)" (checkedChange)="toggleContract(type, $event)">
+            {{ enumTranslateKey('contractType', ContractType, type) | transloco }}
+          </base-checkbox>
+        }
+      </div>
+      <base-form-field
+        class="w-full md:col-span-2"
+        layout="floating"
+        icon="payments"
+        [select]="true"
+        [options]="salaryOptions"
+        [label]="'modules.profile.resume.jobPreferences.minimumSalary' | transloco"
+        [control]="form.controls.minimumSalaryId"
+      />
+    </form>
+    <div class="mt-4 flex gap-2">
+      <base-button color="green" size="sm" [disabled]="saving" [loading]="saving" (click)="save()">
+        {{ 'shared.save' | transloco }}
+      </base-button>
+      <base-button type="button" color="warn" size="sm" (click)="cancel()">
+        {{ 'shared.cancel' | transloco }}
+      </base-button>
+    </div>
+  }
+</app-resume-section-card>

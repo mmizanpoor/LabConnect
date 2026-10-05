@@ -1,0 +1,50 @@
+<div class="resume-page" dir="rtl">
+  @if (error) {
+    <div class="mb-3 rounded-[5px] bg-red-50 p-3 text-sm text-red-700">{{ error }}</div>
+  }
+
+  @if (loading) {
+    <p class="p-4 text-slate-500">{{ 'shared.loading' | transloco }}</p>
+  } @else if (resume && referenceData) {
+    <div class="resume-shell">
+      <div class="resume-shell__scroll">
+        <div class="mb-4 overflow-hidden rounded-[5px] border border-teal-100 bg-gradient-to-l from-teal-50 to-white p-4 shadow-[0_1px_3px_rgba(15,23,42,0.06)]">
+          <div class="mb-3 flex items-center justify-between gap-3">
+            <h1 class="text-lg font-bold text-slate-800">{{ 'modules.profile.resume.title' | transloco }}</h1>
+            <span class="text-xs font-medium text-teal-800">
+              {{
+                'modules.profile.resume.section.progress'
+                  | transloco: { completed: progress.completed, total: progress.total }
+              }}
+            </span>
+          </div>
+          <div class="h-2 overflow-hidden rounded-full bg-slate-100">
+            <div class="h-full rounded-full bg-teal-600 transition-all" [style.width.%]="progress.percent"></div>
+          </div>
+        </div>
+
+        <div class="resume-shell__cards">
+          <app-resume-basic-info [resume]="resume" (saved)="onSectionSaved($event)" (navigateToSection)="scrollToSection($event)" />
+          <app-resume-about-me [resume]="resume" (saved)="onSectionSaved($event)" />
+          <app-resume-personal-info [resume]="resume" [provinces]="referenceData.provinces" (saved)="onSectionSaved($event)" />
+          <app-resume-skills [resume]="resume" (saved)="onSectionSaved($event)" />
+          <div id="resume-work-experience">
+            <app-resume-work-experience [resume]="resume" (saved)="onSectionSaved($event)" />
+          </div>
+          <div id="resume-education">
+            <app-resume-education [resume]="resume" (saved)="onSectionSaved($event)" />
+          </div>
+          <app-resume-languages [resume]="resume" [languageNames]="referenceData.languageNames" (saved)="onSectionSaved($event)" />
+          <app-resume-job-preferences
+            [resume]="resume"
+            [provinces]="referenceData.provinces"
+            [jobCategories]="referenceData.jobCategories"
+            [salaryRanges]="referenceData.salaryRanges"
+            (saved)="onSectionSaved($event)"
+          />
+          <app-resume-file [resume]="resume" (saved)="onSectionSaved($event)" />
+        </div>
+      </div>
+    </div>
+  }
+</div>

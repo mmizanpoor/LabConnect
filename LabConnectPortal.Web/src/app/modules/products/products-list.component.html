@@ -1,0 +1,455 @@
+<div class="min-h-[calc(100vh-12rem)] overflow-x-hidden bg-white" dir="rtl">
+  <div
+    class="mx-auto flex w-full max-w-[90rem] flex-col items-stretch gap-5 px-4 py-5 pb-8 sm:px-5 lg:flex-row lg:items-start"
+  >
+    <aside class="w-full min-w-0 shrink-0 lg:w-[16.5rem] lg:sticky lg:top-4">
+      <div
+        class="border border-gray-200 rounded-[0.875rem] bg-white overflow-hidden"
+      >
+        <div
+          class="flex items-center justify-between gap-3 py-4 px-4 pb-3 border-b border-gray-100"
+        >
+          <span class="text-[0.9375rem] font-bold text-gray-900">{{
+            "modules.products.filters.title" | transloco
+          }}</span>
+        </div>
+
+        <div class="px-4 py-3">
+          <div class="relative">
+            <mat-icon
+              class="absolute top-1/2 start-3 -translate-y-1/2 text-gray-400 !text-lg !w-[1.125rem] !h-[1.125rem] pointer-events-none"
+              >search</mat-icon
+            >
+            <input
+              type="search"
+              class="w-full h-10 border border-transparent rounded-lg ps-10 pe-3 font-inherit text-[0.8125rem] text-gray-900 bg-gray-100 outline-none transition-[border-color,box-shadow] placeholder:text-gray-400 focus:bg-[#ececec] focus:shadow-[0_0_0_2px_rgb(53_80_124/0.12)] [&::-webkit-search-cancel-button]:hidden"
+              [formControl]="searchInput"
+              [placeholder]="'modules.products.filters.searchTitle' | transloco"
+              autocomplete="off"
+            />
+          </div>
+        </div>
+
+        @if (filtersLoading) {
+        <p class="m-0 text-gray-500 text-sm text-center py-2">
+          {{ "shared.loading" | transloco }}
+        </p>
+        } @else {
+        <div class="border-t border-gray-100">
+          <button
+            type="button"
+            class="flex w-full cursor-pointer items-center justify-between border-none bg-transparent px-4 py-3.5 text-right font-inherit text-base font-semibold text-gray-700"
+            (click)="toggleSection('price')"
+          >
+            <span>{{ "modules.products.filters.priceRange" | transloco }}</span>
+            <mat-icon class="!h-5 !w-5 text-gray-400 !text-xl">{{
+              expandedSections.price ? "expand_less" : "expand_more"
+            }}</mat-icon>
+          </button>
+          @if (expandedSections.price) {
+          <div class="flex flex-col gap-2 px-4 pb-3">
+            <div class="grid grid-cols-2 gap-2.5">
+              <div class="flex flex-col gap-1.5">
+                <label class="text-xs text-gray-500">{{
+                  "modules.products.filters.from" | transloco
+                }}</label>
+                <input
+                  type="text"
+                  inputmode="numeric"
+                  class="w-full h-10 rounded-2xl border border-gray-200 bg-white px-3 font-inherit text-sm text-gray-900 text-center outline-none focus:border-[#35507c] focus:shadow-[0_0_0_2px_rgb(53_80_124/0.12)]"
+                  [value]="formatDraftPrice(draftMinPrice)"
+                  (input)="onDraftMinPriceChange($any($event.target).value)"
+                />
+              </div>
+              <div class="flex flex-col gap-1.5">
+                <label class="text-xs text-gray-500">{{
+                  "modules.products.filters.to" | transloco
+                }}</label>
+                <input
+                  type="text"
+                  inputmode="numeric"
+                  class="w-full h-10 rounded-2xl border border-gray-200 bg-white px-3 font-inherit text-sm text-gray-900 text-center outline-none focus:border-[#35507c] focus:shadow-[0_0_0_2px_rgb(53_80_124/0.12)]"
+                  [value]="formatDraftPrice(draftMaxPrice)"
+                  (input)="onDraftMaxPriceChange($any($event.target).value)"
+                />
+              </div>
+            </div>
+
+            @if (hasCatalogPriceBounds()) {
+            <div class="price-range-slider mt-1" dir="rtl">
+              <div class="price-range-slider__rail">
+                <div
+                  class="price-range-slider__fill"
+                  [ngStyle]="priceSliderFillStyle"
+                ></div>
+              </div>
+              <input
+                type="range"
+                class="price-range-slider__input price-range-slider__input--min"
+                [min]="catalogMinPrice"
+                [max]="catalogMaxPrice"
+                [step]="priceSliderStep"
+                [value]="sliderDraftMin"
+                (input)="onSliderMinChange($any($event.target).value)"
+              />
+              <input
+                type="range"
+                class="price-range-slider__input price-range-slider__input--max"
+                [min]="catalogMinPrice"
+                [max]="catalogMaxPrice"
+                [step]="priceSliderStep"
+                [value]="sliderDraftMax"
+                (input)="onSliderMaxChange($any($event.target).value)"
+              />
+            </div>
+            <div class="flex justify-between gap-2 text-[0.7rem] text-gray-400">
+              <span>{{ "modules.products.filters.cheapest" | transloco }}</span>
+              <span>{{
+                "modules.products.filters.mostExpensive" | transloco
+              }}</span>
+            </div>
+            }
+          </div>
+          }
+        </div>
+
+        <div class="border-t border-gray-100">
+          <button
+            type="button"
+            class="flex w-full cursor-pointer items-center justify-between border-none bg-transparent px-4 py-3.5 text-right font-inherit text-base font-semibold text-gray-700"
+            (click)="toggleSection('brand')"
+          >
+            <span>{{ "modules.products.filters.brand" | transloco }}</span>
+            <mat-icon class="!h-5 !w-5 text-gray-400 !text-xl">{{
+              expandedSections.brand ? "expand_less" : "expand_more"
+            }}</mat-icon>
+          </button>
+          @if (expandedSections.brand) {
+          <div class="px-4 pb-3">
+            <div class="relative mb-2">
+              <mat-icon
+                class="pointer-events-none absolute top-1/2 start-3 -translate-y-1/2 !h-[1.125rem] !w-[1.125rem] text-gray-400 !text-lg"
+                >search</mat-icon
+              >
+              <input
+                type="search"
+                class="h-10 w-full rounded-lg border border-gray-200 bg-white ps-10 pe-3 font-inherit text-sm text-gray-900 outline-none placeholder:text-gray-400 focus:border-[#35507c] focus:shadow-[0_0_0_2px_rgb(53_80_124/0.12)] [&::-webkit-search-cancel-button]:hidden"
+                [formControl]="brandSearchInput"
+                [placeholder]="
+                  'modules.products.filters.searchBrand' | transloco
+                "
+                autocomplete="off"
+              />
+              @if (brandSearchInput.value) {
+              <button
+                type="button"
+                class="absolute top-1/2 end-2 flex h-5 w-5 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border-none bg-gray-200 p-0 text-gray-500 hover:bg-gray-300 hover:text-gray-700"
+                (click)="clearBrandSearch()"
+              >
+                <mat-icon class="!h-3.5 !w-3.5 !text-sm">close</mat-icon>
+              </button>
+              }
+            </div>
+            <div
+              class="max-h-32 overflow-y-auto overscroll-contain [scrollbar-width:thin]"
+            >
+              @for (brand of filteredBrands; track brand.brandId) {
+              <label
+                class="flex h-8 cursor-pointer items-center gap-2 px-1 text-sm text-gray-800"
+              >
+                <input
+                  type="checkbox"
+                  class="shrink-0"
+                  [checked]="isBrandSelected(brand.brandId)"
+                  (change)="
+                    onBrandDraftChange(
+                      brand.brandId,
+                      $any($event.target).checked
+                    )
+                  "
+                />
+                <span class="truncate leading-none">{{ brand.title }}</span>
+              </label>
+              }
+            </div>
+          </div>
+          }
+        </div>
+
+        <div class="border-t border-gray-100">
+          <button
+            type="button"
+            class="flex w-full cursor-pointer items-center justify-between border-none bg-transparent px-4 py-3.5 text-right font-inherit text-base font-semibold text-gray-700"
+            (click)="toggleSection('province')"
+          >
+            <span>{{ "modules.products.filters.province" | transloco }}</span>
+            <mat-icon class="!h-5 !w-5 text-gray-400 !text-xl">{{
+              expandedSections.province ? "expand_less" : "expand_more"
+            }}</mat-icon>
+          </button>
+          @if (expandedSections.province) {
+          <div class="px-4 pb-3">
+            <select
+              class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 font-inherit text-sm text-gray-900 outline-none focus:border-[#35507c] focus:shadow-[0_0_0_2px_rgb(53_80_124/0.12)]"
+              [value]="draftProvinceId ?? ''"
+              (change)="onProvinceDraftChange($any($event.target).value)"
+            >
+              <option value="">
+                {{ "modules.products.filters.selectProvince" | transloco }}
+              </option>
+              @for (province of provinces; track province.provinceId) {
+              <option [value]="province.provinceId">{{ province.name }}</option>
+              }
+            </select>
+          </div>
+          }
+        </div>
+
+        <div class="border-t border-gray-100">
+          <button
+            type="button"
+            class="flex w-full cursor-pointer items-center justify-between border-none bg-transparent px-4 py-3.5 text-right font-inherit text-base font-semibold text-gray-700"
+            (click)="toggleSection('categoryGroup')"
+          >
+            <span>{{
+              "modules.products.filters.categoryGroup" | transloco
+            }}</span>
+            <mat-icon class="!h-5 !w-5 text-gray-400 !text-xl">{{
+              expandedSections.categoryGroup ? "expand_less" : "expand_more"
+            }}</mat-icon>
+          </button>
+          @if (expandedSections.categoryGroup) {
+          <div class="px-4 pb-3">
+            <select
+              class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 font-inherit text-sm text-gray-900 outline-none focus:border-[#35507c] focus:shadow-[0_0_0_2px_rgb(53_80_124/0.12)]"
+              [value]="draftCategoryGroupId ?? ''"
+              (change)="onCategoryGroupDraftChange($any($event.target).value)"
+            >
+              <option value="">
+                {{ "modules.products.filters.selectCategoryGroup" | transloco }}
+              </option>
+              @for (group of categoryGroups; track group.productCategoryGroupId)
+              {
+              <option
+                [value]="group.productCategoryGroupId"
+                [selected]="
+                  group.productCategoryGroupId === draftCategoryGroupId
+                "
+              >
+                {{ group.title }}
+              </option>
+              }
+            </select>
+          </div>
+          }
+        </div>
+
+        <div class="border-t border-gray-100">
+          <button
+            type="button"
+            class="flex w-full cursor-pointer items-center justify-between border-none bg-transparent px-4 py-3.5 text-right font-inherit text-base font-semibold text-gray-700"
+            (click)="toggleSection('category')"
+          >
+            <span>{{
+              "modules.products.filters.categorySub" | transloco
+            }}</span>
+            <mat-icon class="!h-5 !w-5 text-gray-400 !text-xl">{{
+              expandedSections.category ? "expand_less" : "expand_more"
+            }}</mat-icon>
+          </button>
+          @if (expandedSections.category) {
+          <div class="px-4 pb-3">
+            <select
+              class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 font-inherit text-sm text-gray-900 outline-none focus:border-[#35507c] focus:shadow-[0_0_0_2px_rgb(53_80_124/0.12)]"
+              [value]="draftCategoryId ?? ''"
+              [disabled]="!draftCategoryGroupId"
+              (change)="onCategorySubDraftChange($any($event.target).value)"
+            >
+              <option value="">
+                {{ "modules.products.filters.selectCategorySub" | transloco }}
+              </option>
+              @for (category of subCategories; track category.productCategoryId)
+              {
+              <option
+                [value]="category.productCategoryId"
+                [selected]="category.productCategoryId === draftCategoryId"
+              >
+                {{ category.title }}
+              </option>
+              }
+            </select>
+          </div>
+          }
+        </div>
+
+        <div class="border-t border-gray-100">
+          <button
+            type="button"
+            class="flex w-full cursor-pointer items-center justify-between border-none bg-transparent px-4 py-3.5 text-right font-inherit text-base font-semibold text-gray-700"
+            (click)="toggleSection('attributes')"
+          >
+            <span>{{ "modules.products.filters.attributes" | transloco }}</span>
+            <mat-icon class="!h-5 !w-5 text-gray-400 !text-xl">{{
+              expandedSections.attributes ? "expand_less" : "expand_more"
+            }}</mat-icon>
+          </button>
+          @if (expandedSections.attributes) {
+          <div class="px-4 pb-3">
+            @if (!draftCategoryGroupId) {
+            <p class="m-0 text-xs text-gray-400">
+              {{ "modules.products.filters.selectCategoryGroup" | transloco }}
+            </p>
+            } @else if (attributesLoading) {
+            <p class="m-0 text-xs text-gray-400">
+              {{ "shared.loading" | transloco }}
+            </p>
+            } @else if (!filterAttributes.length) {
+            <p class="m-0 text-xs text-gray-400">
+              {{ "modules.products.emptySpecs" | transloco }}
+            </p>
+            } @else {
+            <div
+              class="flex max-h-64 flex-col gap-2 overflow-y-auto overscroll-contain pe-1 [scrollbar-width:thin]"
+            >
+              @for (attr of filterAttributes; track attr.productAttributeId) {
+              <div class="flex flex-col gap-1">
+                <label class="text-sm text-gray-600">{{ attr.title }}</label>
+                <input
+                  type="text"
+                  class="h-9 w-full rounded-lg border border-gray-200 bg-white px-3 font-inherit text-sm text-gray-900 outline-none focus:border-[#35507c] focus:shadow-[0_0_0_2px_rgb(53_80_124/0.12)]"
+                  [value]="draftAttributeValues[attr.productAttributeId] || ''"
+                  (input)="
+                    onAttributeDraftChange(
+                      attr.productAttributeId,
+                      $any($event.target).value
+                    )
+                  "
+                />
+              </div>
+              }
+            </div>
+            }
+          </div>
+          }
+        </div>
+        }
+
+        <div class="border-t border-gray-100 px-4 py-3 flex flex-col gap-2">
+          <button
+            type="button"
+            class="w-full rounded-lg border-0 bg-[#35507c] py-2.5 font-inherit text-sm font-bold text-white transition hover:bg-[#2a4063]"
+            (click)="applyFilters()"
+          >
+            {{ "modules.products.filters.apply" | transloco }}
+          </button>
+          <button
+            type="button"
+            class="w-full rounded-lg border border-gray-200 bg-white py-2.5 font-inherit text-sm font-semibold text-[#35507c] transition hover:bg-gray-50"
+            (click)="clearAllFilters()"
+          >
+            {{ "modules.products.filters.clearAll" | transloco }}
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="flex-1 min-w-0">
+      <div
+        class="flex max-w-full items-center gap-3 border-b border-[#eee] pb-3 overflow-x-auto overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      >
+        <div
+          class="flex items-center gap-1.5 shrink-0 text-[0.8125rem] font-semibold text-gray-500 whitespace-nowrap [&_mat-icon]:!text-lg [&_mat-icon]:!w-[1.125rem] [&_mat-icon]:!h-[1.125rem]"
+        >
+          <mat-icon>sort</mat-icon>
+          <span>{{ "modules.products.sort.label" | transloco }}</span>
+        </div>
+        <div class="flex min-w-0 items-center gap-1 flex-nowrap">
+          @for (option of sortOptions; track option.value) {
+          <button
+            type="button"
+            class="border-0 bg-transparent py-1.5 px-2.5 font-inherit text-[0.8125rem] text-gray-700 cursor-pointer whitespace-nowrap rounded transition-colors hover:text-[#35507c]"
+            [class.text-red-600]="sortBy === option.value"
+            [class.font-semibold]="sortBy === option.value"
+            (click)="onSortChange(option.value)"
+          >
+            {{ option.labelKey | transloco }}
+          </button>
+          }
+        </div>
+      </div>
+
+      @if (error) {
+      <div class="bg-red-50 text-red-700 py-3 px-4 rounded-lg mb-4">
+        {{ error }}
+      </div>
+      } @if (loading && !products.length) {
+      <p class="text-slate-500 text-center py-8">
+        {{ "shared.loading" | transloco }}
+      </p>
+      } @else if (!products.length) {
+      <div
+        class="products-empty mx-auto flex w-full max-w-lg flex-col items-center px-4 py-12 text-center sm:py-16"
+      >
+        <div class="products-empty__visual relative mb-7" aria-hidden="true">
+          <div class="products-empty__glow"></div>
+          <div class="products-empty__card products-empty__card--back"></div>
+          <div class="products-empty__card products-empty__card--front">
+            <span class="products-empty__icon">
+              <mat-icon>inventory_2</mat-icon>
+            </span>
+            <span class="products-empty__lines">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+          </div>
+        </div>
+
+        <h2
+          class="products-empty__title m-0 mb-2 text-[1.35rem] font-extrabold tracking-tight text-slate-900"
+        >
+          {{ "modules.products.emptyTitle" | transloco }}
+        </h2>
+        <p
+          class="products-empty__hint m-0 mb-6 max-w-sm text-[0.9375rem] leading-7 text-slate-500"
+        >
+          @if (hasActiveFilters) {
+          {{ "modules.products.emptyFilteredHint" | transloco }}
+          } @else {
+          {{ "modules.products.emptyHint" | transloco }}
+          }
+        </p>
+
+        @if (hasActiveFilters) {
+        <button
+          type="button"
+          class="products-empty__cta inline-flex cursor-pointer items-center gap-2 rounded-xl border-0 bg-[#35507c] px-5 py-3 font-inherit text-sm font-bold text-white transition hover:bg-[#2a4063]"
+          (click)="clearAllFilters()"
+        >
+          <mat-icon class="!h-5 !w-5 !text-[1.25rem]">filter_alt_off</mat-icon>
+          {{ "modules.products.filters.clearAll" | transloco }}
+        </button>
+        }
+      </div>
+      } @else {
+      <div
+        class="product-storefront-grid mb-6 grid grid-cols-2 justify-items-stretch gap-0 sm:grid-cols-3 lg:grid-cols-[repeat(auto-fill,minmax(220px,1fr))] xl:grid-cols-[repeat(auto-fill,minmax(266px,1fr))] [container-type:inline-size]"
+      >
+        @for (product of products; track product.productId) {
+        <app-product-card [product]="product" layout="storefront" />
+        }
+      </div>
+      @if (hasMoreProducts) {
+      <div
+        #loadMoreSentinel
+        class="h-px w-full invisible pointer-events-none"
+        aria-hidden="true"
+      ></div>
+      } @if (loadingMore) {
+      <p class="text-slate-500 text-center py-4 pb-8 text-sm">
+        {{ "shared.loading" | transloco }}
+      </p>
+      } }
+    </div>
+  </div>
+</div>

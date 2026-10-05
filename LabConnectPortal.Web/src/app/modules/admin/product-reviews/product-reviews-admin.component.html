@@ -1,0 +1,33 @@
+<div
+  class="mx-auto box-border flex h-full min-h-0 w-full flex-col overflow-hidden p-4"
+  dir="rtl"
+>
+  @if (error) {
+  <div class="mb-3 shrink-0 rounded-lg bg-red-50 p-3 text-sm text-red-700">
+    {{ error }}
+  </div>
+  }
+
+  <div class="base-grid-panel flex min-h-0 flex-1 flex-col overflow-hidden">
+    <base-grid
+      gridId="a6d7a3a0-2e0b-4c2d-b9f8-5d5c6b2c0a3e"
+      class="min-h-0 w-full flex-1"
+      [framed]="false"
+      [visibleOrder]="false"
+      [columnDefs]="colDef"
+      [dataSource$]="list$"
+      [disabled]="loading"
+      [toolbarDisabled]="true"
+      [noRowsMessage]="'modules.admin.productReviews.empty' | transloco"
+      forceDirection="rtl"
+    />
+  </div>
+
+  <base-paging
+    class="shrink-0"
+    [page]="page"
+    [pageSize]="pageSize"
+    [totalCount]="totalCount"
+    (pageChange)="onPageChange($event)"
+  />
+</div>

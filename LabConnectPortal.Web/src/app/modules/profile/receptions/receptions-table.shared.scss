@@ -1,0 +1,117 @@
+$receptions-accent: #527baa;
+$receptions-accent-soft: #eef3f9;
+$receptions-accent-border: #c9d7ea;
+
+.receptions-table-card {
+  overflow: hidden;
+  border: 1px solid #e8edf4;
+  border-radius: 1rem;
+  background: #fff;
+  box-shadow:
+    0 1px 2px rgb(15 23 42 / 0.04),
+    0 8px 24px rgb(82 123 170 / 0.08);
+}
+
+.receptions-table-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.875rem 1.25rem;
+  border-bottom: 1px solid #eef2f7;
+  background: linear-gradient(180deg, #f8fafc 0%, #fff 100%);
+
+  &__count {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: $receptions-accent;
+  }
+}
+
+.receptions-table-wrap {
+  overflow-x: auto;
+}
+
+.receptions-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 3.5rem 1.5rem;
+  text-align: center;
+
+  &__icon {
+    width: 3rem;
+    height: 3rem;
+    font-size: 3rem;
+    color: #cbd5e1;
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.9375rem;
+    color: #64748b;
+  }
+}
+
+.receptions-id-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.75rem;
+  border-radius: 9999px;
+  background: $receptions-accent-soft;
+  border: 1px solid $receptions-accent-border;
+  font-family: "Estedad-FD", Tahoma, sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #334155;
+  letter-spacing: 0.02em;
+}
+
+.receptions-date {
+  font-weight: 500;
+  color: #1e293b;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.receptions-col-center {
+  text-align: center !important;
+}
+
+@mixin receptions-table-mat-styles {
+  .mat-mdc-header-row {
+    background: linear-gradient(180deg, #f1f5f9 0%, #e8eef6 100%);
+  }
+
+  .mat-mdc-header-cell {
+    border-bottom: 1px solid #dbe3ee;
+    padding: 0.875rem 1.25rem;
+    text-align: right;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: #475569;
+    white-space: nowrap;
+  }
+
+  .mat-mdc-cell {
+    border-bottom: 1px solid #f1f5f9;
+    padding: 1rem 1.25rem;
+    text-align: right;
+    font-size: 0.875rem;
+    color: #475569;
+    vertical-align: middle;
+  }
+
+  .mat-mdc-row.receptions-row {
+    transition: background-color 0.15s ease;
+
+    &:hover {
+      background: #f8fbff;
+    }
+
+    &:last-child .mat-mdc-cell {
+      border-bottom: none;
+    }
+  }
+}

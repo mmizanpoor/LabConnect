@@ -1,0 +1,199 @@
+<div class="block" dir="rtl">
+  <div class="border-b border-[#e8edf4] bg-gradient-to-br from-[#f8fbff] to-[#eef3f9] px-6 pb-4 pt-5">
+    <div class="flex items-center justify-between gap-3">
+      <div class="flex min-w-0 items-center gap-2">
+        <mat-icon class="h-6 w-6 shrink-0 text-lab">description</mat-icon>
+        <h2 class="m-0 text-lg font-bold text-slate-800">
+          {{ dialogTitleKey | transloco }}
+        </h2>
+      </div>
+
+      <button
+        mat-icon-button
+        type="button"
+        class="shrink-0 text-slate-500"
+        (click)="close()"
+        [attr.aria-label]="'modules.profile.agreements.detailDialog.close' | transloco"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <mat-dialog-content class="!m-0 max-h-[min(75vh,680px)] !p-5 !px-6">
+    @if (loading) {
+      <div
+        class="flex flex-col items-center gap-3 py-8 text-slate-500 [&_mat-icon]:h-8 [&_mat-icon]:w-8 [&_mat-icon]:text-2xl [&_mat-icon]:text-lab"
+      >
+        <mat-icon>hourglass_top</mat-icon>
+        <p>{{ "shared.loading" | transloco }}</p>
+      </div>
+    } @else if (error) {
+      <div class="rounded-xl bg-red-50 p-4 text-sm text-red-700">{{ error }}</div>
+    } @else if (agreement) {
+      <div class="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:items-stretch">
+        <div class="agreement-detail-field">
+          <span class="agreement-detail-field__label">
+            {{ "modules.profile.agreements.columns.contractNumber" | transloco }}
+          </span>
+          <span class="agreement-detail-field__value">{{
+            agreement.contractNumber || "—"
+          }}</span>
+        </div>
+
+        <div class="agreement-detail-field">
+          <span class="agreement-detail-field__label">
+            {{ "modules.profile.agreements.detailDialog.titleLabel" | transloco }}
+          </span>
+          <span class="agreement-detail-field__value">{{ agreement.title || "—" }}</span>
+        </div>
+
+        <div class="agreement-detail-field">
+          <span class="agreement-detail-field__label">
+            {{ "modules.profile.agreements.columns.startDate" | transloco }}
+          </span>
+          <span class="agreement-detail-field__value">{{
+            formatJalaliDate(agreement.startDate)
+          }}</span>
+        </div>
+
+        <div class="agreement-detail-field">
+          <span class="agreement-detail-field__label">
+            {{ "modules.profile.agreements.columns.expDate" | transloco }}
+          </span>
+          <span class="agreement-detail-field__value">{{
+            formatJalaliDate(agreement.expDate)
+          }}</span>
+        </div>
+
+        <div class="agreement-detail-field">
+          <span class="agreement-detail-field__label">
+            {{ "modules.profile.agreements.detailDialog.primaryLab" | transloco }}
+          </span>
+          <span class="agreement-detail-field__value">{{
+            labName(agreement.primaryAgreementLabCodeNew)
+          }}</span>
+        </div>
+
+        <div class="agreement-detail-field">
+          <span class="agreement-detail-field__label">
+            {{ "modules.profile.agreements.detailDialog.receiverLab" | transloco }}
+          </span>
+          <span class="agreement-detail-field__value">{{
+            labName(agreement.receiverAgreementLabCodeNew)
+          }}</span>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <div class="agreement-detail-field">
+            <span class="agreement-detail-field__label">
+              {{ "modules.profile.agreements.detailDialog.addendum" | transloco }}
+            </span>
+            <span class="agreement-detail-field__value inline-flex items-center gap-1.5">
+              <mat-icon
+                class="agreement-detail-field__icon"
+                svgIcon="heroicons_outline:paper-clip"
+              ></mat-icon>
+              <span [class.agreement-detail-field__empty]="!agreement.childrenCount">{{
+                countOrNone(agreement.childrenCount)
+              }}</span>
+            </span>
+          </div>
+
+          <div class="agreement-detail-field">
+            <span class="agreement-detail-field__label">
+              {{ "modules.profile.agreements.detailDialog.test" | transloco }}
+            </span>
+            <span class="agreement-detail-field__value inline-flex items-center gap-1.5">
+              <span class="agreement-detail-field__money-icon" aria-hidden="true">$</span>
+              <span [class.agreement-detail-field__empty]="!testCount">{{
+                countOrNone(testCount)
+              }}</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="agreement-detail-field agreement-detail-field--tall">
+          <span class="agreement-detail-field__label">
+            {{ "modules.profile.agreements.detailDialog.attachment" | transloco }}
+          </span>
+          <span class="agreement-detail-field__value inline-flex items-center gap-1.5">
+            <mat-icon
+              class="agreement-detail-field__icon"
+              svgIcon="heroicons_outline:paper-clip"
+            ></mat-icon>
+            <span [class.agreement-detail-field__empty]="!agreement.attachmentCount">{{
+              countOrNone(agreement.attachmentCount)
+            }}</span>
+          </span>
+        </div>
+      </div>
+
+      @if (hasContractTextSection(agreement)) {
+        <section class="mt-5">
+          <h3 class="mb-2.5 text-[0.9375rem] font-bold text-slate-700">
+            {{ "modules.profile.agreements.detailDialog.text" | transloco }}
+          </h3>
+          <div class="rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm leading-7 text-slate-700">
+            @if (plainText(agreement.text)) {
+              <div class="whitespace-pre-wrap break-words">{{ plainText(agreement.text) }}</div>
+            }
+            @if (
+              hasSign(agreement.primaryAgreementSign) || hasSign(agreement.receiverAgreementSign)
+            ) {
+              <div
+                class="flex w-full flex-wrap items-start justify-between gap-4"
+                [class.mt-4]="!!plainText(agreement.text)"
+                [class.border-t]="!!plainText(agreement.text)"
+                [class.border-slate-200]="!!plainText(agreement.text)"
+                [class.pt-4]="!!plainText(agreement.text)"
+              >
+                @if (hasSign(agreement.primaryAgreementSign)) {
+                  <figure class="m-0 flex flex-col items-center gap-1.5">
+                    <img
+                      class="h-[120px] w-[120px] rounded-lg border border-[#dbe3ee] bg-white object-contain"
+                      [src]="signImageSrc(agreement.primaryAgreementSign)"
+                      [alt]="'modules.profile.agreements.detailDialog.primarySign' | transloco"
+                    />
+                    <figcaption class="text-center text-xs font-semibold text-slate-500">
+                      {{ "modules.profile.agreements.detailDialog.primarySign" | transloco }}
+                    </figcaption>
+                  </figure>
+                }
+                @if (hasSign(agreement.receiverAgreementSign)) {
+                  <figure class="m-0 flex flex-col items-center gap-1.5">
+                    <img
+                      class="h-[120px] w-[120px] rounded-lg border border-[#dbe3ee] bg-white object-contain"
+                      [src]="signImageSrc(agreement.receiverAgreementSign)"
+                      [alt]="'modules.profile.agreements.detailDialog.receiverSign' | transloco"
+                    />
+                    <figcaption class="text-center text-xs font-semibold text-slate-500">
+                      {{ "modules.profile.agreements.detailDialog.receiverSign" | transloco }}
+                    </figcaption>
+                  </figure>
+                }
+              </div>
+            }
+          </div>
+        </section>
+      }
+
+      @if (agreement.attachments?.length) {
+        <section class="mt-5">
+          <h3 class="mb-2.5 text-[0.9375rem] font-bold text-slate-700">
+            {{ "modules.profile.agreements.detailDialog.attachments" | transloco }}
+          </h3>
+          <ul class="m-0 list-none overflow-hidden rounded-xl border border-slate-200 p-0">
+            @for (attachment of agreement.attachments; track attachment.id) {
+              <li class="flex flex-col gap-1 border-b border-slate-100 px-4 py-3 last:border-b-0">
+                <span class="text-sm font-semibold text-slate-800">{{
+                  attachment.remark?.trim() || attachment.fileName || "—"
+                }}</span>
+              </li>
+            }
+          </ul>
+        </section>
+      }
+    }
+  </mat-dialog-content>
+</div>

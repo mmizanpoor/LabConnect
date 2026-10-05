@@ -1,0 +1,116 @@
+<div class="orders" dir="rtl">
+  <div class="orders__wrap">
+    <header class="orders__header">
+      <div>
+        <h1 class="orders__title">{{ 'modules.orders.title' | transloco }}</h1>
+        @if (!loading && totalCount > 0) {
+          <p class="orders__subtitle">
+            {{ 'modules.orders.listCount' | transloco : { count: totalCount } }}
+          </p>
+        }
+      </div>
+
+      <base-form-field
+        class="orders__filter"
+        layout="floating"
+        icon="tune"
+        [select]="true"
+        [label]="'modules.orders.statusFilter' | transloco"
+        [control]="statusFilter"
+        [options]="statusFilterOptions"
+      />
+    </header>
+
+    @if (error) {
+      <div class="orders__alert">{{ error }}</div>
+    }
+
+    @if (loading) {
+      <div class="orders__state">
+        <span class="orders__spinner"></span>
+        <p>{{ 'shared.loading' | transloco }}</p>
+      </div>
+    } @else if (!rows.length) {
+      <div class="orders__empty">
+        <span class="orders__empty-icon" aria-hidden="true">
+          <mat-icon>receipt_long</mat-icon>
+        </span>
+        <h2>{{ 'modules.orders.empty' | transloco }}</h2>
+        <a routerLink="/products" class="orders__empty-link">
+          {{ 'modules.products.title' | transloco }}
+        </a>
+      </div>
+    } @else {
+      <ul class="orders__list">
+        @for (row of rows; track row.id) {
+          <li class="orders__card">
+            <a class="orders__card-main" [routerLink]="['/orders', row.id]">
+              <div class="orders__card-top">
+                <div class="orders__card-identity">
+                  <span class="orders__card-icon" aria-hidden="true">
+                    <mat-icon>storefront</mat-icon>
+                  </span>
+                  <div>
+                    <h2>{{ row.centerName }}</h2>
+                    <p>{{ formatDateTime(row.createdAt) }}</p>
+                  </div>
+                </div>
+                <span class="orders__badge" [class]="statusClass(row.status)">
+                  {{ statusLabel(row.status) }}
+                </span>
+              </div>
+
+              <div class="orders__card-meta">
+                <div class="orders__meta-item">
+                  <span>{{ 'modules.orders.columns.items' | transloco }}</span>
+                  <strong>{{ row.itemCount }}</strong>
+                </div>
+                <div class="orders__meta-item">
+                  <span>{{ 'modules.orders.columns.total' | transloco }}</span>
+                  <strong>
+                    {{ row.totalAmount | number }}
+                    <small>{{ 'shared.currency' | transloco }}</small>
+                  </strong>
+                </div>
+              </div>
+            </a>
+
+            <div class="orders__card-actions">
+              <a class="orders__action orders__action--primary" [routerLink]="['/orders', row.id]">
+                <mat-icon>local_shipping</mat-icon>
+                {{ 'modules.orders.trackOrder' | transloco }}
+              </a>
+              @if (row.status === 'PendingPayment') {
+                <button
+                  type="button"
+                  class="orders__action orders__action--warn"
+                  (click)="cancel(row)"
+                >
+                  <mat-icon>close</mat-icon>
+                  {{ 'shared.cancel' | transloco }}
+                </button>
+              }
+              @if (row.status === 'Shipped' || row.canConfirmDelivery) {
+                <button
+                  type="button"
+                  class="orders__action orders__action--ok"
+                  (click)="confirmDelivery(row)"
+                >
+                  <mat-icon>inventory</mat-icon>
+                  {{ 'modules.orders.confirmDeliveryAction' | transloco }}
+                </button>
+              }
+            </div>
+          </li>
+        }
+      </ul>
+
+      <base-paging
+        [page]="page"
+        [pageSize]="pageSize"
+        [totalCount]="totalCount"
+        (pageChange)="onPageChange($event)"
+      />
+    }
+  </div>
+</div>

@@ -1,0 +1,31 @@
+<div class="p-6 max-w-5xl mx-auto">
+  <div class="flex items-center justify-between mb-4">
+    <h1 class="text-2xl font-bold">{{ 'modules.profile.jobApplications.title' | transloco }}</h1>
+    <a routerLink="/profile/job-postings" class="text-blue-600 text-sm">{{ 'modules.profile.jobPostings.backToList' | transloco }}</a>
+  </div>
+
+  @if (error) {
+    <div class="bg-red-50 text-red-700 p-3 rounded mb-4 text-sm">{{ error }}</div>
+  }
+
+  @if (loading) {
+    <p class="text-gray-500">{{ 'shared.loading' | transloco }}</p>
+  } @else {
+    <mat-card class="p-4 shadow">
+      <base-grid
+        gridId="caa4a2de-12fd-4e39-9e58-fc4f67618e58"
+        class="w-full h-[60vh] min-h-[20rem]"
+        [visibleOrder]="false"
+        [columnDefs]="colDef"
+        [dataSource$]="list$"
+        [disabled]="loading"
+        [toolbarDisabled]="true"
+        forceDirection="rtl"
+      />
+      @if (!rows.length) {
+        <p class="text-gray-500 text-sm mt-4">{{ 'modules.profile.jobApplications.empty' | transloco }}</p>
+      }
+    </mat-card>
+    <base-paging [page]="page" [pageSize]="pageSize" [totalCount]="totalCount" (pageChange)="onPageChange($event)" />
+  }
+</div>

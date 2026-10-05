@@ -1,0 +1,80 @@
+<div class="mx-auto max-w-3xl p-6" dir="rtl">
+  <div
+    class="overflow-hidden rounded-[5px] border border-slate-200 bg-white p-5 shadow-[0_1px_3px_rgba(15,23,42,0.06)] md:p-6"
+  >
+    <p class="mb-6 text-sm text-gray-500">
+      {{ "modules.profile.profile.optionalHint" | transloco }}
+    </p>
+
+    @if (error) {
+    <div class="mb-4 rounded-[5px] border border-red-100 bg-red-50 p-3 text-sm text-red-700">
+      {{ error }}
+    </div>
+    } @if (success) {
+    <div class="mb-4 rounded-[5px] border border-green-100 bg-green-50 p-3 text-sm text-green-700">
+      {{ success }}
+    </div>
+    } @if (loading) {
+    <p class="text-gray-500">{{ "shared.loading" | transloco }}</p>
+    } @else {
+    <form [formGroup]="form">
+      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <base-form-field
+          layout="floating"
+          icon="person"
+          [label]="'modules.profile.profile.firstName' | transloco"
+          [control]="form.controls.firstName"
+        />
+        <base-form-field
+          layout="floating"
+          icon="person"
+          [label]="'modules.profile.profile.lastName' | transloco"
+          [control]="form.controls.lastName"
+        />
+        <base-form-field
+          layout="floating"
+          icon="mail"
+          type="email"
+          [label]="'shared.email' | transloco"
+          [control]="form.controls.email"
+        />
+        <base-form-field
+          layout="floating"
+          icon="smartphone"
+          [label]="'shared.mobileNumber' | transloco"
+          [control]="form.controls.mobileNumber"
+        />
+        <base-form-field
+          class="sm:col-span-2"
+          layout="floating"
+          icon="location_on"
+          [label]="'modules.profile.profile.address' | transloco"
+          [control]="form.controls.address"
+        />
+        <base-form-field
+          layout="floating"
+          icon="call"
+          [label]="'modules.profile.profile.landline' | transloco"
+          [control]="form.controls.phone"
+        />
+      </div>
+
+      <h2 class="mb-3 mt-6 text-lg font-bold text-gray-900">
+        {{ "modules.profile.profile.locationSection" | transloco }}
+      </h2>
+
+      <app-location-map-picker
+        [latitude]="form.controls.latitude.value"
+        [longitude]="form.controls.longitude.value"
+        (locationChange)="onLocationChange($event)"
+      />
+
+      <div class="mt-6 flex justify-end">
+        <base-button color="green" size="sm" [disabled]="saving" (click)="save()">{{
+          "shared.save" | transloco
+        }}</base-button>
+      </div>
+    </form>
+    }
+  </div>
+</div>

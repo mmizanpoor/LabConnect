@@ -1,0 +1,272 @@
+<div class="mx-auto max-w-3xl p-6" dir="rtl">
+  <base-back-button
+    link="/admin/laboratories"
+    ariaLabelKey="modules.admin.laboratories.backToList"
+    class="mb-4"
+  />
+
+  @if (error) {
+    <div class="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{{ error }}</div>
+  }
+  @if (success) {
+    <div class="mb-4 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+      {{ success }}
+    </div>
+  }
+
+  @if (loading) {
+    <div class="flex flex-col items-center justify-center gap-3 py-16 text-slate-500">
+      <div
+        class="h-10 w-10 animate-spin rounded-full border-4 border-slate-200 border-t-violet-600"
+        aria-hidden="true"
+      ></div>
+      <p class="m-0 text-sm">{{ 'shared.loading' | transloco }}</p>
+    </div>
+  } @else if (profile) {
+    <section
+      class="mb-4 flex items-center gap-5 rounded-2xl border border-violet-200 bg-gradient-to-br from-violet-50 via-violet-100 to-slate-50 p-5"
+    >
+      <div
+        class="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-full border-[3px] border-white bg-white shadow-[0_4px_14px_rgb(109_40_217/14%)]"
+        aria-hidden="true"
+      >
+        @if (logoUrl) {
+          <img [src]="logoUrl" [alt]="profile.name" class="h-full w-full object-cover" />
+        } @else {
+          <mat-icon class="!h-10 !w-10 !text-[2.5rem] text-violet-600">science</mat-icon>
+        }
+      </div>
+      <div>
+        <h1 class="m-0 text-[1.375rem] font-bold leading-snug text-slate-900">{{ profile.name }}</h1>
+        @if (profile.labCode) {
+          <p class="mt-1.5 text-sm text-slate-500">
+            {{ 'modules.admin.laboratories.columns.labCode' | transloco }}:
+            <span dir="ltr">{{ profile.labCode }}</span>
+          </p>
+        }
+        <div class="mt-3 flex flex-wrap gap-2">
+          <span
+            class="inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold"
+            [class.border-emerald-200]="profile.isComplete"
+            [class.bg-emerald-50]="profile.isComplete"
+            [class.text-emerald-700]="profile.isComplete"
+            [class.border-amber-200]="!profile.isComplete"
+            [class.bg-amber-50]="!profile.isComplete"
+            [class.text-amber-700]="!profile.isComplete"
+          >
+            {{
+              (profile.isComplete
+                ? 'modules.admin.laboratories.complete'
+                : 'modules.admin.laboratories.incomplete') | transloco
+            }}
+          </span>
+          <span
+            class="inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold"
+            [class.border-blue-200]="profile.isApproved"
+            [class.bg-blue-50]="profile.isApproved"
+            [class.text-blue-700]="profile.isApproved"
+            [class.border-slate-200]="!profile.isApproved"
+            [class.bg-slate-50]="!profile.isApproved"
+            [class.text-slate-500]="!profile.isApproved"
+          >
+            {{
+              (profile.isApproved
+                ? 'modules.admin.laboratories.approved'
+                : 'modules.admin.laboratories.notApproved') | transloco
+            }}
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <section class="mb-3 rounded-[0.875rem] border border-slate-200 bg-white p-4 px-5 shadow-sm">
+      <header
+        class="mb-3.5 flex items-center gap-2 border-b border-slate-100 pb-2.5 text-[0.9375rem] font-bold text-slate-800"
+      >
+        <mat-icon class="!h-[1.125rem] !w-[1.125rem] !text-[1.125rem] text-violet-600">contact_page</mat-icon>
+        {{ 'modules.admin.laboratories.contactInfo' | transloco }}
+      </header>
+      <div class="flex flex-col gap-3">
+        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <div class="flex items-center justify-between gap-3 rounded-lg border border-gray-100 bg-gray-50 px-3 py-2.5">
+            <span class="flex shrink-0 items-center gap-1.5 text-sm font-medium text-slate-500">
+              <mat-icon class="!h-4 !w-4 !text-base text-slate-400">phone_iphone</mat-icon>
+              {{ 'shared.mobile' | transloco }}
+            </span>
+            <span class="text-sm font-semibold text-slate-900" dir="ltr">{{ profile.mobileNumber || '—' }}</span>
+          </div>
+          <div class="flex items-center justify-between gap-3 rounded-lg border border-gray-100 bg-gray-50 px-3 py-2.5">
+            <span class="flex shrink-0 items-center gap-1.5 text-sm font-medium text-slate-500">
+              <mat-icon class="!h-4 !w-4 !text-base text-slate-400">call</mat-icon>
+              {{ 'modules.profile.center.phone' | transloco }}
+            </span>
+            <span class="text-sm font-semibold text-slate-900" dir="ltr">{{ profile.phone || '—' }}</span>
+          </div>
+          <div class="flex items-center justify-between gap-3 rounded-lg border border-gray-100 bg-gray-50 px-3 py-2.5">
+            <span class="flex shrink-0 items-center gap-1.5 text-sm font-medium text-slate-500">
+              <mat-icon class="!h-4 !w-4 !text-base text-slate-400">receipt_long</mat-icon>
+              {{ 'modules.profile.center.economicCode' | transloco }}
+            </span>
+            <span class="text-sm font-semibold text-slate-900" dir="ltr">{{ profile.economicCode || '—' }}</span>
+          </div>
+          <div class="flex items-center justify-between gap-3 rounded-lg border border-gray-100 bg-gray-50 px-3 py-2.5">
+            <span class="flex shrink-0 items-center gap-1.5 text-sm font-medium text-slate-500">
+              <mat-icon class="!h-4 !w-4 !text-base text-slate-400">badge</mat-icon>
+              {{ 'modules.profile.center.registrationNumber' | transloco }}
+            </span>
+            <span class="text-sm font-semibold text-slate-900" dir="ltr">{{ profile.registrationNumber || '—' }}</span>
+          </div>
+        </div>
+        <div class="flex items-center justify-between gap-3 rounded-lg border border-gray-100 bg-gray-50 px-3 py-2.5">
+          <span class="flex shrink-0 items-center gap-1.5 text-sm font-medium text-slate-500">
+            <mat-icon class="!h-4 !w-4 !text-base text-slate-400">location_on</mat-icon>
+            {{ 'modules.profile.center.address' | transloco }}
+          </span>
+          <span class="text-left text-sm font-semibold text-slate-900">{{ profile.address || '—' }}</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="mb-3 rounded-[0.875rem] border border-slate-200 bg-white p-4 px-5 shadow-sm">
+      <header
+        class="mb-3.5 flex items-center gap-2 border-b border-slate-100 pb-2.5 text-[0.9375rem] font-bold text-slate-800"
+      >
+        <mat-icon class="!h-[1.125rem] !w-[1.125rem] !text-[1.125rem] text-violet-600">folder_open</mat-icon>
+        {{ 'modules.admin.laboratories.documents' | transloco }}
+      </header>
+      <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
+        @for (doc of documents; track doc.labelKey) {
+          <article class="overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
+            <p class="m-0 border-b border-slate-200 bg-white px-3 py-2.5 text-[0.8125rem] font-semibold text-slate-600">
+              {{ doc.labelKey | transloco }}
+            </p>
+            @if (doc.url) {
+              <div class="relative bg-white">
+                <img [src]="doc.url" [alt]="doc.labelKey | transloco" class="block h-40 w-full object-contain p-2" />
+                <button
+                  type="button"
+                  class="absolute start-2 top-2 inline-flex h-8 items-center gap-1 rounded-md border border-slate-200 bg-white/95 px-2 text-xs font-medium text-slate-700 shadow-sm hover:bg-white"
+                  (click)="openPreview(doc.url, doc.labelKey)"
+                >
+                  <mat-icon class="!h-4 !w-4 !text-base text-violet-600">visibility</mat-icon>
+                  {{ 'shared.view' | transloco }}
+                </button>
+              </div>
+            } @else {
+              <div class="flex h-40 flex-col items-center justify-center gap-1.5 p-3 text-center text-xs text-slate-400">
+                <mat-icon class="!h-7 !w-7 !text-[1.75rem]">image_not_supported</mat-icon>
+                <span>{{ 'modules.admin.laboratories.documentMissing' | transloco }}</span>
+              </div>
+            }
+          </article>
+        }
+      </div>
+    </section>
+
+    @if (previewUrl) {
+      <div
+        class="fixed inset-0 z-[1000] flex items-center justify-center bg-black/70 p-4"
+        role="dialog"
+        aria-modal="true"
+        (click)="closePreview()"
+      >
+        <div
+          class="relative max-h-[90vh] max-w-4xl overflow-hidden rounded-xl bg-white shadow-2xl"
+          (click)="$event.stopPropagation()"
+        >
+          <div class="flex items-center justify-between gap-3 border-b border-slate-100 px-4 py-3">
+            <h3 class="m-0 text-sm font-bold text-slate-800">{{ previewTitle }}</h3>
+            <button
+              type="button"
+              class="inline-flex h-8 w-8 items-center justify-center rounded-md text-slate-500 hover:bg-slate-100 hover:text-slate-800"
+              [attr.aria-label]="'shared.close' | transloco"
+              (click)="closePreview()"
+            >
+              <mat-icon class="!h-5 !w-5 !text-[1.25rem]">close</mat-icon>
+            </button>
+          </div>
+          <img [src]="previewUrl" [alt]="previewTitle" class="block max-h-[80vh] w-full object-contain bg-slate-50 p-3" />
+        </div>
+      </div>
+    }
+
+    @if (profile.rejectionReason && !profile.isComplete) {
+      <section class="mb-3 rounded-[0.875rem] border border-amber-200 bg-amber-50 p-4 px-5 shadow-sm">
+        <header
+          class="mb-3.5 flex items-center gap-2 border-b border-slate-100 pb-2.5 text-[0.9375rem] font-bold text-slate-800"
+        >
+          <mat-icon class="!h-[1.125rem] !w-[1.125rem] !text-[1.125rem] text-violet-600">report</mat-icon>
+          {{ 'modules.admin.laboratories.rejectedWithReason' | transloco }}
+        </header>
+        <p class="m-0 whitespace-pre-line text-sm leading-7 text-amber-800">{{ profile.rejectionReason }}</p>
+      </section>
+    }
+
+    <section class="mb-3 rounded-[0.875rem] border border-slate-200 bg-white p-4 px-5 shadow-sm">
+      <header
+        class="mb-3.5 flex items-center gap-2 border-b border-slate-100 pb-2.5 text-[0.9375rem] font-bold text-slate-800"
+      >
+        <mat-icon class="!h-[1.125rem] !w-[1.125rem] !text-[1.125rem] text-violet-600">verified_user</mat-icon>
+        {{ 'modules.admin.laboratories.reviewActions' | transloco }}
+      </header>
+
+      @if (canApprove) {
+        <p class="mb-4 text-[0.8125rem] leading-6 text-slate-500">
+          {{
+            (profile.isComplete
+              ? 'modules.admin.laboratories.reviewHintPending'
+              : 'modules.admin.laboratories.reviewHintIncompleteApprove') | transloco
+          }}
+        </p>
+        <div class="flex flex-wrap items-center gap-3">
+          <base-button size="sm" [loading]="approving" [disabled]="approving || rejecting" (click)="approve()">
+            {{ 'modules.admin.laboratories.approve' | transloco }}
+          </base-button>
+          @if (canReject) {
+            <base-button
+              color="warn"
+              size="sm"
+              type="button"
+              [disabled]="approving || rejecting"
+              (click)="reject()"
+            >
+              {{ 'modules.admin.laboratories.reject' | transloco }}
+            </base-button>
+          }
+        </div>
+      } @else if (profile.isApproved) {
+        <div class="mb-4 flex items-start gap-3 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3.5 text-emerald-700">
+          <mat-icon class="!h-6 !w-6 shrink-0 !text-2xl">check_circle</mat-icon>
+          <div>
+            <p class="m-0 text-[0.9375rem] font-bold">{{ 'modules.admin.laboratories.approved' | transloco }}</p>
+            @if (approvedAtText) {
+              <p class="mt-1 text-xs opacity-85">{{ approvedAtText }}</p>
+            }
+          </div>
+        </div>
+        <p class="mb-4 text-[0.8125rem] leading-6 text-slate-500">
+          {{ 'modules.admin.laboratories.reviewHintApproved' | transloco }}
+        </p>
+        <div class="flex flex-wrap items-center gap-3">
+          <base-button
+            color="warn"
+            size="sm"
+            type="button"
+            [disabled]="revoking"
+            (click)="revokeApproval()"
+          >
+            {{ 'modules.admin.laboratories.revokeApproval' | transloco }}
+          </base-button>
+        </div>
+      } @else if (!profile.isComplete) {
+        <div class="mb-4 flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3.5 text-amber-700">
+          <mat-icon class="!h-6 !w-6 shrink-0 !text-2xl">hourglass_empty</mat-icon>
+          <div>
+            <p class="m-0 text-[0.9375rem] font-bold">{{ 'modules.admin.laboratories.incomplete' | transloco }}</p>
+            <p class="mt-1 text-xs opacity-85">{{ 'modules.admin.laboratories.reviewHintIncomplete' | transloco }}</p>
+          </div>
+        </div>
+      }
+    </section>
+  }
+</div>

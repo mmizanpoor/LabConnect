@@ -1,0 +1,201 @@
+:host {
+  display: block;
+  min-height: 100%;
+  background: #f4f5f7;
+}
+
+.store-dashboard-shell {
+  box-sizing: border-box;
+  border: 1px solid rgb(226 232 240 / 0.45);
+  border-radius: 5px;
+  background: #ffffff;
+}
+
+.shortcut-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.85rem;
+  }
+}
+
+.shortcut-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 4.25rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(15, 23, 42, 0.04);
+  border-radius: 5px;
+  background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 1px 2px rgba(15, 23, 42, 0.04);
+  color: inherit;
+  text-decoration: none;
+  overflow: visible;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease,
+    background 180ms ease;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    opacity: 0;
+    background: linear-gradient(135deg, rgba(53, 80, 124, 0.04), transparent 70%);
+    transition: opacity 180ms ease;
+    pointer-events: none;
+  }
+
+  &:hover {
+    border-color: rgba(53, 80, 124, 0.18);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.95) inset,
+      0 10px 24px -14px rgba(15, 23, 42, 0.22);
+    transform: translateY(-2px);
+
+    &::before {
+      opacity: 1;
+    }
+
+    .shortcut-card__arrow {
+      opacity: 1;
+      transform: translateX(-2px);
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgba(53, 80, 124, 0.45);
+    outline-offset: 2px;
+  }
+
+  &__icon-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 10px;
+    transition: transform 180ms ease;
+  }
+
+  &:hover .shortcut-card__icon-wrap {
+    transform: scale(1.04);
+  }
+
+  &__icon {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 1.375rem !important;
+    height: 1.375rem !important;
+    font-size: 1.375rem !important;
+    line-height: 1 !important;
+    overflow: visible !important;
+  }
+
+  &__label {
+    flex: 1;
+    min-width: 0;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.45;
+    color: #64748b;
+    transition: color 180ms ease;
+  }
+
+  &:hover .shortcut-card__label {
+    color: #475569;
+  }
+
+  &__arrow {
+    flex-shrink: 0;
+    width: 1.125rem !important;
+    height: 1.125rem !important;
+    font-size: 1.125rem !important;
+    color: #94a3b8;
+    opacity: 0;
+    transform: translateX(0);
+    transition:
+      opacity 180ms ease,
+      transform 180ms ease;
+  }
+
+  &--blue .shortcut-card__icon-wrap {
+    background: linear-gradient(145deg, rgba(37, 99, 235, 0.14), rgba(37, 99, 235, 0.05));
+    color: #2563eb;
+  }
+
+  &--amber .shortcut-card__icon-wrap {
+    background: linear-gradient(145deg, rgba(245, 158, 11, 0.16), rgba(245, 158, 11, 0.06));
+    color: #d97706;
+  }
+
+  &--violet .shortcut-card__icon-wrap {
+    background: linear-gradient(145deg, rgba(124, 58, 237, 0.14), rgba(124, 58, 237, 0.05));
+    color: #7c3aed;
+  }
+
+  &--green .shortcut-card__icon-wrap {
+    background: linear-gradient(145deg, rgba(16, 185, 129, 0.14), rgba(16, 185, 129, 0.05));
+    color: #059669;
+  }
+
+  &--primary {
+    border-color: rgba(53, 80, 124, 0.14);
+    background: linear-gradient(145deg, #ffffff 0%, rgba(53, 80, 124, 0.04) 100%);
+
+    .shortcut-card__label {
+      color: #35507c;
+    }
+
+    &:hover {
+      border-color: rgba(53, 80, 124, 0.28);
+    }
+  }
+}
+
+.stat-card {
+  border-radius: 5px;
+  min-height: 3.5rem;
+  overflow: visible;
+
+  &__icon {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 1.5rem !important;
+    height: 1.5rem !important;
+    font-size: 1.375rem !important;
+    line-height: 1 !important;
+    overflow: visible !important;
+  }
+}
+
+.stat-card-skeleton {
+  border-radius: 5px;
+  min-height: 3.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shortcut-card,
+  .shortcut-card__icon-wrap,
+  .shortcut-card__arrow,
+  .shortcut-card__label {
+    transition: none !important;
+  }
+}

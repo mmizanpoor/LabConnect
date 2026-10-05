@@ -1,0 +1,228 @@
+<div class="my-order" dir="rtl">
+  <div class="my-order__wrap">
+    <base-back-button
+      class="my-order__back"
+      link="/orders"
+      ariaLabelKey="modules.orders.backToList"
+    />
+
+    @if (loading) {
+      <div class="my-order__state">
+        <span class="my-order__spinner"></span>
+        <p>{{ 'shared.loading' | transloco }}</p>
+      </div>
+    } @else if (error) {
+      <div class="my-order__error">{{ error }}</div>
+    } @else if (order) {
+      <article class="my-order__panel">
+        <header class="my-order__hero">
+          <div class="my-order__hero-main">
+            <p class="my-order__eyebrow">{{ 'modules.orders.trackingTitle' | transloco }}</p>
+            <h1 class="my-order__title">{{ order.centerName }}</h1>
+            @if (order.shippingAddress) {
+              <p class="my-order__subtitle">{{ order.shippingAddress }}</p>
+            }
+          </div>
+          <div class="my-order__hero-aside">
+            <span class="my-order__badge" [class]="statusClass(order.status)">
+              {{ statusLabel(order.status) }}
+            </span>
+            <p class="my-order__total">
+              {{ order.totalAmount | number }}
+              <small>{{ 'shared.currency' | transloco }}</small>
+            </p>
+          </div>
+        </header>
+
+        <ol class="my-order__steps" [class.my-order__steps--cancelled]="isCancelled">
+          @for (step of trackingSteps; track step.key; let i = $index) {
+            <li
+              class="my-order__step"
+              [class.is-done]="step.done"
+              [class.is-current]="step.current"
+              [class.is-cancelled]="step.key === 'cancelled'"
+            >
+              @if (i > 0) {
+                <span
+                  class="my-order__step-line"
+                  [class.is-active]="step.done"
+                  aria-hidden="true"
+                ></span>
+              }
+              <span class="my-order__step-index">
+                @if (step.done && !step.current) {
+                  <mat-icon>check</mat-icon>
+                } @else {
+                  {{ i + 1 }}
+                }
+              </span>
+              <span class="my-order__step-label">{{ step.label }}</span>
+              @if (step.at) {
+                <span class="my-order__step-at">{{ formatDateTime(step.at) }}</span>
+              }
+            </li>
+          }
+        </ol>
+
+        <div class="my-order__facts">
+          <div class="my-order__fact">
+            <span>{{ 'modules.orders.columns.createdAt' | transloco }}</span>
+            <strong>{{ formatDateTime(order.createdAt) }}</strong>
+          </div>
+          @if (order.deliveredAt) {
+            <div class="my-order__fact">
+              <span>{{ 'modules.orders.deliveredAt' | transloco }}</span>
+              <strong>{{ formatDateTime(order.deliveredAt) }}</strong>
+            </div>
+          }
+          @if (order.shippingCost != null && order.shippingCost > 0) {
+            <div class="my-order__fact">
+              <span>{{ 'modules.orders.shippingCost' | transloco }}</span>
+              <strong>{{ order.shippingCost | number }} {{ 'shared.currency' | transloco }}</strong>
+            </div>
+          }
+          @if (order.deliveryNotes) {
+            <div class="my-order__fact my-order__fact--wide">
+              <span>{{ 'modules.orders.deliveryNotes' | transloco }}</span>
+              <strong>{{ order.deliveryNotes }}</strong>
+            </div>
+          }
+        </div>
+
+        <section class="my-order__items">
+          <header class="my-order__section-head">
+            <span class="my-order__section-icon" aria-hidden="true">
+              <mat-icon>shopping_bag</mat-icon>
+            </span>
+            <h2>{{ 'modules.orders.items' | transloco }}</h2>
+          </header>
+
+          <ul>
+            @for (item of order.items; track item.id) {
+              <li class="my-order__item">
+                <div class="my-order__item-main">
+                  <div class="my-order__item-qty">{{ item.quantity }}</div>
+                  <div class="my-order__item-text">
+                    <p class="my-order__item-title">
+                      {{ item.productTitle }}
+                    </p>
+                    <p class="my-order__item-meta">
+                      {{ item.quantity }} × {{ item.unitPrice | number }}
+                      {{ 'shared.currency' | transloco }}
+                    </p>
+                    <span
+                      class="my-order__chip"
+                      [class.is-shipped]="item.isShipped"
+                      [class.is-wait]="!item.isShipped"
+                    >
+                      @if (item.isShipped) {
+                        {{ 'modules.orders.itemShipped' | transloco }}
+                      } @else {
+                        {{ 'modules.orders.itemAwaitingShipment' | transloco }}
+                      }
+                    </span>
+                    @if (item.hasReview) {
+                      <span class="my-order__chip is-reviewed">
+                        {{ 'modules.orders.review.submitted' | transloco }}
+                      </span>
+                    }
+                  </div>
+                </div>
+
+                <div class="my-order__item-side">
+                  <strong>
+                    {{ item.lineTotal | number }}
+                    <small>{{ 'shared.currency' | transloco }}</small>
+                  </strong>
+
+                  @if (item.canReview) {
+                    @if (reviewItemId === item.id) {
+                      <div class="my-order__review">
+                        <form [formGroup]="reviewForm" class="my-order__review-form">
+                          <div class="my-order__rating">
+                            <span class="my-order__rating-label">
+                              {{ 'modules.orders.review.ratingLabel' | transloco }}
+                            </span>
+                            <div class="my-order__stars" role="radiogroup" [attr.aria-label]="'modules.orders.review.ratingLabel' | transloco">
+                              @for (star of ratingStars; track star) {
+                                <button
+                                  type="button"
+                                  class="my-order__star"
+                                  [class.is-active]="(reviewForm.controls.rating.value ?? 0) >= star"
+                                  [attr.aria-label]="star"
+                                  (click)="setRating(star)"
+                                >
+                                  <mat-icon>{{
+                                    (reviewForm.controls.rating.value ?? 0) >= star
+                                      ? 'star'
+                                      : 'star_border'
+                                  }}</mat-icon>
+                                </button>
+                              }
+                            </div>
+                          </div>
+
+                          <label class="my-order__comment">
+                            <span>{{ 'modules.orders.review.comment' | transloco }}</span>
+                            <textarea
+                              rows="3"
+                              formControlName="comment"
+                              [placeholder]="'modules.orders.review.commentPlaceholder' | transloco"
+                            ></textarea>
+                          </label>
+                        </form>
+                        @if (reviewError) {
+                          <p class="my-order__review-msg is-error">{{ reviewError }}</p>
+                        }
+                        @if (reviewSuccess) {
+                          <p class="my-order__review-msg is-ok">{{ reviewSuccess }}</p>
+                        }
+                        <div class="my-order__review-actions">
+                          <base-button
+                            size="sm"
+                            [disabled]="reviewLoading || reviewForm.invalid"
+                            (click)="submitReview()"
+                          >
+                            {{ 'modules.orders.review.submit' | transloco }}
+                          </base-button>
+                          <button
+                            type="button"
+                            class="my-order__review-cancel"
+                            (click)="cancelReview()"
+                          >
+                            {{ 'shared.cancel' | transloco }}
+                          </button>
+                        </div>
+                      </div>
+                    } @else {
+                      <button
+                        type="button"
+                        class="my-order__review-btn"
+                        (click)="startReview(item)"
+                      >
+                        <mat-icon>rate_review</mat-icon>
+                        {{ 'modules.orders.review.write' | transloco }}
+                      </button>
+                    }
+                  }
+                </div>
+              </li>
+            }
+          </ul>
+        </section>
+
+        @if (order.canConfirmDelivery || order.status === 'Shipped') {
+          <div class="my-order__confirm">
+            <base-button
+              class="block w-full"
+              [disabled]="confirmingDelivery"
+              (click)="confirmDelivery()"
+            >
+              {{ 'modules.orders.confirmDeliveryAction' | transloco }}
+            </base-button>
+          </div>
+        }
+      </article>
+    }
+  </div>
+</div>

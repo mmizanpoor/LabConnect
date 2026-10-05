@@ -1,0 +1,337 @@
+<div class="slider-group-page mx-auto box-border w-full max-w-5xl px-3 py-3 sm:px-4 sm:py-4" dir="rtl">
+  @if (success) {
+    <div
+      class="slider-group-toast slider-group-toast--success"
+      role="status"
+      tabindex="0"
+      (click)="clearSuccess()"
+      (keydown.enter)="clearSuccess()"
+      (keydown.space)="clearSuccess(); $event.preventDefault()"
+    >
+      <mat-icon>check_circle</mat-icon>
+      <span>{{ success }}</span>
+    </div>
+  }
+
+  @if (error) {
+    <div class="mb-2.5 rounded-[5px] border border-red-100 bg-red-50 px-3 py-2 text-xs text-red-700">
+      {{ error }}
+    </div>
+  }
+
+  @if (loading) {
+    <p class="m-0 text-xs text-slate-400">{{ 'shared.loading' | transloco }}</p>
+  } @else {
+    <!-- Main container card -->
+    <div class="slider-shell rounded-[5px] border border-slate-200/80 bg-white">
+      <div class="flex items-center px-2.5 pt-2 sm:px-3">
+        <base-back-button
+          link="/admin/slider-groups"
+          ariaLabelKey="modules.admin.sliderGroups.backToList"
+        />
+      </div>
+
+      <div class="flex flex-col gap-2.5 px-2.5 pb-2.5 pt-1 sm:px-3 sm:pb-3">
+        <!-- Inner: group info -->
+        <section class="slider-inner overflow-hidden rounded-[5px] border border-slate-200/80 bg-white">
+          <div
+            class="flex items-center justify-between gap-2 border-b border-slate-100 px-3 py-1.5"
+          >
+            <h2 class="m-0 text-[13px] font-bold text-slate-800">
+              {{ 'modules.admin.sliderGroups.groupInfo' | transloco }}
+            </h2>
+            <span
+              class="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-semibold"
+              [class.bg-emerald-50]="isGroupActive"
+              [class.text-emerald-700]="isGroupActive"
+              [class.bg-slate-100]="!isGroupActive"
+              [class.text-slate-500]="!isGroupActive"
+            >
+              {{
+                (isGroupActive
+                  ? 'modules.admin.sliderGroups.active'
+                  : 'modules.admin.sliderGroups.inactive'
+                ) | transloco
+              }}
+            </span>
+          </div>
+
+          <form [formGroup]="form" class="px-3 py-2">
+            <div class="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-6 lg:items-end">
+              <base-form-field
+                class="w-full sm:col-span-2 lg:col-span-2"
+                layout="floating"
+                [required]="true"
+                [label]="'modules.admin.sliderGroups.fields.title' | transloco"
+                [control]="form.controls.title"
+              />
+              <base-form-field
+                class="w-full"
+                layout="floating"
+                icon="event"
+                [jalaliDate]="true"
+                [required]="true"
+                [label]="'modules.admin.sliderGroups.fields.startDate' | transloco"
+                [control]="form.controls.startDate"
+              />
+              <base-form-field
+                class="w-full"
+                layout="floating"
+                icon="event"
+                [jalaliDate]="true"
+                [required]="true"
+                [label]="'modules.admin.sliderGroups.fields.endDate' | transloco"
+                [control]="form.controls.endDate"
+              />
+              <base-form-field
+                class="w-full"
+                layout="floating"
+                type="number"
+                [required]="true"
+                [label]="'modules.admin.sliderGroups.fields.sortOrder' | transloco"
+                [control]="form.controls.sortOrder"
+              />
+              <base-form-field
+                class="w-full"
+                layout="floating"
+                [select]="true"
+                [required]="true"
+                [options]="isActiveOptions"
+                [label]="'modules.admin.sliderGroups.fields.isActive' | transloco"
+                [control]="form.controls.isActive"
+              />
+            </div>
+
+            <div class="mt-2 flex justify-end">
+              <base-button
+                color="green"
+                size="sm"
+                [disabled]="saving || form.invalid"
+                (click)="saveGroup()"
+              >
+                {{ 'shared.save' | transloco }}
+              </base-button>
+            </div>
+          </form>
+        </section>
+
+        <!-- Inner: slides -->
+        @if (!isNew && groupId) {
+          <section class="slider-inner overflow-hidden rounded-[5px] border border-slate-200/80 bg-white">
+            <div
+              class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 px-3 py-1.5"
+            >
+              <div class="flex min-w-0 items-center gap-2">
+                <h2 class="m-0 text-[13px] font-bold text-slate-800">
+                  {{ 'modules.admin.sliderGroups.slidesTitle' | transloco }}
+                </h2>
+                <span
+                  class="inline-flex h-[18px] min-w-[18px] items-center justify-center rounded-full border border-slate-200/80 bg-slate-50 px-1.5 text-[10px] font-semibold text-slate-600"
+                >
+                  {{ slides.length }}
+                </span>
+              </div>
+
+              <div class="flex items-center gap-1.5">
+                <input
+                  #slideImageInput
+                  type="file"
+                  accept="image/*"
+                  class="hidden"
+                  (change)="onSlideImageSelected($event)"
+                  [disabled]="uploadingSlide"
+                />
+                <button
+                  type="button"
+                  class="inline-flex h-7 items-center gap-1 rounded-[5px] bg-[#35507c] px-2 text-[11px] font-semibold text-white transition hover:bg-[#2a4063] disabled:opacity-50"
+                  [disabled]="uploadingSlide"
+                  (click)="slideImageInput.click()"
+                >
+                  <mat-icon class="!h-4 !w-4 !text-[1rem]">add</mat-icon>
+                  <span>{{ 'modules.admin.sliderGroups.addSlide' | transloco }}</span>
+                </button>
+              </div>
+            </div>
+
+            @if (!slides.length) {
+              <div class="flex flex-col items-center justify-center gap-1.5 px-4 py-8 text-center">
+                <div
+                  class="flex h-9 w-9 items-center justify-center rounded-[5px] border border-slate-100 bg-slate-50 text-slate-300"
+                >
+                  <mat-icon class="!h-5 !w-5 !text-[1.25rem]">image</mat-icon>
+                </div>
+                <p class="m-0 text-xs font-medium text-slate-600">
+                  {{ 'modules.admin.sliderGroups.noSlides' | transloco }}
+                </p>
+              </div>
+            } @else {
+              <div
+                class="slide-drop-list divide-y divide-slate-100"
+                cdkDropList
+                [cdkDropListData]="slides"
+                [cdkDropListDisabled]="reordering"
+                (cdkDropListDropped)="onSlideDrop($event)"
+              >
+                @for (slide of slides; track slide.id; let i = $index) {
+                  <article
+                    class="slide-row group relative bg-white transition hover:bg-slate-50/70"
+                    cdkDrag
+                    cdkDragLockAxis="y"
+                    [cdkDragData]="slide"
+                    [cdkDragDisabled]="reordering || editingSlideId === slide.id"
+                  >
+                    <div class="slide-row__main flex items-center gap-2 px-2.5 py-1.5 sm:gap-2.5 sm:px-3">
+                      <button
+                        type="button"
+                        class="slide-drag-handle inline-flex h-7 w-5 shrink-0 cursor-grab items-center justify-center rounded text-slate-300 transition hover:bg-slate-100 hover:text-slate-500 active:cursor-grabbing"
+                        cdkDragHandle
+                        [attr.aria-label]="'modules.admin.sliderGroups.dragHandle' | transloco"
+                        [disabled]="reordering || editingSlideId === slide.id"
+                      >
+                        <mat-icon class="!h-4 !w-4 !text-[1.1rem]">drag_indicator</mat-icon>
+                      </button>
+
+                      <div
+                        class="slide-thumb relative h-[48px] w-[96px] shrink-0 overflow-hidden rounded-[5px] border border-slate-200/80 bg-slate-50 sm:h-[56px] sm:w-[112px]"
+                      >
+                        <img
+                          [src]="slideImageUrl(slide.imagePath)"
+                          [alt]="slide.title || ('modules.admin.sliderGroups.slidesTitle' | transloco)"
+                          class="h-full w-full object-contain"
+                        />
+                      </div>
+
+                      <div class="min-w-0 flex-1">
+                        <div class="flex items-start justify-between gap-2">
+                          <div class="min-w-0 flex-1">
+                            <h3
+                              class="m-0 truncate text-[13px] font-bold leading-5 text-slate-800"
+                              [title]="slide.title"
+                            >
+                              {{
+                                slide.title ||
+                                  ('modules.admin.sliderGroups.untitledSlide' | transloco)
+                              }}
+                            </h3>
+                            <p
+                              class="mt-0.5 m-0 truncate text-[11px] leading-4 text-slate-400"
+                              [title]="slide.linkUrl || ''"
+                            >
+                              {{
+                                slide.linkUrl ||
+                                  ('modules.admin.sliderGroups.noLink' | transloco)
+                              }}
+                            </p>
+                            <div class="mt-1 flex flex-wrap items-center gap-1.5">
+                              <span
+                                class="inline-flex items-center rounded-[5px] border border-slate-200/80 bg-white px-1.5 py-0.5 text-[10px] font-semibold text-slate-600"
+                              >
+                                {{ 'modules.admin.sliderGroups.orderLabel' | transloco }}:
+                                {{ i + 1 }}
+                              </span>
+                            </div>
+                          </div>
+
+                          <div class="flex shrink-0 items-center gap-1 pt-0.5">
+                            <button
+                              type="button"
+                              class="hidden h-7 items-center rounded-[5px] px-2 text-[11px] font-medium text-[#35507c] transition hover:bg-slate-100 sm:inline-flex"
+                              (click)="toggleEditSlide(slide)"
+                            >
+                              {{
+                                (editingSlideId === slide.id
+                                  ? 'modules.admin.sliderGroups.cancelEdit'
+                                  : 'modules.admin.sliderGroups.editSlide'
+                                ) | transloco
+                              }}
+                            </button>
+                            <base-menu-actions
+                              trigger="icon"
+                              [triggerLabel]="'shared.actions' | transloco"
+                              [actions]="slideActions(slide)"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    @if (editingSlideId === slide.id) {
+                      <div
+                        class="border-t border-slate-100 bg-slate-50/50 px-3 py-2"
+                        [formGroup]="slideForm(slide)"
+                        (click)="$event.stopPropagation()"
+                      >
+                        <div class="grid grid-cols-1 gap-2 sm:grid-cols-3">
+                          <base-form-field
+                            class="w-full"
+                            layout="floating"
+                            [label]="'modules.admin.sliderGroups.fields.slideTitle' | transloco"
+                            [control]="slideControl(slide, 'title')"
+                          />
+                          <base-form-field
+                            class="w-full"
+                            layout="floating"
+                            type="url"
+                            [label]="'modules.admin.sliderGroups.fields.linkUrl' | transloco"
+                            [control]="slideControl(slide, 'linkUrl')"
+                          />
+                          <base-form-field
+                            class="w-full"
+                            layout="floating"
+                            type="number"
+                            [label]="'modules.admin.sliderGroups.fields.sortOrder' | transloco"
+                            [control]="slideControl(slide, 'sortOrder')"
+                          />
+                        </div>
+                        <div class="mt-2 flex justify-end gap-1.5">
+                          <button
+                            type="button"
+                            class="inline-flex h-7 items-center rounded-[5px] px-2.5 text-[11px] font-medium text-slate-500 transition hover:bg-white"
+                            (click)="toggleEditSlide(slide)"
+                          >
+                            {{ 'modules.admin.sliderGroups.cancelEdit' | transloco }}
+                          </button>
+                          <base-button
+                            type="button"
+                            color="green"
+                            size="sm"
+                            [disabled]="savingSlideId === slide.id"
+                            (click)="saveSlide(slide)"
+                          >
+                            {{ 'shared.save' | transloco }}
+                          </base-button>
+                        </div>
+                      </div>
+                    }
+
+                    <div *cdkDragPlaceholder class="slide-row-placeholder"></div>
+                    <div *cdkDragPreview class="slide-drag-preview" matchSize>
+                      <div class="flex items-center gap-2 px-2.5 py-1.5">
+                        <mat-icon class="!h-4 !w-4 shrink-0 !text-[1.1rem] text-slate-400"
+                          >drag_indicator</mat-icon
+                        >
+                        <div
+                          class="h-[48px] w-[96px] shrink-0 overflow-hidden rounded-[5px] border border-slate-200 bg-slate-50"
+                        >
+                          <img
+                            [src]="slideImageUrl(slide.imagePath)"
+                            alt=""
+                            class="h-full w-full object-contain"
+                          />
+                        </div>
+                        <span class="truncate text-[13px] font-bold text-slate-800">{{
+                          slide.title ||
+                            ('modules.admin.sliderGroups.untitledSlide' | transloco)
+                        }}</span>
+                      </div>
+                    </div>
+                  </article>
+                }
+              </div>
+            }
+          </section>
+        }
+      </div>
+    </div>
+  }
+</div>

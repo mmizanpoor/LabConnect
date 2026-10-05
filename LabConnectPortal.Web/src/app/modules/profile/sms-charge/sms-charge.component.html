@@ -1,0 +1,192 @@
+<div class="sms-charge" dir="rtl">
+  @if (success) {
+    <div
+      class="sms-charge__toast sms-charge__toast--success"
+      role="status"
+      tabindex="0"
+      (click)="clearSuccess()"
+      (keydown.enter)="clearSuccess()"
+      (keydown.space)="clearSuccess(); $event.preventDefault()"
+    >
+      <mat-icon>check_circle</mat-icon>
+      <span>{{ success }}</span>
+    </div>
+  }
+  @if (error) {
+    <div
+      class="sms-charge__toast sms-charge__toast--error"
+      role="alert"
+      tabindex="0"
+      (click)="clearError()"
+      (keydown.enter)="clearError()"
+      (keydown.space)="clearError(); $event.preventDefault()"
+    >
+      <mat-icon>error</mat-icon>
+      <span>{{ error }}</span>
+    </div>
+  }
+
+  <div class="sms-charge__shell">
+    <header class="sms-charge__header">
+      <div class="sms-charge__header-main">
+        <span class="sms-charge__header-icon" aria-hidden="true">
+          <mat-icon>sms</mat-icon>
+        </span>
+        <div class="min-w-0">
+          <h1 class="sms-charge__title">
+            {{ "modules.profile.center.sms.title" | transloco }}
+          </h1>
+          <p class="sms-charge__hint">
+            {{ "modules.profile.center.sms.hint" | transloco }}
+          </p>
+        </div>
+      </div>
+      <a
+        routerLink="/profile/center/view"
+        class="sms-charge__back"
+        queryParamsHandling="preserve"
+      >
+        <mat-icon>arrow_forward</mat-icon>
+        <span>{{ "modules.profile.center.sms.back" | transloco }}</span>
+      </a>
+    </header>
+
+    <div class="sms-charge__body">
+      @if (loading) {
+        <p class="sms-charge__loading">{{ "shared.loading" | transloco }}</p>
+      } @else {
+        <section class="sms-charge__balance" aria-live="polite">
+          <div class="sms-charge__balance-icon" aria-hidden="true">
+            <mat-icon>account_balance_wallet</mat-icon>
+          </div>
+          <div class="min-w-0">
+            <p class="sms-charge__balance-label">
+              {{ "modules.profile.center.sms.remaining" | transloco }}
+            </p>
+            <p class="sms-charge__balance-value">
+              {{ remainingCount | number }}
+              <span>{{ "modules.profile.center.sms.unit" | transloco }}</span>
+            </p>
+          </div>
+        </section>
+
+        <section class="sms-charge__panel">
+          <div class="sms-charge__panel-head">
+            <mat-icon aria-hidden="true">add_circle_outline</mat-icon>
+            <h2>{{ "modules.profile.center.sms.buySection" | transloco }}</h2>
+          </div>
+
+          @if (isPackageMode) {
+            <div class="sms-charge__packages" role="listbox">
+              @for (pkg of prices; track pkg.siteChargeServicePriceId) {
+                <button
+                  type="button"
+                  class="sms-charge__package"
+                  role="option"
+                  [class.is-selected]="
+                    selectedPriceId === pkg.siteChargeServicePriceId
+                  "
+                  [attr.aria-selected]="
+                    selectedPriceId === pkg.siteChargeServicePriceId
+                  "
+                  (click)="selectPackage(pkg.siteChargeServicePriceId)"
+                >
+                  <span class="sms-charge__package-title">
+                    {{
+                      pkg.title ||
+                        ("modules.profile.center.sms.packageLabel"
+                          | transloco) +
+                          " " +
+                          (pkg.packageQuantity | number)
+                    }}
+                  </span>
+                  <span class="sms-charge__package-qty">
+                    {{ pkg.packageQuantity | number }}
+                    {{ "modules.profile.center.sms.unit" | transloco }}
+                  </span>
+                  <strong class="sms-charge__package-price">
+                    {{ pkg.price | number }}
+                    {{ "modules.admin.adCommerce.prices.currency" | transloco }}
+                  </strong>
+                </button>
+              }
+            </div>
+          } @else {
+            <base-form-field
+              class="w-full"
+              layout="floating"
+              icon="tag"
+              type="number"
+              [required]="true"
+              [label]="'modules.profile.center.sms.countLabel' | transloco"
+              [control]="countControl"
+            />
+
+            @if (isRangeMode && prices.length) {
+              <ul class="sms-charge__tiers">
+                @for (tier of prices; track tier.siteChargeServicePriceId) {
+                  <li>
+                    <span>
+                      @if (tier.maxQuantity != null) {
+                        {{ tier.minQuantity ?? 1 | number }} –
+                        {{ tier.maxQuantity | number }}
+                      } @else {
+                        {{ tier.minQuantity ?? 1 | number }}+
+                      }
+                    </span>
+                    <strong>
+                      {{ tier.price | number }}
+                      {{
+                        "modules.admin.adCommerce.prices.currency" | transloco
+                      }}
+                    </strong>
+                  </li>
+                }
+              </ul>
+            }
+          }
+
+          <div class="sms-charge__summary">
+            @if (!isPackageMode) {
+              <div class="sms-charge__summary-row">
+                <span>{{
+                  "modules.profile.center.sms.unitPrice" | transloco
+                }}</span>
+                <strong>
+                  {{ unitPrice | number }}
+                  {{ "modules.admin.adCommerce.prices.currency" | transloco }}
+                </strong>
+              </div>
+            }
+            <div class="sms-charge__summary-row sms-charge__summary-row--total">
+              <span>{{
+                "modules.profile.center.sms.payableTotal" | transloco
+              }}</span>
+              <strong>
+                {{ payableTotal | number }}
+                {{ "modules.admin.adCommerce.prices.currency" | transloco }}
+              </strong>
+            </div>
+          </div>
+
+          <p class="sms-charge__stub">
+            {{ "modules.profile.center.sms.paymentStub" | transloco }}
+          </p>
+
+          <base-button
+            class="block w-full"
+            color="green"
+            [disabled]="!canPay"
+            (click)="pay()"
+          >
+            @if (paying) {
+              {{ "shared.loading" | transloco }}
+            } @else {
+              {{ "modules.profile.center.sms.pay" | transloco }}
+            }
+          </base-button>
+        </section>
+      }
+    </div>
+  </div>
+</div>

@@ -1,0 +1,348 @@
+{
+    "groups":  [
+                   {
+                       "code":  "lab-tech",
+                       "title":  "فناوری و اتوماسیون آزمایشگاه"
+                   },
+                   {
+                       "code":  "lab-quality",
+                       "title":  "کیفیت و استاندارد آزمایشگاه"
+                   },
+                   {
+                       "code":  "lab-mgmt",
+                       "title":  "مدیریت و آموزش آزمایشگاه"
+                   }
+               ],
+    "posts":  [
+                  {
+                      "type":  1,
+                      "groupCode":  "lab-tech",
+                      "title":  "اتوماسیون کل آزمایشگاه؛ روند غالب سال 2025",
+                      "shortDescription":  "اتوماسیون و هوش مصنوعی برای مدیریت حجم بالای آزمون‌ها و کوتاه‌کردن زمان پاسخ‌دهی به بیماران در مرکز توجه آزمایشگاه‌های بالینی قرار گرفته است.",
+                      "fullBody":  "\u003cp\u003eبر اساس گزارش‌های تخصصی سال 2025، اتوماسیون کل آزمایشگاه (TLA) و هوش مصنوعی همچنان مهم‌ترین روند در علوم آزمایشگاهی هستند. این فناوری‌ها مراحل پیش‌آنالیز، آنالیز و پس‌آنالیز را یکپارچه می‌کنند و خطای دستی را کاهش می‌دهند.\u003c/p\u003e\u003cp\u003eآزمایشگاه‌هایی که خطوط خودکار راه‌اندازی کرده‌اند، گزارش داده‌اند که زمان آماده‌سازی نمونه و توزیع کارها به‌شکل محسوسی کاهش یافته است. در عین حال، سرمایه‌گذاری اولیه، آموزش نیرو و یکپارچه‌سازی با LIS از چالش‌های اصلی باقی مانده است.\u003c/p\u003e",
+                      "authorName":  "تحریریه لب‌کانکت",
+                      "showOnHomePage":  true,
+                      "imageFile":  "lab-12-automation.jpg",
+                      "daysAgo":  3
+                  },
+                  {
+                      "type":  1,
+                      "groupCode":  "lab-tech",
+                      "title":  "هوش مصنوعی در تشخیص بالینی؛ فراتر از اتوماسیون ساده",
+                      "shortDescription":  "الگوریتم‌های یادگیری ماشین در تفسیر نتایج پیچیده، غربالگری و اولویت‌بندی نمونه‌های بحرانی به کار گرفته می‌شوند.",
+                      "fullBody":  "\u003cp\u003eهوش مصنوعی دیگر محدود به اتوماسیون فیزیکی نیست. در آزمایشگاه‌های پیشرفته، مدل‌های AI برای تحلیل الگوهای غیرعادی در hematology، شیمی بالینی و تصویربرداری دیجیتال پاتولوژی استفاده می‌شوند.\u003c/p\u003e\u003cp\u003eکارشناسان تأکید دارند AI جایگزین متخصص نیست، بلکه ابزاری برای تسریع بررسی و کاهش خطای انسانی است. موفقیت به کیفیت داده، اعتبارسنجی مدل و حاکمیت داده بستگی دارد.\u003c/p\u003e",
+                      "authorName":  "تحریریه لب‌کانکت",
+                      "showOnHomePage":  true,
+                      "imageFile":  "lab-17-qc-monitor.jpg",
+                      "daysAgo":  5
+                  },
+                  {
+                      "type":  1,
+                      "groupCode":  "lab-tech",
+                      "title":  "کنترل کیفیت خودکار روی خطوط مونتاژ؛ نتایج مطالعه چندمرکزی",
+                      "shortDescription":  "مطالعه‌ای در 13 بیمارستان نشان داد QC خودکار زمان اجرا را از حدود 30 دقیقه به 10 دقیقه کاهش می‌دهد.",
+                      "fullBody":  "\u003cp\u003eدر ارزیابی چندمرکزی پارامترهای بیوشیمی و ایمونولوژی، QC خودکار با QC دستی از نظر sigma و نرخ out-of-control قابل مقایسه بود، اما سرعت و یکنواختی فرآیند بهتر شد.\u003c/p\u003e\u003cp\u003eبرای آزمایشگاه‌های با حجم بالا، استانداردسازی QC خودکار می‌تواند هماهنگی نتایج بین مراکز را بهبود دهد و بار کاری شیفت‌های عصر و شب را کاهش دهد.\u003c/p\u003e",
+                      "authorName":  "تحریریه لب‌کانکت",
+                      "showOnHomePage":  false,
+                      "imageFile":  "lab-03-chemistry-analyzer.jpg",
+                      "daysAgo":  8
+                  },
+                  {
+                      "type":  1,
+                      "groupCode":  "lab-tech",
+                      "title":  "فناوری استخراج بدون دستکاری برای آزمون‌های مولکولی",
+                      "shortDescription":  "شرکت‌های IVD در حال عرضه پلتفرم‌های extraction-less هستند که مراحل دستی را حذف و TAT را کوتاه می‌کنند.",
+                      "fullBody":  "\u003cp\u003eیکی از نوآوری‌های اخیر، کاهش گام‌های استخراج اسید نوکلئیک و ادغام آن با آنالیزگر است. این رویکرد برای آزمایش‌های فوری عفونی و POCT اهمیت دارد.\u003c/p\u003e\u003cp\u003eآزمایشگاه‌ها باید قبل از پذیرش این فناوری، کارایی analyte، حساسیت و هزینه هر تست را با روش مرجع مقایسه کنند.\u003c/p\u003e",
+                      "authorName":  "تحریریه لب‌کانکت",
+                      "showOnHomePage":  false,
+                      "imageFile":  "lab-18-pcr.jpg",
+                      "daysAgo":  11
+                  },
+                  {
+                      "type":  1,
+                      "groupCode":  "lab-quality",
+                      "title":  "ISO 15189:2022 و طراحی QC مبتنی بر ریسک",
+                      "shortDescription":  "نسخه جدید استاندارد ISO بر طراحی برنامه کنترل کیفیت با در نظر گرفتن ریسک خطا و پایداری روش تأکید دارد.",
+                      "fullBody":  "\u003cp\u003eISO 15189:2022 از آزمایشگاه می‌خواهد برنامه QC را متناسب با ریسک analyte و کاربرد بالینی طراحی کند، نه صرفاً اجرای یک قالب ثابت برای همه تست‌ها.\u003c/p\u003e\u003cp\u003eپیاده‌سازی این رویکرد در آزمایشگاه‌های خودکار با استفاده از sigma metric و nomogram Westgard امکان تخصیص بهینه منابع QC را فراهم می‌کند.\u003c/p\u003e",
+                      "authorName":  "تحریریه لب‌کانکت",
+                      "showOnHomePage":  true,
+                      "imageFile":  "lab-14-checklist.jpg",
+                      "daysAgo":  14
+                  },
+                  {
+                      "type":  1,
+                      "groupCode":  "lab-quality",
+                      "title":  "کاهش خطای پیش‌آنالیز با اتوماسیون برچسب‌زنی",
+                      "shortDescription":  "خطاهای شناسایی بیمار و نمونه در مرحله پیش‌آنالیز همچنان شایع‌ترین منبع خطای تشخیصی گزارش شده است.",
+                      "fullBody":  "\u003cp\u003eاتصال سیستم پذیرش، چاپ برچسب استاندارد و اسکن بارکد در تمام مسیر نمونه، از اشتباهات جابه‌جایی و برچسب‌گذاری نادرست جلوگیری می‌کند.\u003c/p\u003e\u003cp\u003eممیزی‌های دوره‌ای روی نمونه‌های رد شده و گزارش‌های near-miss به تیم مدیریت کیفیت کمک می‌کند اولویت اصلاح را مشخص کند.\u003c/p\u003e",
+                      "authorName":  "تحریریه لب‌کانکت",
+                      "showOnHomePage":  false,
+                      "imageFile":  "lab-13-blood-draw.jpg",
+                      "daysAgo":  17
+                  },
+                  {
+                      "type":  1,
+                      "groupCode":  "lab-quality",
+                      "title":  "همگنی نتایج بین آزمایشگاه‌ها؛ نقش QC و گروه‌های نظیر",
+                      "shortDescription":  "مقایسه QC خودکار و دستی در گروه‌های منطقه‌ای نشان داد Bias بین روش‌ها در اکثر سطوح زیر یک‌چهارم TEa باقی می‌ماند.",
+                      "fullBody":  "\u003cp\u003eبرنامه‌های EQA و peer group comparison ابزار اصلی پایش همگنی نتایج بین آزمایشگاه‌ها هستند. داده‌های QC روزانه مکمل این برنامه‌هاست.\u003c/p\u003e\u003cp\u003eانتخاب مواد مرجع مناسب، بازه‌های QC و گزارش‌دهی شفاف به پزشک از الزامات حفظ اعتماد بالینی است.\u003c/p\u003e",
+                      "authorName":  "تحریریه لب‌کانکت",
+                      "showOnHomePage":  false,
+                      "imageFile":  "lab-07-test-tubes.jpg",
+                      "daysAgo":  20
+                  },
+                  {
+                      "type":  1,
+                      "groupCode":  "lab-mgmt",
+                      "title":  "کمبود نیروی متخصص آزمایشگاه؛ راهکارهای عملی",
+                      "shortDescription":  "بسیاری از آزمایشگاه‌ها با کمبود تکنسین و متخصص علوم آزمایشگاهی مواجه‌اند و به اتوماسیون و برنامه آموزش متمرکز روی آوردند.",
+                      "fullBody":  "\u003cp\u003eاتوماسیون تکرارشونده‌ترین کارها زمان را برای آموزش، عیب‌یابی QC و پاسخ به سوالات بالینی آزاد می‌کند. برنامه‌های mentorship و مسیر پیشرفت شغلی نیز در حفظ نیرو مؤثرند.\u003c/p\u003e\u003cp\u003eهمکاری با دانشگاه‌های علوم پزشکی برای کارآموزی و جذب فارغ‌التحصیل از دیگر راهبردهای میان‌مدت است.\u003c/p\u003e",
+                      "authorName":  "تحریریه لب‌کانکت",
+                      "showOnHomePage":  true,
+                      "imageFile":  "lab-19-team.jpg",
+                      "daysAgo":  22
+                  },
+                  {
+                      "type":  1,
+                      "groupCode":  "lab-mgmt",
+                      "title":  "POCT و آزمایش در نقطه مراقبت؛ فرصت و چالش",
+                      "shortDescription":  "آزمون‌های نزدیک بیمار سرعت تصمیم‌گیری را بالا می‌برند اما نیازمند حاکمیت کیفیت متمرکز هستند.",
+                      "fullBody":  "\u003cp\u003eگسترش POCT در اورژانس، ICU و کلینیک‌های سرپایی مستلزم SOP واحد، آموزش اپراتور، کنترل کیفیت و اتصال نتایج به پرونده الکترونیک است.\u003c/p\u003e\u003cp\u003eبدون نظارت متمرکز، ریسک نتایج خارج از محدوده پذیرش و گزارش‌های غیرقابل ردگیری افزایش می‌یابد.\u003c/p\u003e",
+                      "authorName":  "تحریریه لب‌کانکت",
+                      "showOnHomePage":  false,
+                      "imageFile":  "lab-09-gloves-sample.jpg",
+                      "daysAgo":  25
+                  },
+                  {
+                      "type":  1,
+                      "groupCode":  "lab-mgmt",
+                      "title":  "NGS در آزمایشگاه بالینی؛ از تحقیق به کاربرد روتین",
+                      "shortDescription":  "توالی‌یابی نسل جدید برای oncology panel، carrier screening و تشخیص عفونت در حال ورود به گردش کار آزمایشگاهی است.",
+                      "fullBody":  "\u003cp\u003eNGS نیازمند زیرساخت bioinformatics، ذخیره‌سازی امن داده و تفسیر بالینی با مشارکت genetic counselor است.\u003c/p\u003e\u003cp\u003eآزمایشگاه‌هایی که این مسیر را آغاز کرده‌اند، ابتدا با پنل‌های محدود و اعتبارسنجی دقیق شروع کرده و سپس دامنه خدمات را گسترش داده‌اند.\u003c/p\u003e",
+                      "authorName":  "تحریریه لب‌کانکت",
+                      "showOnHomePage":  false,
+                      "imageFile":  "lab-11-dna.jpg",
+                      "daysAgo":  28
+                  },
+                  {
+                      "type":  2,
+                      "groupCode":  "lab-tech",
+                      "title":  "راهنمای گام‌به‌گام پیاده‌سازی اتوماسیون آزمایشگاه",
+                      "shortDescription":  "از ارزیابی حجم کاری تا انتخاب سازنده و یکپارچه‌سازی LIS؛ نقشه راه عملی برای مدیران فنی.",
+                      "fullBody":  "\u003ch3\u003eفاز 1: ارزیابی\u003c/h3\u003e\u003cp\u003eحجم تست روزانه، TAT هدف، فضای فیزیکی و وضعیت فعلی تجهیزات را مستند کنید. گلوگاه‌های پیش‌آنالیز معمولاً بیشترین بازده اتوماسیون را دارند.\u003c/p\u003e\u003ch3\u003eفاز 2: طراحی\u003c/h3\u003e\u003cp\u003eمسیر نمونه، نقاط توقف اضطراری و redundancy را در نقشه فرآیند مشخص کنید. الزامات IT و امنیت سایبری را از ابتدا وارد کنید.\u003c/p\u003e\u003ch3\u003eفاز 3: راه‌اندازی\u003c/h3\u003e\u003cp\u003eآموزش مرحله‌ای، parallel run و مقایسه نتایج با روش قبلی پیش از cut-over کامل ضروری است.\u003c/p\u003e",
+                      "authorName":  "دکتر سارا محمدی",
+                      "showOnHomePage":  true,
+                      "imageFile":  "lab-12-automation.jpg",
+                      "daysAgo":  6
+                  },
+                  {
+                      "type":  2,
+                      "groupCode":  "lab-tech",
+                      "title":  "Sigma Metric و انتخاب قوانین QC مناسب",
+                      "shortDescription":  "با محاسبه sigma برای هر analyte می‌توان شدت QC و فرکانس اجرا را به‌صورت علمی تنظیم کرد.",
+                      "fullBody":  "\u003cp\u003eSigma metric ترکیبی از bias و CV نسبت به TEa است. analyte با sigma بالا نیاز به QC سنگین‌تر ندارد؛ analyte با sigma پایین‌تر به برنامه فشرده‌تر نیاز دارد.\u003c/p\u003e\u003cp\u003eاستفاده از nomogram Westgard به انتخاب rule مناسب بر اساس run size کمک می‌کند. در آزمایشگاه‌های خودکار، ساده‌سازی QCP برای کاهش بار مدیریتی توصیه شده است.\u003c/p\u003e",
+                      "authorName":  "مهندس رضا کریمی",
+                      "showOnHomePage":  false,
+                      "imageFile":  "lab-17-qc-monitor.jpg",
+                      "daysAgo":  10
+                  },
+                  {
+                      "type":  2,
+                      "groupCode":  "lab-tech",
+                      "title":  "یکپارچه‌سازی LIS با آنالیزگر و خط اتوماسیون",
+                      "shortDescription":  "استانداردهای HL7 و ASTM همچنان پایه تبادل داده بین دستگاه و LIS در اکثر آزمایشگاه‌ها هستند.",
+                      "fullBody":  "\u003cp\u003eقبل از اتصال هر دستگاه جدید، mapping کدهای تست، واحد گزارش، محدوده مرجع و flagها را در LIS تعریف کنید. خطاهای mapping از شایع‌ترین علل گزارش نادرست هستند.\u003c/p\u003e\u003cp\u003eلاگ‌برداری دوطرفه و مانیتورینگ queue پیام‌ها برای تشخیص قطعی ارتباط ضروری است. برای محیط‌های cloud-native، API-based integration در حال گسترش است.\u003c/p\u003e",
+                      "authorName":  "مهندس رضا کریمی",
+                      "showOnHomePage":  false,
+                      "imageFile":  "lab-03-chemistry-analyzer.jpg",
+                      "daysAgo":  15
+                  },
+                  {
+                      "type":  2,
+                      "groupCode":  "lab-quality",
+                      "title":  "مدیریت خطا در علوم آزمایشگاهی؛ مدل سیستماتیک",
+                      "shortDescription":  "طبقه‌بندی خطا به پیش‌آنالیز، آنالیز و پس‌آنالیز برای اولویت‌بندی اقدام اصلاحی کاربرد دارد.",
+                      "fullBody":  "\u003cp\u003eبیشتر خطاهای بالینی مرتبط با شناسایی بیمار، نمونه‌گیری و برچسب‌گذاری رخ می‌دهد. آموزش پرسنل جمع‌آوری نمونه و استفاده از سیستم POSITIVE PATIENT ID اولویت اول است.\u003c/p\u003e\u003cp\u003eبرای خطاهای آنalytical، برنامه QC، کالیبراسیون و maintenance پیشگیرانه کلیدی است. هر رویداد باید با RCA و اقدام پیشگیرانه بسته شود.\u003c/p\u003e",
+                      "authorName":  "دکتر سارا محمدی",
+                      "showOnHomePage":  true,
+                      "imageFile":  "lab-13-blood-draw.jpg",
+                      "daysAgo":  12
+                  },
+                  {
+                      "type":  2,
+                      "groupCode":  "lab-quality",
+                      "title":  "اعتبارسنجی روش‌های آزمایشگاهی؛ اصول CLIA و ISO",
+                      "shortDescription":  "هر روش جدید یا تغییر یافته باید از نظر دقت، صحت، خطی بودن، LOD و مقاومت در برابر interferent ارزیابی شود.",
+                      "fullBody":  "\u003cp\u003eطراح validation باید با intended use بالینی هم‌راستا باشد. نمونه‌های بیمار واقعی، کنترل‌های تجاری و در صورت نیاز EQA در برنامه گنجانده شوند.\u003c/p\u003e\u003cp\u003eمستندسازی کامل نتایج validation برای ممیزی accreditation و پاسخ به سوالات پزشکان الزامی است.\u003c/p\u003e",
+                      "authorName":  "دکتر سارا محمدی",
+                      "showOnHomePage":  false,
+                      "imageFile":  "lab-02-micropipettes.jpg",
+                      "daysAgo":  18
+                  },
+                  {
+                      "type":  2,
+                      "groupCode":  "lab-quality",
+                      "title":  "ایمنی زیستی در آزمایشگاه بالینی",
+                      "shortDescription":  "طبقه‌بندی ریسک نمونه، PPE مناسب، ضدعفونی سطوح و مدیریت سوزاندن پسماند از الزامات پایه BSL-2 هستند.",
+                      "fullBody":  "\u003cp\u003eآموزش سالانه، واکسیناسیون در صورت نیاز، و گزارش فوری exposure از ارکان برنامه biosafety است. cab hood باید به‌صورت دوره‌ای certify شود.\u003c/p\u003e\u003cp\u003eنمونه‌های مش sospech با پروتکل جداگانه جابه‌جا و پردازش می‌شوند تا از آلودگی متقاطع جلوگیری شود.\u003c/p\u003e",
+                      "authorName":  "دکتر سارا محمدی",
+                      "showOnHomePage":  false,
+                      "imageFile":  "lab-10-safety.jpg",
+                      "daysAgo":  21
+                  },
+                  {
+                      "type":  2,
+                      "groupCode":  "lab-quality",
+                      "title":  "عیب‌یابی نتایج غیرقابل قبول در ایمونوassay",
+                      "shortDescription":  "Hook effect، heterophile antibody، و carry-over از علل بالینی مهم نتایج غیرمنطقی در immunoassay هستند.",
+                      "fullBody":  "\u003cp\u003eبررسی منحنی رقیق‌سازی، تکرار با روش جایگزین و بررسی سابقه دارویی بیمار در گام‌های اولیه troubleshooting قرار دارد.\u003c/p\u003e\u003cp\u003eثبت الگوهای تکرارشونده برای lot خاص reagent به مدیریت تأمین و QC کمک می‌کند.\u003c/p\u003e",
+                      "authorName":  "مهندس رضا کریمی",
+                      "showOnHomePage":  false,
+                      "imageFile":  "lab-16-reagents.jpg",
+                      "daysAgo":  24
+                  },
+                  {
+                      "type":  2,
+                      "groupCode":  "lab-mgmt",
+                      "title":  "Lean Six Sigma در آزمایشگاه؛ حذف اتلاف در مسیر نمونه",
+                      "shortDescription":  "نقشه جریان ارزش (VSM) گلوگاه‌های TAT را آشکار می‌کند؛ Kaizen رویدادها بهبود سریع ایجاد می‌کنند.",
+                      "fullBody":  "\u003cp\u003eاندازه‌گیری TAT واقعی از venipuncture تا گزارش، نقطه شروع هر پروژه بهبود است. batching هوشمند و اولویت‌بندی STAT باید شفاف باشد.\u003c/p\u003e\u003cp\u003eشاخص‌های عملکرد مانند %TAT درون هدف و نرخ redraw به پیگیری مستمر KPI تبدیل می‌شوند.\u003c/p\u003e",
+                      "authorName":  "مهندس رضا کریمی",
+                      "showOnHomePage":  true,
+                      "imageFile":  "lab-04-blood-lab.jpg",
+                      "daysAgo":  9
+                  },
+                  {
+                      "type":  2,
+                      "groupCode":  "lab-mgmt",
+                      "title":  "طراحی برنامه آموزش مستمر پرسنل آزمایشگاه",
+                      "shortDescription":  "ترکیب آموزش فنی دستگاه، کیفیت، ایمنی و مهارت ارتباطی با پزشک برنامه آموزشی متعادل می‌سازد.",
+                      "fullBody":  "\u003cp\u003eنیازسنجی سالانه بر اساس خطاهای گزارش شده، تجهیزات جدید و الزامات accreditation انجام می‌شود. ارزیابی effectiveness با quiz و مشاهده مستقیم (competency assessment) ضروری است.\u003c/p\u003e\u003cp\u003eثبت ساعت آموزش و گواهی‌ها برای ممیزی ISO 15189 مورد بررسی قرار می‌گیرد.\u003c/p\u003e",
+                      "authorName":  "دکتر سارا محمدی",
+                      "showOnHomePage":  false,
+                      "imageFile":  "lab-15-training.jpg",
+                      "daysAgo":  16
+                  },
+                  {
+                      "type":  2,
+                      "groupCode":  "lab-mgmt",
+                      "title":  "مدیریت موجودی reagent و lot-to-lot evaluation",
+                      "shortDescription":  "تغییر lot reagent بدون مقایسه QC می‌تواند shift ناگهانی در نتایج بیمار ایجاد کند.",
+                      "fullBody":  "\u003cp\u003eSOP تغییر lot باید شامل اجرای QC با lot جدید و old lot، بررسی bias و تأیید مدیر فنی باشد. FIFO و کنترل دما در انبار reagent حیاتی است.\u003c/p\u003e\u003cp\u003eبرای calibrator و control نیز همین rigor لازم است.\u003c/p\u003e",
+                      "authorName":  "مهندس رضا کریمی",
+                      "showOnHomePage":  false,
+                      "imageFile":  "lab-16-reagents.jpg",
+                      "daysAgo":  19
+                  },
+                  {
+                      "type":  3,
+                      "groupCode":  "lab-quality",
+                      "title":  "چک‌لیست آمادگی ممیزی ISO 15189",
+                      "shortDescription":  "فهرست مستندات، سوابق آموزش، گزارش‌های QC/EQA و مدیریت تجهیزات که ممیزی‌کننده بررسی می‌کند.",
+                      "fullBody":  "\u003ch3\u003eبخش‌های اصلی چک‌لیست\u003c/h3\u003e\u003cul\u003e\u003cli\u003eسیاست کیفیت و اهداف quantifiable\u003c/li\u003e\u003cli\u003eسوابق competency پرسنل\u003c/li\u003e\u003cli\u003eبرنامه validation روش‌ها\u003c/li\u003e\u003cli\u003eگزارش‌های QC و EQA سه ماه اخیر\u003c/li\u003e\u003cli\u003eثبت کالیبراسیون و maintenance\u003c/li\u003e\u003cli\u003eمدیریت nonconformity و CAPA\u003c/li\u003e\u003cli\u003eقراردادهای برون‌سپاری\u003c/li\u003e\u003c/ul\u003e\u003cp\u003eاین سند قالب داخلی است و باید با الزامات محلی و راهنمای ملی تنظیم شود.\u003c/p\u003e",
+                      "authorName":  "واحد مستندسازی",
+                      "showOnHomePage":  true,
+                      "imageFile":  "lab-14-checklist.jpg",
+                      "daysAgo":  4
+                  },
+                  {
+                      "type":  3,
+                      "groupCode":  "lab-quality",
+                      "title":  "SOP نمونه‌گیری وenos خون برای آزمایش‌های بالینی",
+                      "shortDescription":  "مراحل شناسایی بیمار، انتخاب lancet/needle، ترتیب l tube و هم‌زدن gentle نمونه.",
+                      "fullBody":  "\u003ch3\u003eمراحل کلیدی\u003c/h3\u003e\u003col\u003e\u003cli\u003eتطبیق دو شناسه بیمار\u003c/li\u003e\u003cli\u003eانتخاب محل و آماده‌سازی پوست\u003c/li\u003e\u003cli\u003eرعایت ترتیب l tube (Culture → Coag → Serum)\u003c/li\u003e\u003cli\u003eبرچسب‌گذاری در حضور بیمار\u003c/li\u003e\u003cli\u003eحمل در بازه دمایی مناسب\u003c/li\u003e\u003c/ol\u003e\u003cp\u003eدر صورت hemolysis یا clot در tube EDTA، نمونه رد و مجدداً جمع‌آوری شود.\u003c/p\u003e",
+                      "authorName":  "واحد مستندسازی",
+                      "showOnHomePage":  false,
+                      "imageFile":  "lab-13-blood-draw.jpg",
+                      "daysAgo":  7
+                  },
+                  {
+                      "type":  3,
+                      "groupCode":  "lab-quality",
+                      "title":  "فرم گزارش عدم انطباق (Nonconformance Report)",
+                      "shortDescription":  "قالب ثبت رویداد، اقدام فوری، تحلیل علت ریشه‌ای و اقدام اصلاحی/پیشگیرانه.",
+                      "fullBody":  "\u003cp\u003e\u003cstrong\u003eفیلدهای فرم:\u003c/strong\u003e تاریخ، بخش، شرح رویداد، شدت، تأثیر بالینی، اقدام containment، مسئول RCA، CAPA، مهلت اجرا، تأیید مدیر کیفیت.\u003c/p\u003e\u003cp\u003eNCRهای با تأثیر بالینی باید ظرف 24 ساعت به مسئول فنی گزارش شوند.\u003c/p\u003e",
+                      "authorName":  "واحد مستندسازی",
+                      "showOnHomePage":  false,
+                      "imageFile":  "lab-20-documents.jpg",
+                      "daysAgo":  13
+                  },
+                  {
+                      "type":  3,
+                      "groupCode":  "lab-tech",
+                      "title":  "راهنمای کالیبراسیون و QC روزانه آنالیزگر شیمی",
+                      "shortDescription":  "چک لیست قبل از run: کنترل سطح 1 و 2، blank، و ثبت drift در logbook دستگاه.",
+                      "fullBody":  "\u003cp\u003eدر ابتدای هر شیفت، وضعیت reagent، expiry، و temperature log یخچال control بررسی شود. QC باید قبل از پذیرش نتایج بیمار pass شود.\u003c/p\u003e\u003cp\u003eدر صورت violation rule، توقف گزارش‌دهی تا رفع علت و تأیید مدیر فنی الزامی است.\u003c/p\u003e",
+                      "authorName":  "واحد مستندسازی",
+                      "showOnHomePage":  true,
+                      "imageFile":  "lab-03-chemistry-analyzer.jpg",
+                      "daysAgo":  10
+                  },
+                  {
+                      "type":  3,
+                      "groupCode":  "lab-tech",
+                      "title":  "راهنمای نگهداری و thaw/re freeze reagentهای حساس",
+                      "shortDescription":  "ثبت دما، محدودیت چرخه انجماد/ذوب و تاریخ باز شدن برای kitهای immunoassay.",
+                      "fullBody":  "\u003cp\u003eهر reagent باید طبق IFU سازنده نگهداری شود. thaw at room temperature یا water bath طبق دستور انجام و از تکرار بیش از حد مجاز خودداری شود.\u003c/p\u003e\u003cp\u003elabel باز شدن با تاریخ و initials اپراتور روی vial درج گردد.\u003c/p\u003e",
+                      "authorName":  "واحد مستندسازی",
+                      "showOnHomePage":  false,
+                      "imageFile":  "lab-05-centrifuge.jpg",
+                      "daysAgo":  16
+                  },
+                  {
+                      "type":  3,
+                      "groupCode":  "lab-tech",
+                      "title":  "مستند ردیابی (Traceability) نمونه از پذیرش تا آرشیو",
+                      "shortDescription":  "شناسه یکتا، زمان‌مهر هر مرحله و مسئول انجام‌دهنده برای پاسخگویی حقوقی و کیفیت.",
+                      "fullBody":  "\u003cp\u003eLIS باید audit trail تغییرات نتیجه را نگه دارد. نگهداری نمونه primary طبق SOP بخش (serum/plasma) و دوره retention قانونی انجام شود.\u003c/p\u003e\u003cp\u003eدر صورت dispute بالینی، بازیابی سریع مسیر نمونه امکان‌پذیر باشد.\u003c/p\u003e",
+                      "authorName":  "واحد مستندسازی",
+                      "showOnHomePage":  false,
+                      "imageFile":  "lab-04-blood-lab.jpg",
+                      "daysAgo":  23
+                  },
+                  {
+                      "type":  3,
+                      "groupCode":  "lab-mgmt",
+                      "title":  "راهنمای PPE و بهداشت فردی در آزمایشگاه",
+                      "shortDescription":  "لباس، دستکش، عینک و کفش مناسب؛ شستشوی دست و ممنوعیت غذا در فضای آزمایش.",
+                      "fullBody":  "\u003cp\u003eانتخاب PPE متناسب با نوع نمونه و فعالیت انجام می‌شود. دستکش هر بار پس از آلودگی تعویض و قبل از لمس سطوح مشترک برداشته شود.\u003c/p\u003e\u003cp\u003eبرنامه واکسیناسیون Hepatitis B برای پرسنل در معرض خون توصیه می‌شود.\u003c/p\u003e",
+                      "authorName":  "واحد مستندسازی",
+                      "showOnHomePage":  false,
+                      "imageFile":  "lab-10-safety.jpg",
+                      "daysAgo":  11
+                  },
+                  {
+                      "type":  3,
+                      "groupCode":  "lab-mgmt",
+                      "title":  "فرم ارزیابی تأمین‌کننده kit و consumable",
+                      "shortDescription":  "معیارهای فنی، گواهی CE/IVD، زمان تحویل، پشتیبانی فنی و سابقه lot recall.",
+                      "fullBody":  "\u003cp\u003eامتیازدهی تأمین‌کننده سالانه بر اساس کیفیت، قیمت، و service level انجام می‌شود. تأمین‌کننده جدید قبل از ورود به لیست approved باید نمونه ارزیابی و QC مقایسه‌ای پشت سر بگذارد.\u003c/p\u003e",
+                      "authorName":  "واحد مستندسازی",
+                      "showOnHomePage":  false,
+                      "imageFile":  "lab-20-documents.jpg",
+                      "daysAgo":  20
+                  },
+                  {
+                      "type":  3,
+                      "groupCode":  "lab-mgmt",
+                      "title":  "برنامه مدیریت پسماند آزمایشگاهی",
+                      "shortDescription":  "طبقه‌بندی عادی، sharps، شیمیایی و بیولوژیک؛ ظرف مناسب و قرارداد با مجوزدار.",
+                      "fullBody":  "\u003cp\u003eپسماند عفونی باید در bag زرد و according to national regulation به مرکز تصفیه مجاز ارسال شود. MSDS مواد شیمیایی در محل در دسترس باشد.\u003c/p\u003e\u003cp\u003eآموزش سالانه و mock spill drill برای پرسنل برگزار گردد.\u003c/p\u003e",
+                      "authorName":  "واحد مستندسازی",
+                      "showOnHomePage":  true,
+                      "imageFile":  "lab-09-gloves-sample.jpg",
+                      "daysAgo":  26
+                  },
+                  {
+                      "type":  3,
+                      "groupCode":  "lab-mgmt",
+                      "title":  "برنامه آموزش سالانه پرسنل (Template)",
+                      "shortDescription":  "جدول ماهانه موضوعات: QC، biosafety، LIS، دستگاه جدید و ارتباط با بیمار.",
+                      "fullBody":  "\u003ctable\u003e\u003ctr\u003e\u003cth\u003eماه\u003c/th\u003e\u003cth\u003eموضوع\u003c/th\u003e\u003cth\u003eساعت\u003c/th\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eفروردین\u003c/td\u003e\u003ctd\u003eISO 15189 overview\u003c/td\u003e\u003ctd\u003e4\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eاردیبهشت\u003c/td\u003e\u003ctd\u003ePre-analytical errors\u003c/td\u003e\u003ctd\u003e3\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eخرداد\u003c/td\u003e\u003ctd\u003eQC rules \u0026 Westgard\u003c/td\u003e\u003ctd\u003e4\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003cp\u003eادامه برنامه باید متناسب با نیازسنجی بخش تکمیل شود.\u003c/p\u003e",
+                      "authorName":  "واحد مستندسازی",
+                      "showOnHomePage":  false,
+                      "imageFile":  "lab-15-training.jpg",
+                      "daysAgo":  30
+                  }
+              ]
+}

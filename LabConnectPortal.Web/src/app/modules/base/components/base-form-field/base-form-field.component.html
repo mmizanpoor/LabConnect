@@ -1,0 +1,210 @@
+@if (useFloatLabel) {
+  <mat-form-field
+    appearance="outline"
+    class="base-form-field-float w-full"
+    [class.base-form-field-float--multiline]="multiline"
+    dir="rtl"
+    floatLabel="always"
+    subscriptSizing="dynamic"
+    hideRequiredMarker
+  >
+    @if (icon && !jalaliDate) {
+      <mat-icon matPrefix class="base-form-field-float-icon">{{ icon }}</mat-icon>
+    }
+
+    <mat-label>
+      {{ label }}
+      @if (required) {
+        <span class="text-red-600"> *</span>
+      }
+    </mat-label>
+
+    @if (multiline) {
+      <textarea
+        matInput
+        [rows]="rows"
+        [formControl]="control"
+        [attr.maxlength]="maxLength ?? null"
+      ></textarea>
+    } @else if (select) {
+      <mat-select
+        panelClass="base-form-field-select-panel"
+        [panelWidth]="null"
+        [formControl]="control"
+        [multiple]="multiple"
+        (openedChange)="onSelectOpened($event)"
+      >
+        @if (multiple) {
+          <mat-select-trigger>
+            @if (selectedCount === 0) {
+              {{ placeholder }}
+            } @else if (selectedCount === 1) {
+              {{ selectedSingleLabel }}
+            } @else {
+              {{ 'shared.selectedCount' | transloco: { count: selectedCount } }}
+            }
+          </mat-select-trigger>
+        }
+        @if (searchable) {
+          <mat-option
+            disabled
+            class="base-form-field-select-search"
+            (click)="stopSelectSearchEvent($event)"
+          >
+            <div class="base-form-field-select-search__wrap" (click)="stopSelectSearchEvent($event)">
+              <mat-icon class="base-form-field-select-search__icon" aria-hidden="true">search</mat-icon>
+              <input
+                type="text"
+                class="base-form-field-select-search__input"
+                [formControl]="selectSearchControl"
+                [placeholder]="searchPlaceholder || ('shared.search' | transloco)"
+                (keydown)="stopSelectSearchEvent($event)"
+                (click)="stopSelectSearchEvent($event)"
+              />
+            </div>
+          </mat-option>
+        }
+        @for (option of searchable ? filteredOptions : options; track option.value) {
+          <mat-option [value]="option.value">{{ option.label }}</mat-option>
+        }
+      </mat-select>
+    } @else if (!jalaliDate) {
+      <input
+        matInput
+        [type]="type"
+        [formControl]="control"
+        [attr.maxlength]="maxLength ?? null"
+        [attr.readonly]="readOnly ? true : null"
+      />
+    }
+
+    @if (jalaliDate && !multiline && !select) {
+      <input
+        matInput
+        class="base-form-field-date-input"
+        [matDatepicker]="floatJalaliPickerRef!"
+        [formControl]="control"
+        readonly
+        (click)="openFloatJalaliPicker()"
+      />
+    }
+    @if (jalaliDate && !multiline && !select) {
+      <mat-datepicker-toggle
+        class="base-form-field-date-prefix"
+        matIconSuffix
+        [for]="floatJalaliPickerRef!"
+      />
+    }
+    @if (jalaliDate) {
+      <mat-datepicker #floatJalaliPickerRef panelClass="base-form-field-date-panel" />
+    }
+
+    @if (control.invalid && control.touched) {
+      <mat-error>{{
+        (control.hasError('maxlength') ? maxLengthErrorMessage : errorMessage) | transloco
+      }}</mat-error>
+    }
+  </mat-form-field>
+} @else {
+  <div class="base-form-field" dir="rtl">
+    <label class="base-form-field__label">
+      {{ label }}
+      @if (required) {
+        <span class="base-form-field__required" aria-hidden="true">*</span>
+      }
+    </label>
+
+    <div
+      class="base-form-field__control"
+      [class.base-form-field__control--multiline]="multiline"
+      [class.base-form-field__control--invalid]="control.invalid && control.touched"
+      [class.base-form-field__control--disabled]="control.disabled || readOnly"
+      [class.base-form-field__control--has-icon]="!!icon && !jalaliDate"
+    >
+      @if (icon && !jalaliDate) {
+        <mat-icon class="base-form-field__icon" aria-hidden="true">{{ icon }}</mat-icon>
+      }
+
+      @if (multiline) {
+        <textarea
+          class="base-form-field__input base-form-field__input--textarea"
+          [rows]="rows"
+          [formControl]="control"
+          [placeholder]="placeholder"
+          [attr.maxlength]="maxLength ?? null"
+        ></textarea>
+      } @else if (select) {
+        <mat-select
+          class="base-form-field__select"
+          panelClass="base-form-field-select-panel"
+          [panelWidth]="null"
+          [formControl]="control"
+          [placeholder]="placeholder"
+          [multiple]="multiple"
+          (openedChange)="onSelectOpened($event)"
+        >
+          @if (multiple) {
+            <mat-select-trigger>
+              @if (selectedCount === 0) {
+                {{ placeholder }}
+              } @else if (selectedCount === 1) {
+                {{ selectedSingleLabel }}
+              } @else {
+                {{ 'shared.selectedCount' | transloco: { count: selectedCount } }}
+              }
+            </mat-select-trigger>
+          }
+          @if (searchable) {
+            <mat-option
+              disabled
+              class="base-form-field-select-search"
+              (click)="stopSelectSearchEvent($event)"
+            >
+              <div class="base-form-field-select-search__wrap" (click)="stopSelectSearchEvent($event)">
+                <mat-icon class="base-form-field-select-search__icon" aria-hidden="true">search</mat-icon>
+                <input
+                  type="text"
+                  class="base-form-field-select-search__input"
+                  [formControl]="selectSearchControl"
+                  [placeholder]="searchPlaceholder || ('shared.search' | transloco)"
+                  (keydown)="stopSelectSearchEvent($event)"
+                  (click)="stopSelectSearchEvent($event)"
+                />
+              </div>
+            </mat-option>
+          }
+          @for (option of searchable ? filteredOptions : options; track option.value) {
+            <mat-option [value]="option.value">{{ option.label }}</mat-option>
+          }
+        </mat-select>
+      } @else if (jalaliDate) {
+        <input
+          class="base-form-field__input base-form-field__input--date"
+          [matDatepicker]="picker"
+          [formControl]="control"
+          [placeholder]="placeholder"
+          readonly
+        />
+        @if (!readOnly && !control.disabled) {
+          <mat-datepicker-toggle class="base-form-field__date-toggle" [for]="picker" />
+        }
+        <mat-datepicker #picker panelClass="base-form-field-date-panel" />
+      } @else {
+        <input
+          class="base-form-field__input"
+          [type]="type"
+          [formControl]="control"
+          [placeholder]="placeholder"
+          [attr.maxlength]="maxLength ?? null"
+          [attr.readonly]="readOnly ? true : null"
+        />
+      }
+    </div>
+
+    @if (control.invalid && control.touched) {
+      <p class="base-form-field__error">
+        {{ (control.hasError('maxlength') ? maxLengthErrorMessage : errorMessage) | transloco }}
+      </p>
+    }
+  </div>
+}

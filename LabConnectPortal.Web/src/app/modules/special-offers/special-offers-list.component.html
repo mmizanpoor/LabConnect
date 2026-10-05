@@ -1,0 +1,145 @@
+<div class="mx-auto max-w-7xl px-5 py-8 pb-10" dir="rtl">
+  <h1 class="m-0 mb-5 text-2xl font-bold text-gray-900">
+    {{ "modules.home.specialOffers.title" | transloco }}
+  </h1>
+
+  <form
+    class="relative mb-5 flex w-full min-w-0 items-stretch overflow-hidden rounded-full bg-[#f0f0f0] transition-[background-color,box-shadow] focus-within:bg-[#ececec] focus-within:shadow-[0_0_0_2px_rgb(53_80_124/0.25)]"
+    (submit)="onSearch($event)"
+  >
+    <mat-icon
+      class="pointer-events-none absolute top-1/2 end-[0.95rem] h-5 w-5 -translate-y-1/2 !text-xl text-gray-400"
+      >search</mat-icon
+    >
+    <input
+      type="search"
+      class="h-11 min-w-0 flex-1 border-0 bg-transparent py-0 pe-11 ps-[5.5rem] font-inherit text-gray-900 outline-none placeholder:text-gray-400 [&::-webkit-search-cancel-button]:hidden"
+      [formControl]="searchInput"
+      [placeholder]="'modules.specialOffers.searchPlaceholder' | transloco"
+      [attr.aria-label]="'modules.specialOffers.searchPlaceholder' | transloco"
+      autocomplete="off"
+    />
+    <button
+      type="submit"
+      class="shrink-0 cursor-pointer self-stretch border-0 bg-[#35507c] px-5 font-inherit text-sm font-semibold text-white transition-colors hover:bg-[#2a4062]"
+    >
+      {{ "shared.search" | transloco }}
+    </button>
+  </form>
+
+  <section class="rounded-[0.875rem] border border-gray-200 bg-white px-6 py-5 pb-6">
+    @if (searchTerm) {
+      <div class="mb-5 flex flex-wrap items-stretch gap-3 max-sm:flex-col">
+        <div
+          class="flex min-w-0 flex-1 items-center justify-between gap-4 rounded-lg border border-gray-200 bg-gray-50 px-4 py-3"
+        >
+          <span class="text-sm text-gray-700">
+            {{ "modules.specialOffers.filteredBySearch" | transloco: { term: searchTerm } }}
+          </span>
+          <button
+            type="button"
+            class="cursor-pointer whitespace-nowrap border-0 bg-transparent p-0 text-sm font-semibold text-[#35507c] hover:text-[#2a4062]"
+            (click)="clearSearchFilter()"
+          >
+            {{ "modules.specialOffers.clearFilter" | transloco }}
+          </button>
+        </div>
+      </div>
+    }
+
+    @if (error) {
+      <div class="mb-4 rounded-lg bg-red-50 px-4 py-3 text-red-700">{{ error }}</div>
+    } @else if (loading) {
+      <p class="m-0 text-[0.9375rem] text-slate-500">{{ "shared.loading" | transloco }}</p>
+    } @else if (!filteredOffers.length) {
+      <p class="m-0 text-[0.9375rem] text-slate-500">
+        {{ "modules.specialOffers.empty" | transloco }}
+      </p>
+    } @else {
+      <div class="grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        @for (offer of filteredOffers; track offer.id) {
+          <a
+            class="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-[#dbe3ee] bg-white p-5 text-inherit no-underline shadow-[0_8px_24px_rgb(82_123_170/0.08)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_28px_rgb(82_123_170/0.14)]"
+            [routerLink]="['/special-offers', offer.id]"
+          >
+            <div class="relative z-[1] flex flex-1 flex-col">
+              <h3 class="m-0 mb-2 text-lg font-extrabold leading-[1.45] text-gray-900">
+                {{ offer.title }}
+              </h3>
+              @if (offer.summary) {
+                <p class="m-0 mb-4 flex-1 line-clamp-3 text-sm leading-[1.7] text-gray-500">
+                  {{ offer.summary }}
+                </p>
+              } @else {
+                <div class="mb-4 flex-1"></div>
+              }
+
+              <div class="mt-auto">
+                <div class="mb-4 flex items-center justify-between gap-2">
+                  <div
+                    class="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-[#1e3a5f] to-[#35507c] px-[0.7rem] py-[0.35rem] text-xs font-bold leading-none text-white shadow-sm"
+                  >
+                    {{
+                      "modules.home.specialOffers.daysLeft"
+                        | transloco: { count: daysRemaining(offer.endDate) }
+                    }}
+                  </div>
+                  <div
+                    class="inline-flex items-center gap-1 text-xs font-semibold leading-none text-gray-500"
+                  >
+                    <mat-icon
+                      class="!flex !h-[0.95rem] !w-[0.95rem] shrink-0 !items-center !justify-center !text-[0.95rem] !leading-none text-gray-400"
+                      >event</mat-icon
+                    >
+                    <span>
+                      {{
+                        "modules.home.specialOffers.endsAt"
+                          | transloco: { date: formatEndDate(offer.endDate) }
+                      }}
+                    </span>
+                  </div>
+                </div>
+
+                <div class="flex items-center justify-between gap-3">
+                  @if (offer.labName) {
+                    <div class="inline-flex min-w-0 items-center gap-2">
+                      <div
+                        class="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-gray-100 bg-slate-50 text-slate-400 shadow-sm"
+                        [class.bg-white]="showLabLogo(offer)"
+                      >
+                        @if (showLabLogo(offer)) {
+                          <img
+                            class="h-full w-full object-contain"
+                            [src]="labLogoUrl(offer.labProfileId!)"
+                            [alt]="offer.labName"
+                            (error)="onLogoError(offer.id)"
+                          />
+                        } @else {
+                          <mat-icon class="!h-5 !w-5 !text-[1.25rem]">apartment</mat-icon>
+                        }
+                      </div>
+                      <span class="truncate text-xs font-bold text-slate-600">{{
+                        offer.labName
+                      }}</span>
+                    </div>
+                  }
+                  <div
+                    class="inline-flex shrink-0 items-center justify-center gap-1.5 text-[0.8125rem] font-extrabold leading-none text-[#35507c] transition-colors group-hover:text-[#1e3a5f]"
+                  >
+                    <span class="leading-none">{{
+                      "modules.home.specialOffers.viewOffer" | transloco
+                    }}</span>
+                    <mat-icon
+                      class="!flex !h-4 !w-4 shrink-0 !items-center !justify-center !text-base !leading-none transition-transform group-hover:-translate-x-0.5"
+                      >chevron_left</mat-icon
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+        }
+      </div>
+    }
+  </section>
+</div>

@@ -1,0 +1,103 @@
+<div
+  class="min-h-screen flex items-center justify-center bg-slate-100 px-4 py-10"
+>
+  <mat-card
+    class="w-full max-w-md px-6 py-8 bg-white rounded-lg shadow-lg"
+    dir="rtl"
+  >
+    <div class="relative flex items-center justify-center min-h-12 mb-10">
+      <div class="absolute start-0 top-1/2 -translate-y-1/2">
+        <base-back-button
+          link="/auth/login"
+          ariaLabelKey="modules.auth.registerStore.backToLogin"
+        />
+      </div>
+
+      <div class="flex items-center justify-center gap-3 min-w-0 px-12">
+        @if (logoUrl) {
+        <img
+          [src]="logoUrl"
+          [alt]="siteTitle"
+          class="w-12 h-12 object-contain shrink-0"
+        />
+        }
+        <span
+          class="text-lg font-extrabold text-[#35507c] whitespace-nowrap overflow-hidden text-ellipsis"
+          >{{ siteTitle }}</span
+        >
+      </div>
+    </div>
+
+    @if (error) {
+    <div class="bg-red-50 text-red-700 p-3 rounded mb-4 text-sm">
+      {{ error }}
+    </div>
+    }
+
+    <form [formGroup]="form" class="flex flex-col gap-2">
+      <div class="text-right mb-4">
+        <h2 class="m-0 mb-2 text-base font-semibold text-gray-700">
+          {{ "modules.auth.registerStore.title" | transloco }}
+        </h2>
+        <p class="m-0 text-sm text-gray-500">
+          {{ "modules.auth.registerStore.subtitle" | transloco }}
+        </p>
+      </div>
+
+      <base-form-field
+        [label]="'modules.auth.registerStore.storeName' | transloco"
+        [floatLabel]="true"
+        [control]="form.controls.storeName"
+        errorMessage="message.validation.required"
+      />
+
+      <base-form-field
+        [label]="'shared.mobileNumber' | transloco"
+        [floatLabel]="true"
+        placeholder="09123456789"
+        [control]="form.controls.mobileNumber"
+        errorMessage="message.validation.invalidMobile"
+      />
+      <base-form-field
+        [label]="'modules.auth.login.username' | transloco"
+        [floatLabel]="true"
+        [control]="form.controls.username"
+        errorMessage="message.validation.required"
+      />
+      <base-form-field
+        [label]="'modules.auth.login.password' | transloco"
+        [floatLabel]="true"
+        type="password"
+        [control]="form.controls.password"
+        errorMessage="message.validation.required"
+      />
+      <base-form-field
+        [label]="'modules.auth.registerStore.confirmPassword' | transloco"
+        [floatLabel]="true"
+        type="password"
+        [control]="form.controls.confirmPassword"
+        errorMessage="message.validation.required"
+      />
+      @if (passwordMismatch) {
+      <p class="m-0 -mt-1 mb-1 text-sm text-red-600">
+        {{ "modules.auth.registerStore.errors.passwordMismatch" | transloco }}
+      </p>
+      }
+
+      <base-button
+        [color]="'primary'"
+        [disabled]="loading"
+        (click)="register()"
+      >
+        {{ "modules.auth.registerStore.submit" | transloco }}
+      </base-button>
+
+      <a
+        routerLink="/auth/login"
+        class="self-center mt-1 text-[#35507c] text-sm font-semibold text-center no-underline hover:text-[#527baa] hover:underline"
+      >
+        {{ "modules.auth.registerStore.backToLogin" | transloco }}
+      </a>
+    </form>
+  </mat-card>
+</div>

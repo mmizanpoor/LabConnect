@@ -1,0 +1,277 @@
+<div class="min-h-[calc(100vh-12rem)] bg-white" dir="rtl">
+  @if (loading) {
+    <p class="py-12 px-6 text-center text-[15px] text-gray-500">{{ 'shared.loading' | transloco }}</p>
+  } @else if (error) {
+    <div class="py-12 px-6 text-center text-[15px] text-red-700">{{ error }}</div>
+  } @else if (job) {
+    <div
+      class="grid grid-cols-1 gap-6 mx-auto px-4 py-7 pb-12 items-start max-lg:gap-6 lg:px-6 lg:py-10 lg:pb-12"
+      [class.lg:grid-cols-[minmax(0,1fr)_18rem]]="showApplySidebar"
+      [class.lg:gap-10]="showApplySidebar"
+      [class.max-w-[68rem]]="showApplySidebar"
+      [class.max-w-[52rem]]="!showApplySidebar"
+    >
+      <main>
+        <header class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+          <h1 class="flex-1 m-0 text-[clamp(1.375rem,2.4vw,1.75rem)] font-extrabold leading-snug text-gray-900 text-right">
+            {{ 'modules.jobs.hiringTitle' | transloco : { title: job.jobCategoryName } }}
+          </h1>
+
+          <button
+            type="button"
+            class="inline-flex items-center justify-center gap-1.5 shrink-0 self-end sm:self-auto py-[7px] px-3.5 border rounded-lg text-[13px] font-semibold leading-none cursor-pointer transition-colors"
+            [class.border-amber-300]="isBookmarked"
+            [class.bg-amber-50]="isBookmarked"
+            [class.text-amber-800]="isBookmarked"
+            [class.border-gray-200]="!isBookmarked"
+            [class.bg-white]="!isBookmarked"
+            [class.text-gray-700]="!isBookmarked"
+            [class.hover:border-gray-300]="!isBookmarked"
+            [class.hover:bg-gray-50]="!isBookmarked"
+            (click)="toggleBookmark()"
+          >
+            <mat-icon class="!flex !w-[18px] !h-[18px] !text-lg !leading-none">{{
+              isBookmarked ? 'star' : 'star_border'
+            }}</mat-icon>
+            <span class="leading-none">{{
+              (isBookmarked ? 'modules.jobs.bookmarked' : 'modules.jobs.bookmark') | transloco
+            }}</span>
+          </button>
+        </header>
+
+        <div class="my-5 mb-7 border-0 border-t border-dashed border-gray-200" aria-hidden="true"></div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-x-8 sm:gap-y-5 mb-10">
+          <div class="flex flex-col items-start gap-2">
+            <span class="text-[13px] font-medium text-gray-500">{{
+              'modules.jobs.fields.jobCategory' | transloco
+            }}</span>
+            <span class="inline-flex items-center max-w-full py-1.5 px-3.5 rounded-full bg-gray-600 text-white text-[13px] font-semibold leading-normal">{{
+              job.jobCategoryName
+            }}</span>
+          </div>
+
+          <div class="flex flex-col items-start gap-2">
+            <span class="text-[13px] font-medium text-gray-500">{{
+              'modules.jobs.fields.location' | transloco
+            }}</span>
+            <span class="inline-flex items-center max-w-full py-1.5 px-3.5 rounded-full bg-gray-600 text-white text-[13px] font-semibold leading-normal">{{
+              locationLabel
+            }}</span>
+          </div>
+
+          @if (job.contractTypes.length) {
+            <div class="flex flex-col items-start gap-2">
+              <span class="text-[13px] font-medium text-gray-500">{{
+                'modules.jobs.fields.contract' | transloco
+              }}</span>
+              <span class="inline-flex items-center max-w-full py-1.5 px-3.5 rounded-full bg-gray-600 text-white text-[13px] font-semibold leading-normal">{{
+                contractLabels(job.contractTypes)
+              }}</span>
+            </div>
+          }
+
+          <div class="flex flex-col items-start gap-2">
+            <span class="text-[13px] font-medium text-gray-500">{{
+              'modules.jobs.fields.experience' | transloco
+            }}</span>
+            <span class="inline-flex items-center max-w-full py-1.5 px-3.5 rounded-full bg-gray-600 text-white text-[13px] font-semibold leading-normal">{{
+              experienceLabel
+            }}</span>
+          </div>
+
+          <div class="flex flex-col items-start gap-2">
+            <span class="text-[13px] font-medium text-gray-500">{{
+              'modules.jobs.fields.salary' | transloco
+            }}</span>
+            <span class="inline-flex items-center max-w-full py-1.5 px-3.5 rounded-full bg-gray-600 text-white text-[13px] font-semibold leading-normal">{{
+              job.salaryRangeName
+            }}</span>
+          </div>
+
+          <div class="flex flex-col items-start gap-2">
+            <span class="text-[13px] font-medium text-gray-500">{{
+              'modules.jobs.fields.degree' | transloco
+            }}</span>
+            <span class="inline-flex items-center max-w-full py-1.5 px-3.5 rounded-full bg-gray-600 text-white text-[13px] font-semibold leading-normal">{{
+              degreeLabel(job.minimumDegreeLevel)
+            }}</span>
+          </div>
+        </div>
+
+        @if (job.organizationSummary) {
+          <section class="mb-8 last:mb-0">
+            <h2 class="m-0 mb-4 text-[17px] font-extrabold text-gray-900">{{
+              'modules.jobs.organization' | transloco
+            }}</h2>
+            <p class="m-0 mb-3 text-base font-bold text-gray-900">{{ job.organizationSummary.name }}</p>
+            @if (job.organizationSummary.description) {
+              <p class="m-0 mb-4 text-[15px] leading-[1.85] text-gray-600">{{
+                job.organizationSummary.description
+              }}</p>
+            }
+            <div class="flex flex-wrap gap-3 gap-x-5 mt-3 text-[13px] text-gray-500">
+              @if (job.organizationSummary.establishedYear) {
+                <span>
+                  {{ 'modules.jobs.establishedYear' | transloco }}:
+                  {{ job.organizationSummary.establishedYear }}
+                </span>
+              }
+              @if (job.organizationSummary.website) {
+                <a
+                  [href]="job.organizationSummary.website"
+                  target="_blank"
+                  rel="noopener"
+                  class="text-[#35507c] no-underline hover:underline"
+                >
+                  {{ job.organizationSummary.website }}
+                </a>
+              }
+            </div>
+          </section>
+        }
+
+        <section class="mb-8 last:mb-0">
+          <h2 class="m-0 mb-4 text-[17px] font-extrabold text-gray-900">{{
+            'modules.jobs.jobDescriptionTitle' | transloco
+          }}</h2>
+
+          @if (parsedDescription.intro) {
+            @for (paragraph of parsedDescription.intro; track $index) {
+              <p class="m-0 mb-4 last:mb-0 text-[15px] leading-[1.85] text-gray-600">{{ paragraph }}</p>
+            }
+          }
+
+          @if (parsedDescription.responsibilities.length) {
+            <h3 class="mt-6 mb-3 text-[15px] font-extrabold text-gray-900">{{
+              'modules.jobs.responsibilities' | transloco
+            }}</h3>
+            <ul class="m-0 pr-5 list-disc">
+              @for (item of parsedDescription.responsibilities; track $index) {
+                <li class="mb-2.5 last:mb-0 text-[15px] leading-[1.85] text-gray-600">{{ item }}</li>
+              }
+            </ul>
+          }
+
+          @if (parsedDescription.requirements.length) {
+            <h3 class="mt-6 mb-3 text-[15px] font-extrabold text-gray-900">{{
+              'modules.jobs.requirements' | transloco
+            }}</h3>
+            <ul class="m-0 pr-5 list-disc">
+              @for (item of parsedDescription.requirements; track $index) {
+                <li class="mb-2.5 last:mb-0 text-[15px] leading-[1.85] text-gray-600">{{ item }}</li>
+              }
+            </ul>
+          }
+
+          @if (parsedDescription.remaining) {
+            <p class="m-0 mb-4 last:mb-0 text-[15px] leading-[1.85] text-gray-600 whitespace-pre-wrap">{{
+              parsedDescription.remaining
+            }}</p>
+          }
+        </section>
+
+        @if (job.essentialSkillNames.length) {
+          <section class="mb-8 last:mb-0">
+            <h2 class="m-0 mb-4 text-[17px] font-extrabold text-gray-900">{{
+              'modules.jobs.skills' | transloco
+            }}</h2>
+            <ul class="m-0 pr-5 list-disc">
+              @for (skill of job.essentialSkillNames; track skill) {
+                <li class="mb-2.5 last:mb-0 text-[15px] leading-[1.85] text-gray-600">{{ skill }}</li>
+              }
+            </ul>
+          </section>
+        }
+
+        @if (job.requiredPersonalTraits.length) {
+          <section class="mb-8 last:mb-0">
+            <h2 class="m-0 mb-4 text-[17px] font-extrabold text-gray-900">{{
+              'modules.jobs.traits' | transloco
+            }}</h2>
+            <ul class="m-0 pr-5 list-disc">
+              @for (trait of job.requiredPersonalTraits; track trait) {
+                <li class="mb-2.5 last:mb-0 text-[15px] leading-[1.85] text-gray-600">{{ trait }}</li>
+              }
+            </ul>
+          </section>
+        }
+
+        @if (job.benefits.length) {
+          <section class="mb-8 last:mb-0">
+            <h2 class="m-0 mb-4 text-[17px] font-extrabold text-gray-900">{{
+              'modules.jobs.benefits' | transloco
+            }}</h2>
+            <ul class="m-0 pr-5 list-disc">
+              @for (benefit of job.benefits; track benefit) {
+                <li class="mb-2.5 last:mb-0 text-[15px] leading-[1.85] text-gray-600">{{ benefit }}</li>
+              }
+            </ul>
+          </section>
+        }
+
+        @if (job.additionalNotes) {
+          <section class="mb-8 last:mb-0">
+            <h2 class="m-0 mb-4 text-[17px] font-extrabold text-gray-900">{{
+              'modules.jobs.additionalNotes' | transloco
+            }}</h2>
+            <p class="m-0 text-[15px] leading-[1.85] text-gray-600 whitespace-pre-wrap">{{ job.additionalNotes }}</p>
+          </section>
+        }
+      </main>
+
+      @if (showApplySidebar) {
+        <aside class="max-lg:order-first lg:sticky lg:top-4">
+          <div class="p-5 border border-gray-200 rounded-[0.875rem] bg-white shadow-sm">
+            <h2 class="m-0 mb-4 text-base font-bold text-gray-900">{{
+              'modules.jobs.apply.title' | transloco
+            }}</h2>
+
+            @if (!authUtils.isAuthenticated) {
+              <p class="m-0 mb-4 text-sm leading-relaxed text-gray-500">{{
+                'modules.jobs.apply.loginPrompt' | transloco
+              }}</p>
+              <base-button (click)="goToLogin()">{{ 'modules.jobs.apply.login' | transloco }}</base-button>
+            } @else if (applicationStatus) {
+              <div>
+                <span class="inline-block bg-amber-100 text-amber-800 py-1 px-3 rounded-full text-[13px] font-semibold mb-2">{{
+                  statusLabel(applicationStatus)
+                }}</span>
+                @if (applicationStatus === 'Pending') {
+                  <p class="m-0 mb-4 text-sm leading-relaxed text-gray-500">{{
+                    'modules.jobs.apply.pendingHint' | transloco
+                  }}</p>
+                }
+              </div>
+            } @else {
+              @if (applicantName) {
+                <p class="font-bold m-0 mb-1 text-gray-900">{{ applicantName }}</p>
+                <p class="text-gray-500 text-sm m-0 mb-4">{{ applicantMobile }}</p>
+              }
+
+              @if (!resumeComplete) {
+                <p class="text-amber-700 text-sm leading-relaxed m-0 mb-4">{{
+                  'modules.jobs.apply.incompleteResume' | transloco
+                }}</p>
+                <base-button routerLink="/profile/resume">{{
+                  'modules.jobs.apply.completeResume' | transloco
+                }}</base-button>
+              } @else {
+                <base-button [loading]="applyLoading" (click)="apply()">
+                  {{ 'modules.jobs.apply.submit' | transloco }}
+                </base-button>
+              }
+            }
+
+            @if (applyError) {
+              <p class="text-red-700 text-sm mt-3 mb-0">{{ applyError }}</p>
+            }
+            @if (applySuccess) {
+              <p class="text-green-700 text-sm mt-3 mb-0">{{ applySuccess }}</p>
+            }
+          </div>
+        </aside>
+      }
+    </div>
+  }
+</div>

@@ -1,0 +1,42 @@
+:host {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-self: stretch;
+  width: 100%;
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #f4f5f7;
+}
+
+.admin-dashboard-page {
+  box-sizing: border-box;
+}
+
+.admin-dashboard-shell {
+  box-sizing: border-box;
+  border: 1px solid rgb(226 232 240 / 0.45);
+  border-radius: 5px;
+  background: #ffffff;
+  -webkit-overflow-scrolling: touch;
+}
+
+.admin-dashboard-section {
+  box-sizing: border-box;
+  border: 1px solid rgb(226 232 240 / 0.55);
+  border-radius: 5px;
+  background: #ffffff;
+  box-shadow: 0 0 0 1px rgb(248 250 252);
+}
+
+.admin-stat-card {
+  box-sizing: border-box;
+  border-radius: 5px;
+  background: #ffffff;
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background: #fafbfc;
+  }
+}

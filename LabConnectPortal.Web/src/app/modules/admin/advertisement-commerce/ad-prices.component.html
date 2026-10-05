@@ -1,0 +1,63 @@
+<div class="flex flex-col gap-4">
+  <h1 class="m-0 text-lg font-bold text-gray-900">
+    {{ 'modules.admin.adCommerce.prices.title' | transloco }}
+  </h1>
+
+  @if (error) {
+    <div class="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{{ error }}</div>
+  }
+
+  @if (loading) {
+    <p class="text-gray-500">{{ 'shared.loading' | transloco }}</p>
+  } @else if (matrix) {
+    <div class="overflow-x-auto rounded-xl border border-gray-200 bg-white">
+      <table class="min-w-full border-collapse text-sm">
+        <thead>
+          <tr class="border-b border-gray-200 bg-gray-50">
+            <th class="px-4 py-3 text-start font-semibold text-gray-700">
+              {{ 'modules.admin.adCommerce.prices.positionColumn' | transloco }}
+            </th>
+            @for (duration of durations; track duration.id) {
+              <th class="px-4 py-3 text-center font-semibold text-gray-700 whitespace-nowrap">
+                {{ duration.title }}
+              </th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (position of positions; track position.id) {
+            <tr class="border-b border-gray-100 last:border-0">
+              <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap">{{ position.title }}</td>
+              @for (duration of durations; track duration.id) {
+                @let priceCell = cell(position.id, duration.id);
+                <td class="px-3 py-3 text-center">
+                  <button
+                    type="button"
+                    class="inline-flex min-w-[7rem] flex-col items-center gap-1 rounded-lg border border-gray-200 bg-white px-3 py-2 transition hover:border-[#35507c] hover:bg-slate-50"
+                    (click)="openSetPrice(position, duration)"
+                  >
+                    @if (priceCell?.currentPrice != null) {
+                      <span class="font-bold text-[#35507c]">
+                        {{ priceCell!.currentPrice | number:'1.0-0' }}
+                      </span>
+                      <span class="text-xs text-gray-400">
+                        {{ 'modules.admin.adCommerce.prices.currency' | transloco }}
+                      </span>
+                    } @else {
+                      <span class="text-xs text-gray-400">
+                        {{ 'modules.admin.adCommerce.prices.notSet' | transloco }}
+                      </span>
+                    }
+                    <span class="text-[0.6875rem] text-gray-400">
+                      {{ 'modules.admin.adCommerce.prices.change' | transloco }}
+                    </span>
+                  </button>
+                </td>
+              }
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

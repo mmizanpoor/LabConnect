@@ -1,0 +1,64 @@
+<div class="mx-auto max-w-4xl p-6" dir="rtl">
+  <div class="mb-4 flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <base-back-button
+        link="/admin/company-regulations"
+        ariaLabelKey="modules.admin.companyRegulations.backToList"
+      />
+    </div>
+  </div>
+
+  @if (error) {
+    <div class="mb-4 rounded-[5px] border border-red-100 bg-red-50 p-3 text-sm text-red-700">
+      {{ error }}
+    </div>
+  }
+
+  @if (loading) {
+    <p class="text-gray-500">{{ 'shared.loading' | transloco }}</p>
+  } @else {
+    <form
+      [formGroup]="form"
+      class="overflow-hidden rounded-[5px] border border-slate-200 bg-white shadow-[0_1px_3px_rgba(15,23,42,0.06)]"
+    >
+      <section class="border-b border-slate-100 p-5 md:p-6">
+        <h2 class="mb-4 text-lg font-semibold text-slate-800">
+          {{ 'modules.admin.companyRegulations.sections.basic' | transloco }}
+        </h2>
+        <div class="flex flex-col gap-4">
+          <base-form-field
+            class="w-full"
+            layout="floating"
+            [required]="true"
+            [select]="true"
+            [options]="typeOptions"
+            [label]="'modules.admin.companyRegulations.fields.type' | transloco"
+            [control]="form.controls.type"
+          />
+          <div class="flex flex-col gap-2">
+            <span class="text-sm font-semibold text-slate-700">
+              {{ 'modules.admin.companyRegulations.fields.body' | transloco }}
+            </span>
+            <app-rich-text-editor formControlName="body" variant="extended" />
+          </div>
+        </div>
+      </section>
+
+      <div class="flex justify-end gap-2 p-5 md:p-6">
+        <base-button type="button" color="warn" size="sm" (click)="backToList()">
+          {{ 'shared.cancel' | transloco }}
+        </base-button>
+        <base-button
+          type="button"
+          color="green"
+          size="sm"
+          [loading]="saving"
+          [disabled]="saving || form.invalid || form.disabled"
+          (click)="save()"
+        >
+          {{ 'shared.save' | transloco }}
+        </base-button>
+      </div>
+    </form>
+  }
+</div>

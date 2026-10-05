@@ -1,0 +1,29 @@
+<div class="mx-auto box-border flex h-full min-h-0 w-full flex-col overflow-hidden p-4" dir="rtl">
+  @if (error) {
+    <div class="mb-3 shrink-0 rounded-[5px] border border-red-100 bg-red-50 p-3 text-sm text-red-700">
+      {{ error }}
+    </div>
+  }
+
+  <div class="mb-3 flex shrink-0 items-center justify-end gap-3">
+    @if (canCreate) {
+      <base-button type="button" color="blue" size="sm" (click)="openCreate()">
+        {{ 'modules.admin.adCommerce.orders.add' | transloco }}
+      </base-button>
+    }
+  </div>
+
+  <div class="base-grid-panel flex min-h-0 flex-1 flex-col overflow-hidden">
+    <base-grid
+      gridId="a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+      class="min-h-0 w-full flex-1"
+      [framed]="false"
+      [visibleOrder]="false"
+      [columnDefs]="colDef"
+      [dataSource$]="list$"
+      [disabled]="loading"
+      [toolbarDisabled]="true"
+      forceDirection="rtl"
+    />
+  </div>
+</div>

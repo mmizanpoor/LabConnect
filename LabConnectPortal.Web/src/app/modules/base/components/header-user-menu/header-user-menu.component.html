@@ -1,0 +1,140 @@
+@if (!hideNotifications) {
+<a
+  class="relative inline-flex h-[2.375rem] w-[2.375rem] cursor-pointer items-center justify-center rounded-full border-0 bg-[#6b96c8] p-0 no-underline transition duration-150 hover:-translate-y-px hover:bg-[#5a86b8]"
+  [routerLink]="messagesLink"
+  [attr.aria-label]="'modules.profile.layout.messages' | transloco"
+>
+  <mat-icon class="!flex !h-5 !w-5 !items-center !justify-center !text-xl !leading-none !text-white">
+    notifications
+  </mat-icon>
+  @if (unreadCount > 0) {
+    <span
+      class="absolute -top-1 -start-1 flex min-h-[1.125rem] min-w-[1.125rem] items-center justify-center rounded-[50%] bg-red-500 px-1 text-[0.625rem] font-bold leading-none text-white"
+    >
+      {{ unreadCount }}
+    </span>
+  }
+</a>
+}
+
+@if (compact) {
+<button
+  type="button"
+  class="inline-flex h-[2.375rem] w-[2.375rem] cursor-pointer items-center justify-center rounded-full border-0 bg-[#6b96c8] p-0 text-white transition duration-150 hover:-translate-y-px hover:bg-[#5a86b8]"
+  [matMenuTriggerFor]="profileMenu"
+  [attr.aria-label]="'modules.profile.layout.myProfile' | transloco"
+>
+  <span class="grid h-8 w-8 place-items-center overflow-hidden rounded-full bg-white" aria-hidden="true">
+    @if (avatarUrl) {
+      <img [src]="avatarUrl" alt="" class="h-full w-full object-contain p-0.5" />
+    } @else {
+      <mat-icon class="!h-[1.125rem] !w-[1.125rem] !text-[1.125rem] !text-[#6b96c8]">person</mat-icon>
+    }
+  </span>
+</button>
+} @else {
+<button
+  type="button"
+  class="inline-flex h-[2.375rem] max-w-[11rem] cursor-pointer items-center gap-2 rounded-full border-0 bg-[#6b96c8] py-1 pe-1.5 ps-3.5 text-white transition duration-150 hover:-translate-y-px hover:bg-[#5a86b8] ltr:flex-row"
+  [matMenuTriggerFor]="profileMenu"
+  [attr.aria-label]="'modules.profile.layout.myProfile' | transloco"
+>
+  <span class="min-w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap text-sm font-semibold leading-tight">
+    {{ profileButtonLabel }}
+  </span>
+  <span class="grid h-[1.875rem] w-[1.875rem] shrink-0 place-items-center overflow-hidden rounded-full bg-white" aria-hidden="true">
+    @if (avatarUrl) {
+      <img [src]="avatarUrl" alt="" class="h-full w-full object-contain p-0.5" />
+    } @else {
+      <mat-icon class="!h-[1.125rem] !w-[1.125rem] !text-[1.125rem] !text-[#6b96c8]">person</mat-icon>
+    }
+  </span>
+</button>
+}
+
+<mat-menu
+  #profileMenu="matMenu"
+  class="header-user-menu-panel"
+  xPosition="before"
+  yPosition="below"
+>
+  @if (displayName) {
+    <div class="flex items-center gap-3 px-3 pb-2 pt-2.5 rtl:flex-row">
+      <div class="min-w-0 flex-1 text-right">
+        <div class="break-words text-[0.9375rem] font-bold leading-snug text-gray-900">{{ displayName }}</div>
+        @if (handleLabel) {
+          <div class="mt-0.5 break-words text-[0.8125rem] leading-snug text-gray-500" dir="ltr">
+            {{ handleLabel }}
+          </div>
+        }
+      </div>
+      <span class="grid h-10 w-10 shrink-0 place-items-center overflow-hidden rounded-full bg-slate-100" aria-hidden="true">
+        @if (avatarUrl) {
+          <img [src]="avatarUrl" alt="" class="h-full w-full object-contain p-1" />
+        } @else {
+          <mat-icon class="!m-0 !h-8 !w-8 !text-[2rem] !leading-8 !text-gray-400">person</mat-icon>
+        }
+      </span>
+    </div>
+    <div class="mx-2 my-1.5 h-px bg-slate-200" role="separator"></div>
+  }
+
+  <button mat-menu-item class="hu-menu-item" [routerLink]="profileViewLink">
+    <span class="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-blue-100">
+      <mat-icon class="!m-0 !h-[1.125rem] !w-[1.125rem] !text-[1.125rem] !leading-[1.125rem] !text-blue-600">
+        visibility
+      </mat-icon>
+    </span>
+    <span class="flex-1 text-sm leading-5">{{ 'modules.profile.layout.viewProfile' | transloco }}</span>
+  </button>
+
+  <button mat-menu-item class="hu-menu-item" [routerLink]="messagesLink">
+    <span class="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-violet-100">
+      <mat-icon class="!m-0 !h-[1.125rem] !w-[1.125rem] !text-[1.125rem] !leading-[1.125rem] !text-violet-600">
+        mail_outline
+      </mat-icon>
+    </span>
+    <span class="flex-1 text-sm leading-5">{{ 'modules.profile.layout.messages' | transloco }}</span>
+    @if (unreadCount > 0) {
+      <span class="text-xs font-bold leading-none text-red-600">{{ unreadCount }}</span>
+    }
+  </button>
+
+  <button mat-menu-item class="hu-menu-item" [routerLink]="changeUsernameLink">
+    <span class="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-green-100">
+      <mat-icon class="!m-0 !h-[1.125rem] !w-[1.125rem] !text-[1.125rem] !leading-[1.125rem] !text-green-600">
+        alternate_email
+      </mat-icon>
+    </span>
+    <span class="flex-1 text-sm leading-5">{{ 'modules.profile.layout.changeUsername' | transloco }}</span>
+  </button>
+
+  <button mat-menu-item class="hu-menu-item" [routerLink]="changePasswordLink">
+    <span class="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-amber-100">
+      <mat-icon class="!m-0 !h-[1.125rem] !w-[1.125rem] !text-[1.125rem] !leading-[1.125rem] !text-amber-600">
+        lock_reset
+      </mat-icon>
+    </span>
+    <span class="flex-1 text-sm leading-5">{{ 'modules.profile.layout.changePassword' | transloco }}</span>
+  </button>
+
+  <button mat-menu-item class="hu-menu-item" [routerLink]="loginReportLink">
+    <span class="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-cyan-100">
+      <mat-icon class="!m-0 !h-[1.125rem] !w-[1.125rem] !text-[1.125rem] !leading-[1.125rem] !text-cyan-700">
+        login
+      </mat-icon>
+    </span>
+    <span class="flex-1 text-sm leading-5">{{ 'modules.profile.layout.loginReport' | transloco }}</span>
+  </button>
+
+  <div class="mx-2 my-1.5 h-px bg-slate-200" role="separator"></div>
+
+  <button mat-menu-item class="hu-menu-item hu-menu-item--logout" (click)="logout()">
+    <span class="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-red-100">
+      <mat-icon class="!m-0 !h-[1.125rem] !w-[1.125rem] !text-[1.125rem] !leading-[1.125rem] !text-red-600">
+        logout
+      </mat-icon>
+    </span>
+    <span class="flex-1 text-sm leading-5">{{ 'shared.logout' | transloco }}</span>
+  </button>
+</mat-menu>

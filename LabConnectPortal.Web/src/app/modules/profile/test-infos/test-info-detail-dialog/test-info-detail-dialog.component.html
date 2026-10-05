@@ -1,0 +1,225 @@
+<div class="flex flex-col" dir="rtl">
+  <div class="flex items-center justify-between border-b border-slate-100 px-6 py-4">
+    <div class="flex items-center gap-2">
+      <mat-icon class="text-lab">science</mat-icon>
+      <h2 class="m-0 text-lg font-bold text-slate-900">
+        {{ 'modules.profile.testInfos.detailDialog.title' | transloco }}
+      </h2>
+    </div>
+    <button mat-icon-button type="button" (click)="close()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <mat-dialog-content class="max-h-[70vh] !p-6">
+    @if (loading) {
+      <div class="flex flex-col items-center gap-3 py-10 text-slate-500">
+        <mat-icon class="animate-spin">hourglass_top</mat-icon>
+        <p class="m-0 text-sm">{{ 'shared.loading' | transloco }}</p>
+      </div>
+    } @else if (error) {
+      <div class="rounded-lg bg-red-50 p-3 text-sm text-red-700">{{ error }}</div>
+    } @else if (testInfo) {
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-3">
+          <span class="mb-1 block text-xs font-semibold text-slate-500">
+            {{ 'modules.profile.testInfos.columns.cpnCode' | transloco }}
+          </span>
+          <span class="text-sm text-slate-800">{{ display(testInfo.cpnCode) }}</span>
+        </div>
+        <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-3">
+          <span class="mb-1 block text-xs font-semibold text-slate-500">
+            {{ 'modules.profile.testInfos.columns.nationalCode' | transloco }}
+          </span>
+          <span class="text-sm text-slate-800">{{ display(testInfo.nationalCode) }}</span>
+        </div>
+        <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-3 md:col-span-2">
+          <span class="mb-1 block text-xs font-semibold text-slate-500">
+            {{ 'modules.profile.testInfos.columns.fullName' | transloco }}
+          </span>
+          <span class="text-sm font-medium text-slate-800">{{ display(testInfo.fullName) }}</span>
+        </div>
+        <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-3">
+          <span class="mb-1 block text-xs font-semibold text-slate-500">
+            {{ 'modules.profile.testInfos.detailDialog.shortName' | transloco }}
+          </span>
+          <span class="text-sm text-slate-800">{{ display(testInfo.shortName) }}</span>
+        </div>
+        <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-3">
+          <span class="mb-1 block text-xs font-semibold text-slate-500">
+            {{ 'modules.profile.testInfos.detailDialog.sectionName' | transloco }}
+          </span>
+          <span class="text-sm text-slate-800">{{ display(testInfo.sectionName) }}</span>
+        </div>
+        <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-3">
+          <span class="mb-1 block text-xs font-semibold text-slate-500">
+            {{ 'modules.profile.testInfos.columns.approvePrice' | transloco }}
+          </span>
+          <span class="text-sm font-semibold text-lab">{{ formatPrice(testInfo.approvePrice) }}</span>
+        </div>
+        <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-3">
+          <span class="mb-1 block text-xs font-semibold text-slate-500">
+            {{ 'modules.profile.testInfos.detailDialog.testId' | transloco }}
+          </span>
+          <span class="text-sm text-slate-800">{{ display(testInfo.testId) }}</span>
+        </div>
+        <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-3">
+          <span class="mb-1 block text-xs font-semibold text-slate-500">
+            {{ 'modules.profile.testInfos.detailDialog.similarName' | transloco }}
+          </span>
+          <span class="text-sm text-slate-800">{{ display(testInfo.similarName) }}</span>
+        </div>
+        <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-3">
+          <span class="mb-1 block text-xs font-semibold text-slate-500">
+            {{ 'modules.profile.testInfos.detailDialog.kd' | transloco }}
+          </span>
+          <span class="text-sm text-slate-800">{{ display(testInfo.kd) }}</span>
+        </div>
+        <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-3">
+          <span class="mb-1 block text-xs font-semibold text-slate-500">
+            {{ 'modules.profile.testInfos.detailDialog.volume' | transloco }}
+          </span>
+          <span class="text-sm text-slate-800">{{ display(testInfo.volume) }}</span>
+        </div>
+        <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-3">
+          <span class="mb-1 block text-xs font-semibold text-slate-500">
+            {{ 'modules.profile.testInfos.detailDialog.minVolume' | transloco }}
+          </span>
+          <span class="text-sm text-slate-800">{{ display(testInfo.minVolume) }}</span>
+        </div>
+        <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-3">
+          <span class="mb-1 block text-xs font-semibold text-slate-500">
+            {{ 'modules.profile.testInfos.detailDialog.maintenance' | transloco }}
+          </span>
+          <span class="text-sm text-slate-800">{{ display(testInfo.maintenance) }}</span>
+        </div>
+        <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-3">
+          <span class="mb-1 block text-xs font-semibold text-slate-500">
+            {{ 'modules.profile.testInfos.detailDialog.transportation' | transloco }}
+          </span>
+          <span class="text-sm text-slate-800">{{ display(testInfo.transportation) }}</span>
+        </div>
+        <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-3">
+          <span class="mb-1 block text-xs font-semibold text-slate-500">
+            {{ 'modules.profile.testInfos.detailDialog.needs' | transloco }}
+          </span>
+          <span class="text-sm text-slate-800">{{ display(testInfo.needs) }}</span>
+        </div>
+        <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-3">
+          <span class="mb-1 block text-xs font-semibold text-slate-500">
+            {{ 'modules.profile.testInfos.detailDialog.guidance' | transloco }}
+          </span>
+          <span class="text-sm text-slate-800">{{ display(testInfo.guidance) }}</span>
+        </div>
+        <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-3">
+          <span class="mb-1 block text-xs font-semibold text-slate-500">
+            {{ 'modules.profile.testInfos.detailDialog.patientInfo' | transloco }}
+          </span>
+          <span class="text-sm text-slate-800">{{ display(testInfo.patientInfo) }}</span>
+        </div>
+        <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-3">
+          <span class="mb-1 block text-xs font-semibold text-slate-500">
+            {{ 'modules.profile.testInfos.detailDialog.denial' | transloco }}
+          </span>
+          <span class="text-sm text-slate-800">{{ display(testInfo.denial) }}</span>
+        </div>
+        <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-3">
+          <span class="mb-1 block text-xs font-semibold text-slate-500">
+            {{ 'modules.profile.testInfos.detailDialog.preparation' | transloco }}
+          </span>
+          <span class="text-sm text-slate-800">{{ display(testInfo.preparation) }}</span>
+        </div>
+        <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-3">
+          <span class="mb-1 block text-xs font-semibold text-slate-500">
+            {{ 'modules.profile.testInfos.detailDialog.clinicalInfo' | transloco }}
+          </span>
+          <span class="text-sm text-slate-800">{{ display(testInfo.clinicalInfo) }}</span>
+        </div>
+        <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-3">
+          <span class="mb-1 block text-xs font-semibold text-slate-500">
+            {{ 'modules.profile.testInfos.detailDialog.sources' | transloco }}
+          </span>
+          <span class="text-sm text-slate-800">{{ display(testInfo.sources) }}</span>
+        </div>
+        <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-3">
+          <span class="mb-1 block text-xs font-semibold text-slate-500">
+            {{ 'modules.profile.testInfos.detailDialog.comment' | transloco }}
+          </span>
+          <span class="text-sm text-slate-800">{{ display(testInfo.comment) }}</span>
+        </div>
+        <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-3">
+          <span class="mb-1 block text-xs font-semibold text-slate-500">
+            {{ 'modules.profile.testInfos.detailDialog.caution' | transloco }}
+          </span>
+          <span class="text-sm text-slate-800">{{ display(testInfo.caution) }}</span>
+        </div>
+        <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-3">
+          <span class="mb-1 block text-xs font-semibold text-slate-500">
+            {{ 'modules.profile.testInfos.detailDialog.sClinical' | transloco }}
+          </span>
+          <span class="text-sm text-slate-800">{{ display(testInfo.sClinical) }}</span>
+        </div>
+        <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-3 md:col-span-2">
+          <span class="mb-1 block text-xs font-semibold text-slate-500">
+            {{ 'modules.profile.testInfos.detailDialog.detail' | transloco }}
+          </span>
+          <span class="text-sm text-slate-800">{{ display(testInfo.detail) }}</span>
+        </div>
+        <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-3">
+          <span class="mb-1 block text-xs font-semibold text-slate-500">
+            {{ 'modules.profile.testInfos.detailDialog.date' | transloco }}
+          </span>
+          <span class="text-sm text-slate-800">{{ display(testInfo.date) }}</span>
+        </div>
+        <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-3">
+          <span class="mb-1 block text-xs font-semibold text-slate-500">
+            {{ 'modules.profile.testInfos.detailDialog.resultDuration' | transloco }}
+          </span>
+          <span class="text-sm text-slate-800">{{ display(testInfo.resultDuration) }}</span>
+        </div>
+        <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-3">
+          <span class="mb-1 block text-xs font-semibold text-slate-500">
+            {{ 'modules.profile.testInfos.detailDialog.maxDurResult' | transloco }}
+          </span>
+          <span class="text-sm text-slate-800">{{ display(testInfo.maxDurResult) }}</span>
+        </div>
+        <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-3">
+          <span class="mb-1 block text-xs font-semibold text-slate-500">
+            {{ 'modules.profile.testInfos.detailDialog.maintenanceDur' | transloco }}
+          </span>
+          <span class="text-sm text-slate-800">{{ display(testInfo.maintenanceDur) }}</span>
+        </div>
+        <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-3">
+          <span class="mb-1 block text-xs font-semibold text-slate-500">
+            {{ 'modules.profile.testInfos.detailDialog.criteria' | transloco }}
+          </span>
+          <span class="text-sm text-slate-800">{{ display(testInfo.criteria) }}</span>
+        </div>
+        <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-3">
+          <span class="mb-1 block text-xs font-semibold text-slate-500">
+            {{ 'modules.profile.testInfos.detailDialog.freezer' | transloco }}
+          </span>
+          <span class="text-sm text-slate-800">{{ display(testInfo.freezer) }}</span>
+        </div>
+        <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-3">
+          <span class="mb-1 block text-xs font-semibold text-slate-500">
+            {{ 'modules.profile.testInfos.detailDialog.deliveryCondition' | transloco }}
+          </span>
+          <span class="text-sm text-slate-800">{{ display(testInfo.deliveryCondition) }}</span>
+        </div>
+        <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-3">
+          <span class="mb-1 block text-xs font-semibold text-slate-500">
+            {{ 'modules.profile.testInfos.detailDialog.kitGroup' | transloco }}
+          </span>
+          <span class="text-sm text-slate-800">{{ display(testInfo.kitGroupTitle) }}</span>
+        </div>
+        <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-3">
+          <span class="mb-1 block text-xs font-semibold text-slate-500">
+            {{ 'modules.profile.testInfos.detailDialog.deviceGroup' | transloco }}
+          </span>
+          <span class="text-sm text-slate-800">{{ display(testInfo.deviceGroupTitle) }}</span>
+        </div>
+      </div>
+    }
+  </mat-dialog-content>
+</div>

@@ -1,0 +1,135 @@
+<app-resume-section-card
+  icon="business"
+  [title]="'modules.profile.resume.workExperience.title' | transloco"
+  [complete]="isComplete"
+>
+  @if (!editing) {
+    <button
+      sectionActions
+      type="button"
+      class="inline-flex items-center gap-1 text-sm font-medium text-teal-700 hover:text-teal-800"
+      (click)="startEdit()"
+    >
+      <mat-icon class="!h-4 !w-4 !text-[16px]">edit</mat-icon>
+      {{ 'modules.profile.resume.edit' | transloco }}
+    </button>
+  }
+
+  @if (error) {
+    <div class="mb-4 rounded-xl bg-red-50 p-3 text-sm text-red-700">{{ error }}</div>
+  }
+
+  @if (!editing) {
+    <div class="space-y-3">
+      @for (item of resume.workExperiences; track item.workExperienceId) {
+        <div class="rounded-xl border border-slate-100 bg-slate-50 p-4">
+          <p class="font-semibold text-slate-800">{{ item.jobTitle }} — {{ item.companyName }}</p>
+          <p class="mt-1 text-sm text-slate-500">
+            @if (item.startMonth != null) {
+              {{ enumTranslateKey('persianMonth', PersianMonth, item.startMonth) | transloco }}
+            }
+            {{ item.startYear }}
+            @if (!item.isCurrentlyEmployed && item.endYear) {
+              —
+              @if (item.endMonth != null) {
+                {{ enumTranslateKey('persianMonth', PersianMonth, item.endMonth) | transloco }}
+              }
+              {{ item.endYear }}
+            } @else {
+              ({{ 'modules.profile.resume.workExperience.current' | transloco }})
+            }
+          </p>
+          @if (item.jobDescription) {
+            <p class="mt-2 whitespace-pre-wrap text-sm text-slate-600">{{ item.jobDescription }}</p>
+          }
+        </div>
+      } @empty {
+        <p class="text-sm text-slate-500">{{ 'modules.profile.resume.empty' | transloco }}</p>
+      }
+    </div>
+  } @else {
+    <form [formGroup]="form">
+      <div formArrayName="items" class="space-y-4">
+        @for (item of items.controls; track $index; let i = $index) {
+          <div [formGroupName]="i" class="rounded-2xl border border-sky-100 bg-sky-50/70 p-4">
+            <div class="mb-3 flex justify-end">
+              <button type="button" class="text-sm text-red-600" (click)="removeItem(i)">
+                {{ 'shared.delete' | transloco }}
+              </button>
+            </div>
+            <div class="grid grid-cols-1 gap-3 md:grid-cols-2">
+              <base-form-field
+                class="w-full"
+                layout="floating"
+                icon="work"
+                [label]="'modules.profile.resume.workExperience.jobTitle' | transloco"
+                [control]="controlOf(item, 'jobTitle')"
+              />
+              <base-form-field
+                class="w-full"
+                layout="floating"
+                icon="apartment"
+                [label]="'modules.profile.resume.workExperience.companyName' | transloco"
+                [control]="controlOf(item, 'companyName')"
+              />
+              <base-form-field
+                class="w-full"
+                layout="floating"
+                [select]="true"
+                [options]="monthOptions"
+                [label]="'modules.profile.resume.workExperience.startMonth' | transloco"
+                [control]="controlOf(item, 'startMonth')"
+              />
+              <base-form-field
+                class="w-full"
+                layout="floating"
+                type="number"
+                [label]="'modules.profile.resume.workExperience.startYear' | transloco"
+                [control]="controlOf(item, 'startYear')"
+              />
+              <base-form-field
+                class="w-full"
+                layout="floating"
+                [select]="true"
+                [options]="monthOptions"
+                [label]="'modules.profile.resume.workExperience.endMonth' | transloco"
+                [control]="controlOf(item, 'endMonth')"
+              />
+              <base-form-field
+                class="w-full"
+                layout="floating"
+                type="number"
+                [label]="'modules.profile.resume.workExperience.endYear' | transloco"
+                [control]="controlOf(item, 'endYear')"
+              />
+              <div class="md:col-span-2">
+                <base-checkbox [formControl]="controlOf(item, 'isCurrentlyEmployed')">
+                  {{ 'modules.profile.resume.workExperience.currentlyEmployed' | transloco }}
+                </base-checkbox>
+              </div>
+              <base-form-field
+                class="w-full md:col-span-2"
+                layout="floating"
+                [multiline]="true"
+                [rows]="3"
+                [label]="'modules.profile.resume.workExperience.description' | transloco"
+                [control]="controlOf(item, 'jobDescription')"
+              />
+            </div>
+          </div>
+        }
+      </div>
+    </form>
+    <base-button type="button" color="blue" size="sm" class="mb-4 mt-2 w-full" (click)="addItem()">
+      + {{ 'modules.profile.resume.workExperience.add' | transloco }}
+    </base-button>
+    <div class="flex gap-2">
+      <base-button color="green" size="sm" [disabled]="saving" [loading]="saving" (click)="save()">
+        {{ 'shared.save' | transloco }}
+      </base-button>
+      <base-button type="button" color="warn" size="sm" (click)="cancel()">
+        {{ 'shared.cancel' | transloco }}
+      </base-button>
+    </div>
+  }
+</app-resume-section-card>

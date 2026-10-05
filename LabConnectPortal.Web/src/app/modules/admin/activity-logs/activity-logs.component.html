@@ -1,0 +1,234 @@
+<div class="flex h-full min-h-0 flex-col overflow-hidden p-6" dir="rtl">
+  <mat-drawer-container
+    class="activity-logs-drawer min-h-0 flex-1 bg-transparent"
+  >
+    <mat-drawer
+      #filterDrawer
+      class="z-20 w-[min(100vw,22rem)] border-s border-gray-200 bg-white !shadow-[-14px_0_36px_rgba(15,23,42,0.28)]"
+      mode="over"
+      position="start"
+      [autoFocus]="false"
+    >
+      <div class="flex h-full flex-col">
+        <div
+          class="filter-panel-header flex shrink-0 items-center justify-between px-4 py-3"
+        >
+          <h2 class="m-0 text-base font-bold text-[#35507c]">
+            {{ "shared.filters.title" | transloco }}
+          </h2>
+          <button
+            type="button"
+            class="inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-md border-0 bg-white/50 text-[#35507c] hover:bg-white hover:text-[#2a4063]"
+            (click)="filterDrawer.close()"
+            [attr.aria-label]="'shared.filters.close' | transloco"
+          >
+            <mat-icon class="!h-5 !w-5 !text-[1.25rem]">close</mat-icon>
+          </button>
+        </div>
+
+        <div
+          class="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto p-4 pt-5"
+        >
+          <base-form-field
+            class="w-full"
+            layout="floating"
+            [jalaliDate]="true"
+            [label]="'modules.activityLog.filters.fromDate' | transloco"
+            [control]="fromDateControl"
+          />
+          <base-form-field
+            class="w-full"
+            layout="floating"
+            [jalaliDate]="true"
+            [label]="'modules.activityLog.filters.toDate' | transloco"
+            [control]="toDateControl"
+          />
+          <base-form-field
+            class="w-full"
+            layout="floating"
+            [select]="true"
+            [options]="entityOptions"
+            [label]="'modules.activityLog.filters.entity' | transloco"
+            [control]="entityNameControl"
+          />
+          <base-form-field
+            class="w-full"
+            layout="floating"
+            [select]="true"
+            [options]="actionOptions"
+            [label]="'modules.activityLog.filters.action' | transloco"
+            [control]="actionControl"
+          />
+          <base-form-field
+            class="w-full"
+            layout="floating"
+            [label]="'modules.activityLog.filters.recordKey' | transloco"
+            [control]="recordKeyControl"
+          />
+        </div>
+
+        <div class="filter-panel-footer flex shrink-0 flex-col gap-2 p-4">
+          <base-button
+            type="button"
+            size="sm"
+            [disabled]="loading"
+            (click)="applyFilters()"
+          >
+            {{ "shared.search" | transloco }}
+          </base-button>
+        </div>
+      </div>
+    </mat-drawer>
+
+    <mat-drawer-content class="flex !flex-col !overflow-hidden bg-transparent">
+      <div class="mb-3 flex shrink-0 items-center justify-start gap-3">
+        <button
+          type="button"
+          class="inline-flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-md border-0 filter-open-btn text-white shadow-sm transition"
+          (click)="filterDrawer.open()"
+          [attr.aria-label]="'shared.filters.open' | transloco"
+        >
+          <mat-icon class="!h-5 !w-5 !text-white" svgIcon="heroicons_outline:funnel"></mat-icon>
+        </button>
+      </div>
+
+      @if (loading) {
+      <p class="text-sm text-gray-500">{{ "shared.loading" | transloco }}</p>
+      } @else if (!hasSearched || !groups.length) {
+      <div
+        class="flex min-h-0 flex-1 flex-col items-center justify-center rounded-[5px] border border-slate-200 bg-white px-6 py-10 text-center shadow-[0_1px_3px_rgba(15,23,42,0.06)]"
+      >
+        <div
+          class="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-[#e8eef6] to-[#dce6f2] text-[#35507c]"
+        >
+          <mat-icon class="!h-9 !w-9 !text-[2.25rem]">{{
+            hasSearched ? "manage_search" : "history"
+          }}</mat-icon>
+        </div>
+        <p class="m-0 text-base font-semibold text-slate-800">
+          {{
+            (hasSearched
+              ? "modules.activityLog.empty"
+              : "modules.activityLog.searchPromptTitle"
+            ) | transloco
+          }}
+        </p>
+        <p class="mt-2 m-0 max-w-sm text-sm text-slate-500">
+          {{
+            (hasSearched
+              ? "modules.activityLog.emptyHint"
+              : "modules.activityLog.searchPromptHint"
+            ) | transloco
+          }}
+        </p>
+        @if (!hasSearched) {
+        <button
+          type="button"
+          class="mt-5 inline-flex cursor-pointer items-center gap-2 rounded-md border-0 bg-[#35507c] px-4 py-2 text-sm font-medium text-white transition hover:bg-[#2a4063]"
+          (click)="filterDrawer.open()"
+        >
+          <mat-icon class="!h-5 !w-5 !text-white" svgIcon="heroicons_outline:funnel"></mat-icon>
+          {{ "shared.filters.open" | transloco }}
+        </button>
+        }
+      </div>
+      } @else {
+      <div
+        class="min-h-0 flex-1 overflow-y-auto rounded-[5px] border border-slate-200 bg-white p-4 shadow-[0_1px_3px_rgba(15,23,42,0.06)]"
+      >
+        <div class="grid grid-cols-1 gap-4 xl:grid-cols-2">
+          @for (group of groups; track group.entityName + ':' + group.recordKey)
+          {
+          <section
+            class="flex flex-col overflow-hidden rounded-[5px] border border-slate-200 bg-slate-50/80"
+          >
+            <header
+              class="flex flex-wrap items-center gap-2 border-b border-slate-100 bg-white px-4 py-3"
+            >
+              <span
+                class="rounded bg-blue-50 px-2 py-0.5 text-xs text-blue-800"
+                >{{ entityLabel(group.entityName) }}</span
+              >
+              <span class="text-base font-bold text-slate-800">{{
+                group.recordTitle || group.recordKey
+              }}</span>
+              @if (group.centerName) {
+              <span
+                class="rounded bg-teal-50 px-2 py-0.5 text-xs text-teal-800"
+                >{{ group.centerName }}</span
+              >
+              }
+              <span class="ms-auto text-xs text-slate-400">
+                {{ formatJalaliDateTime(group.latestAt) }}
+                ·
+                {{ group.batchCount }}
+                {{ "modules.activityLog.changeCount" | transloco }}
+              </span>
+            </header>
+
+            <div class="flex flex-col gap-3 p-4">
+              @for (batch of group.batches; track batch.entityName + ':' + batch.recordKey + ':' + batch.batchId) {
+              <article class="rounded border border-slate-100 bg-white p-3">
+                <div
+                  class="mb-2 flex flex-wrap items-center gap-2 text-xs text-slate-500"
+                >
+                  <span class="font-medium text-slate-700">{{
+                    batch.userDisplayName ||
+                      ("modules.activityLog.unknownUser" | transloco)
+                  }}</span>
+                  <span class="rounded bg-slate-50 px-2 py-0.5">{{
+                    actionLabel(batch.action)
+                  }}</span>
+                  <span class="text-slate-400">{{
+                    formatJalaliDateTime(batch.createdAt)
+                  }}</span>
+                </div>
+                <ul class="m-0 flex list-none flex-col gap-1.5 p-0">
+                  @for (change of batch.changes; track change.id) {
+                  <li
+                    class="flex flex-row flex-wrap items-center gap-2 text-sm"
+                  >
+                    <div class="shrink-0 font-medium text-[#35507c]">
+                      {{ fieldLabel(change.fieldName) }}:
+                    </div>
+                    <div
+                      class="flex min-w-0 flex-row flex-wrap items-center gap-2 text-slate-700"
+                    >
+                      @if (hasValue(change.oldValue)) {
+                        <span
+                          class="max-w-full break-words text-red-700/90 line-through decoration-red-300"
+                          >{{ displayValue(change.oldValue) }}</span
+                        >
+                        @if (hasValue(change.newValue)) {
+                          <span class="text-slate-400">←</span>
+                        }
+                      }
+                      @if (hasValue(change.newValue)) {
+                        <span
+                          class="max-w-full break-words font-medium text-emerald-800"
+                          >{{ displayValue(change.newValue) }}</span
+                        >
+                      }
+                    </div>
+                  </li>
+                  }
+                </ul>
+              </article>
+              }
+            </div>
+          </section>
+          }
+        </div>
+      </div>
+      } @if (hasSearched && groups.length) {
+      <base-paging
+        class="shrink-0"
+        [page]="page"
+        [pageSize]="pageSize"
+        [totalCount]="totalCount"
+        (pageChange)="onPageChange($event)"
+      />
+      }
+    </mat-drawer-content>
+  </mat-drawer-container>
+</div>

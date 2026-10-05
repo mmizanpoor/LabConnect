@@ -1,0 +1,155 @@
+<div class="mx-auto max-w-3xl p-6" dir="rtl">
+  @if (error) {
+    <div class="mb-4 rounded-lg bg-red-50 p-3 text-sm text-red-700">{{ error }}</div>
+  }
+  @if (success) {
+    <div class="mb-4 rounded-lg bg-green-50 p-3 text-sm text-green-700">{{ success }}</div>
+  }
+
+  @if (loading) {
+    <p class="text-gray-500">{{ 'shared.loading' | transloco }}</p>
+  } @else {
+    <div
+      class="overflow-hidden rounded-[5px] border border-slate-200 bg-white p-5 shadow-[0_1px_3px_rgba(15,23,42,0.06)] md:p-6"
+    >
+      <section class="mb-6 border-b border-slate-100 pb-6">
+        <h2 class="mb-3 text-lg font-bold text-slate-800">
+          {{ 'modules.admin.settings.sections.general' | transloco }}
+        </h2>
+        <form [formGroup]="form" class="flex flex-col gap-5">
+          <base-image-upload
+            [label]="'modules.admin.settings.fields.logo' | transloco"
+            previewShape="circle"
+            [previewSize]="120"
+            [accept]="imageAccept"
+            [imageUrl]="logoUrl"
+            [fileName]="logoFileName"
+            [loading]="uploadingLogo"
+            (fileSelected)="onLogoSelected($event)"
+          />
+          <base-form-field
+            class="w-full"
+            layout="floating"
+            [required]="true"
+            [label]="'modules.admin.settings.fields.siteTitle' | transloco"
+            [control]="form.controls.siteTitle"
+          />
+          <base-form-field
+            class="w-full"
+            layout="floating"
+            [label]="'modules.admin.settings.fields.tagline' | transloco"
+            [control]="form.controls.tagline"
+          />
+        </form>
+      </section>
+
+      <section class="mb-6 border-b border-slate-100 pb-6">
+        <h2 class="mb-3 text-lg font-bold text-slate-800">
+          {{ 'modules.admin.settings.sections.support' | transloco }}
+        </h2>
+        <form [formGroup]="form" class="flex flex-col gap-5">
+          <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
+            <base-form-field
+              class="w-full"
+              layout="floating"
+              icon="call"
+              [label]="'modules.admin.settings.fields.supportLandline' | transloco"
+              [control]="form.controls.supportLandline"
+            />
+            <base-form-field
+              class="w-full"
+              layout="floating"
+              icon="smartphone"
+              [label]="'modules.admin.settings.fields.supportMobile' | transloco"
+              [control]="form.controls.supportMobile"
+            />
+          </div>
+          <base-form-field
+            class="w-full"
+            layout="floating"
+            [multiline]="true"
+            [rows]="4"
+            [label]="'modules.admin.settings.fields.googleMapEmbedCode' | transloco"
+            [control]="form.controls.googleMapEmbedCode"
+          />
+        </form>
+      </section>
+
+      <section class="mb-6 border-b border-slate-100 pb-6">
+        <h2 class="mb-3 text-lg font-bold text-slate-800">
+          {{ 'modules.admin.settings.sections.enamad' | transloco }}
+        </h2>
+        <form [formGroup]="form" class="flex flex-col gap-5">
+          <base-form-field
+            class="w-full"
+            layout="floating"
+            [multiline]="true"
+            [rows]="4"
+            [label]="'modules.admin.settings.fields.enamadEmbedCode' | transloco"
+            [control]="form.controls.enamadEmbedCode"
+          />
+          <base-form-field
+            class="w-full"
+            layout="floating"
+            type="url"
+            [label]="'modules.admin.settings.fields.enamadLinkUrl' | transloco"
+            [control]="form.controls.enamadLinkUrl"
+          />
+        </form>
+      </section>
+
+      <section class="mb-6 border-b border-slate-100 pb-6">
+        <h2 class="mb-3 text-lg font-bold text-slate-800">
+          {{ 'modules.admin.settings.sections.footer' | transloco }}
+        </h2>
+        <form [formGroup]="form" class="flex flex-col gap-5">
+          <base-image-upload
+            [label]="'modules.admin.settings.fields.footerLogo' | transloco"
+            previewShape="square"
+            [previewSize]="120"
+            [accept]="imageAccept"
+            [imageUrl]="footerLogoUrl"
+            [fileName]="footerLogoFileName"
+            [loading]="uploadingFooterLogo"
+            (fileSelected)="onFooterLogoSelected($event)"
+          />
+          <base-form-field
+            class="w-full"
+            layout="floating"
+            [multiline]="true"
+            [rows]="4"
+            [label]="'modules.admin.settings.fields.footerAboutText' | transloco"
+            [control]="form.controls.footerAboutText"
+          />
+          <base-form-field
+            class="w-full"
+            layout="floating"
+            icon="location_on"
+            [label]="'modules.admin.settings.fields.footerAddress' | transloco"
+            [control]="form.controls.footerAddress"
+          />
+          <base-form-field
+            class="w-full"
+            layout="floating"
+            icon="mail"
+            type="email"
+            [label]="'modules.admin.settings.fields.footerEmail' | transloco"
+            [control]="form.controls.footerEmail"
+          />
+          <base-form-field
+            class="w-full"
+            layout="floating"
+            [label]="'modules.admin.settings.fields.footerCopyrightText' | transloco"
+            [control]="form.controls.footerCopyrightText"
+          />
+        </form>
+      </section>
+
+      @if (canUpdate) {
+        <base-button color="green" size="sm" [disabled]="saving || form.invalid" (click)="save()">
+          {{ 'shared.save' | transloco }}
+        </base-button>
+      }
+    </div>
+  }
+</div>

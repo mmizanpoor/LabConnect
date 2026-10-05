@@ -1,0 +1,107 @@
+<div
+  class="mx-auto box-border flex h-full min-h-0 w-full flex-col overflow-hidden p-4"
+  dir="rtl"
+>
+  @if (error) {
+  <div class="mb-3 shrink-0 rounded-[5px] border border-red-100 bg-red-50 p-3 text-sm text-red-700">
+    {{ error }}
+  </div>
+  }
+
+  <mat-drawer-container class="min-h-0 flex-1 bg-transparent">
+    <mat-drawer
+      #filterDrawer
+      class="z-20 w-[min(100vw,22rem)] border-s border-gray-200 bg-white !shadow-[-14px_0_36px_rgba(15,23,42,0.28)]"
+      mode="over"
+      position="start"
+      [autoFocus]="false"
+    >
+      <div class="flex h-full flex-col">
+        <div
+          class="filter-panel-header flex shrink-0 items-center justify-between px-4 py-3"
+        >
+          <h2 class="m-0 text-base font-bold text-[#35507c]">
+            {{ "shared.filters.title" | transloco }}
+          </h2>
+          <button
+            type="button"
+            class="inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-md border-0 bg-white/50 text-[#35507c] hover:bg-white hover:text-[#2a4063]"
+            (click)="filterDrawer.close()"
+            [attr.aria-label]="'shared.filters.close' | transloco"
+          >
+            <mat-icon class="!h-5 !w-5 !text-[1.25rem]">close</mat-icon>
+          </button>
+        </div>
+
+        <div
+          class="admin-list-filters flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto overflow-x-hidden p-4 pt-5"
+        >
+          <base-form-field
+            class="w-full"
+            layout="floating"
+            icon="search"
+            [label]="'modules.admin.sliderGroups.filters.title' | transloco"
+            [control]="titleControl"
+          />
+          <base-form-field
+            class="w-full"
+            layout="floating"
+            icon="filter_list"
+            [select]="true"
+            [options]="statusFilterOptions"
+            [label]="'modules.admin.sliderGroups.filters.status' | transloco"
+            [control]="activeControl"
+          />
+        </div>
+
+        <div class="filter-panel-footer shrink-0 p-4">
+          <base-button type="button" size="sm" [disabled]="loading" (click)="applyFilters()">
+            {{ "shared.search" | transloco }}
+          </base-button>
+        </div>
+      </div>
+    </mat-drawer>
+
+    <mat-drawer-content
+      class="!flex !min-h-0 !flex-col !overflow-hidden bg-transparent"
+    >
+      <div class="mb-3 flex shrink-0 items-center justify-between gap-3">
+        <button
+          type="button"
+          class="inline-flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-md border-0 filter-open-btn text-white shadow-sm transition"
+          (click)="filterDrawer.open()"
+          [attr.aria-label]="'shared.filters.open' | transloco"
+        >
+          <mat-icon class="!h-5 !w-5 !text-white" svgIcon="heroicons_outline:funnel"></mat-icon>
+        </button>
+        @if (canCreate) {
+          <base-button type="button" color="blue" size="sm" routerLink="/admin/slider-groups/new">
+            {{ "modules.admin.sliderGroups.add" | transloco }}
+          </base-button>
+        }
+      </div>
+
+      <div class="base-grid-panel flex min-h-0 flex-1 flex-col overflow-hidden">
+        <base-grid
+          gridId="5b7a9bbd-7f0a-4d7a-b6d2-3e2d1f1c9a11"
+          class="min-h-0 w-full flex-1"
+          [framed]="false"
+          [visibleOrder]="false"
+          [columnDefs]="colDef"
+          [dataSource$]="list$"
+          [disabled]="loading"
+          [toolbarDisabled]="true"
+          [noRowsMessage]="'modules.admin.sliderGroups.empty' | transloco"
+          forceDirection="rtl"
+        />
+      </div>
+      <base-paging
+        class="shrink-0"
+        [totalCount]="totalCount"
+        [page]="page"
+        [pageSize]="pageSize"
+        (pageChange)="onPageChange($event)"
+      />
+    </mat-drawer-content>
+  </mat-drawer-container>
+</div>

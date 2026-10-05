@@ -1,0 +1,8 @@
+<a
+  class="flex items-center justify-center w-full h-[4.5rem] min-w-0 px-2 py-2 sm:h-[5.75rem] sm:px-4 sm:py-2.5 bg-white no-underline transition-opacity hover:opacity-85"
+  [routerLink]="['/products']"
+  [queryParams]="{ brandId: brand.brandId, brandTitle: brand.title }"
+  queryParamsHandling="merge"
+>
+  <img [src]="imageUrl()" [alt]="brand.title" class="max-w-full max-h-full object-contain" loading="lazy" />
+</a>

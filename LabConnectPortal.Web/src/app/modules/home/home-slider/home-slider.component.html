@@ -1,0 +1,144 @@
+﻿@if (slides.length) {
+<section
+  class="relative w-full overflow-hidden bg-gradient-to-br from-[#eef2f7] via-[#dce4ef] to-[#cfd9e6]"
+  (mouseenter)="onMouseEnter()"
+  (mouseleave)="onMouseLeave()"
+  aria-roledescription="carousel"
+  [attr.aria-label]="'modules.home.slider.label' | transloco"
+>
+  <div
+    class="w-full overflow-hidden select-none touch-pan-y cursor-grab"
+    [class.cursor-grabbing]="isDragging"
+    dir="ltr"
+    (pointerdown)="onPointerDown($event)"
+    (pointermove)="onPointerMove($event)"
+    (pointerup)="onPointerUp($event)"
+    (pointercancel)="onPointerCancel($event)"
+    (click)="onTrackClick($event)"
+    (dragstart)="$event.preventDefault()"
+  >
+    <div
+      class="flex w-full will-change-transform"
+      [style.transform]="trackTransform"
+      [style.transition]="trackTransition"
+      (transitionend)="onTrackTransitionEnd($event)"
+    >
+      @for (slide of renderedSlides; track $index; let i = $index) {
+      <article
+        class="relative flex-[0_0_100%] w-full min-w-full h-[180px] min-[420px]:h-[210px] sm:h-[260px] md:h-[320px] lg:h-[400px]"
+        dir="rtl"
+      >
+        @if (slide.linkUrl) {
+        <a
+          [href]="slide.linkUrl"
+          target="_blank"
+          rel="noopener"
+          class="block relative text-inherit no-underline"
+        >
+          <img
+            [src]="slideImageUrl(slide.imagePath)"
+            [attr.srcset]="slideImageSrcSet(slide.imagePath)"
+            sizes="100vw"
+            [alt]="slide.title || 'slide'"
+            [attr.loading]="isPrioritySlide(i) ? 'eager' : 'lazy'"
+            [attr.fetchpriority]="isCurrentSlide(i) ? 'high' : null"
+            decoding="async"
+            draggable="false"
+            class="block w-full h-[180px] min-[420px]:h-[210px] sm:h-[260px] md:h-[320px] lg:h-[400px] object-cover object-center"
+          />
+          @if (slide.title) {
+          <div
+            class="absolute inset-0 flex items-center justify-start p-[clamp(1rem,5vw,4rem)] pointer-events-none"
+          >
+            <h2
+              class="m-0 max-w-[min(520px,80%)] text-white text-[clamp(1.05rem,4vw,2.75rem)] font-extrabold leading-[1.35] drop-shadow-[0_2px_16px_rgb(0_0_0/0.35)]"
+            >
+              {{ slide.title }}
+            </h2>
+          </div>
+          }
+        </a>
+        } @else {
+        <img
+          [src]="slideImageUrl(slide.imagePath)"
+          [attr.srcset]="slideImageSrcSet(slide.imagePath)"
+          sizes="100vw"
+          [alt]="slide.title || 'slide'"
+          [attr.loading]="isPrioritySlide(i) ? 'eager' : 'lazy'"
+          [attr.fetchpriority]="isCurrentSlide(i) ? 'high' : null"
+          decoding="async"
+          draggable="false"
+          class="block w-full h-[180px] min-[420px]:h-[210px] sm:h-[260px] md:h-[320px] lg:h-[400px] object-cover object-center"
+        />
+        @if (slide.title) {
+        <div
+          class="absolute inset-0 flex items-center justify-start p-[clamp(1rem,5vw,4rem)] pointer-events-none"
+        >
+          <h2
+            class="m-0 max-w-[min(520px,80%)] text-white text-[clamp(1.05rem,4vw,2.75rem)] font-extrabold leading-[1.35] drop-shadow-[0_2px_16px_rgb(0_0_0/0.35)]"
+          >
+            {{ slide.title }}
+          </h2>
+        </div>
+        } }
+      </article>
+      }
+    </div>
+  </div>
+
+  @if (slides.length > 1) {
+  <button
+    type="button"
+    class="absolute top-1/2 -translate-y-1/2 end-2 sm:end-5 z-[3] w-8 h-8 sm:w-11 sm:h-11 border-0 rounded-full bg-white/92 text-gray-800 text-xl sm:text-[1.75rem] leading-none cursor-pointer shadow-[0_8px_24px_rgb(0_0_0/0.18)] transition-all hover:scale-105 hover:bg-white"
+    (click)="prev()"
+    [attr.aria-label]="'modules.home.slider.prev' | transloco"
+  >
+    <span aria-hidden="true">›</span>
+  </button>
+  <button
+    type="button"
+    class="absolute top-1/2 -translate-y-1/2 start-2 sm:start-5 z-[3] w-8 h-8 sm:w-11 sm:h-11 border-0 rounded-full bg-white/92 text-gray-800 text-xl sm:text-[1.75rem] leading-none cursor-pointer shadow-[0_8px_24px_rgb(0_0_0/0.18)] transition-all hover:scale-105 hover:bg-white"
+    (click)="next()"
+    [attr.aria-label]="'modules.home.slider.next' | transloco"
+  >
+    <span aria-hidden="true">‹</span>
+  </button>
+  <div
+    class="absolute bottom-2.5 sm:bottom-5 left-1/2 -translate-x-1/2 flex max-w-[calc(100%-5rem)] flex-wrap justify-center gap-1.5 sm:gap-2 z-[3] py-1.5 px-2.5 sm:px-3 rounded-full bg-white/22 backdrop-blur-[6px]"
+  >
+    @for (slide of slides; track $index; let i = $index) {
+    <button
+      type="button"
+      class="h-[0.55rem] border-0 rounded-full bg-white/55 cursor-pointer transition-all duration-250"
+      [class.w-6]="i === currentIndex"
+      [class.bg-white]="i === currentIndex"
+      [class.w-[0.55rem]]="i !== currentIndex"
+      (click)="goTo(i)"
+      [attr.aria-label]="
+        'modules.home.slider.goTo' | transloco : { index: i + 1 }
+      "
+    ></button>
+    }
+  </div>
+  }
+</section>
+} @else if (fallbackTitle || fallbackTagline) {
+<section
+  class="w-full bg-gradient-to-br from-[#eef2f7] via-[#dce4ef] to-[#cfd9e6] py-3 px-4 sm:py-4 sm:px-6"
+>
+  <div class="mx-auto max-w-[720px] text-center">
+    @if (fallbackTitle) {
+    <h1
+      class="m-0 text-[clamp(1.05rem,2.8vw,1.5rem)] font-bold leading-snug text-[#35507c]"
+      [class.mb-1]="!!fallbackTagline"
+    >
+      {{ fallbackTitle }}
+    </h1>
+    } @if (fallbackTagline) {
+    <p class="m-0 text-gray-600 text-[clamp(0.8125rem,2vw,0.9375rem)] leading-relaxed">
+      {{ fallbackTagline }}
+    </p>
+    }
+  </div>
+</section>
+}

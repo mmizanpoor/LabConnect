@@ -1,0 +1,75 @@
+:host {
+  display: block;
+  height: 100%;
+  min-height: 0;
+  background: #f4f5f7;
+}
+
+.notif-center {
+  box-sizing: border-box;
+  min-height: 100%;
+  background: #f4f5f7;
+}
+
+.notif-shell {
+  box-sizing: border-box;
+  border: 1px solid rgb(226 232 240 / 0.45);
+  border-radius: 5px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.notif-list {
+  background: #ffffff;
+}
+
+.notif-row {
+  box-sizing: border-box;
+  min-height: 4.5rem;
+  max-height: 5rem;
+  font: inherit;
+  color: inherit;
+  appearance: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+/* Unread: slightly darker than page / list chrome */
+.notif-row--unread {
+  background: #eceef2;
+}
+
+.notif-row--unread:hover {
+  background: #e6e8ed;
+}
+
+/* Read: pure white */
+.notif-row--read {
+  background: #ffffff;
+  cursor: default;
+}
+
+.notif-row--read:hover {
+  background: #fafbfc;
+}
+
+.notif-check {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+  flex-shrink: 0;
+
+  mat-icon {
+    width: 0.875rem;
+    height: 0.875rem;
+    font-size: 0.875rem;
+  }
+}
+
+.notif-check--unread {
+  color: #64748b;
+}
+
+.notif-check--read {
+  color: #94a3b8;
+}

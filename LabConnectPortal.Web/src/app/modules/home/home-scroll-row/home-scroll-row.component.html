@@ -1,0 +1,35 @@
+<div
+  class="home-scroll-row"
+  [class.home-scroll-row--products]="variant === 'products'"
+>
+  @if (canPrev) {
+  <button
+    type="button"
+    class="home-scroll-row__nav home-scroll-row__nav--prev"
+    (click)="scrollPrev()"
+    aria-label="قبلی"
+  >
+    <mat-icon>chevron_right</mat-icon>
+  </button>
+  }
+  <div
+    #viewport
+    class="home-scroll-row__viewport"
+    [class.is-dragging]="dragging"
+    (scroll)="onScroll()"
+  >
+    <div #track class="home-scroll-row__track">
+      <ng-content />
+    </div>
+  </div>
+  @if (canNext) {
+  <button
+    type="button"
+    class="home-scroll-row__nav home-scroll-row__nav--next"
+    (click)="scrollNext()"
+    aria-label="بعدی"
+  >
+    <mat-icon>chevron_left</mat-icon>
+  </button>
+  }
+</div>

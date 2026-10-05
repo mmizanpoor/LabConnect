@@ -1,0 +1,336 @@
+<div
+  class="catalog-products-page mx-auto box-border flex h-full min-h-0 w-full flex-col overflow-hidden p-2.5 sm:p-3 lg:p-4"
+  dir="rtl"
+>
+  <div class="catalog-products-shell flex min-h-0 flex-1 flex-col overflow-hidden">
+    <mat-drawer-container class="catalog-products-drawer-container min-h-0 flex-1 bg-transparent">
+      <mat-drawer
+        #filterDrawer
+        class="catalog-products-filter-drawer z-20 w-[min(100vw,22rem)] border-s border-gray-200 bg-white !shadow-[-14px_0_36px_rgba(15,23,42,0.28)]"
+        mode="over"
+        position="start"
+        [autoFocus]="false"
+      >
+        <div class="flex h-full flex-col">
+          <div
+            class="catalog-products-filter-header filter-panel-header flex shrink-0 items-center justify-between px-4 py-3"
+          >
+            <h2 class="m-0 text-base font-bold text-[#35507c]">
+              {{ 'shared.filters.title' | transloco }}
+            </h2>
+            <button
+              type="button"
+              class="inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-md border-0 bg-white/50 text-[#35507c] hover:bg-white hover:text-[#2a4063]"
+              (click)="filterDrawer.close()"
+              [attr.aria-label]="'shared.filters.close' | transloco"
+            >
+              <mat-icon class="!h-5 !w-5 !text-[1.25rem]">close</mat-icon>
+            </button>
+          </div>
+
+          <div
+            class="catalog-products-filters flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto overflow-x-hidden p-4 pt-5"
+          >
+            <base-form-field
+              class="w-full"
+              layout="floating"
+              icon="search"
+              [label]="'modules.admin.products.filters.title' | transloco"
+              [control]="titleControl"
+            />
+            <base-form-field
+              class="w-full"
+              layout="floating"
+              icon="flag"
+              [select]="true"
+              [options]="statusFilterOptions"
+              [label]="'modules.admin.products.filters.status' | transloco"
+              [control]="statusControl"
+            />
+            <base-form-field
+              class="w-full"
+              layout="floating"
+              icon="event"
+              [jalaliDate]="true"
+              [label]="'modules.admin.products.filters.fromDate' | transloco"
+              [control]="fromDateControl"
+            />
+            <base-form-field
+              class="w-full"
+              layout="floating"
+              icon="event"
+              [jalaliDate]="true"
+              [label]="'modules.admin.products.filters.toDate' | transloco"
+              [control]="toDateControl"
+            />
+          </div>
+
+          <div class="filter-panel-footer shrink-0 p-4">
+            <base-button type="button" size="sm" [disabled]="loading" (click)="applyFilters()">
+              {{ 'shared.search' | transloco }}
+            </base-button>
+          </div>
+        </div>
+      </mat-drawer>
+
+      <mat-drawer-content
+        class="catalog-products-drawer-content !flex !min-h-0 !flex-col !overflow-hidden bg-transparent px-3 py-3 sm:px-3.5 sm:py-3.5"
+      >
+        @if (error) {
+          <div class="mb-2 shrink-0 rounded-[5px] border border-red-100 bg-red-50 px-3 py-2 text-xs text-red-700">
+            {{ error }}
+          </div>
+        }
+        @if (success) {
+          <div
+            class="mb-2 shrink-0 rounded-[5px] border border-emerald-100 bg-emerald-50 px-3 py-2 text-xs text-emerald-800"
+          >
+            {{ success }}
+          </div>
+        }
+
+        <!-- Header -->
+        <header class="mb-2.5 flex shrink-0 items-center justify-between gap-2">
+          <div class="min-w-0">
+            <h1 class="m-0 text-base font-bold text-slate-800 sm:text-lg">
+              {{ 'modules.profile.productListings.title' | transloco }}
+            </h1>
+            <p class="mt-0.5 m-0 text-[11px] text-slate-400">
+              {{ 'shared.home' | transloco }}
+              <span class="mx-1">/</span>
+              {{ 'modules.profile.productListings.title' | transloco }}
+            </p>
+          </div>
+
+          @if (canCreate) {
+            <button
+              type="button"
+              class="inline-flex h-8 items-center gap-1 rounded-[5px] bg-violet-600 px-2.5 text-xs font-semibold text-white transition hover:bg-violet-500"
+              (click)="openCreate()"
+            >
+              <mat-icon class="!h-4 !w-4 !text-[1rem]">add</mat-icon>
+              <span>{{ 'modules.profile.productListings.addNew' | transloco }}</span>
+            </button>
+          }
+        </header>
+
+        <!-- Toolbar -->
+        <div
+          class="mb-2.5 flex shrink-0 flex-col gap-2 rounded-[5px] border border-slate-100/80 bg-slate-50/70 px-2.5 py-2 sm:flex-row sm:items-center sm:gap-2.5"
+        >
+          <div
+            class="flex shrink-0 gap-1 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          >
+            @for (tab of statusTabs; track tab.id) {
+              <button
+                type="button"
+                class="whitespace-nowrap rounded-[5px] px-2.5 py-1 text-[11px] font-semibold transition hover:bg-white sm:text-xs"
+                [class.bg-white]="activeStatusTab === tab.id"
+                [class.text-violet-700]="activeStatusTab === tab.id"
+                [class.shadow-sm]="activeStatusTab === tab.id"
+                [class.text-slate-500]="activeStatusTab !== tab.id"
+                (click)="selectStatusTab(tab.id)"
+              >
+                {{ tab.labelKey | transloco }}
+              </button>
+            }
+          </div>
+
+          <div class="flex min-w-0 flex-1 items-center gap-1.5">
+            <label
+              class="flex h-8 min-w-0 flex-1 items-center rounded-[5px] border border-slate-200 bg-white px-2.5 transition focus-within:border-violet-300"
+            >
+              <input
+                type="search"
+                class="min-w-0 flex-1 border-0 bg-transparent text-xs text-slate-700 outline-none placeholder:text-slate-400"
+                [formControl]="titleControl"
+                [placeholder]="'modules.profile.productListings.searchPlaceholder' | transloco"
+                (keydown.enter)="searchByTitle()"
+              />
+            </label>
+
+            <button
+              type="button"
+              class="inline-flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-[5px] border border-slate-200 bg-white text-slate-600 transition hover:bg-slate-50 hover:text-[#35507c] active:bg-slate-100 sm:w-auto sm:gap-1 sm:px-2.5"
+              (click)="searchByTitle()"
+              [disabled]="loading"
+              [attr.aria-label]="'shared.search' | transloco"
+            >
+              <mat-icon class="!h-4 !w-4 !text-[1rem]">search</mat-icon>
+              <span class="hidden text-[11px] font-medium sm:inline">{{
+                'shared.search' | transloco
+              }}</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Compact list -->
+        <div class="min-h-0 flex-1 overflow-y-auto overflow-x-hidden">
+          @if (list$ | async; as rows) {
+            @if (loading && !rows.length) {
+              <div class="flex items-center justify-center py-12 text-xs text-slate-400">
+                {{ 'shared.loading' | transloco }}
+              </div>
+            } @else if (!rows.length) {
+              <div
+                class="flex flex-col items-center justify-center gap-2 rounded-[5px] border border-dashed border-slate-200 bg-slate-50/50 px-4 py-10 text-center"
+              >
+                <mat-icon class="!h-8 !w-8 !text-[2rem] text-slate-300">inventory_2</mat-icon>
+                <p class="m-0 text-xs text-slate-500">
+                  {{ 'modules.profile.productListings.empty' | transloco }}
+                </p>
+                @if (canCreate) {
+                  <button
+                    type="button"
+                    class="mt-1 inline-flex h-8 items-center gap-1 rounded-[5px] bg-violet-600 px-3 text-xs font-semibold text-white hover:bg-violet-500"
+                    (click)="openCreate()"
+                  >
+                    <mat-icon class="!h-4 !w-4 !text-[1rem]">add</mat-icon>
+                    {{ 'modules.profile.productListings.addNew' | transloco }}
+                  </button>
+                }
+              </div>
+            } @else {
+              <div class="flex flex-col gap-1.5 pb-1">
+                @for (row of rows; track row.productId) {
+                  <article
+                    class="rounded-[5px] border border-slate-200 bg-white px-2.5 py-2 transition hover:border-slate-300 sm:px-3"
+                  >
+                    <div class="flex items-center gap-2.5 sm:gap-3">
+                      <!-- Thumbnail 52–56px -->
+                      <div
+                        class="flex h-[52px] w-[52px] shrink-0 items-center justify-center overflow-hidden rounded-[5px] sm:h-14 sm:w-14"
+                        [ngClass]="
+                          featuredImageUrl(row)
+                            ? 'bg-slate-50 ring-1 ring-slate-100'
+                            : 'bg-slate-100 text-slate-400'
+                        "
+                      >
+                        @if (featuredImageUrl(row); as imageUrl) {
+                          <img
+                            [src]="imageUrl"
+                            [alt]="row.title"
+                            class="h-full w-full object-contain p-0.5"
+                            loading="lazy"
+                          />
+                        } @else {
+                          <mat-icon class="!h-5 !w-5 !text-[1.25rem]">
+                            {{ row.acceptsResume ? 'badge' : 'inventory_2' }}
+                          </mat-icon>
+                        }
+                      </div>
+
+                      <!-- Content -->
+                      <div class="flex min-w-0 flex-1 items-center gap-2 sm:gap-3">
+                        <div class="min-w-0 flex-1">
+                          <!-- Priority 1: title + status -->
+                          <div class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-0.5">
+                            <h2
+                              class="m-0 max-w-full truncate text-[13px] font-bold leading-5 text-slate-800 sm:text-sm"
+                              [title]="row.title"
+                            >
+                              {{ row.title }}
+                            </h2>
+                            <span
+                              class="inline-flex items-center gap-1 rounded-md px-1.5 py-px text-[10px] font-semibold ring-1 ring-inset"
+                              [ngClass]="statusBadgeClass(row.status)"
+                            >
+                              <span
+                                class="h-1 w-1 rounded-full"
+                                [ngClass]="statusDotClass(row.status)"
+                              ></span>
+                              {{ statusLabel(row.status) }}
+                            </span>
+                          </div>
+
+                          <!-- Secondary: brand / category -->
+                          @if (row.brandTitle || row.categoriesText) {
+                            <p class="mt-1.5 m-0 truncate text-[11px] font-normal leading-4 text-slate-400">
+                              @if (row.brandTitle) {
+                                <span>{{ row.brandTitle }}</span>
+                              }
+                              @if (row.brandTitle && row.categoriesText) {
+                                <span class="mx-1 text-slate-300">·</span>
+                              }
+                              @if (row.categoriesText) {
+                                <span>{{ row.categoriesText }}</span>
+                              }
+                            </p>
+                          }
+
+                          <!-- Secondary: stock / date -->
+                          <div
+                            class="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-[11px] font-normal leading-4 text-slate-500"
+                          >
+                            <span class="inline-flex items-center gap-0.5">
+                              <mat-icon class="!h-3 !w-3 !text-[0.75rem] text-slate-400">inventory_2</mat-icon>
+                              {{ formatStock(row) }}
+                            </span>
+                            <span class="inline-flex items-center gap-0.5">
+                              <mat-icon class="!h-3 !w-3 !text-[0.75rem] text-slate-400">calendar_today</mat-icon>
+                              {{ formatJalaliDate(row.createdAt || row.updatedAt) }}
+                            </span>
+                            <span
+                              class="inline-flex max-w-[8rem] truncate text-[12px] font-semibold text-slate-600 sm:hidden"
+                              [title]="formatPrice(row)"
+                            >
+                              {{ formatPrice(row) }}
+                            </span>
+                          </div>
+                        </div>
+
+                        <!-- Priority 2: price (simple, no badge/icon) -->
+                        <div
+                          class="hidden min-w-[5.5rem] shrink-0 text-start sm:block sm:min-w-[6.5rem]"
+                          [title]="formatPrice(row)"
+                        >
+                          <span class="block truncate text-[13px] font-semibold leading-5 text-slate-600">
+                            {{ formatPrice(row) }}
+                          </span>
+                        </div>
+
+                        <!-- Priority 5: icon menu -->
+                        <div class="shrink-0 self-center">
+                          <base-menu-actions
+                            trigger="icon"
+                            [triggerLabel]="'shared.actions' | transloco"
+                            [actions]="rowActions(row)"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                }
+              </div>
+            }
+          }
+        </div>
+
+        @if (totalCount > 0) {
+          <div
+            class="mt-2 flex shrink-0 flex-col gap-1.5 border-t border-slate-100/80 pt-2 sm:flex-row sm:items-center sm:justify-between"
+          >
+            <p class="m-0 text-[11px] text-slate-500">
+              {{
+                'modules.profile.productListings.showingRange'
+                  | transloco
+                    : {
+                        from: rangeFrom,
+                        to: rangeTo,
+                        total: totalCount,
+                      }
+              }}
+            </p>
+            <base-paging
+              class="shrink-0"
+              [page]="page"
+              [pageSize]="pageSize"
+              [totalCount]="totalCount"
+              (pageChange)="onPageChange($event)"
+            />
+          </div>
+        }
+      </mat-drawer-content>
+    </mat-drawer-container>
+  </div>
+</div>

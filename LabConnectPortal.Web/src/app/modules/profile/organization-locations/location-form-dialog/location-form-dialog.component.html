@@ -1,0 +1,64 @@
+<base-dialog
+  [title]="
+    (data.location
+      ? 'modules.profile.locations.editTitle'
+      : 'modules.profile.locations.addTitle'
+    ) | transloco
+  "
+>
+  <div class="min-w-[320px]" dir="rtl">
+    @if (error) {
+    <div class="mb-4 rounded-lg bg-red-50 p-3 text-sm text-red-700">
+      {{ error }}
+    </div>
+    }
+
+    <form [formGroup]="form" class="flex flex-col gap-3">
+      <base-form-field
+        class="w-full"
+        layout="floating"
+        icon="storefront"
+        [required]="true"
+        [label]="'modules.profile.locations.fields.name' | transloco"
+        [control]="form.controls.locationName"
+      />
+      <base-form-field
+        class="w-full"
+        layout="floating"
+        icon="map"
+        [required]="true"
+        [select]="true"
+        [options]="provinceOptions"
+        [label]="'modules.profile.locations.fields.province' | transloco"
+        [control]="form.controls.provinceId"
+      />
+      <base-form-field
+        class="w-full"
+        layout="floating"
+        icon="location_on"
+        [required]="true"
+        [multiline]="true"
+        [rows]="3"
+        [label]="'modules.profile.locations.fields.address' | transloco"
+        [control]="form.controls.address"
+      />
+      <base-form-field
+        class="w-full"
+        layout="floating"
+        icon="call"
+        [required]="true"
+        [label]="'modules.profile.locations.fields.phone' | transloco"
+        [control]="form.controls.phoneNumber"
+      />
+    </form>
+  </div>
+
+  <div baseDialogActions class="flex items-center justify-end gap-2">
+    <base-button type="button" color="warn" size="sm" (click)="cancel()">
+      {{ "shared.cancel" | transloco }}
+    </base-button>
+    <base-button color="green" size="sm" [disabled]="form.invalid" [loading]="saving" (click)="save()">
+        {{ "shared.save" | transloco }}
+      </base-button>
+  </div>
+</base-dialog>

@@ -1,0 +1,64 @@
+<div class="map-picker" dir="rtl" [class.is-disabled]="disabled" [class.map-picker--fill]="fill">
+  @if (!disabled) {
+    <div class="map-picker__toolbar">
+      <div class="map-picker__search">
+        <mat-icon>search</mat-icon>
+        <input
+          #searchInput
+          type="search"
+          [placeholder]="'modules.admin.products.mapSearchPlaceholder' | transloco"
+          [disabled]="searching || locating"
+          (keydown.enter)="$event.preventDefault(); searchAddress(searchInput.value)"
+        />
+        <button
+          type="button"
+          class="map-picker__search-btn"
+          [disabled]="searching || locating"
+          (click)="searchAddress(searchInput.value)"
+        >
+          {{ searching ? ("shared.loading" | transloco) : ("shared.search" | transloco) }}
+        </button>
+      </div>
+      <button
+        type="button"
+        class="map-picker__locate"
+        [disabled]="searching || locating"
+        (click)="useCurrentLocation()"
+      >
+        <mat-icon>my_location</mat-icon>
+        <span>{{
+          locating
+            ? ("shared.loading" | transloco)
+            : ("modules.admin.products.useCurrentLocation" | transloco)
+        }}</span>
+      </button>
+    </div>
+
+    @if (searchError) {
+      <p class="map-picker__error">{{ searchError }}</p>
+    }
+
+    @if (searchResults.length) {
+      <ul class="map-picker__results">
+        @for (item of searchResults; track item.place_id) {
+          <li>
+            <button type="button" (click)="selectSearchResult(item)">
+              {{ item.display_name }}
+            </button>
+          </li>
+        }
+      </ul>
+    }
+  }
+
+  <div
+    #mapContainer
+    class="map-picker__canvas"
+    [class.is-compact]="compact"
+    [class.pointer-events-none]="disabled"
+  ></div>
+
+  @if (!disabled) {
+    <p class="map-picker__hint">{{ "modules.profile.profile.mapHint" | transloco }}</p>
+  }
+</div>

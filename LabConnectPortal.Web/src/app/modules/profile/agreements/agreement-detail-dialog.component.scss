@@ -1,0 +1,61 @@
+.agreement-detail-field {
+  display: flex;
+  min-height: 2.5rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.5rem 0.875rem;
+  border-radius: 0.5rem;
+  background: #f5f7f9;
+}
+
+.agreement-detail-field--tall {
+  height: 100%;
+  min-height: 5.5rem;
+  align-items: center;
+}
+
+.agreement-detail-field__label {
+  flex-shrink: 0;
+  font-family: "Estedad-FD", Tahoma, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #94a3b8;
+}
+
+.agreement-detail-field__value {
+  min-width: 0;
+  text-align: left;
+  font-family: "Estedad-FD", Tahoma, sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: #1e293b;
+  word-break: break-word;
+}
+
+.agreement-detail-field__empty {
+  font-weight: 600;
+  color: #94a3b8;
+}
+
+.agreement-detail-field__icon {
+  width: 1rem !important;
+  height: 1rem !important;
+  font-size: 1rem !important;
+  color: #94a3b8;
+}
+
+.agreement-detail-field__money-icon {
+  display: inline-flex;
+  width: 1rem;
+  height: 1rem;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid #94a3b8;
+  border-radius: 9999px;
+  font-size: 0.5625rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #94a3b8;
+}

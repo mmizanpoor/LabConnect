@@ -1,0 +1,16 @@
+<a
+  class="home-category-card"
+  [routerLink]="['/products']"
+  [queryParams]="{ categoryGroupId: category.productCategoryGroupId, categoryGroupTitle: category.title }"
+  queryParamsHandling="merge"
+>
+  <span class="home-category-card__visual">
+    <img
+      [src]="imageUrl()"
+      [alt]="category.title"
+      class="home-category-card__image"
+      loading="lazy"
+    />
+  </span>
+  <span class="home-category-card__label">{{ category.title }}</span>
+</a>

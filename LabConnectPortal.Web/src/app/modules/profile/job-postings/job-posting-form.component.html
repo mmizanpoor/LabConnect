@@ -1,0 +1,253 @@
+<div class="mx-auto max-w-3xl p-6" dir="rtl">
+  <div class="mb-4 flex items-center gap-2">
+    <base-back-button
+      link="/profile/job-postings"
+      ariaLabelKey="modules.profile.jobPostings.backToList"
+    />
+    @if (posting) {
+      <span class="rounded bg-slate-100 px-2 py-1 text-xs">{{ statusLabel(posting.status) }}</span>
+    }
+  </div>
+
+  @if (error) {
+    <div class="bg-red-50 text-red-700 p-3 rounded mb-4 text-sm">{{ error }}</div>
+  }
+
+  @if (showProfileStatusMessage && !canManageJobPostings && !loading) {
+    <div class="bg-amber-50 border border-amber-200 text-amber-900 p-4 rounded mb-4 text-sm">
+      <p>{{ profileBannerKey | transloco }}</p>
+      @if (centerProfile?.rejectionReason; as reason) {
+        <p class="mt-1">{{ 'modules.profile.center.rejectionBanner.reason' | transloco }}: {{ reason }}</p>
+      }
+      <a routerLink="/profile/center" class="inline-block mt-2 text-teal-700 font-medium">
+        {{ 'modules.profile.jobPostings.goToCenterProfile' | transloco }}
+      </a>
+    </div>
+  }
+
+  @if (loading) {
+    <p class="text-gray-500">{{ 'shared.loading' | transloco }}</p>
+  } @else {
+    @if (posting?.organizationSummary; as org) {
+      <mat-card class="p-4 shadow mb-4 bg-teal-50 border border-teal-100">
+        <h2 class="font-bold text-teal-800 mb-2">{{ 'modules.profile.jobPostings.orgPreview' | transloco }}</h2>
+        <p class="font-semibold">{{ org.name }}</p>
+        @if (org.establishedYear) {
+          <p class="text-sm text-gray-600">{{ 'modules.profile.center.establishedYear' | transloco }}: {{ org.establishedYear }}</p>
+        }
+        @if (org.description) {
+          <p class="text-sm mt-2 whitespace-pre-line">{{ org.description }}</p>
+        }
+      </mat-card>
+    }
+
+    <div
+      class="overflow-hidden rounded-[5px] border border-slate-200 bg-white p-5 shadow-[0_1px_3px_rgba(15,23,42,0.06)] md:p-6"
+    >
+      <form [formGroup]="form" class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <base-form-field
+          class="w-full"
+          layout="floating"
+          icon="work"
+          [required]="true"
+          [select]="true"
+          [options]="jobCategoryOptions"
+          [label]="'modules.profile.jobPostings.fields.category' | transloco"
+          [control]="form.controls.jobCategoryId"
+        />
+
+        <base-form-field
+          class="w-full"
+          layout="floating"
+          icon="location_on"
+          [required]="true"
+          [select]="true"
+          [options]="locationOptions"
+          [label]="'modules.profile.jobPostings.fields.location' | transloco"
+          [control]="form.controls.locationId"
+        />
+
+        <base-form-field
+          class="w-full"
+          layout="floating"
+          icon="payments"
+          [required]="true"
+          [select]="true"
+          [options]="salaryRangeOptions"
+          [label]="'modules.profile.jobPostings.fields.salaryRange' | transloco"
+          [control]="form.controls.salaryRangeId"
+        />
+
+        <base-form-field
+          class="w-full"
+          layout="floating"
+          icon="timeline"
+          type="number"
+          [required]="true"
+          [label]="'modules.profile.jobPostings.fields.minExperience' | transloco"
+          [control]="form.controls.minimumWorkExperienceYears"
+        />
+
+        <base-form-field
+          class="w-full sm:col-span-2"
+          layout="floating"
+          [required]="true"
+          [multiline]="true"
+          [rows]="5"
+          [label]="'modules.profile.jobPostings.fields.description' | transloco"
+          [control]="form.controls.jobDescription"
+        />
+
+        <div class="sm:col-span-2">
+          <p class="mb-2 text-sm font-semibold text-gray-700">{{ 'modules.profile.jobPostings.fields.contractTypes' | transloco }}</p>
+          @for (type of contractTypes; track type) {
+            <base-checkbox [checked]="isContractChecked(type)" (checkedChange)="toggleContract(type, $event)">
+              {{ 'modules.profile.resume.enums.contractType.' + ContractType[type] | transloco }}
+            </base-checkbox>
+          }
+        </div>
+
+        <div class="sm:col-span-2">
+          <p class="mb-2 text-sm font-semibold text-gray-700">{{ 'modules.profile.jobPostings.fields.traits' | transloco }}</p>
+          <div class="mb-2 flex flex-wrap gap-2">
+            @for (trait of traits; track trait; let i = $index) {
+              <span class="flex items-center gap-1 rounded bg-sky-100 px-2 py-1 text-sm">
+                {{ trait }}
+                @if (!readOnly) {
+                  <button type="button" class="text-red-500" (click)="removeTrait(i)">×</button>
+                }
+              </span>
+            }
+          </div>
+          @if (!readOnly) {
+            <div class="mb-2 flex items-end gap-2">
+              <base-form-field
+                class="min-w-0 flex-1"
+                layout="floating"
+                [label]="'modules.profile.jobPostings.fields.traits' | transloco"
+                [control]="traitInput"
+              />
+              <base-button type="button" color="blue" size="sm" class="mb-1 shrink-0" (click)="addTrait()">{{ 'shared.add' | transloco }}</base-button>
+            </div>
+            <div class="flex flex-wrap gap-1">
+              @for (suggestion of suggestedTraits; track suggestion) {
+                <button type="button" class="text-xs text-teal-700 underline" (click)="addTrait(suggestion)">{{ suggestion }}</button>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="sm:col-span-2">
+          <p class="mb-2 text-sm font-semibold text-gray-700">{{ 'modules.profile.jobPostings.fields.skills' | transloco }}</p>
+          <div class="mb-2 flex flex-wrap gap-2">
+            @for (skill of skills; track skill.skillId; let i = $index) {
+              <span class="flex items-center gap-1 rounded bg-emerald-100 px-2 py-1 text-sm">
+                {{ skill.skillName }}
+                @if (!readOnly) {
+                  <button type="button" class="text-red-500" (click)="removeSkill(i)">×</button>
+                }
+              </span>
+            }
+          </div>
+          @if (!readOnly) {
+            <div class="mb-2 flex items-end gap-2">
+              <base-form-field
+                class="min-w-0 flex-1"
+                layout="floating"
+                [label]="'modules.profile.jobPostings.fields.skills' | transloco"
+                [control]="skillInput"
+              />
+              <base-button type="button" color="blue" size="sm" class="mb-1 shrink-0" (click)="addSkill()">{{ 'shared.add' | transloco }}</base-button>
+            </div>
+            @for (s of skillSuggestions; track s.skillId) {
+              <button type="button" class="block text-sm text-teal-700" (click)="addSkill(s.skillName)">{{ s.skillName }}</button>
+            }
+          }
+        </div>
+
+        <div class="sm:col-span-2">
+          <p class="mb-2 text-sm font-semibold text-gray-700">{{ 'modules.profile.jobPostings.fields.benefits' | transloco }}</p>
+          <div class="mb-2 flex flex-wrap gap-2">
+            @for (benefit of benefits; track benefit; let i = $index) {
+              <span class="flex items-center gap-1 rounded bg-amber-100 px-2 py-1 text-sm">
+                {{ benefit }}
+                @if (!readOnly) {
+                  <button type="button" class="text-red-500" (click)="removeBenefit(i)">×</button>
+                }
+              </span>
+            }
+          </div>
+          @if (!readOnly) {
+            <div class="mb-2 flex items-end gap-2">
+              <base-form-field
+                class="min-w-0 flex-1"
+                layout="floating"
+                [label]="'modules.profile.jobPostings.fields.benefits' | transloco"
+                [control]="benefitInput"
+              />
+              <base-button type="button" color="blue" size="sm" class="mb-1 shrink-0" (click)="addBenefit()">{{ 'shared.add' | transloco }}</base-button>
+            </div>
+            <div class="flex flex-wrap gap-1">
+              @for (suggestion of suggestedBenefits; track suggestion) {
+                <button type="button" class="text-xs text-teal-700 underline" (click)="addBenefit(suggestion)">{{ suggestion }}</button>
+              }
+            </div>
+          }
+        </div>
+
+        <base-form-field
+          class="w-full"
+          layout="floating"
+          icon="wc"
+          [required]="true"
+          [select]="true"
+          [options]="genderOptions"
+          [label]="'modules.profile.jobPostings.fields.gender' | transloco"
+          [control]="form.controls.genderRequirement"
+        />
+
+        <base-form-field
+          class="w-full"
+          layout="floating"
+          icon="military_tech"
+          [required]="true"
+          [select]="true"
+          [options]="militaryOptions"
+          [label]="'modules.profile.jobPostings.fields.military' | transloco"
+          [control]="form.controls.militaryServiceRequirement"
+        />
+
+        <base-form-field
+          class="w-full sm:col-span-2"
+          layout="floating"
+          icon="school"
+          [required]="true"
+          [select]="true"
+          [options]="degreeLevelOptions"
+          [label]="'modules.profile.jobPostings.fields.degree' | transloco"
+          [control]="form.controls.minimumDegreeLevel"
+        />
+
+        <base-form-field
+          class="w-full sm:col-span-2"
+          layout="floating"
+          [multiline]="true"
+          [rows]="3"
+          [label]="'modules.profile.jobPostings.fields.notes' | transloco"
+          [control]="form.controls.additionalNotes"
+        />
+      </form>
+
+      <div class="mt-4 flex justify-end gap-2">
+        @if (!readOnly && canSave) {
+          <base-button color="green" size="sm" [disabled]="saving || form.invalid" (click)="save()">{{ 'shared.save' | transloco }}</base-button>
+        }
+        @if (posting?.status === 'Draft' && !isNew && !readOnly && canPublish) {
+          <button mat-flat-button color="accent" type="button" (click)="publish()">
+            {{ 'modules.profile.jobPostings.publish' | transloco }}
+          </button>
+        }
+      </div>
+    </div>
+  }
+</div>

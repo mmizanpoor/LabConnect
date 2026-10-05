@@ -1,0 +1,140 @@
+.cdk-overlay-pane:has(.base-form-field-date-panel) {
+  background-color: #ffffff !important;
+}
+
+.mat-datepicker-content:has(.base-form-field-date-panel) {
+  background-color: #ffffff !important;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem !important;
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1) !important;
+  overflow: hidden;
+
+  .mat-datepicker-content-container {
+    background-color: #ffffff !important;
+  }
+}
+
+.mat-calendar.base-form-field-date-panel {
+  --mat-datepicker-calendar-container-background-color: #ffffff;
+  --mat-datepicker-calendar-container-text-color: #111827;
+  --mat-datepicker-calendar-date-text-color: #111827;
+  --mat-datepicker-calendar-body-label-text-color: #6b7280;
+  --mat-datepicker-calendar-header-text-color: #6b7280;
+  --mat-datepicker-calendar-period-button-text-color: #111827;
+  --mat-datepicker-calendar-period-button-icon-color: #6b7280;
+  --mat-datepicker-calendar-navigation-button-icon-color: #6b7280;
+  --mat-datepicker-calendar-header-divider-color: #e5e7eb;
+  --mat-datepicker-calendar-date-today-outline-color: #2563eb;
+  --mat-datepicker-calendar-date-disabled-state-text-color: #9ca3af;
+  --mat-datepicker-calendar-date-selected-state-text-color: #ffffff;
+  --mat-datepicker-calendar-date-selected-state-background-color: #2563eb;
+  --mat-datepicker-calendar-date-focus-state-background-color: rgba(37, 99, 235, 0.12);
+  --mat-datepicker-calendar-date-hover-state-background-color: rgba(37, 99, 235, 0.08);
+  --mat-datepicker-toggle-icon-color: #527baa;
+  --mat-datepicker-calendar-container-shape: 0.75rem;
+
+  direction: rtl;
+  width: 16.5rem !important;
+  height: auto !important;
+  background-color: #ffffff !important;
+  color: #111827 !important;
+  font-family: "Estedad-FD", Tahoma, sans-serif;
+
+  .mat-calendar-header {
+    padding: 0.25rem 0.25rem 0 !important;
+  }
+
+  .mat-calendar-content {
+    padding: 0 0.35rem 0.5rem !important;
+  }
+
+  .mat-calendar-header,
+  .mat-calendar-content,
+  .mat-calendar-table,
+  .mat-calendar-body,
+  .mat-calendar-body-cell,
+  .mat-calendar-body-cell-container {
+    background-color: #ffffff !important;
+  }
+
+  .mat-calendar-controls {
+    margin: 0.15rem 0.35rem 0.15rem !important;
+    min-height: 2rem;
+  }
+
+  .mat-calendar-period-button {
+    font-size: 0.8125rem !important;
+    height: 2rem !important;
+    line-height: 2rem !important;
+  }
+
+  .mat-calendar-previous-button,
+  .mat-calendar-next-button {
+    width: 2rem !important;
+    height: 2rem !important;
+  }
+
+  .mat-calendar-period-button,
+  .mat-calendar-previous-button,
+  .mat-calendar-next-button {
+    color: #374151 !important;
+  }
+
+  .mat-calendar-table-header th {
+    color: #6b7280 !important;
+    font-size: 0.6875rem !important;
+    font-weight: 600;
+    padding: 0 !important;
+    height: 1.5rem !important;
+  }
+
+  .mat-calendar-table-header-divider {
+    display: none;
+  }
+
+  // Hide redundant month name in the grid, but keep the cell so the week layout stays aligned.
+  .mat-calendar-body-label {
+    color: transparent !important;
+    font-size: 0 !important;
+    line-height: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none;
+  }
+
+  .mat-calendar-body-cell-container {
+    padding: 0 !important;
+    height: 2rem !important;
+    width: 2rem !important;
+  }
+
+  .mat-calendar-body-cell {
+    height: 2rem !important;
+    width: 2rem !important;
+  }
+
+  .mat-calendar-body-cell-content {
+    width: 1.75rem !important;
+    height: 1.75rem !important;
+    line-height: 1.75rem !important;
+    font-size: 0.75rem !important;
+    color: #111827 !important;
+    border-color: transparent !important;
+  }
+
+  .mat-calendar-body-disabled
+    > .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
+    color: #9ca3af !important;
+  }
+
+  .mat-calendar-body-selected {
+    background-color: #2563eb !important;
+    color: #ffffff !important;
+  }
+
+  .mat-calendar-body-today:not(.mat-calendar-body-selected) .mat-calendar-body-cell-content {
+    border-color: #2563eb !important;
+    color: #2563eb !important;
+  }
+}

@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>{{ 'modules.profile.jobApplications.rejectTitle' | transloco }}</h2>
+<mat-dialog-content>
+  <p class="mb-4 text-sm text-gray-600">{{ data.applicantName }}</p>
+  <form [formGroup]="form">
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>{{ 'modules.profile.jobApplications.fields.reviewNotes' | transloco }}</mat-label>
+      <textarea matInput rows="4" formControlName="reviewNotes" required></textarea>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <base-button type="button" color="warn" size="sm" (click)="cancel()">{{ 'shared.cancel' | transloco }}</base-button>
+  <base-button color="warn" (click)="submit()">{{ 'modules.profile.jobApplications.reject' | transloco }}</base-button>
+</mat-dialog-actions>

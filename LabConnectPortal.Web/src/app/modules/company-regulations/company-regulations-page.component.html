@@ -1,0 +1,32 @@
+<div class="mx-auto max-w-4xl px-5 py-8 pb-12" dir="rtl">
+  <header class="mb-8 text-right">
+    <h1 class="m-0 text-2xl font-bold text-gray-900 md:text-[1.75rem]">
+      {{ 'modules.companyRegulations.title' | transloco }}
+    </h1>
+    <p class="mt-2 m-0 text-sm leading-6 text-gray-500">
+      {{ 'modules.companyRegulations.subtitle' | transloco }}
+    </p>
+  </header>
+
+  @if (loading) {
+    <p class="text-gray-500">{{ 'shared.loading' | transloco }}</p>
+  } @else if (error) {
+    <div class="rounded-lg bg-red-50 px-4 py-3 text-red-700">{{ error }}</div>
+  } @else if (!items.length) {
+    <p class="text-gray-500">{{ 'modules.companyRegulations.empty' | transloco }}</p>
+  } @else {
+    <div class="flex flex-col gap-10">
+      @for (item of items; track item.companyRegulationId) {
+        <article class="text-right">
+          <h2 class="m-0 mb-4 border-b border-gray-200 pb-3 text-xl font-bold text-gray-900">
+            {{ typeLabel(item.type) }}
+          </h2>
+          <div
+            class="ck-content text-base leading-[1.8] text-right text-gray-800 [&_*]:text-right [&_h1]:mt-6 [&_h1]:mb-3 [&_h1]:text-right [&_h1]:text-gray-900 [&_h2]:mt-6 [&_h2]:mb-3 [&_h2]:text-right [&_h2]:text-gray-900 [&_h3]:mt-6 [&_h3]:mb-3 [&_h3]:text-right [&_h3]:text-gray-900 [&_p]:mb-4 [&_p]:text-right [&_ul]:mb-4 [&_ul]:list-inside [&_ul]:text-right [&_ol]:mb-4 [&_ol]:list-inside [&_ol]:text-right [&_table]:mb-4 [&_table]:w-full [&_table]:border-collapse [&_td]:border [&_td]:border-gray-200 [&_td]:p-2 [&_th]:border [&_th]:border-gray-200 [&_th]:p-2 [&_blockquote]:my-4 [&_blockquote]:border-r-4 [&_blockquote]:border-gray-300 [&_blockquote]:pr-4 [&_blockquote]:text-gray-600 [&_a]:text-[#35507c]"
+            [innerHTML]="safeBody(item.body)"
+          ></div>
+        </article>
+      }
+    </div>
+  }
+</div>

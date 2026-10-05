@@ -1,0 +1,22 @@
+<h2 mat-dialog-title>{{ 'modules.profile.jobApplications.approveTitle' | transloco }}</h2>
+<mat-dialog-content>
+  <p class="mb-4 text-sm text-gray-600">{{ data.applicantName }}</p>
+  <form [formGroup]="form" class="flex flex-col gap-3">
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'modules.profile.jobApplications.fields.reviewNotes' | transloco }}</mat-label>
+      <textarea matInput rows="3" formControlName="reviewNotes"></textarea>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'modules.profile.jobApplications.fields.visitScheduledAt' | transloco }}</mat-label>
+      <input matInput type="datetime-local" formControlName="visitScheduledAt" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'modules.profile.jobApplications.fields.visitLocation' | transloco }}</mat-label>
+      <input matInput formControlName="visitLocation" />
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <base-button type="button" color="warn" size="sm" (click)="cancel()">{{ 'shared.cancel' | transloco }}</base-button>
+  <base-button (click)="submit()">{{ 'modules.profile.jobApplications.approve' | transloco }}</base-button>
+</mat-dialog-actions>

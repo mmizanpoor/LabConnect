@@ -1,0 +1,55 @@
+<div class="mx-auto max-w-4xl p-6" dir="rtl">
+  <div class="mb-4 flex items-center gap-2">
+    <base-back-button link="/admin/ad-positions" />
+  </div>
+
+  <h1 class="mb-6 text-lg font-bold text-gray-900">
+    {{
+      (isEdit ? 'modules.admin.adCommerce.positions.editTitle' : 'modules.admin.adCommerce.positions.add')
+        | transloco
+    }}
+  </h1>
+
+  @if (error) {
+    <div class="mb-4 rounded-[5px] border border-red-100 bg-red-50 p-3 text-sm text-red-700">{{ error }}</div>
+  }
+
+  @if (loading) {
+    <p class="text-gray-500">{{ 'shared.loading' | transloco }}</p>
+  } @else {
+    <form class="flex flex-col gap-4" [formGroup]="form" (ngSubmit)="save()">
+      <base-form-field
+        [label]="'modules.admin.adCommerce.positions.fields.code' | transloco"
+        [control]="form.controls.code"
+      />
+      <base-form-field
+        [label]="'modules.admin.adCommerce.positions.fields.title' | transloco"
+        [control]="form.controls.title"
+      />
+      <base-form-field
+        [label]="'modules.admin.adCommerce.positions.fields.description' | transloco"
+        [control]="form.controls.description"
+        [multiline]="true"
+      />
+      <base-form-field
+        type="number"
+        [label]="'modules.admin.adCommerce.positions.fields.maxSlots' | transloco"
+        [control]="form.controls.maxConcurrentSlots"
+      />
+      <base-form-field
+        type="number"
+        [label]="'modules.admin.adCommerce.positions.fields.maxDisplay' | transloco"
+        [control]="form.controls.maxDisplayCount"
+      />
+      <base-checkbox formControlName="isActive">
+        {{ 'modules.admin.adCommerce.positions.fields.isActive' | transloco }}
+      </base-checkbox>
+
+      <div class="flex justify-end gap-3 pt-2">
+        <base-button type="submit" color="blue" [loading]="saving" [disabled]="saving || form.invalid">
+          {{ 'shared.save' | transloco }}
+        </base-button>
+      </div>
+    </form>
+  }
+</div>

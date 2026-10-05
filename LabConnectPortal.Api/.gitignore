@@ -1,0 +1,45 @@
+# Build output
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio Code
+.vscode/
+
+# Test results
+TestResults/
+*.trx
+
+# NuGet
+*.nupkg
+*.snupkg
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+
+# ASP.NET generated files
+wwwroot/lib/
+
+# Environment / local configuration
+appsettings.Local.json
+
+# User secrets
+secrets.json
+
+# Application settings containing local secrets
+appsettings.json
+appsettings.Development.json

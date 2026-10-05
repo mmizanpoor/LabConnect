@@ -1,0 +1,14 @@
+/* Location map sits inside the seller card as quiet supplementary info. */
+:host ::ng-deep .product-location__map {
+  .map-picker {
+    gap: 0;
+  }
+
+  .map-picker__canvas,
+  .map-picker__canvas.is-compact {
+    height: 7.5rem;
+    border-color: #e2e8f0;
+    border-radius: 0.5rem;
+    background: #f8fafc;
+  }
+}

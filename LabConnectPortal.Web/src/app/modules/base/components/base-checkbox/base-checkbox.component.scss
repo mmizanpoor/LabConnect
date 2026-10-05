@@ -1,0 +1,118 @@
+:host {
+  display: inline-block;
+  max-width: 100%;
+  vertical-align: middle;
+}
+
+.base-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  cursor: pointer;
+  user-select: none;
+  margin: 0;
+}
+
+.base-checkbox__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.base-checkbox__box {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 1.5px solid #94a3b8;
+  border-radius: 0.375rem;
+  background: #ffffff;
+  color: #ffffff;
+  box-shadow: inset 0 1px 1px rgb(15 23 42 / 0.04);
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.12s ease;
+}
+
+.base-checkbox__check {
+  width: 0.75rem;
+  height: 0.75rem;
+  opacity: 0;
+  transform: scale(0.6);
+  transition:
+    opacity 0.12s ease,
+    transform 0.12s ease;
+}
+
+.base-checkbox__dash {
+  display: block;
+  width: 0.625rem;
+  height: 0.125rem;
+  border-radius: 999px;
+  background: #ffffff;
+}
+
+.base-checkbox__label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: #334155;
+  transition: color 0.15s ease;
+}
+
+.base-checkbox__label:empty {
+  display: none;
+}
+
+.base-checkbox:has(.base-checkbox__label:empty) {
+  gap: 0;
+}
+
+.base-checkbox:hover:not(.base-checkbox--disabled) .base-checkbox__box {
+  border-color: #64748b;
+}
+
+.base-checkbox__input:focus-visible + .base-checkbox__box {
+  outline: 2px solid rgb(37 99 235 / 0.35);
+  outline-offset: 2px;
+}
+
+.base-checkbox--checked .base-checkbox__box,
+.base-checkbox--indeterminate .base-checkbox__box {
+  border-color: #2563eb;
+  background: #2563eb;
+  box-shadow:
+    0 1px 2px rgb(37 99 235 / 0.28),
+    inset 0 1px 0 rgb(255 255 255 / 0.18);
+}
+
+.base-checkbox--checked .base-checkbox__check {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.base-checkbox--checked:hover:not(.base-checkbox--disabled) .base-checkbox__box,
+.base-checkbox--indeterminate:hover:not(.base-checkbox--disabled) .base-checkbox__box {
+  border-color: #1d4ed8;
+  background: #1d4ed8;
+}
+
+.base-checkbox--disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.base-checkbox--disabled .base-checkbox__label {
+  color: #94a3b8;
+}

@@ -1,0 +1,287 @@
+<div class="mx-auto max-w-3xl p-6" dir="rtl">
+  <div class="mb-4 flex items-center justify-between gap-2">
+    <div class="flex items-center gap-2">
+      <base-back-button
+        link="/profile/product-listings"
+        ariaLabelKey="modules.profile.productListings.backToList"
+      />
+      @if (listing) {
+        <span class="rounded bg-slate-100 px-2 py-1 text-xs">{{ statusLabel(listing.status) }}</span>
+      }
+    </div>
+    @if (!isNew && listingId) {
+      <base-button type="button" (click)="openHistoryDialog()">
+        {{ 'modules.activityLog.showHistory' | transloco }}
+      </base-button>
+    }
+  </div>
+
+  @if (error) {
+    <div class="mb-4 rounded-[5px] border border-red-100 bg-red-50 p-3 text-sm text-red-700">{{ error }}</div>
+  }
+
+  @if (success) {
+    <div class="mb-4 rounded-[5px] border border-green-100 bg-green-50 p-3 text-sm text-green-700">{{ success }}</div>
+  }
+
+  @if (showProfileStatusMessage && !canManageListings && !loading) {
+    <div class="mb-4 rounded-[5px] border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
+      <p>{{ profileBannerKey | transloco }}</p>
+      @if (centerProfile?.rejectionReason; as reason) {
+        <p class="mt-1">{{ 'modules.profile.center.rejectionBanner.reason' | transloco }}: {{ reason }}</p>
+      }
+      <a routerLink="/profile/center" class="mt-2 inline-block font-medium text-teal-700">
+        {{ 'modules.profile.productListings.goToCenterProfile' | transloco }}
+      </a>
+    </div>
+  }
+
+  @if (loading) {
+    <p class="text-gray-500">{{ 'shared.loading' | transloco }}</p>
+  } @else if (isNew) {
+    <div
+      class="mb-4 rounded-[5px] border border-slate-200 bg-white p-5 shadow-[0_1px_3px_rgba(15,23,42,0.06)] md:p-6"
+    >
+      <h2 class="mb-1 text-base font-semibold text-[#35507c]">
+        {{ 'modules.profile.productListings.selectProductSection' | transloco }}
+      </h2>
+      <p class="mb-4 text-sm text-gray-600">
+        {{ 'modules.profile.productListings.selectProductHint' | transloco }}
+      </p>
+
+      <div class="flex flex-col gap-3">
+        <base-form-field
+          class="w-full"
+          layout="floating"
+          icon="inventory_2"
+          [required]="true"
+          [select]="true"
+          [searchable]="true"
+          [remoteSearch]="true"
+          [options]="catalogProductOptions"
+          [placeholder]="'modules.profile.productListings.noCatalogProducts' | transloco"
+          [searchPlaceholder]="'modules.profile.productListings.fields.searchProduct' | transloco"
+          [label]="'modules.profile.productListings.fields.product' | transloco"
+          [control]="form.controls.productId"
+          (searchChange)="onCatalogSelectSearch($event)"
+        />
+
+        @if (selectedProduct; as product) {
+          <div class="rounded-[5px] border border-slate-200 bg-slate-50 p-4">
+            <h3 class="mb-2 font-bold text-gray-900">
+              {{ 'modules.profile.productListings.productInfo' | transloco }}
+            </h3>
+            <p class="font-semibold">{{ product.title }}</p>
+            <p class="text-sm text-gray-600">{{ product.brandTitle }}</p>
+            @if (product.categoryTitles.length) {
+              <p class="mt-1 text-sm">{{ product.categoryTitles.join('، ') }}</p>
+            }
+            @if (product.warranty) {
+              <p class="mt-1 text-sm">{{ 'modules.products.fields.warranty' | transloco }}: {{ product.warranty }}</p>
+            }
+            @if (product.description) {
+              <p class="mt-2 whitespace-pre-line text-sm text-gray-700">{{ product.description }}</p>
+            }
+            @if (product.images.length) {
+              <div class="mt-3 flex flex-wrap gap-2">
+                @for (img of product.images; track img.id) {
+                  <img [src]="imageUrl(img.imagePath)" [alt]="product.title" class="h-20 w-20 rounded border object-cover" />
+                }
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+
+    @if (selectedProduct) {
+      <div
+        class="rounded-[5px] border border-slate-200 bg-white p-5 shadow-[0_1px_3px_rgba(15,23,42,0.06)] md:p-6"
+      >
+        <h2 class="mb-4 text-base font-semibold text-[#35507c]">
+          {{ 'modules.profile.productListings.listingDetailsSection' | transloco }}
+        </h2>
+
+        <ng-container *ngTemplateOutlet="listingFields" />
+        <ng-container *ngTemplateOutlet="listingActions" />
+      </div>
+    }
+  } @else {
+    <div
+      class="rounded-[5px] border border-slate-200 bg-white p-5 shadow-[0_1px_3px_rgba(15,23,42,0.06)] md:p-6"
+    >
+      @if (selectedProduct; as product) {
+        <div class="mb-4 rounded-[5px] border border-slate-200 bg-slate-50 p-4">
+          <h2 class="mb-2 font-bold">{{ 'modules.profile.productListings.productInfo' | transloco }}</h2>
+          <p class="font-semibold">{{ product.title }}</p>
+          <p class="text-sm text-gray-600">{{ product.brandTitle }}</p>
+          @if (product.categoryTitles.length) {
+            <p class="mt-1 text-sm">{{ product.categoryTitles.join('، ') }}</p>
+          }
+          @if (product.warranty) {
+            <p class="mt-1 text-sm">{{ 'modules.products.fields.warranty' | transloco }}: {{ product.warranty }}</p>
+          }
+          @if (product.description) {
+            <p class="mt-2 whitespace-pre-line text-sm">{{ product.description }}</p>
+          }
+          @if (product.images.length) {
+            <div class="mt-3 flex flex-wrap gap-2">
+              @for (img of product.images; track img.id) {
+                <img [src]="imageUrl(img.imagePath)" [alt]="product.title" class="h-20 w-20 rounded border object-cover" />
+              }
+            </div>
+          }
+        </div>
+      }
+
+      <ng-container *ngTemplateOutlet="listingFields" />
+      <ng-container *ngTemplateOutlet="listingActions" />
+    </div>
+  }
+</div>
+
+<ng-template #listingFields>
+  <form [formGroup]="form" class="flex flex-col gap-3">
+    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+      <div class="sm:col-span-2">
+        <base-checkbox formControlName="isNegotiablePrice">
+          {{ 'modules.profile.productListings.fields.negotiablePrice' | transloco }}
+        </base-checkbox>
+      </div>
+
+      <div class="sm:col-span-2">
+        <base-checkbox formControlName="isUsed">
+          {{ 'modules.profile.productListings.fields.isUsed' | transloco }}
+        </base-checkbox>
+      </div>
+
+      @if (form.controls.isUsed.value) {
+        <div class="rounded-[5px] border border-amber-200 bg-amber-50 p-4 sm:col-span-2">
+          <h3 class="mb-2 font-semibold">{{ 'modules.profile.productListings.listingImagesTitle' | transloco }}</h3>
+          @if (needsSaveBeforeUploadImages) {
+            <p class="text-sm text-amber-900">{{ 'modules.profile.productListings.saveBeforeUploadImages' | transloco }}</p>
+          } @else if (canUploadListingImages) {
+            <input
+              #listingImageInput
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              class="hidden"
+              (change)="onListingImageSelected($event)"
+              [disabled]="uploadingListingImage"
+            />
+            <div class="mb-3 w-52">
+              <base-button
+                type="button"
+                color="orange"
+                [loading]="uploadingListingImage"
+                [disabled]="uploadingListingImage"
+                (click)="listingImageInput.click()"
+              >
+                {{ 'modules.profile.productListings.uploadListingImage' | transloco }}
+              </base-button>
+            </div>
+          }
+          @if (listingImages.length) {
+            <div class="flex flex-wrap gap-3">
+              @for (image of listingImages; track image.id) {
+                <div class="relative w-32 overflow-hidden rounded border bg-white">
+                  <img [src]="imageUrl(image.imagePath)" [alt]="selectedProduct?.title || ''" class="h-24 w-full object-cover" />
+                  @if (canUploadListingImages) {
+                    <div class="absolute left-1 top-1 w-24">
+                      <base-button color="warn" type="button" (click)="deleteListingImage(image)">
+                        {{ 'shared.delete' | transloco }}
+                      </base-button>
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+          } @else if (!needsSaveBeforeUploadImages) {
+            <p class="text-sm text-gray-600">{{ 'modules.profile.productListings.noListingImages' | transloco }}</p>
+          }
+        </div>
+      }
+
+      <div class="flex flex-col gap-3 sm:col-span-2 sm:flex-row sm:items-start">
+        <base-form-field
+          class="w-full min-w-0 flex-1"
+          layout="floating"
+          icon="payments"
+          type="number"
+          [required]="!form.controls.isNegotiablePrice.value"
+          [label]="'modules.profile.productListings.fields.price' | transloco"
+          [control]="form.controls.price"
+        />
+
+        <base-form-field
+          class="w-full min-w-0 flex-1"
+          layout="floating"
+          icon="inventory"
+          type="number"
+          [required]="true"
+          [label]="'modules.profile.productListings.fields.stock' | transloco"
+          [control]="form.controls.stockQuantity"
+        />
+
+        <base-form-field
+          class="w-full min-w-0 flex-1"
+          layout="floating"
+          icon="percent"
+          type="number"
+          [label]="'modules.profile.productListings.fields.discount' | transloco"
+          [control]="form.controls.discountPercent"
+        />
+      </div>
+
+      <base-form-field
+        class="w-full sm:col-span-2"
+        layout="floating"
+        icon="notes"
+        [multiline]="true"
+        [rows]="4"
+        [label]="'modules.profile.productListings.fields.sellerDescription' | transloco"
+        [control]="form.controls.sellerDescription"
+      />
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #listingActions>
+  <div class="mt-4 flex flex-wrap gap-2">
+    @if (!readOnly && canSave) {
+      <div class="w-28">
+        <base-button
+          color="soft"
+          size="sm"
+          type="button"
+          [loading]="saving"
+          [disabled]="saving || publishing || form.invalid || !selectedProduct"
+          (click)="save()"
+        >
+          {{ 'shared.save' | transloco }}
+        </base-button>
+      </div>
+      @if ((!listing || listing.status !== 'Published') && canPublish) {
+        <div class="w-36">
+          <base-button
+            type="button"
+            color="accent"
+            size="sm"
+            [loading]="publishing"
+            [disabled]="saving || publishing || form.invalid || !selectedProduct"
+            (click)="saveAndPublish()"
+          >
+            {{ 'modules.profile.productListings.publish' | transloco }}
+          </base-button>
+        </div>
+      }
+    }
+    @if (listing?.status === 'Published' && canManageListings && canPublish) {
+      <div class="w-36">
+        <base-button type="button" color="warn" size="sm" (click)="unpublish()">
+          {{ 'modules.profile.productListings.unpublish' | transloco }}
+        </base-button>
+      </div>
+    }
+  </div>
+</ng-template>

@@ -1,0 +1,464 @@
+﻿<div dir="rtl">
+  @if (slides.length) {
+  <app-home-slider [slides]="slides" />
+  } @else if (slidesLoading) {
+  <div
+    class="mx-auto flex h-8 max-w-7xl items-center justify-center gap-2 px-3 sm:h-9"
+    aria-busy="true"
+    aria-label="loading"
+  >
+    <span
+      class="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-slate-200 border-t-[#35507c]"
+    ></span>
+    <span class="text-xs text-slate-400">{{ "shared.loading" | transloco }}</span>
+  </div>
+  } @else if (slidesError) {
+  <div
+    class="mx-auto flex max-w-7xl items-center justify-center gap-2 px-3 py-2 text-xs text-slate-500"
+  >
+    <span>{{ "shared.loadFailed" | transloco }}</span>
+    <button
+      type="button"
+      class="font-medium text-[#35507c] underline"
+      (click)="loadSlides()"
+    >
+      {{ "shared.retry" | transloco }}
+    </button>
+  </div>
+  }
+
+  @if (siteServices.length) {
+  <section class="mt-5 px-3 sm:mt-6 sm:px-5">
+    <div
+      class="mx-auto flex max-w-5xl flex-wrap justify-center gap-x-2 gap-y-4 sm:gap-x-3 lg:justify-between lg:gap-x-0"
+    >
+      @for (service of siteServices; track service.siteServiceId; let i =
+      $index) {
+      <a
+        class="flex shrink-0 flex-col items-center gap-1.5 text-inherit no-underline"
+        [attr.href]="service.linkUrl || null"
+      >
+        <div
+          class="flex h-[72px] w-[72px] items-center justify-center overflow-hidden rounded-full"
+          [style.background]="serviceTheme(i).circleBg"
+        >
+          @if (service.imagePath) {
+          <img
+            class="h-[72px] w-[72px] object-cover"
+            [src]="publicSiteServiceImageUrl(service.imagePath)"
+            [alt]="service.title"
+            loading="lazy"
+          />
+          }
+        </div>
+        <span
+          class="max-w-[calc(100vw-3rem)] overflow-hidden text-ellipsis whitespace-nowrap text-center text-[0.6875rem] font-medium text-slate-800 sm:text-xs"
+        >
+          {{ service.title }}
+        </span>
+      </a>
+      }
+    </div>
+  </section>
+  } @else if (siteServicesLoading) {
+  <div
+    class="mx-auto mt-3 flex h-7 max-w-7xl items-center justify-center gap-2 px-3"
+    aria-busy="true"
+  >
+    <span
+      class="inline-block h-3 w-3 animate-spin rounded-full border-2 border-slate-200 border-t-[#35507c]"
+    ></span>
+  </div>
+  } @else if (siteServicesError) {
+  <div
+    class="mx-auto mt-3 flex max-w-7xl items-center justify-center gap-2 px-3 py-1.5 text-xs text-slate-500"
+  >
+    <span>{{ "shared.loadFailed" | transloco }}</span>
+    <button
+      type="button"
+      class="font-medium text-[#35507c] underline"
+      (click)="loadSiteServices()"
+    >
+      {{ "shared.retry" | transloco }}
+    </button>
+  </div>
+  }
+
+  <main class="max-w-7xl mx-auto w-full min-w-0 pt-4 px-3 pb-10 sm:px-5">
+    @if (specialOffersLoading) {
+    <div
+      class="mt-3 flex h-7 items-center gap-2"
+      aria-busy="true"
+    >
+      <span
+        class="inline-block h-3 w-3 animate-spin rounded-full border-2 border-slate-200 border-t-[#35507c]"
+      ></span>
+      <span class="text-xs text-slate-400">{{ "shared.loading" | transloco }}</span>
+    </div>
+    } @else if (specialOffersError) {
+    <div class="mt-3 flex items-center gap-2 py-1 text-xs text-slate-500">
+      <span>{{ "shared.loadFailed" | transloco }}</span>
+      <button
+        type="button"
+        class="font-medium text-[#35507c] underline"
+        (click)="loadSpecialOffers()"
+      >
+        {{ "shared.retry" | transloco }}
+      </button>
+    </div>
+    } @else {
+    <!-- Special offers keeps its own empty-state shell; do not collapse the section. -->
+    <section class="mt-3 border-0 bg-transparent p-0 shadow-none">
+      <app-home-special-offers [offers]="homeSpecialOffers" />
+    </section>
+    }
+
+    @if (categoriesLoading) {
+    <section class="mt-2 py-2" aria-busy="true">
+      <div
+        class="flex min-h-[6.5rem] items-center gap-2 py-3 sm:hidden"
+      >
+        <span
+          class="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-slate-200 border-t-[#35507c]"
+        ></span>
+        <span class="text-xs text-slate-400">{{ "shared.loading" | transloco }}</span>
+      </div>
+      <div class="mb-4 hidden h-5 w-40 animate-pulse rounded bg-slate-200 sm:mb-5 sm:block"></div>
+      <div
+        class="hidden flex-wrap justify-center gap-x-3 gap-y-4 min-[420px]:gap-x-5 sm:flex sm:gap-x-6 sm:gap-y-5"
+      >
+        @for (slot of skeletonCategorySlots; track slot) {
+        <div class="flex w-[4.75rem] flex-col items-center gap-2 sm:w-[5.5rem]">
+          <div
+            class="h-14 w-14 animate-pulse rounded-full bg-slate-200 sm:h-16 sm:w-16"
+          ></div>
+          <div class="h-3 w-12 animate-pulse rounded bg-slate-200"></div>
+        </div>
+        }
+      </div>
+    </section>
+    } @else if (categories.length) {
+    <section class="mt-2 py-2">
+      <h2
+        class="m-0 mb-4 text-start text-base font-bold text-gray-900 sm:mb-5 sm:text-lg"
+      >
+        {{ "modules.home.shopByCategory" | transloco }}
+      </h2>
+      <div
+        class="flex flex-wrap justify-center gap-x-3 gap-y-4 min-[420px]:gap-x-5 sm:gap-x-6 sm:gap-y-5 md:gap-x-7"
+      >
+        @for (category of categories; track category.productCategoryGroupId) {
+        <app-home-category-card [category]="category" />
+        }
+      </div>
+    </section>
+    } @else if (categoriesError) {
+    <div class="mt-2 flex items-center gap-2 py-2 text-xs text-slate-500">
+      <span>{{ "shared.loadFailed" | transloco }}</span>
+      <button
+        type="button"
+        class="font-medium text-[#35507c] underline"
+        (click)="loadCategories()"
+      >
+        {{ "shared.retry" | transloco }}
+      </button>
+    </div>
+    }
+
+    @if (primaryPromotionAds.length) {
+    <section class="mt-8 sm:mt-10 p-0 border-0 bg-transparent shadow-none">
+      <app-home-promotion-posts [ads]="primaryPromotionAds" />
+    </section>
+    } @else if (promotionPostsLoading) {
+    <div
+      class="mt-8 flex h-9 items-center gap-2 sm:mt-10 sm:h-10"
+      aria-busy="true"
+    >
+      <span
+        class="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-slate-200 border-t-[#35507c]"
+      ></span>
+      <span class="text-xs text-slate-400">{{ "shared.loading" | transloco }}</span>
+    </div>
+    } @else if (promotionPostsError) {
+    <div class="mt-8 flex items-center gap-2 py-1 text-xs text-slate-500 sm:mt-10">
+      <span>{{ "shared.loadFailed" | transloco }}</span>
+      <button
+        type="button"
+        class="font-medium text-[#35507c] underline"
+        (click)="loadPromotionPosts()"
+      >
+        {{ "shared.retry" | transloco }}
+      </button>
+    </div>
+    }
+
+    @if (brandsLoading) {
+    <section class="mt-8 sm:mt-10 py-1" aria-busy="true">
+      <div class="flex min-h-[6rem] items-center gap-2 py-3 sm:hidden">
+        <span
+          class="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-slate-200 border-t-[#35507c]"
+        ></span>
+        <span class="text-xs text-slate-400">{{ "shared.loading" | transloco }}</span>
+      </div>
+      <div class="mb-4 hidden h-5 w-36 animate-pulse rounded bg-slate-200 sm:block"></div>
+      <div
+        class="hidden grid-cols-3 overflow-hidden rounded-[0.875rem] border border-[#ebebeb] bg-white min-[420px]:grid-cols-4 min-[480px]:grid-cols-5 sm:grid md:grid-cols-7 min-[1200px]:grid-cols-10 grid-rows-2"
+      >
+        @for (slot of skeletonBrandSlots; track slot) {
+        <div
+          class="flex h-[4.5rem] items-center justify-center border-s border-b border-[#ebebeb] sm:h-[5.75rem]"
+        >
+          <div class="h-8 w-16 animate-pulse rounded bg-slate-100"></div>
+        </div>
+        }
+      </div>
+    </section>
+    } @else if (brands.length) {
+    <section class="mt-8 sm:mt-10 py-1">
+      <app-home-section-header
+        titleKey="modules.home.latestBrands"
+        viewAllLabelKey="modules.home.viewAllBrands"
+        viewAllLink="/products"
+      />
+      <div
+        class="grid grid-cols-3 min-[420px]:grid-cols-4 min-[480px]:grid-cols-5 md:grid-cols-7 min-[1200px]:grid-cols-10 grid-rows-2 [grid-auto-rows:0] overflow-hidden rounded-[0.875rem] border border-[#ebebeb] bg-white"
+      >
+        @for (brand of brands; track brand.brandId) {
+        <app-home-brand-card
+          class="border-s border-b border-[#ebebeb]"
+          [brand]="brand"
+        />
+        }
+      </div>
+    </section>
+    } @else if (brandsError) {
+    <div class="mt-8 flex items-center gap-2 py-2 text-xs text-slate-500 sm:mt-10">
+      <span>{{ "shared.loadFailed" | transloco }}</span>
+      <button
+        type="button"
+        class="font-medium text-[#35507c] underline"
+        (click)="loadBrands()"
+      >
+        {{ "shared.retry" | transloco }}
+      </button>
+    </div>
+    }
+
+    @if (mostViewedLoading) {
+    <section
+      class="mt-8 rounded-2xl bg-[#f4f7fb] px-3 py-3 sm:mt-10 sm:px-6 sm:py-6"
+      aria-busy="true"
+    >
+      <div class="flex min-h-[7rem] items-center gap-2 py-2 sm:hidden">
+        <span
+          class="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-slate-200 border-t-[#35507c]"
+        ></span>
+        <span class="text-xs text-slate-400">{{ "shared.loading" | transloco }}</span>
+      </div>
+      <div class="mb-4 hidden h-5 w-44 animate-pulse rounded bg-slate-200 sm:block"></div>
+      <div class="hidden gap-3 overflow-hidden sm:flex">
+        @for (slot of skeletonProductSlots; track slot) {
+        <div
+          class="h-52 w-[42%] shrink-0 animate-pulse rounded-xl bg-white sm:w-44"
+        ></div>
+        }
+      </div>
+    </section>
+    } @else if (mostViewedProducts.length) {
+    <section
+      class="mt-8 rounded-2xl bg-[#f4f7fb] px-3 py-5 sm:mt-10 sm:px-6 sm:py-6"
+    >
+      <app-home-section-header
+        titleKey="modules.home.mostViewedProducts"
+        viewAllLabelKey="modules.home.viewAllProducts"
+        viewAllLink="/products"
+        [viewAllQueryParams]="mostViewedQueryParams"
+      />
+      <app-home-scroll-row variant="products">
+        @for (product of mostViewedProducts; track product.productId) {
+        <app-product-card [product]="product" layout="home" />
+        }
+      </app-home-scroll-row>
+    </section>
+    } @else if (mostViewedError) {
+    <div class="mt-8 flex items-center gap-2 py-2 text-xs text-slate-500 sm:mt-10">
+      <span>{{ "shared.loadFailed" | transloco }}</span>
+      <button
+        type="button"
+        class="font-medium text-[#35507c] underline"
+        (click)="loadMostViewedProducts()"
+      >
+        {{ "shared.retry" | transloco }}
+      </button>
+    </div>
+    }
+
+    @if (secondaryPromotionAds.length) {
+    <section class="mt-8 sm:mt-10 p-0 border-0 bg-transparent shadow-none">
+      <app-home-promotion-posts
+        [ads]="secondaryPromotionAds"
+        themeSet="vivid"
+      />
+    </section>
+    }
+
+    @for (section of categoryGroupSections; track
+    section.group.productCategoryGroupId) {
+    <section
+      class="mt-8 rounded-2xl border border-slate-200 bg-white px-3 py-5 sm:mt-10 sm:px-6 sm:py-6"
+    >
+      <app-home-section-header
+        [title]="section.group.title"
+        viewAllLabelKey="modules.home.viewAllProducts"
+        viewAllLink="/products"
+        [viewAllQueryParams]="categoryGroupQueryParams(section.group)"
+      />
+      <app-home-scroll-row variant="products">
+        @for (product of section.products; track product.productId) {
+        <app-product-card [product]="product" layout="home" />
+        }
+      </app-home-scroll-row>
+    </section>
+    }
+    @if (categoryGroupSectionsPartialError && categoryGroupSections.length) {
+    <div class="mt-3 flex items-center gap-2 py-1 text-xs text-slate-500">
+      <span>{{ "shared.loadFailed" | transloco }}</span>
+      <button
+        type="button"
+        class="font-medium text-[#35507c] underline"
+        (click)="loadCategoryGroupSections()"
+      >
+        {{ "shared.retry" | transloco }}
+      </button>
+    </div>
+    }
+    @if (categoryGroupSectionsLoading && !categoryGroupSections.length) {
+    <section
+      class="mt-8 rounded-2xl border border-slate-200 bg-white px-3 py-3 sm:mt-10 sm:px-6 sm:py-6"
+      aria-busy="true"
+    >
+      <div class="flex min-h-[7rem] items-center gap-2 py-2 sm:hidden">
+        <span
+          class="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-slate-200 border-t-[#35507c]"
+        ></span>
+        <span class="text-xs text-slate-400">{{ "shared.loading" | transloco }}</span>
+      </div>
+      <div class="mb-4 hidden h-5 w-40 animate-pulse rounded bg-slate-200 sm:block"></div>
+      <div class="hidden gap-3 overflow-hidden sm:flex">
+        @for (slot of skeletonProductSlots; track slot) {
+        <div
+          class="h-52 w-[42%] shrink-0 animate-pulse rounded-xl bg-slate-100 sm:w-44"
+        ></div>
+        }
+      </div>
+    </section>
+    } @else if (
+      categoryGroupSectionsError &&
+      !categoryGroupSections.length &&
+      !categoryGroupSectionsLoading
+    ) {
+    <div class="mt-8 flex items-center gap-2 py-2 text-xs text-slate-500 sm:mt-10">
+      <span>{{ "shared.loadFailed" | transloco }}</span>
+      <button
+        type="button"
+        class="font-medium text-[#35507c] underline"
+        (click)="loadCategoryGroupSections()"
+      >
+        {{ "shared.retry" | transloco }}
+      </button>
+    </div>
+    }
+
+    @if (productsLoading) {
+    <section class="mt-8 sm:mt-10 py-1" aria-busy="true">
+      <div class="flex min-h-[8rem] items-center gap-2 py-3 sm:hidden">
+        <span
+          class="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-slate-200 border-t-[#35507c]"
+        ></span>
+        <span class="text-xs text-slate-400">{{ "shared.loading" | transloco }}</span>
+      </div>
+      <div class="mb-4 hidden h-5 w-36 animate-pulse rounded bg-slate-200 sm:block"></div>
+      <div
+        class="hidden grid-cols-2 justify-items-center gap-x-2.5 gap-y-4 sm:grid sm:grid-cols-3 sm:gap-x-3 lg:grid-cols-4 min-[1200px]:grid-cols-5"
+      >
+        @for (slot of skeletonProductSlots; track slot) {
+        <div class="h-56 w-full max-w-[11rem] animate-pulse rounded-xl bg-slate-100"></div>
+        }
+      </div>
+    </section>
+    } @else if (latestProducts.length) {
+    <section class="mt-8 sm:mt-10 py-1">
+      <app-home-section-header
+        titleKey="modules.home.latestProducts"
+        viewAllLabelKey="modules.home.viewAllProducts"
+        viewAllLink="/products"
+      />
+      <div
+        class="grid grid-cols-2 justify-items-center gap-x-2.5 gap-y-4 sm:grid-cols-3 sm:gap-x-3 lg:grid-cols-4 min-[1200px]:grid-cols-5"
+      >
+        @for (product of latestProducts; track product.productId) {
+        <app-product-card [product]="product" layout="home" />
+        }
+      </div>
+    </section>
+    } @else if (productsError) {
+    <div class="mt-8 flex items-center gap-2 py-2 text-xs text-slate-500 sm:mt-10">
+      <span>{{ "shared.loadFailed" | transloco }}</span>
+      <button
+        type="button"
+        class="font-medium text-[#35507c] underline"
+        (click)="loadLatestProducts()"
+      >
+        {{ "shared.retry" | transloco }}
+      </button>
+    </div>
+    }
+
+    @if (postsLoading) {
+    <section class="mt-8 border-t border-gray-200 pt-4 sm:mt-10 sm:pt-8" aria-busy="true">
+      <div class="flex min-h-[7rem] items-center gap-2 py-3 sm:hidden">
+        <span
+          class="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-slate-200 border-t-[#35507c]"
+        ></span>
+        <span class="text-xs text-slate-400">{{ "shared.loading" | transloco }}</span>
+      </div>
+      <div class="mb-4 hidden h-5 w-32 animate-pulse rounded bg-slate-200 sm:block"></div>
+      <div class="hidden grid-cols-1 gap-4 sm:grid sm:grid-cols-2 lg:grid-cols-4">
+        @for (slot of skeletonPostSlots; track slot) {
+        <div class="overflow-hidden rounded-xl border border-gray-200 bg-white">
+          <div class="aspect-[4/3] animate-pulse bg-slate-100"></div>
+          <div class="space-y-2 p-3">
+            <div class="h-3 w-full animate-pulse rounded bg-slate-100"></div>
+            <div class="h-3 w-2/3 animate-pulse rounded bg-slate-100"></div>
+          </div>
+        </div>
+        }
+      </div>
+    </section>
+    } @else if (latestPosts.length) {
+    <section class="mt-8 sm:mt-10 border-t border-gray-200 pt-8">
+      <app-home-section-header
+        titleKey="modules.home.latestPosts"
+        viewAllLabelKey="modules.home.viewAllPosts"
+        viewAllLink="/news"
+      />
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        @for (post of latestPosts; track post.contentPostId) {
+        <app-post-card class="block min-w-0" [post]="post" layout="home" />
+        }
+      </div>
+    </section>
+    } @else if (postsError) {
+    <div class="mt-8 flex items-center gap-2 border-t border-gray-200 pt-4 text-xs text-slate-500 sm:mt-10 sm:pt-8">
+      <span>{{ "shared.loadFailed" | transloco }}</span>
+      <button
+        type="button"
+        class="font-medium text-[#35507c] underline"
+        (click)="loadLatestPosts()"
+      >
+        {{ "shared.retry" | transloco }}
+      </button>
+    </div>
+    }
+  </main>
+</div>

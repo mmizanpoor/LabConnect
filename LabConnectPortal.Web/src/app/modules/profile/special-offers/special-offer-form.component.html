@@ -1,0 +1,155 @@
+<div class="mx-auto max-w-6xl p-6" dir="rtl">
+  @if (loading) {
+  <p class="text-gray-500">{{ "shared.loading" | transloco }}</p>
+  } @else {
+  <div class="special-offer-form-card">
+    <div class="special-offer-form-card__header">
+      <div class="special-offer-form-card__back">
+        <base-back-button
+          link="/profile/special-offers"
+          ariaLabelKey="modules.profile.specialOffers.backToList"
+        />
+      </div>
+      <h1 class="special-offer-form-card__title">
+        {{
+          (isEdit
+            ? "modules.profile.specialOffers.editTitle"
+            : "modules.profile.specialOffers.addTitle"
+          ) | transloco
+        }}
+      </h1>
+    </div>
+
+    <div class="special-offer-form-card__body">
+      @if (error) {
+      <div
+        class="rounded-[5px] border border-red-100 bg-red-50 p-3 text-sm text-red-700"
+      >
+        {{ error }}
+      </div>
+      }
+
+      <form [formGroup]="form" class="flex flex-col gap-6" (ngSubmit)="save()">
+        <section>
+          <div class="flex flex-col gap-5">
+            <base-form-field
+              class="w-full"
+              layout="floating"
+              [required]="true"
+              [label]="'modules.profile.specialOffers.fields.title' | transloco"
+              [control]="form.controls.title"
+              [maxLength]="300"
+            />
+            <base-form-field
+              class="w-full"
+              layout="floating"
+              [required]="true"
+              [multiline]="true"
+              [rows]="3"
+              [label]="
+                'modules.profile.specialOffers.fields.summary' | transloco
+              "
+              [control]="form.controls.summary"
+              [maxLength]="1000"
+            />
+            <div class="flex flex-col gap-2">
+              <span class="text-sm font-semibold text-gray-700">
+                {{
+                  "modules.profile.specialOffers.fields.fullBody" | transloco
+                }}
+              </span>
+              <app-rich-text-editor formControlName="fullBody" />
+            </div>
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <base-form-field
+                class="w-full"
+                layout="floating"
+                [required]="true"
+                [jalaliDate]="true"
+                [label]="
+                  'modules.profile.specialOffers.fields.startDate' | transloco
+                "
+                [control]="form.controls.startDate"
+              />
+              <base-form-field
+                class="w-full"
+                layout="floating"
+                [required]="true"
+                [jalaliDate]="true"
+                [label]="
+                  'modules.profile.specialOffers.fields.endDate' | transloco
+                "
+                [control]="form.controls.endDate"
+              />
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div
+            class="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
+          >
+            <h2 class="m-0 text-lg font-semibold">
+              {{ "modules.profile.specialOffers.sections.tests" | transloco }}
+            </h2>
+            <div class="relative max-w-md flex-1">
+              <mat-icon
+                class="pointer-events-none absolute start-3 top-1/2 !h-5 !w-5 -translate-y-1/2 !text-[1.25rem] text-slate-400"
+              >
+                search
+              </mat-icon>
+              <input
+                type="search"
+                [formControl]="searchControl"
+                class="w-full rounded-[5px] border border-slate-200 bg-white py-2.5 pe-3 ps-10 text-sm outline-none focus:border-lab focus:ring-2 focus:ring-lab/20"
+                [placeholder]="
+                  'modules.profile.specialOffers.testsSearchPlaceholder'
+                    | transloco
+                "
+              />
+            </div>
+          </div>
+
+          <div
+            class="h-[400px] overflow-hidden rounded-[5px] border border-slate-200"
+          >
+            <base-grid
+              gridId="c3e8b1a4-7f29-4d6e-9c15-special-offer-form-tests"
+              class="h-full min-h-0"
+              [framed]="false"
+              [visibleOrder]="false"
+              [toolbarDisabled]="true"
+              [headerHeight]="72"
+              [columnDefs]="colDef"
+              [dataSource$]="tests$"
+              [disabled]="loading"
+              forceDirection="rtl"
+            />
+          </div>
+        </section>
+
+        <base-checkbox formControlName="isActive">
+          {{ "modules.profile.specialOffers.fields.isActive" | transloco }}
+        </base-checkbox>
+
+        <div class="flex justify-end gap-3">
+          <base-button
+            type="button"
+            color="warn"
+            size="sm"
+            routerLink="/profile/special-offers"
+            queryParamsHandling="preserve"
+          >
+            {{ "shared.cancel" | transloco }}
+          </base-button>
+          @if (canSave) {
+          <base-button type="submit" color="green" size="sm" [loading]="saving">
+            {{ "shared.save" | transloco }}
+          </base-button>
+          }
+        </div>
+      </form>
+    </div>
+  </div>
+  }
+</div>

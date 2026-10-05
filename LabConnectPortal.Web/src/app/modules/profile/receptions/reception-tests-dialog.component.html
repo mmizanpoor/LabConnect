@@ -1,0 +1,52 @@
+<base-dialog [title]="'modules.profile.receptions.testsDialog.title' | transloco">
+  <div class="space-y-4" dir="rtl">
+    <div
+      class="flex flex-wrap items-center gap-3 gap-x-4 rounded-[5px] border border-[#c9d7ea] bg-[#f8fbff] p-3.5"
+    >
+      <div class="flex min-w-0 flex-1 items-center gap-2">
+        <span class="shrink-0 whitespace-nowrap text-xs font-semibold text-slate-500">
+          {{ "modules.profile.receptions.columns.patientName" | transloco }}
+        </span>
+        <span class="truncate text-[0.9375rem] font-semibold text-slate-800">{{
+          data.patientName
+        }}</span>
+      </div>
+
+      <div class="min-h-7 w-px shrink-0 self-stretch bg-slate-200" aria-hidden="true"></div>
+
+      <div class="flex min-w-0 flex-1 items-center gap-2">
+        <span class="shrink-0 whitespace-nowrap text-xs font-semibold text-slate-500">
+          {{ "modules.profile.receptions.columns.sourceReceptId" | transloco }}
+        </span>
+        <span class="text-[0.9375rem] text-slate-800">{{ data.sourceReceptId }}</span>
+      </div>
+
+      <div class="min-h-7 w-px shrink-0 self-stretch bg-slate-200" aria-hidden="true"></div>
+
+      <div class="flex min-w-0 flex-1 items-center gap-2">
+        <span class="shrink-0 whitespace-nowrap text-xs font-semibold text-slate-500">
+          {{ "modules.profile.receptions.columns.sendDate" | transloco }}
+        </span>
+        <span class="tabular-nums whitespace-nowrap text-[0.9375rem] text-slate-800">{{
+          data.receptionDate
+        }}</span>
+      </div>
+    </div>
+
+    <div class="overflow-hidden rounded-[5px] border border-slate-200 bg-white p-2">
+      <base-grid
+        gridId="a7e4c1b9-2d5f-4a8e-9c3b-6f1d0e8a4b72"
+        class="h-[min(55vh,28rem)] w-full min-h-[14rem]"
+        [framed]="false"
+        [visibleOrder]="false"
+        [columnDefs]="colDef"
+        [dataSource$]="list$"
+        [toolbarDisabled]="true"
+        [showRowCount]="true"
+        rowCountKey="modules.profile.receptions.testsDialog.testCount"
+        [noRowsMessage]="'modules.profile.receptions.testsDialog.empty' | transloco"
+        forceDirection="rtl"
+      />
+    </div>
+  </div>
+</base-dialog>

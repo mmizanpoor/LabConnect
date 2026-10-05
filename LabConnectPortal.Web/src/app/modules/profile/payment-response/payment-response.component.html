@@ -1,0 +1,61 @@
+<div
+  class="payment-response min-h-[calc(100dvh-61px)] flex items-center justify-center"
+>
+  <div
+    *ngIf="verifyResult"
+    class="w-full max-w-md bg-white rounded-2xl shadow-lg p-8 text-center"
+  >
+    <!-- Icon -->
+    <div
+      class="mx-auto mb-6 flex items-center justify-center w-20 h-20 rounded-full"
+      [ngClass]="{
+        'bg-green-100': verifyResult.isSuccess,
+        'bg-red-100': !verifyResult.isSuccess,
+      }"
+    >
+      @if (verifyResult.isSuccess) {
+        <mat-icon class="text-green-600 scale-150">verified</mat-icon>
+      } @else {
+        <mat-icon class="text-red-600 scale-150">error </mat-icon>
+      }
+    </div>
+
+    <!-- Title -->
+    <h2
+      class="text-2xl font-bold mb-3"
+      [ngClass]="{
+        'text-green-600': verifyResult.isSuccess,
+        'text-red-600': !verifyResult.isSuccess,
+      }"
+    >
+      {{
+        verifyResult.isSuccess ? "پرداخت با موفقیت انجام شد" : "خطا در پرداخت"
+      }}
+    </h2>
+
+    <!-- Success Content -->
+    @if (verifyResult.isSuccess) {
+      <div class="text-gray-700 space-y-2">
+        <h4 class="font-semibold">
+          کد پیگیری:
+          <span class="text-green-600">{{ verifyResult.refId }}</span>
+        </h4>
+        <p class="text-sm">
+          جهت مشاهده پذیرش و جواب، مجدداً وارد سیستم جوابدهی شوید.
+        </p>
+      </div>
+    }
+
+    <!-- Error Content -->
+    @else {
+      <div class="text-red-500 text-sm">
+        {{ verifyResult.message }}
+      </div>
+    }
+
+    <base-button routerLink="/profile/dashboard" class="w-full mt-4">
+      <i class="fa-sharp fa-house"></i>
+      بازگشت به داشبورد
+    </base-button>
+  </div>
+</div>

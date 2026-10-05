@@ -1,0 +1,148 @@
+<div class="bg-white min-h-[calc(100vh-12rem)]" dir="rtl">
+  <div class="max-w-7xl mx-auto py-4 px-5 pb-12">
+    <div class="border-b border-gray-200 mb-8">
+      <div class="inline-flex items-center gap-2 pb-3.5 -mb-px border-b-[3px] border-[#35507c] text-base font-bold text-gray-900">
+        {{ 'modules.cart.title' | transloco }}
+        @if (itemCount > 0) {
+          <span class="inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-full bg-[#35507c] text-white text-xs font-bold">{{ itemCount }}</span>
+        }
+      </div>
+    </div>
+
+    @if (error) {
+      <div class="bg-red-50 text-red-700 py-3 px-4 rounded-lg mb-4">{{ error }}</div>
+    }
+
+    @if (loading) {
+      <p class="text-slate-500 text-center py-12 px-4">{{ 'shared.loading' | transloco }}</p>
+    } @else if (!cart?.items?.length) {
+      <div class="grid grid-cols-1 min-[960px]:grid-cols-[minmax(0,1fr)_320px] gap-8 items-start">
+        <div class="text-center py-8 px-4 pb-12">
+          <div class="flex items-center justify-center w-32 h-32 mx-auto mb-6 rounded-full bg-gray-100 text-gray-400 [&_mat-icon]:!text-[4rem] [&_mat-icon]:!w-16 [&_mat-icon]:!h-16" aria-hidden="true">
+            <mat-icon>shopping_basket</mat-icon>
+          </div>
+          <h1 class="m-0 mb-3 text-[1.375rem] font-extrabold text-gray-900">{{ 'modules.cart.emptyTitle' | transloco }}</h1>
+          <p class="m-0 mb-4 text-gray-500 text-[0.9375rem]">{{ 'modules.cart.emptyHint' | transloco }}</p>
+          <a routerLink="/products" class="text-[#35507c] no-underline font-semibold hover:underline">{{ 'modules.products.title' | transloco }}</a>
+        </div>
+
+        @if (!isAuthenticated) {
+          <a
+            routerLink="/auth/login"
+            [queryParams]="{ returnUrl: loginReturnUrl() }"
+            class="block p-5 border border-gray-200 rounded-xl bg-white no-underline text-inherit transition-[border-color,box-shadow] hover:border-gray-300 hover:shadow-[0_8px_24px_rgb(0_0_0/0.06)] max-[960px]:order-first"
+          >
+            <div class="flex items-center gap-3 mb-3">
+              <mat-icon class="text-amber-500">login</mat-icon>
+              <span class="flex-1 font-bold text-gray-900">{{ 'modules.cart.loginCardTitle' | transloco }}</span>
+              <mat-icon class="text-gray-400">chevron_left</mat-icon>
+            </div>
+            <p class="m-0 text-sm leading-[1.7] text-gray-500">{{ 'modules.cart.loginCardDesc' | transloco }}</p>
+          </a>
+        }
+      </div>
+    } @else if (cart) {
+      <div class="grid grid-cols-1 min-[960px]:grid-cols-[minmax(0,1fr)_320px] gap-6 items-start">
+        <div>
+          @if (cart.centerName) {
+            <p class="m-0 mb-4 text-sm font-semibold text-gray-700">{{ 'modules.cart.center' | transloco }}: {{ cart.centerName }}</p>
+          }
+
+          @for (item of cart.items; track item.id) {
+            <article class="border border-gray-200 rounded-xl p-5 mb-4 bg-white">
+              <div class="flex items-start gap-4 max-sm:flex-col">
+                @if (item.imagePath) {
+                  <img [src]="imageUrl(item.imagePath)" [alt]="item.productTitle" class="w-28 h-28 max-sm:w-full max-sm:h-40 object-contain rounded-lg bg-gray-50 shrink-0" />
+                } @else {
+                  <div class="w-28 h-28 max-sm:w-full max-sm:h-40 rounded-lg bg-gray-50 shrink-0 flex items-center justify-center text-gray-400">
+                    <mat-icon>image</mat-icon>
+                  </div>
+                }
+
+                <div class="flex-1 min-w-0">
+                  <h2 class="m-0 mb-2 text-base font-bold leading-relaxed text-[#35507c]">
+                    {{ item.productTitle }}
+                  </h2>
+                  <p class="m-0 mb-3.5 text-[0.8125rem] text-gray-500">{{ 'modules.cart.center' | transloco }}: {{ item.centerName }}</p>
+
+                  <div class="inline-flex items-center border border-gray-200 rounded-full py-[0.15rem] px-1.5 bg-white">
+                    <button
+                      mat-icon-button
+                      type="button"
+                      class="!w-8 !h-8 !p-0 [&_mat-icon]:!text-lg [&_mat-icon]:text-red-600"
+                      (click)="removeItem(item)"
+                      [attr.aria-label]="'shared.delete' | transloco"
+                    >
+                      <mat-icon>delete_outline</mat-icon>
+                    </button>
+                    <button
+                      mat-icon-button
+                      type="button"
+                      class="!w-8 !h-8 !p-0 [&_mat-icon]:!text-lg [&_mat-icon]:text-blue-600 disabled:[&_mat-icon]:text-gray-300"
+                      (click)="updateQuantity(item, item.quantity + 1)"
+                      [disabled]="isMaxQuantity(item)"
+                      [attr.aria-label]="'shared.add' | transloco"
+                    >
+                      <mat-icon>add</mat-icon>
+                    </button>
+                    <span class="min-w-7 text-center font-bold text-[0.9375rem] px-1.5 text-gray-900 flex flex-col items-center leading-tight">
+                      {{ item.quantity }}
+                      @if (isMaxQuantity(item)) {
+                        <span class="text-[0.625rem] font-medium text-gray-400">{{ 'modules.cart.maxQuantity' | transloco }}</span>
+                      }
+                    </span>
+                    <button
+                      mat-icon-button
+                      type="button"
+                      class="!w-8 !h-8 !p-0 [&_mat-icon]:!text-lg [&_mat-icon]:text-red-600 disabled:[&_mat-icon]:text-gray-300"
+                      (click)="updateQuantity(item, item.quantity - 1)"
+                      [disabled]="item.quantity <= 1"
+                    >
+                      <mat-icon>remove</mat-icon>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="text-left shrink-0 min-w-[7.5rem] ms-auto">
+                  @if (item.discountPercent && item.discountPercent > 0) {
+                    <p class="m-0 mb-1 text-[0.8125rem] text-gray-400">
+                      {{ item.discountPercent }}% {{ 'modules.cart.discount' | transloco }}
+                    </p>
+                  }
+                  <p class="m-0 text-lg font-extrabold text-[#35507c]">
+                    {{ item.lineTotal | number }} {{ 'shared.currency' | transloco }}
+                  </p>
+                </div>
+              </div>
+            </article>
+          }
+        </div>
+
+        <aside class="sticky top-28 max-[960px]:static">
+          <div class="border border-gray-200 rounded-xl p-5 bg-white">
+            <div class="flex items-center justify-between gap-4 py-2.5 text-sm text-gray-700 border-b border-gray-100">
+              <span>{{ 'modules.cart.itemsPrice' | transloco : { count: itemCount } }}</span>
+              <span>{{ itemsOriginalTotal | number }} {{ 'shared.currency' | transloco }}</span>
+            </div>
+            <div class="flex items-center justify-between gap-4 py-2.5 text-base font-extrabold text-gray-900 border-b border-gray-100">
+              <span>{{ 'modules.cart.cartTotal' | transloco }}</span>
+              <span>{{ cart.totalAmount | number }} {{ 'shared.currency' | transloco }}</span>
+            </div>
+            @if (savingsAmount > 0) {
+              <div class="flex items-center justify-between gap-4 py-2.5 text-sm text-emerald-600 font-semibold">
+                <span>{{ 'modules.cart.yourSavings' | transloco }}</span>
+                <span>({{ savingsPercent }}%) {{ savingsAmount | number }} {{ 'shared.currency' | transloco }}</span>
+              </div>
+            }
+
+            <base-button class="block w-full mt-4" (click)="goToCheckout()">
+              {{ 'modules.cart.confirmCheckout' | transloco }}
+            </base-button>
+
+            <p class="mt-4 mb-0 text-xs leading-[1.7] text-gray-400 text-center">{{ 'modules.cart.paymentNote' | transloco }}</p>
+          </div>
+        </aside>
+      </div>
+    }
+  </div>
+</div>

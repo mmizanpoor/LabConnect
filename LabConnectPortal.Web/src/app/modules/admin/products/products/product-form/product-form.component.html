@@ -1,0 +1,548 @@
+<div class="product-studio" dir="rtl">
+  @if (loading) {
+    <p class="product-studio__loading">{{ "shared.loading" | transloco }}</p>
+  } @else {
+    <header class="product-studio__header">
+      <div class="product-studio__heading">
+        <div class="product-studio__icon">
+          <mat-icon>shopping_bag</mat-icon>
+        </div>
+        <div class="min-w-0">
+          <h1>{{ pageTitleKey | transloco }}</h1>
+          <nav class="product-studio__crumb">
+            <a [href]="listLink" (click)="$event.preventDefault(); cancel()">
+              {{ productsKey('title') | transloco }}
+            </a>
+            <span>/</span>
+            <strong>{{ pageTitleKey | transloco }}</strong>
+          </nav>
+        </div>
+      </div>
+      <div class="product-studio__header-actions">
+        @if (status !== null) {
+          <span class="product-studio__status">{{ statusLabel }}</span>
+        }
+        @if (isEdit && productId && isSiteAdmin) {
+          <base-button type="button" size="sm" color="soft" (click)="openHistoryDialog()">
+            {{ "modules.activityLog.showHistory" | transloco }}
+          </base-button>
+        }
+        <base-button type="button" size="sm" color="soft" (click)="cancel()">
+          {{ "shared.back" | transloco }}
+        </base-button>
+      </div>
+    </header>
+
+    @if (error) {
+      <div class="product-studio__alert product-studio__alert--error" role="alert">{{ error }}</div>
+    }
+    @if (rejectionReason) {
+      <div class="product-studio__alert product-studio__alert--warning">
+        {{ productsKey('rejectionReason') | transloco }}:
+        {{ rejectionReason }}
+      </div>
+    }
+
+    <nav
+      class="product-stepper"
+      [style.--step-count]="wizardSteps.length"
+      [attr.aria-label]="productsKey('stepperLabel') | transloco"
+    >
+      <div class="product-stepper__rail" aria-hidden="true">
+        <span class="product-stepper__rail-fill" [style.width.%]="stepperProgressPercent"></span>
+      </div>
+      @for (step of wizardSteps; track step.id; let i = $index) {
+        <button
+          type="button"
+          class="product-stepper__step"
+          [class.is-current]="isStepCurrent(i)"
+          [class.is-done]="isStepDone(i)"
+          [class.is-active]="currentStepIndex === i"
+          [class.is-locked]="!isStepUnlocked(i)"
+          [disabled]="!isStepUnlocked(i)"
+          (click)="goToStep(i)"
+        >
+          <span class="product-stepper__index">
+            @if (isStepDone(i)) {
+              <mat-icon>check</mat-icon>
+            } @else {
+              {{ i + 1 }}
+            }
+          </span>
+          <span class="product-stepper__label">{{ step.labelKey | transloco }}</span>
+        </button>
+      }
+    </nav>
+
+    <div class="product-studio__layout">
+      <aside class="summary-panel" [attr.aria-label]="productsKey('previewTitle') | transloco">
+        <div class="summary-panel__preview">
+          <div class="summary-panel__preview-top">
+            <span class="summary-panel__eyebrow">{{ productsKey('previewTitle') | transloco }}</span>
+            <span class="summary-panel__badge">{{
+              status !== null ? statusLabel : (productsKey('status.draft') | transloco)
+            }}</span>
+          </div>
+          <div class="summary-panel__product">
+            <div class="summary-panel__thumb">
+              @if (previewImageUrl) {
+                <img [src]="previewImageUrl" alt="" />
+              } @else {
+                <mat-icon>image</mat-icon>
+              }
+            </div>
+            <div class="summary-panel__meta">
+              <strong>{{ previewTitle }}</strong>
+              <span>{{ previewCategory }}</span>
+              <div class="summary-panel__stats">
+                <b [class.is-negotiable]="!!form.controls.isNegotiablePrice.value">
+                  {{ previewPrice }}
+                  @if (!form.controls.isNegotiablePrice.value) {
+                    <small>{{ "shared.currency" | transloco }}</small>
+                  }
+                </b>
+                <em>{{ productsKey('fields.stock') | transloco }} {{ previewStock }}</em>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="summary-panel__completion">
+          <div class="summary-panel__completion-head">
+            <span class="summary-panel__eyebrow">{{ productsKey('completionTitle') | transloco }}</span>
+          </div>
+          <div class="summary-progress">
+            <div class="summary-progress__ring" [style.--p]="completionPercent" aria-hidden="true">
+              <span>{{ completionPercent }}%</span>
+            </div>
+            <ul class="summary-progress__list">
+              @for (step of wizardSteps; track step.id; let i = $index) {
+                <li
+                  [class.is-done]="isStepContentComplete(i)"
+                  [class.is-current]="currentStepIndex === i && !isStepContentComplete(i)"
+                >
+                  <span>
+                    @if (isStepContentComplete(i)) {
+                      ✓
+                    } @else {
+                      {{ i + 1 }}
+                    }
+                  </span>
+                  {{ step.labelKey | transloco }}
+                </li>
+              }
+            </ul>
+          </div>
+        </div>
+
+        <div class="summary-panel__tips">
+          <span class="summary-panel__eyebrow">{{ productsKey('tipsTitle') | transloco }}</span>
+          <ul>
+            <li>{{ productsKey('tipAccurate') | transloco }}</li>
+            <li>{{ productsKey('tipImages') | transloco }}</li>
+            <li>{{ productsKey('tipLocation') | transloco }}</li>
+          </ul>
+        </div>
+      </aside>
+
+      <form [formGroup]="form" class="product-studio__main">
+        @if (currentStep === "basic") {
+        <section class="studio-card" id="section-basic">
+          <div class="studio-card__head">
+            <span class="studio-card__num">1</span>
+            <div>
+              <h2>{{ productsKey('basicInfoSection') | transloco }}</h2>
+              <p>{{ productsKey('basicInfoHint') | transloco }}</p>
+            </div>
+          </div>
+          <div class="studio-card__grid">
+            <base-form-field
+              layout="stacked"
+              icon="category"
+              [required]="true"
+              [select]="true"
+              [options]="categoryGroupOptions"
+              [label]="productsKey('fields.categoryGroup') | transloco"
+              [control]="form.controls.productCategoryGroupId"
+            />
+            <base-form-field
+              layout="stacked"
+              icon="folder"
+              [required]="true"
+              [select]="true"
+              [multiple]="true"
+              [searchable]="true"
+              [options]="categoryOptions"
+              [label]="productsKey('fields.categories') | transloco"
+              [control]="form.controls.categoryIds"
+              [readOnly]="!form.controls.productCategoryGroupId.value"
+            />
+            <base-form-field
+              layout="stacked"
+              icon="title"
+              [required]="true"
+              [label]="productsKey('fields.title') | transloco"
+              [control]="form.controls.title"
+            />
+            @if (showBrandField) {
+              <base-form-field
+                layout="stacked"
+                icon="verified"
+                [required]="isBrandRequired"
+                [select]="true"
+                [searchable]="true"
+                [options]="brandOptions"
+                [label]="productsKey('fields.brand') | transloco"
+                [control]="form.controls.brandId"
+              />
+            }
+            @if (showWarrantyField) {
+              <base-form-field
+                layout="stacked"
+                class="studio-card__full"
+                icon="verified_user"
+                [label]="productsKey('fields.warranty') | transloco"
+                [control]="form.controls.warranty"
+              />
+            }
+            <div class="studio-card__full studio-desc">
+              <span class="studio-desc__label">{{ productsKey('fields.description') | transloco }}</span>
+              <app-rich-text-editor formControlName="description" variant="extended" [rows]="5" />
+            </div>
+          </div>
+        </section>
+        }
+
+        @if (currentStep === "offer") {
+        <section class="studio-card studio-card--offer" id="section-offer">
+          <div class="studio-card__head studio-card__head--compact">
+            <span class="studio-card__num">2</span>
+            <div>
+              <h2>{{ productsKey('offerSection') | transloco }}</h2>
+            </div>
+          </div>
+          @if (showOfferSection) {
+            <div class="offer-panel">
+              <div class="offer-panel__options" role="group" [attr.aria-label]="productsKey('offerOptions') | transloco">
+                <base-checkbox
+                  class="offer-chip"
+                  [class.offer-chip--active]="!!form.controls.isNegotiablePrice.value"
+                  formControlName="isNegotiablePrice"
+                >
+                  {{ productsKey('fields.negotiablePrice') | transloco }}
+                </base-checkbox>
+                <base-checkbox
+                  class="offer-chip"
+                  [class.offer-chip--active]="!!form.controls.isUsed.value"
+                  formControlName="isUsed"
+                >
+                  {{ productsKey('fields.isUsed') | transloco }}
+                </base-checkbox>
+              </div>
+
+              <div class="offer-panel__metrics">
+                <div
+                  class="offer-metric offer-metric--price"
+                  [class.offer-metric--disabled]="!!form.controls.isNegotiablePrice.value"
+                >
+                  <base-form-field
+                    layout="stacked"
+                    type="number"
+                    [required]="!form.controls.isNegotiablePrice.value"
+                    [label]="productsKey('fields.price') | transloco"
+                    [control]="form.controls.price"
+                    [placeholder]="'0'"
+                  />
+                  <span class="offer-metric__suffix" aria-hidden="true">{{ "shared.currency" | transloco }}</span>
+                </div>
+                <div class="offer-metric offer-metric--discount">
+                  <base-form-field
+                    layout="stacked"
+                    type="number"
+                    [label]="productsKey('fields.discountPercent') | transloco"
+                    [control]="form.controls.discountPercent"
+                    [placeholder]="'0'"
+                  />
+                  <span class="offer-metric__suffix" aria-hidden="true">٪</span>
+                </div>
+                <div class="offer-metric offer-metric--stock">
+                  <base-form-field
+                    layout="stacked"
+                    type="number"
+                    [required]="true"
+                    [label]="productsKey('fields.stock') | transloco"
+                    [control]="form.controls.stockQuantity"
+                    [placeholder]="'1'"
+                  />
+                  <span class="offer-metric__suffix" aria-hidden="true">{{ productsKey('fields.stockUnit') | transloco }}</span>
+                </div>
+              </div>
+            </div>
+          } @else {
+            <p class="studio-empty">{{ productsKey('offerNotApplicable') | transloco }}</p>
+          }
+        </section>
+        }
+
+        @if (currentStep === "location") {
+          <section class="studio-card" id="section-location">
+            <div class="studio-card__head">
+              <span class="studio-card__num">3</span>
+              <div>
+                <h2>{{ productsKey('locationSection') | transloco }}</h2>
+                <p>{{ productsKey('locationHint') | transloco }}</p>
+              </div>
+            </div>
+            <app-location-map-picker
+              [latitude]="form.controls.latitude.value"
+              [longitude]="form.controls.longitude.value"
+              [disabled]="!canEditContent"
+              [compact]="false"
+              (locationChange)="onLocationChange($event)"
+            />
+            <div class="studio-province">
+              {{ productsKey('fields.province') | transloco }}:
+              <strong>{{ provinceName || "—" }}</strong>
+            </div>
+          </section>
+        }
+
+        @if (currentStep === "specs") {
+        <section class="studio-card" id="section-specs">
+          <div class="studio-card__head">
+            <span class="studio-card__num">4</span>
+            <div class="min-w-0 flex-1">
+              <h2>{{ productsKey('specsSection') | transloco }}</h2>
+              <p>{{ productsKey('specsHint') | transloco }}</p>
+            </div>
+            @if (showDetails && showExpertReviewsSection && canEditContent) {
+              <base-button type="button" color="blue" size="sm" (click)="openAddExpertReviewDialog()">
+                {{ productsKey('addReview') | transloco }}
+              </base-button>
+            }
+          </div>
+
+          @if (showDetails && attributes.length) {
+            <div class="studio-card__grid studio-card__grid--attrs">
+              @for (attr of attributes; track attr.productAttributeId) {
+                <base-form-field
+                  class="studio-attr-field"
+                  layout="stacked"
+                  [attr.title]="attr.categoryTitle + ' - ' + attr.title"
+                  [label]="attr.title"
+                  [control]="attributeControl(attr.productAttributeId)"
+                  [jalaliDate]="isDateAttribute(attr)"
+                />
+              }
+            </div>
+          } @else if (!showDetails) {
+            <p class="studio-empty">{{ productsKey('specsNeedCategory') | transloco }}</p>
+          }
+
+          @if (showDetails && showExpertReviewsSection) {
+            <div class="studio-reviews">
+              @for (review of expertReviews; track $index; let i = $index) {
+                <div class="studio-review">
+                  @if (canEditContent) {
+                    <button
+                      type="button"
+                      class="studio-review__remove"
+                      [attr.aria-label]="productsKey('removeReview') | transloco"
+                      (click)="removeExpertReview(i)"
+                    >
+                      <mat-icon>close</mat-icon>
+                    </button>
+                  }
+                  <base-form-field
+                    layout="stacked"
+                    [label]="productsKey('fields.reviewTitle') | transloco"
+                    [control]="reviewControl(i, 'title')"
+                  />
+                  <base-form-field
+                    layout="stacked"
+                    [multiline]="true"
+                    [rows]="3"
+                    [label]="productsKey('fields.reviewDescription') | transloco"
+                    [control]="reviewControl(i, 'description')"
+                  />
+                </div>
+              }
+              @if (!expertReviews.length) {
+                <p class="studio-empty">{{ productsKey('noReviews') | transloco }}</p>
+              }
+            </div>
+          }
+        </section>
+        }
+
+        @if (currentStep === "media") {
+        <section class="studio-card studio-card--media" id="section-media">
+          <div class="studio-card__head">
+            <span class="studio-card__num">5</span>
+            <div>
+              <h2>{{ productsKey('mediaSection') | transloco }}</h2>
+              <p>{{ productsKey('mediaHint') | transloco }}</p>
+            </div>
+          </div>
+
+          <div class="studio-media">
+            <input
+              #imageInput
+              type="file"
+              accept="image/png,image/jpeg,image/webp,image/*"
+              multiple
+              class="hidden"
+              (change)="onImageSelected($event)"
+              [disabled]="!canUploadMedia || uploading"
+            />
+            <button
+              type="button"
+              class="studio-dropzone"
+              [class.is-dragging]="galleryDragging"
+              [class.is-disabled]="!canUploadMedia || uploading"
+              [disabled]="!canUploadMedia || uploading"
+              (click)="imageInput.click()"
+              (dragover)="onGalleryDragOver($event)"
+              (dragleave)="onGalleryDragLeave($event)"
+              (drop)="onGalleryDropped($event)"
+            >
+              <mat-icon>cloud_upload</mat-icon>
+              <strong>{{ productsKey('dropzoneHint') | transloco }}</strong>
+              <span>{{ productsKey('dropzoneFormats') | transloco }}</span>
+            </button>
+
+            <div class="studio-featured">
+              <span>{{ productsKey('featuredImageSection') | transloco }}</span>
+              <base-image-upload
+                [label]="''"
+                previewShape="square"
+                [previewSize]="88"
+                [clearable]="true"
+                [imageUrl]="featuredPreviewUrl"
+                [loading]="uploadingFeatured"
+                [disabled]="!canUploadMedia || uploadingFeatured"
+                [dropText]="productsKey('dropzoneHint') | transloco"
+                (fileSelected)="onFeaturedSelected($event)"
+                (cleared)="removeFeaturedImage()"
+              />
+            </div>
+          </div>
+
+          @if (galleryEntries.length) {
+            <div class="studio-gallery">
+              @for (image of galleryEntries; track image.id; let i = $index) {
+                <figure class="studio-gallery__item">
+                  <img [src]="image.previewUrl" alt="" />
+                  @if (canEditContent) {
+                    <div class="studio-gallery__tools">
+                      <button type="button" [disabled]="i === 0" (click)="moveImage(i, -1)">
+                        <mat-icon>chevron_right</mat-icon>
+                      </button>
+                      <button
+                        type="button"
+                        [disabled]="i === galleryEntries.length - 1"
+                        (click)="moveImage(i, 1)"
+                      >
+                        <mat-icon>chevron_left</mat-icon>
+                      </button>
+                      <button type="button" class="is-danger" (click)="deleteImage(image)">
+                        <mat-icon>close</mat-icon>
+                      </button>
+                    </div>
+                  }
+                </figure>
+              }
+            </div>
+          } @else {
+            <p class="studio-empty">{{ productsKey('noImages') | transloco }}</p>
+          }
+        </section>
+        }
+      </form>
+    </div>
+
+    <div class="product-action-bar">
+      <div class="product-action-bar__nav">
+        <base-button type="button" color="accent" size="md" (click)="cancel()">
+          {{ "shared.cancel" | transloco }}
+        </base-button>
+        @if (currentStepIndex > 0) {
+          <base-button type="button" color="soft" size="md" (click)="goToPreviousStep()">
+            {{ "shared.back" | transloco }}
+          </base-button>
+        }
+      </div>
+      <div class="product-action-bar__actions">
+        @if (!isLastStep) {
+          <base-button
+            class="product-action-bar__primary"
+            color="green"
+            size="md"
+            [disabled]="saving || submitting"
+            (click)="continueToNextStep()"
+          >
+            {{
+              productsKey('continueTo')
+                | transloco: { step: (nextStepLabelKey | transloco) }
+            }}
+          </base-button>
+        }
+        @if (isLastStep && canEditContent) {
+          <base-button
+            class="product-action-bar__secondary"
+            color="blue"
+            size="md"
+            [loading]="saving"
+            [disabled]="saving || submitting"
+            (click)="saveDraft()"
+          >
+            {{ productsKey('saveDraft') | transloco }}
+          </base-button>
+          @if (!isUnpublished) {
+            <base-button
+              class="product-action-bar__primary"
+              [color]="isSiteAdmin ? 'blue' : 'green'"
+              size="md"
+              [loading]="submitting"
+              [disabled]="saving || submitting || !canPublish"
+              [attr.title]="!canPublish ? (productsKey('publishRequiresSave') | transloco) : null"
+              (click)="submitForApproval()"
+            >
+              {{
+                (isSiteAdmin
+                  ? productsKey('approveAndPublish')
+                  : productsKey('submitAndPublish')
+                ) | transloco
+              }}
+            </base-button>
+          }
+          @if (isUnpublished) {
+            <base-button
+              class="product-action-bar__primary"
+              color="blue"
+              size="md"
+              [loading]="submitting"
+              [disabled]="submitting || !canPublish"
+              (click)="submitForApproval()"
+            >
+              {{ productsKey('republish') | transloco }}
+            </base-button>
+          }
+        }
+        @if (isLastStep && !isSiteAdmin && isApproved) {
+          <base-button color="warn" size="md" [loading]="submitting" [disabled]="submitting" (click)="unpublish()">
+            {{ productsKey('unpublish') | transloco }}
+          </base-button>
+        }
+        @if (isLastStep && isSiteAdmin && productId && isPending) {
+          <base-button color="blue" size="md" [loading]="submitting" (click)="approve()">
+            {{ productsKey('approve') | transloco }}
+          </base-button>
+          <base-button color="warn" size="md" [loading]="submitting" (click)="reject()">
+            {{ productsKey('reject') | transloco }}
+          </base-button>
+        }
+      </div>
+    </div>
+  }
+</div>

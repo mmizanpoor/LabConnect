@@ -1,0 +1,280 @@
+<div class="min-h-[calc(100vh-12rem)] bg-white" dir="rtl">
+  <div class="max-w-[80rem] mx-auto py-5 px-5 pb-8 flex flex-col max-[900px]:flex-col lg:flex-row gap-5 items-start">
+    <aside class="shrink-0 w-full lg:w-[16.5rem] lg:sticky lg:top-4">
+      <div class="border border-gray-200 rounded-[0.875rem] bg-white overflow-hidden">
+        <div class="flex items-center justify-between gap-3 py-4 px-4 pb-3 border-b border-gray-100">
+          <span class="text-[15px] font-bold text-gray-900">{{
+            'modules.jobs.filters.title' | transloco
+          }}</span>
+        </div>
+
+        <div class="relative mx-4 my-3">
+          <mat-icon class="absolute top-1/2 left-3 -translate-y-1/2 text-gray-400 pointer-events-none !text-lg !w-[18px] !h-[18px]"
+            >search</mat-icon
+          >
+          <input
+            type="search"
+            class="w-full h-10 border border-transparent rounded-lg pl-10 pr-3 font-inherit text-[13px] text-gray-900 bg-gray-100 outline-none placeholder:text-gray-400 focus:bg-[#ececec] focus:shadow-[0_0_0_2px_rgb(53_80_124/0.12)] [&::-webkit-search-cancel-button]:hidden"
+            [formControl]="searchInput"
+            [placeholder]="'modules.jobs.search' | transloco"
+            autocomplete="off"
+          />
+          @if (searchInput.value) {
+            <button
+              type="button"
+              class="absolute top-1/2 right-2 -translate-y-1/2 flex items-center justify-center w-5 h-5 p-0 border-none rounded-full bg-gray-200 text-gray-500 cursor-pointer hover:bg-gray-300 hover:text-gray-700"
+              (click)="clearSearchFilter()"
+            >
+              <mat-icon class="!text-sm !w-3.5 !h-3.5">close</mat-icon>
+            </button>
+          }
+        </div>
+
+        @if (filtersLoading) {
+          <p class="p-4 text-gray-500 text-sm text-center">{{ 'shared.loading' | transloco }}</p>
+        } @else {
+          <div class="border-t border-gray-100">
+            <button
+              type="button"
+              class="flex items-center justify-between w-full py-3.5 px-4 border-none bg-transparent font-inherit text-sm font-semibold text-gray-700 cursor-pointer text-right"
+              (click)="toggleSection('province')"
+            >
+              <span>{{ 'modules.jobs.filters.province' | transloco }}</span>
+              <mat-icon class="text-gray-400 !text-xl !w-5 !h-5">{{
+                expandedSections.province ? 'expand_less' : 'expand_more'
+              }}</mat-icon>
+            </button>
+            @if (expandedSections.province) {
+              <div class="pb-1">
+                <div class="relative mx-4 mb-3">
+                  <input
+                    type="search"
+                    class="w-full h-10 border border-gray-200 rounded-lg pe-9 ps-3 font-inherit text-[13px] text-gray-900 bg-white outline-none placeholder:text-gray-400 focus:border-slate-300 focus:shadow-[0_0_0_2px_rgb(53_80_124/0.12)] [&::-webkit-search-cancel-button]:hidden"
+                    [formControl]="provinceSearchInput"
+                    [placeholder]="'modules.jobs.filters.searchProvince' | transloco"
+                    autocomplete="off"
+                  />
+                  @if (provinceSearchInput.value) {
+                    <button
+                      type="button"
+                      class="absolute top-1/2 start-2 -translate-y-1/2 flex items-center justify-center w-5 h-5 p-0 border-none rounded-full bg-gray-200 text-gray-500 cursor-pointer hover:bg-gray-300 hover:text-gray-700"
+                      (click)="clearProvinceSearch()"
+                    >
+                      <mat-icon class="!text-sm !w-3.5 !h-3.5">close</mat-icon>
+                    </button>
+                  }
+                </div>
+                <div class="max-h-56 overflow-y-auto px-4 pb-2 flex flex-col">
+                  @for (province of filteredProvinces; track province.provinceId) {
+                    <label class="flex items-start gap-2 py-1.5 cursor-pointer text-[13px] text-gray-700">
+                      <input
+                        type="checkbox"
+                        class="shrink-0 mt-0.5"
+                        [checked]="isProvinceSelected(province.provinceId)"
+                        (change)="onProvinceChange(province.provinceId, $any($event.target).checked)"
+                      />
+                      <span class="leading-normal">{{ province.name }}</span>
+                    </label>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+
+          <div class="border-t border-gray-100">
+            <button
+              type="button"
+              class="flex items-center justify-between w-full py-3.5 px-4 border-none bg-transparent font-inherit text-sm font-semibold text-gray-700 cursor-pointer text-right"
+              (click)="toggleSection('salary')"
+            >
+              <span>{{ 'modules.jobs.filters.salary' | transloco }}</span>
+              <mat-icon class="text-gray-400 !text-xl !w-5 !h-5">{{
+                expandedSections.salary ? 'expand_less' : 'expand_more'
+              }}</mat-icon>
+            </button>
+            @if (expandedSections.salary) {
+              <div class="pb-1">
+                <div class="max-h-56 overflow-y-auto px-4 pb-2 flex flex-col">
+                  @for (salary of filterOptions.salaryRanges; track salary.salaryRangeId) {
+                    <label class="flex items-start gap-2 py-1.5 cursor-pointer text-[13px] text-gray-700">
+                      <input
+                        type="checkbox"
+                        class="shrink-0 mt-0.5"
+                        [checked]="isSalaryRangeSelected(salary.salaryRangeId)"
+                        (change)="onSalaryRangeChange(salary.salaryRangeId, $any($event.target).checked)"
+                      />
+                      <span class="leading-normal">{{ salary.name }}</span>
+                    </label>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+
+          <div class="border-t border-gray-100">
+            <button
+              type="button"
+              class="flex items-center justify-between w-full py-3.5 px-4 border-none bg-transparent font-inherit text-sm font-semibold text-gray-700 cursor-pointer text-right"
+              (click)="toggleSection('contract')"
+            >
+              <span>{{ 'modules.jobs.filters.contract' | transloco }}</span>
+              <mat-icon class="text-gray-400 !text-xl !w-5 !h-5">{{
+                expandedSections.contract ? 'expand_less' : 'expand_more'
+              }}</mat-icon>
+            </button>
+            @if (expandedSections.contract) {
+              <div class="pb-1">
+                <div class="max-h-56 overflow-y-auto px-4 pb-2 flex flex-col">
+                  @for (contractType of filterOptions.contractTypes; track contractType) {
+                    <label class="flex items-start gap-2 py-1.5 cursor-pointer text-[13px] text-gray-700">
+                      <input
+                        type="checkbox"
+                        class="shrink-0 mt-0.5"
+                        [checked]="isContractTypeSelected(contractType)"
+                        (change)="onContractTypeChange(contractType, $any($event.target).checked)"
+                      />
+                      <span class="leading-normal">{{ contractTypeLabel(contractType) }}</span>
+                    </label>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+
+          <div class="border-t border-gray-100">
+            <button
+              type="button"
+              class="flex items-center justify-between w-full py-3.5 px-4 border-none bg-transparent font-inherit text-sm font-semibold text-gray-700 cursor-pointer text-right"
+              (click)="toggleSection('gender')"
+            >
+              <span>{{ 'modules.jobs.filters.gender' | transloco }}</span>
+              <mat-icon class="text-gray-400 !text-xl !w-5 !h-5">{{
+                expandedSections.gender ? 'expand_less' : 'expand_more'
+              }}</mat-icon>
+            </button>
+            @if (expandedSections.gender) {
+              <div class="pb-1">
+                <div class="max-h-56 overflow-y-auto px-4 pb-2 flex flex-col">
+                  @for (gender of filterOptions.genderRequirements; track gender) {
+                    <label class="flex items-start gap-2 py-1.5 cursor-pointer text-[13px] text-gray-700">
+                      <input
+                        type="checkbox"
+                        class="shrink-0 mt-0.5"
+                        [checked]="isGenderSelected(gender)"
+                        (change)="onGenderChange(gender, $any($event.target).checked)"
+                      />
+                      <span class="leading-normal">{{ genderLabel(gender) }}</span>
+                    </label>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+
+          <div class="border-t border-gray-100">
+            <button
+              type="button"
+              class="flex items-center justify-between w-full py-3.5 px-4 border-none bg-transparent font-inherit text-sm font-semibold text-gray-700 cursor-pointer text-right"
+              (click)="toggleSection('degree')"
+            >
+              <span>{{ 'modules.jobs.filters.degree' | transloco }}</span>
+              <mat-icon class="text-gray-400 !text-xl !w-5 !h-5">{{
+                expandedSections.degree ? 'expand_less' : 'expand_more'
+              }}</mat-icon>
+            </button>
+            @if (expandedSections.degree) {
+              <div class="pb-1">
+                <div class="max-h-56 overflow-y-auto px-4 pb-2 flex flex-col">
+                  @for (degree of filterOptions.minimumDegreeLevels; track degree) {
+                    <label class="flex items-start gap-2 py-1.5 cursor-pointer text-[13px] text-gray-700">
+                      <input
+                        type="checkbox"
+                        class="shrink-0 mt-0.5"
+                        [checked]="isDegreeSelected(degree)"
+                        (change)="onDegreeChange(degree, $any($event.target).checked)"
+                      />
+                      <span class="leading-normal">{{ degreeLabel(degree) }}</span>
+                    </label>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+        }
+
+        @if (hasActiveFilters()) {
+          <div class="border-t border-gray-100">
+            <button
+              type="button"
+              class="block w-full border-none bg-transparent text-[#35507c] text-[13px] font-semibold cursor-pointer text-center py-3.5 px-4 hover:text-[#2a4062] hover:bg-gray-50"
+              (click)="clearAllFilters()"
+            >
+              {{ 'modules.jobs.filters.clearAll' | transloco }}
+            </button>
+          </div>
+        }
+      </div>
+    </aside>
+
+    <div class="flex-1 min-w-0">
+      @if (error) {
+        <div class="bg-red-50 text-red-700 py-3 px-4 rounded-lg mb-4">{{ error }}</div>
+      }
+
+      @if (loading && !jobs.length) {
+        <p class="text-slate-500 text-center py-8">{{ 'shared.loading' | transloco }}</p>
+      } @else if (!jobs.length) {
+        <div class="jobs-empty mx-auto flex w-full max-w-lg flex-col items-center px-4 py-12 text-center sm:py-16">
+          <div class="jobs-empty__visual relative mb-7" aria-hidden="true">
+            <div class="jobs-empty__glow"></div>
+            <div class="jobs-empty__card jobs-empty__card--back"></div>
+            <div class="jobs-empty__card jobs-empty__card--front">
+              <span class="jobs-empty__icon">
+                <mat-icon>work_off</mat-icon>
+              </span>
+              <span class="jobs-empty__lines">
+                <span></span>
+                <span></span>
+                <span></span>
+              </span>
+            </div>
+          </div>
+
+          <h2 class="jobs-empty__title m-0 mb-2 text-[1.35rem] font-extrabold tracking-tight text-slate-900">
+            {{ 'modules.jobs.emptyTitle' | transloco }}
+          </h2>
+          <p class="jobs-empty__hint m-0 mb-6 max-w-sm text-[0.9375rem] leading-7 text-slate-500">
+            @if (hasActiveFilters()) {
+              {{ 'modules.jobs.emptyFilteredHint' | transloco }}
+            } @else {
+              {{ 'modules.jobs.emptyHint' | transloco }}
+            }
+          </p>
+
+          @if (hasActiveFilters()) {
+            <button
+              type="button"
+              class="jobs-empty__cta inline-flex cursor-pointer items-center gap-2 rounded-xl border-0 bg-[#35507c] px-5 py-3 font-inherit text-sm font-bold text-white transition hover:bg-[#2a4063]"
+              (click)="clearAllFilters()"
+            >
+              <mat-icon class="!h-5 !w-5 !text-[1.25rem]">filter_alt_off</mat-icon>
+              {{ 'modules.jobs.filters.clearAll' | transloco }}
+            </button>
+          }
+        </div>
+      } @else {
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-x-5 mb-6">
+          @for (job of jobs; track job.jobPostingId) {
+            <app-job-card [job]="job" />
+          }
+        </div>
+        @if (hasMoreJobs) {
+          <div #loadMoreSentinel class="h-px w-full invisible pointer-events-none" aria-hidden="true"></div>
+        }
+        @if (loadingMore) {
+          <p class="text-slate-500 text-center py-4 pb-8 text-sm">{{ 'shared.loading' | transloco }}</p>
+        }
+      }
+    </div>
+  </div>
+</div>

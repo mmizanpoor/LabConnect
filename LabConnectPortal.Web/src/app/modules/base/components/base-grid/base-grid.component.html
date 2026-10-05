@@ -1,0 +1,19 @@
+<div class="base-grid-shell">
+  <ag-grid-angular
+    class="ag-theme-alpine base-grid w-full h-full min-h-[30vh] font-sans"
+    [style.--ag-header-height]="headerHeight != null ? headerHeight + 'px' : null"
+    [gridOptions]="gridOptions"
+    [columnDefs]="columnDefs"
+    [rowData]="rowData"
+    [defaultColDef]="defaultColDef"
+    [loading]="disabled"
+    (gridReady)="onGridReady($event)"
+    (rowClicked)="onRowClicked($event)"
+  />
+
+  @if (showRowCount) {
+    <footer class="base-grid-footer" aria-live="polite">
+      {{ rowCountText }}
+    </footer>
+  }
+</div>

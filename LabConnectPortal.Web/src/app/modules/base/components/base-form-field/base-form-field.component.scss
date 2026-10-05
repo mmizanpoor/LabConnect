@@ -1,0 +1,725 @@
+:host {
+  display: block;
+  width: 100%;
+  --base-form-brand: #35507c;
+  --base-form-border: #d5dde8;
+  --base-form-border-hover: #bfc9d8;
+  --base-form-border-focus: #35507c;
+  --base-form-rest-shadow: 0 1px 2px rgb(15 23 42 / 0.035);
+  --base-form-glow: 0 0 0 3px rgb(53 80 124 / 0.1);
+  --base-form-bg: #ffffff;
+  --base-form-bg-disabled: #f8fafc;
+  --base-form-text: #1e293b;
+  --base-form-placeholder: #94a3b8;
+  --base-form-label: #64748b;
+  --base-form-icon: #94a3b8;
+  --base-form-icon-active: #64748b;
+  --base-form-radius: 0.5625rem;
+  --base-form-height: 3.125rem;
+  --base-form-field-icon-color: var(--base-form-icon);
+}
+
+/* —— Stacked (label above) — premium SaaS default —— */
+.base-form-field {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 0.28rem;
+}
+
+.base-form-field__label {
+  margin: 0;
+  color: var(--base-form-label);
+  font-family: 'Estedad-FD', Tahoma, sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  line-height: 1.35;
+  text-align: right;
+}
+
+.base-form-field__required {
+  margin-inline-start: 0.15rem;
+  color: #e11d48;
+  font-weight: 500;
+}
+
+.base-form-field__control {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  min-height: var(--base-form-height);
+  padding: 0 0.95rem;
+  overflow: visible;
+  border: 1px solid var(--base-form-border);
+  border-radius: var(--base-form-radius);
+  background: var(--base-form-bg);
+  box-shadow: var(--base-form-rest-shadow);
+  transition:
+    border-color 0.16s ease,
+    box-shadow 0.18s ease,
+    background-color 0.15s ease;
+
+  &:hover:not(.base-form-field__control--disabled):not(:focus-within) {
+    border-color: var(--base-form-border-hover);
+
+    .base-form-field__icon {
+      color: var(--base-form-icon-active) !important;
+    }
+  }
+
+  &:focus-within:not(.base-form-field__control--invalid) {
+    border-color: var(--base-form-border-focus);
+    box-shadow: var(--base-form-glow);
+
+    .base-form-field__icon {
+      color: var(--base-form-icon-active) !important;
+    }
+  }
+}
+
+.base-form-field__control--has-icon {
+  padding-inline-start: 2.55rem;
+  padding-inline-end: 0.95rem;
+}
+
+.base-form-field__control--multiline {
+  align-items: stretch;
+  min-height: auto;
+  padding-block: 0.75rem;
+}
+
+.base-form-field__control--disabled {
+  background: var(--base-form-bg-disabled);
+  box-shadow: none;
+}
+
+.base-form-field__control--invalid {
+  border-color: #f0a8a8;
+  box-shadow: var(--base-form-rest-shadow);
+
+  &:focus-within {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 3px rgb(239 68 68 / 0.1);
+  }
+}
+
+.base-form-field__icon {
+  position: absolute;
+  top: 50%;
+  right: 0.8rem;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 1rem !important;
+  height: 1rem !important;
+  overflow: visible;
+  font-size: 1rem !important;
+  line-height: 1 !important;
+  color: var(--base-form-icon) !important;
+  pointer-events: none;
+  transform: translateY(-50%);
+  transition: color 0.16s ease;
+}
+
+.base-form-field__input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: var(--base-form-text);
+  font-family: 'Estedad-FD', Tahoma, sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.5;
+  text-align: right;
+  outline: none;
+  box-shadow: none;
+  caret-color: var(--base-form-text);
+
+  &::placeholder {
+    color: var(--base-form-placeholder);
+    font-weight: 400;
+    opacity: 1;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    color: #64748b;
+    font-weight: 400;
+  }
+
+  &:read-only {
+    cursor: default;
+  }
+
+  &[type='number'] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      margin: 0;
+      -webkit-appearance: none;
+    }
+  }
+
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus,
+  &:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px var(--base-form-bg) inset !important;
+    box-shadow: 0 0 0 1000px var(--base-form-bg) inset !important;
+    -webkit-text-fill-color: var(--base-form-text) !important;
+    caret-color: var(--base-form-text);
+    transition: background-color 99999s ease-out 0s;
+  }
+}
+
+.base-form-field__input--textarea {
+  min-height: 6.25rem;
+  resize: vertical;
+  line-height: 1.7;
+}
+
+.base-form-field__input--date {
+  padding-inline-end: 2.25rem;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+}
+
+.base-form-field__error {
+  margin: 0.05rem 0 0;
+  color: #e11d48;
+  font-family: 'Estedad-FD', Tahoma, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.4;
+  text-align: right;
+}
+
+:host ::ng-deep .base-form-field__select {
+  display: block;
+  width: 100%;
+  min-width: 0;
+
+  .mat-mdc-select-trigger {
+    width: 100%;
+    min-height: calc(var(--base-form-height) - 2px);
+    padding: 0;
+  }
+
+  .mat-mdc-select-value,
+  .mat-mdc-select-value-text {
+    color: var(--base-form-text);
+    font-family: 'Estedad-FD', Tahoma, sans-serif;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    text-align: right;
+  }
+
+  .mat-mdc-select-placeholder {
+    color: var(--base-form-placeholder);
+    font-weight: 400;
+    text-align: right;
+  }
+
+  .mat-mdc-select-arrow {
+    color: var(--base-form-icon);
+    transition: color 0.16s ease;
+  }
+}
+
+:host ::ng-deep .base-form-field__control:hover:not(.base-form-field__control--disabled) .base-form-field__select .mat-mdc-select-arrow,
+:host ::ng-deep .base-form-field__control:focus-within .base-form-field__select .mat-mdc-select-arrow {
+  color: var(--base-form-icon-active);
+}
+
+:host ::ng-deep .base-form-field__date-toggle {
+  position: absolute;
+  top: 50%;
+  left: 0.2rem;
+  right: auto;
+  transform: translateY(-50%);
+  --mat-datepicker-toggle-icon-color: var(--base-form-icon);
+  --mat-icon-button-icon-color: var(--base-form-icon);
+
+  .mat-mdc-icon-button {
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0.25rem;
+    --mat-icon-button-icon-color: var(--base-form-icon);
+  }
+
+  .mat-icon,
+  .mat-datepicker-toggle-default-icon {
+    width: 1.05rem !important;
+    height: 1.05rem !important;
+    font-size: 1.05rem !important;
+    color: var(--base-form-icon) !important;
+    transition: color 0.16s ease;
+  }
+}
+
+:host ::ng-deep .base-form-field__control:hover:not(.base-form-field__control--disabled) .base-form-field__date-toggle,
+:host ::ng-deep .base-form-field__control:focus-within .base-form-field__date-toggle {
+  --mat-datepicker-toggle-icon-color: var(--base-form-icon-active);
+  --mat-icon-button-icon-color: var(--base-form-icon-active);
+
+  .mat-icon,
+  .mat-datepicker-toggle-default-icon {
+    color: var(--base-form-icon-active) !important;
+  }
+}
+
+/* legacy alias used by older markup hooks */
+.base-form-field-input-wrap {
+  /* kept for any external references; stacked layout uses .base-form-field__control */
+}
+
+:host ::ng-deep .base-form-field-icon.mat-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.05rem;
+  height: 1.05rem;
+  overflow: visible;
+  font-size: 1.05rem;
+  line-height: 1.05rem;
+  color: var(--base-form-field-icon-color);
+}
+
+:host ::ng-deep .base-form-field-select {
+  display: block;
+  width: 100%;
+  min-width: 0;
+
+  .mat-mdc-select-trigger {
+    width: 100%;
+    min-height: 3rem;
+    padding: 0;
+  }
+
+  .mat-mdc-select-value,
+  .mat-mdc-select-placeholder {
+    color: var(--base-form-text);
+    font-family: 'Estedad-FD', Tahoma, sans-serif;
+    font-size: 0.9375rem;
+    text-align: right;
+  }
+
+  .mat-mdc-select-placeholder,
+  .mat-mdc-select-arrow {
+    color: var(--base-form-placeholder);
+  }
+}
+
+:host ::ng-deep .base-form-field-date-input {
+  cursor: pointer;
+}
+
+:host ::ng-deep .base-form-field-date-toggle {
+  position: absolute;
+  top: 50%;
+  right: 0.25rem;
+  left: auto;
+  transform: translateY(-50%);
+  --mat-datepicker-toggle-icon-color: var(--base-form-field-icon-color);
+  --mat-icon-button-icon-color: var(--base-form-field-icon-color);
+
+  .mat-mdc-icon-button {
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0.25rem;
+    --mat-icon-button-icon-color: var(--base-form-field-icon-color);
+  }
+
+  .mat-icon,
+  .mat-datepicker-toggle-default-icon {
+    color: var(--base-form-field-icon-color) !important;
+  }
+}
+
+:host ::ng-deep .base-form-field-float {
+  --mdc-outlined-text-field-container-shape: 5px;
+  --mdc-outlined-text-field-outline-width: 1px;
+  --mdc-outlined-text-field-focus-outline-width: 1px;
+  --mdc-outlined-text-field-container-color: #ffffff;
+  --mdc-outlined-text-field-label-text-color: #7b8794;
+  --mdc-outlined-text-field-hover-label-text-color: #64748b;
+  --mdc-outlined-text-field-focused-label-text-color: #0ea5e9;
+  width: 100%;
+  max-width: 100%;
+  padding-top: 0.65rem;
+  overflow: visible;
+
+  .mat-mdc-text-field-wrapper {
+    background: #ffffff;
+    border-radius: var(--mdc-outlined-text-field-container-shape);
+    overflow: visible !important;
+    box-shadow: none;
+    transition:
+      border-color 0.15s ease,
+      box-shadow 180ms ease;
+  }
+
+  .mdc-notched-outline {
+    overflow: visible !important;
+  }
+
+  .mat-mdc-form-field-flex {
+    align-items: stretch;
+    flex-wrap: nowrap;
+    overflow: hidden;
+    min-width: 0;
+    min-height: 2.75rem;
+    height: 2.75rem;
+  }
+
+  .mat-mdc-text-field-wrapper.mdc-text-field--outlined {
+    min-height: 2.75rem;
+    height: 2.75rem;
+  }
+
+  .mat-mdc-form-field-infix {
+    background: transparent;
+    align-self: center;
+    min-height: 2.75rem !important;
+    height: 2.75rem !important;
+    max-height: 2.75rem !important;
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+    box-sizing: border-box;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .mat-mdc-input-element,
+  textarea.mat-mdc-input-element {
+    background-color: transparent !important;
+    outline: none !important;
+    box-shadow: none !important;
+
+    &:focus,
+    &:focus-visible {
+      outline: none !important;
+      box-shadow: none !important;
+      background-color: transparent !important;
+    }
+
+    &[type='number'] {
+      -moz-appearance: textfield;
+      appearance: textfield;
+
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+    }
+
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
+      box-shadow: 0 0 0 1000px #ffffff inset !important;
+      -webkit-text-fill-color: #111827 !important;
+      caret-color: #111827;
+      transition: background-color 99999s ease-out 0s;
+    }
+  }
+
+  .mat-mdc-select {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .mat-mdc-select-trigger {
+    height: 1.5rem !important;
+    min-height: 1.5rem !important;
+    max-height: 1.5rem !important;
+    align-items: center;
+  }
+
+  .mat-mdc-select-value,
+  .mat-mdc-select-value-text {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    display: block !important;
+  }
+
+  .mat-mdc-select-value {
+    max-width: 100%;
+    line-height: 1.5rem !important;
+  }
+
+  .mdc-floating-label {
+    font-family: 'Estedad-FD', Tahoma, sans-serif;
+    font-weight: 500;
+    font-size: 0.75rem !important;
+    line-height: 1.45 !important;
+    color: #7b8794 !important;
+    display: block !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    max-width: 100% !important;
+    padding-block: 0.05em;
+  }
+
+  .mdc-floating-label--float-above {
+    font-size: 0.75rem !important;
+    line-height: 1.45 !important;
+    color: #7b8794 !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 100% !important;
+    width: auto !important;
+
+    .text-red-600 {
+      color: #f87171 !important;
+    }
+  }
+
+  .mdc-notched-outline__notch {
+    max-width: calc(100% - 2.75rem) !important;
+    width: auto !important;
+    overflow: visible !important;
+    padding-inline: 0.25rem;
+    padding-block: 0.1rem;
+    border-top: none !important;
+
+    .mdc-floating-label {
+      max-width: 100% !important;
+    }
+  }
+
+  .mat-mdc-text-field-wrapper,
+  .mat-mdc-form-field-flex,
+  .mat-mdc-form-field-infix {
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .mat-mdc-input-element,
+  .mat-mdc-select-value,
+  .mat-mdc-select-placeholder {
+    font-family: 'Estedad-FD', Tahoma, sans-serif;
+    font-size: 0.875rem;
+    text-align: right;
+    color: #111827;
+  }
+
+  .mat-mdc-form-field-error {
+    font-family: 'Estedad-FD', Tahoma, sans-serif;
+    font-size: 0.8125rem;
+    color: #e11d48;
+  }
+
+  .base-form-field-float-icon.mat-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    padding: 0;
+    margin: 0;
+    font-size: 0.95rem;
+    width: 0.95rem;
+    height: 0.95rem;
+    line-height: 1;
+    color: var(--base-form-field-icon-color);
+  }
+
+  .mat-mdc-form-field-icon-prefix {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    padding: 0 0.5rem 0 0.25rem;
+  }
+
+  .mat-mdc-form-field-icon-suffix {
+    color: #64748b;
+    --mat-datepicker-toggle-icon-color: #64748b;
+    --mat-icon-button-icon-color: #64748b;
+    align-self: stretch;
+    padding: 0;
+    margin: 0;
+
+    .mat-icon,
+    .mat-datepicker-toggle-default-icon {
+      color: #64748b !important;
+    }
+  }
+
+  .mat-mdc-form-field-icon-suffix:has(.base-form-field-date-prefix) {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    align-self: stretch;
+    padding: 0;
+    margin: 0;
+    border-inline-start: 1px solid #e5e7eb;
+    background: #eef1f5;
+    border-start-end-radius: calc(var(--mdc-outlined-text-field-container-shape) - 1px);
+    border-end-end-radius: calc(var(--mdc-outlined-text-field-container-shape) - 1px);
+  }
+
+  .base-form-field-date-prefix.mat-datepicker-toggle {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    align-self: center;
+    height: 100%;
+    margin: 0;
+    background: transparent;
+
+    .mat-mdc-icon-button {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 2.5rem;
+      height: 100%;
+      min-height: 2.5rem;
+      padding: 0;
+      border-radius: 0;
+      --mat-icon-button-state-layer-size: 2.5rem;
+    }
+
+    .mat-mdc-button-touch-target {
+      height: 100%;
+    }
+
+    .mat-icon,
+    .mat-datepicker-toggle-default-icon {
+      display: block;
+      width: 1.25rem;
+      height: 1.25rem;
+      font-size: 1.25rem;
+      line-height: 1.25rem;
+      margin: 0 !important;
+      color: #64748b !important;
+    }
+  }
+
+  .base-form-field-date-input.mat-mdc-input-element {
+    letter-spacing: 0.02em;
+    line-height: 1.5rem;
+  }
+
+  .mat-mdc-form-field-focus-overlay {
+    opacity: 0;
+  }
+
+  .mdc-notched-outline {
+    .mdc-notched-outline__leading {
+      border-top: 1px solid #d1d5db !important;
+      border-bottom: 1px solid #d1d5db !important;
+      border-left: 1px solid #d1d5db !important;
+      border-right: none !important;
+      border-inline-start: 1px solid #d1d5db !important;
+      border-inline-end: none !important;
+    }
+
+    .mdc-notched-outline__trailing {
+      border-top: 1px solid #d1d5db !important;
+      border-bottom: 1px solid #d1d5db !important;
+      border-right: 1px solid #d1d5db !important;
+      border-left: none !important;
+      border-inline-end: 1px solid #d1d5db !important;
+      border-inline-start: none !important;
+    }
+
+    .mdc-notched-outline__notch {
+      border-top: none !important;
+      border-bottom: 1px solid #d1d5db !important;
+      border-left: none !important;
+      border-right: none !important;
+      border-inline: none !important;
+    }
+  }
+
+  [dir='rtl'] .mdc-notched-outline,
+  &:is([dir='rtl']) .mdc-notched-outline {
+    .mdc-notched-outline__leading {
+      border-left: none !important;
+      border-right: 1px solid #d1d5db !important;
+    }
+
+    .mdc-notched-outline__trailing {
+      border-right: none !important;
+      border-left: 1px solid #d1d5db !important;
+    }
+  }
+
+  .mat-mdc-text-field-wrapper:hover .mdc-notched-outline {
+    .mdc-notched-outline__leading,
+    .mdc-notched-outline__notch,
+    .mdc-notched-outline__trailing {
+      border-color: #d1d5db !important;
+    }
+  }
+
+  &.mat-mdc-form-field.mat-form-field-invalid {
+    .mdc-notched-outline__leading,
+    .mdc-notched-outline__notch,
+    .mdc-notched-outline__trailing {
+      border-color: #fca5a5 !important;
+    }
+
+    .mdc-text-field--focused {
+      .mdc-notched-outline__leading,
+      .mdc-notched-outline__notch,
+      .mdc-notched-outline__trailing {
+        border-color: #fca5a5 !important;
+      }
+    }
+  }
+
+  .mdc-text-field--focused:not(.mdc-text-field--invalid) {
+    .mdc-floating-label,
+    .mdc-floating-label--float-above {
+      color: #0ea5e9 !important;
+    }
+
+    .mdc-notched-outline__leading,
+    .mdc-notched-outline__notch,
+    .mdc-notched-outline__trailing {
+      border-color: #7dd3fc !important;
+      border-width: 1.5px !important;
+    }
+  }
+
+  .mat-mdc-text-field-wrapper.mdc-text-field--focused:not(.mdc-text-field--invalid) {
+    box-shadow:
+      0 0 0 3px rgba(125, 211, 252, 0.22),
+      0 0 10px rgba(56, 189, 248, 0.16);
+  }
+}
+
+:host ::ng-deep .base-form-field-float.base-form-field-float--multiline {
+  .mat-mdc-form-field-flex,
+  .mat-mdc-text-field-wrapper.mdc-text-field--outlined {
+    min-height: auto;
+    height: auto;
+  }
+
+  .mat-mdc-form-field-infix {
+    min-height: 6rem !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible;
+    align-self: stretch;
+  }
+
+  textarea.mat-mdc-input-element {
+    min-height: 5rem;
+    resize: vertical;
+    line-height: 1.6;
+  }
+}

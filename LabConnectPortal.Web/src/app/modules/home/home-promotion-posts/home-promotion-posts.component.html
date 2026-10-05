@@ -1,0 +1,36 @@
+<div class="promo-grid">
+  @for (ad of ads; track ad.advertisementId; let index = $index) {
+    <button
+      type="button"
+      class="promo-card"
+      [class.promo-card--green]="accentAt(index) === 'green'"
+      [class.promo-card--yellow]="accentAt(index) === 'yellow'"
+      (click)="openPreview(ad, $event)"
+    >
+      <div class="promo-card__body">
+        <span class="promo-card__badge">
+          <mat-icon>campaign</mat-icon>
+          {{ 'modules.home.promotions.badge' | transloco }}
+        </span>
+        <h3 class="promo-card__title">{{ ad.title }}</h3>
+        @if (ad.shortDescription) {
+          <p class="promo-card__desc">{{ ad.shortDescription }}</p>
+        }
+        <span class="promo-card__cta">
+          {{ 'modules.home.promotions.cta' | transloco }}
+          <mat-icon>chevron_left</mat-icon>
+        </span>
+      </div>
+
+      <div class="promo-card__media">
+        @if (imageUrl(ad)) {
+          <img [src]="imageUrl(ad)" [alt]="ad.title" loading="lazy" />
+        } @else {
+          <div class="promo-card__placeholder">
+            <mat-icon>biotech</mat-icon>
+          </div>
+        }
+      </div>
+    </button>
+  }
+</div>

@@ -1,0 +1,81 @@
+<div class="mx-auto max-w-4xl p-6" dir="rtl">
+  <div class="mb-4 flex items-center gap-2">
+    <base-back-button link="/admin/ad-orders" />
+  </div>
+
+  <h1 class="mb-6 text-lg font-bold text-gray-900">
+    {{
+      (isEdit ? 'modules.admin.adCommerce.orders.editTitle' : 'modules.admin.adCommerce.orders.add')
+        | transloco
+    }}
+  </h1>
+
+  @if (error) {
+    <div class="mb-4 rounded-[5px] border border-red-100 bg-red-50 p-3 text-sm text-red-700">{{ error }}</div>
+  }
+
+  @if (loading) {
+    <p class="text-gray-500">{{ 'shared.loading' | transloco }}</p>
+  } @else {
+    @if (isEdit && existing) {
+      <div class="mb-6 rounded-xl border border-gray-200 bg-gray-50 p-4 text-sm">
+        <div class="grid gap-2 sm:grid-cols-2">
+          <div>
+            <span class="text-gray-500">{{ 'modules.admin.adCommerce.orders.columns.price' | transloco }}:</span>
+            <strong class="ms-2">{{ existing.price | number:'1.0-0' }}</strong>
+          </div>
+          <div>
+            <span class="text-gray-500">{{ 'modules.admin.adCommerce.orders.columns.position' | transloco }}:</span>
+            <strong class="ms-2">{{ existing.positionTitle }}</strong>
+          </div>
+          <div>
+            <span class="text-gray-500">{{ 'modules.admin.adCommerce.orders.columns.duration' | transloco }}:</span>
+            <strong class="ms-2">{{ existing.durationTitle }}</strong>
+          </div>
+          <div>
+            <span class="text-gray-500">{{ 'modules.admin.adCommerce.orders.columns.user' | transloco }}:</span>
+            <strong class="ms-2">{{ existing.userDisplayName }}</strong>
+          </div>
+        </div>
+      </div>
+    }
+
+    <form class="flex flex-col gap-4" [formGroup]="form" (ngSubmit)="save()">
+      <base-form-field
+        [select]="true"
+        [options]="userOptions"
+        [label]="'modules.admin.adCommerce.orders.fields.user' | transloco"
+        [control]="form.controls.userId"
+      />
+      <base-form-field
+        [select]="true"
+        [options]="positionOptions"
+        [label]="'modules.admin.adCommerce.orders.fields.position' | transloco"
+        [control]="form.controls.advertisementPositionId"
+      />
+      <base-form-field
+        [select]="true"
+        [options]="durationOptions"
+        [label]="'modules.admin.adCommerce.orders.fields.duration' | transloco"
+        [control]="form.controls.advertisementDurationId"
+      />
+      <base-form-field
+        [jalaliDate]="true"
+        [label]="'modules.admin.adCommerce.orders.fields.startDate' | transloco"
+        [control]="form.controls.startAt"
+      />
+      <base-form-field
+        [select]="true"
+        [options]="statusOptions"
+        [label]="'modules.admin.adCommerce.orders.fields.status' | transloco"
+        [control]="form.controls.status"
+      />
+
+      <div class="flex justify-end gap-3 pt-2">
+        <base-button type="submit" color="blue" [loading]="saving" [disabled]="saving || form.invalid">
+          {{ 'shared.save' | transloco }}
+        </base-button>
+      </div>
+    </form>
+  }
+</div>

@@ -1,0 +1,99 @@
+<div class="max-w-6xl mx-auto py-8 px-5 pb-10" dir="rtl">
+  @if (loading) {
+  <p class="text-gray-500">{{ "shared.loading" | transloco }}</p>
+  } @else if (error) {
+  <div class="bg-red-50 text-red-700 py-3 px-4 rounded-lg">{{ error }}</div>
+  } @else if (post) {
+  <article>
+    <div
+      class="grid grid-cols-1 gap-6 items-start"
+      [class.md:grid-cols-[1fr_15rem]]="groups.length"
+      [class.md:[direction:ltr]]="groups.length"
+    >
+      <main class="rtl min-w-0">
+        @if (featuredImageUrl()) {
+        <div
+          class="flex items-center justify-center w-full max-h-96 mb-6 rounded-xl bg-gray-100 overflow-hidden"
+        >
+          <img
+            [src]="featuredImageUrl()"
+            [alt]="post.title"
+            class="block max-w-full max-h-96 w-auto h-auto object-contain rounded-xl"
+          />
+        </div>
+        }
+        <header class="text-right">
+          <h1
+            class="m-0 mb-3 text-right text-[1.75rem] font-bold leading-[1.35] text-gray-900"
+          >
+            {{ post.title }}
+          </h1>
+          <div class="flex flex-wrap justify-start gap-4 text-sm text-gray-400">
+            @if (formattedDate()) {
+            <span dir="rtl" class="inline-block">{{ formattedDate() }}</span>
+            } @if (post.showAuthor && post.authorName) {
+            <span>{{ post.authorName }}</span>
+            }
+            <span>{{
+              "modules.posts.viewCount" | transloco : { count: post.viewCount }
+            }}</span>
+          </div>
+        </header>
+        @if (hasSummary()) {
+        <section class="mt-5 text-right">
+          <h2 class="m-0 mb-3 text-right text-lg font-semibold text-gray-900">
+            {{ "modules.posts.summary" | transloco }}
+          </h2>
+          <p
+            class="m-0 text-right text-[1.0625rem] leading-[1.7] text-gray-700"
+          >
+            {{ post.shortDescription }}
+          </p>
+        </section>
+        } @if (hasFullBody()) {
+        <section class="mt-6 text-right">
+          <h2 class="m-0 mb-3 text-right text-lg font-semibold text-gray-900">
+            {{ "modules.posts.fullText" | transloco }}
+          </h2>
+          <div
+            class="ck-content text-base leading-[1.8] text-right text-gray-800 [&_*]:text-right [&_h1]:mt-6 [&_h1]:mb-3 [&_h1]:text-right [&_h1]:text-gray-900 [&_h2]:mt-6 [&_h2]:mb-3 [&_h2]:text-right [&_h2]:text-gray-900 [&_h3]:mt-6 [&_h3]:mb-3 [&_h3]:text-right [&_h3]:text-gray-900 [&_h4]:mt-6 [&_h4]:mb-3 [&_h4]:text-right [&_h4]:text-gray-900 [&_p]:mb-4 [&_p]:text-right [&_ul]:mb-4 [&_ul]:list-inside [&_ul]:text-right [&_ol]:mb-4 [&_ol]:list-inside [&_ol]:text-right [&_img]:block [&_img]:max-w-full [&_img]:h-auto [&_img]:object-contain [&_img]:mx-auto [&_img]:mb-4 [&_img]:rounded-lg [&_figure]:max-w-full [&_figure]:mb-4 [&_figure]:overflow-hidden [&_figure_img]:mb-0 [&_a]:text-[#35507c]"
+            [innerHTML]="safeBody()"
+          ></div>
+        </section>
+        }
+      </main>
+      @if (groups.length) {
+      <aside
+        class="sticky top-4 max-md:static max-md:order-first rounded-xl border border-gray-200 bg-gray-50 p-4 text-right rtl"
+      >
+        <h2
+          class="m-0 mb-3 text-right text-[0.9375rem] font-bold text-gray-900"
+        >
+          {{ "modules.posts.groups" | transloco }}
+        </h2>
+        <nav
+          class="flex flex-col gap-1.5"
+          [attr.aria-label]="'modules.posts.groups' | transloco"
+        >
+          @for (group of groups; track group.contentGroupId) {
+          <a
+            class="block break-words rounded-lg px-3 py-2.5 text-right text-sm font-medium leading-[1.45] text-gray-700 no-underline transition-colors hover:bg-[#eef2f7] hover:text-[#35507c]"
+            [class.bg-[#35507c]]="post.contentGroupId === group.contentGroupId"
+            [class.text-white]="post.contentGroupId === group.contentGroupId"
+            [class.font-semibold]="post.contentGroupId === group.contentGroupId"
+            [routerLink]="listUrl"
+            [queryParams]="{
+              contentGroupId: group.contentGroupId,
+              groupTitle: group.title
+            }"
+          >
+            {{ group.title }}
+          </a>
+          }
+        </nav>
+      </aside>
+      }
+    </div>
+  </article>
+  }
+</div>

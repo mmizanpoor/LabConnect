@@ -1,0 +1,115 @@
+<app-resume-section-card
+  icon="school"
+  [title]="'modules.profile.resume.education.title' | transloco"
+  [complete]="isComplete"
+>
+  @if (!editing) {
+    <button
+      sectionActions
+      type="button"
+      class="inline-flex items-center gap-1 text-sm font-medium text-teal-700 hover:text-teal-800"
+      (click)="startEdit()"
+    >
+      <mat-icon class="!h-4 !w-4 !text-[16px]">edit</mat-icon>
+      {{ 'modules.profile.resume.edit' | transloco }}
+    </button>
+  }
+
+  @if (error) {
+    <div class="mb-4 rounded-xl bg-red-50 p-3 text-sm text-red-700">{{ error }}</div>
+  }
+
+  @if (!editing) {
+    <div class="space-y-3">
+      @for (item of resume.educations; track item.educationId) {
+        <div class="rounded-xl border border-slate-100 bg-slate-50 p-4">
+          <p class="font-semibold text-slate-800">{{ item.institutionName }} — {{ item.fieldOfStudy }}</p>
+          @if (item.degreeLevel != null) {
+            <p class="mt-1 text-sm text-slate-500">
+              {{ enumTranslateKey('degreeLevel', DegreeLevel, item.degreeLevel) | transloco }}
+            </p>
+          }
+        </div>
+      } @empty {
+        <p class="text-sm text-slate-500">{{ 'modules.profile.resume.empty' | transloco }}</p>
+      }
+    </div>
+  } @else {
+    <form [formGroup]="form">
+      <div formArrayName="items" class="space-y-4">
+        @for (item of items.controls; track $index; let i = $index) {
+          <div [formGroupName]="i" class="rounded-2xl border border-sky-100 bg-sky-50/70 p-4">
+            <div class="mb-3 flex justify-end">
+              <button type="button" class="text-sm text-red-600" (click)="removeItem(i)">
+                {{ 'shared.delete' | transloco }}
+              </button>
+            </div>
+            <div class="grid grid-cols-1 gap-3 md:grid-cols-2">
+              <base-form-field
+                class="w-full"
+                layout="floating"
+                icon="menu_book"
+                [label]="'modules.profile.resume.education.fieldOfStudy' | transloco"
+                [control]="controlOf(item, 'fieldOfStudy')"
+              />
+              <base-form-field
+                class="w-full"
+                layout="floating"
+                icon="account_balance"
+                [label]="'modules.profile.resume.education.institutionName' | transloco"
+                [control]="controlOf(item, 'institutionName')"
+              />
+              <base-form-field
+                class="w-full md:col-span-2"
+                layout="floating"
+                icon="school"
+                [select]="true"
+                [options]="degreeLevelOptions"
+                [label]="'modules.profile.resume.education.degreeLevel' | transloco"
+                [control]="controlOf(item, 'degreeLevel')"
+              />
+              <base-form-field
+                class="w-full"
+                layout="floating"
+                type="number"
+                [label]="'modules.profile.resume.education.startYear' | transloco"
+                [control]="controlOf(item, 'startYear')"
+              />
+              <base-form-field
+                class="w-full"
+                layout="floating"
+                type="number"
+                [label]="'modules.profile.resume.education.endYear' | transloco"
+                [control]="controlOf(item, 'endYear')"
+              />
+              <div class="md:col-span-2">
+                <base-checkbox [formControl]="controlOf(item, 'isCurrentlyStudying')">
+                  {{ 'modules.profile.resume.education.currentlyStudying' | transloco }}
+                </base-checkbox>
+              </div>
+              <base-form-field
+                class="w-full md:col-span-2"
+                layout="floating"
+                [multiline]="true"
+                [rows]="3"
+                [label]="'modules.profile.resume.education.description' | transloco"
+                [control]="controlOf(item, 'description')"
+              />
+            </div>
+          </div>
+        }
+      </div>
+    </form>
+    <base-button type="button" color="blue" size="sm" class="mb-4 mt-2 w-full" (click)="addItem()">
+      + {{ 'modules.profile.resume.education.add' | transloco }}
+    </base-button>
+    <div class="flex gap-2">
+      <base-button color="green" size="sm" [disabled]="saving" [loading]="saving" (click)="save()">
+        {{ 'shared.save' | transloco }}
+      </base-button>
+      <base-button type="button" color="warn" size="sm" (click)="cancel()">
+        {{ 'shared.cancel' | transloco }}
+      </base-button>
+    </div>
+  }
+</app-resume-section-card>

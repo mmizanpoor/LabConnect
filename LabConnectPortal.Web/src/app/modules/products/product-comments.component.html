@@ -1,0 +1,145 @@
+<div class="flex flex-col gap-4" dir="rtl">
+  @if (reviews.length) {
+    <div class="flex flex-col">
+      @for (review of reviews; track review.id) {
+        <article class="py-5 border-b border-[#e8e8e8] last:border-b-0">
+          <div class="flex items-start gap-5">
+            <div class="flex items-center gap-2.5 shrink-0">
+              <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 text-gray-500 shrink-0 [&_mat-icon]:!w-[1.35rem] [&_mat-icon]:!h-[1.35rem] [&_mat-icon]:!text-[1.35rem]" aria-hidden="true">
+                <mat-icon>person</mat-icon>
+              </span>
+              <span class="text-[0.9375rem] font-bold text-gray-900">{{ review.authorName }}</span>
+            </div>
+
+            <div class="flex-1 min-w-0">
+              @if (canReplyTo(review)) {
+                <button type="button" class="inline-flex items-center gap-1 border-0 bg-transparent text-gray-500 text-[0.8125rem] cursor-pointer p-0 mb-2.5 hover:text-red-700 [&_mat-icon]:!w-4 [&_mat-icon]:!h-4 [&_mat-icon]:!text-base" (click)="startReply(review)">
+                  <mat-icon>reply</mat-icon>
+                  <span>{{ 'modules.products.reviews.reply' | transloco }}</span>
+                </button>
+              }
+
+              <div>
+                <div class="flex items-center gap-[0.15rem] mb-2.5" [attr.aria-label]="review.rating + '/5'">
+                  @for (star of [1, 2, 3, 4, 5]; track star) {
+                    <mat-icon class="!w-4 !h-4 !text-base text-gray-300" [class.text-amber-500]="star <= review.rating">star</mat-icon>
+                  }
+                </div>
+
+                <p class="m-0 mb-2 text-[0.9375rem] leading-[1.8] text-gray-700">{{ review.comment }}</p>
+
+                <div class="inline-flex items-center gap-1.5 mt-1 text-[0.8125rem] text-gray-400 [&_mat-icon]:!w-[0.95rem] [&_mat-icon]:!h-[0.95rem] [&_mat-icon]:!text-[0.95rem]">
+                  <mat-icon>schedule</mat-icon>
+                  <span>{{ formatJalaliDate(review.createdAt) }}</span>
+                </div>
+              </div>
+
+              @if (reviewReplies(review).length || (showReplyForm && replyReviewId === review.id) || (showReplyForm && reviewReplies(review).length)) {
+                <div class="mt-4 pt-1">
+                  @for (reply of reviewReplies(review); track reply.id) {
+                    <div class="m-0 py-3 px-4 bg-gray-50 rounded-lg border border-[#eef2f7] [&+&]:mt-3 [&+_.product-comment-reply-form]:mt-3">
+                      <div class="flex items-center gap-2 text-sm text-gray-900">
+                        <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 text-gray-500 shrink-0 [&_mat-icon]:!w-[1.1rem] [&_mat-icon]:!h-[1.1rem] [&_mat-icon]:!text-[1.1rem]" aria-hidden="true">
+                          <mat-icon>storefront</mat-icon>
+                        </span>
+                        <div class="flex flex-col gap-0.5">
+                          <strong>{{ reply.authorName }}</strong>
+                          <span class="text-xs font-medium text-[#35507c]">
+                            {{ 'modules.products.reviews.sellerReply' | transloco }}
+                          </span>
+                        </div>
+                      </div>
+                      <p class="mt-1.5 mb-0 text-sm leading-[1.7] text-gray-600">{{ reply.comment }}</p>
+                      <div class="inline-flex items-center gap-1.5 mt-2 text-xs text-gray-400 [&_mat-icon]:!w-[0.85rem] [&_mat-icon]:!h-[0.85rem] [&_mat-icon]:!text-[0.85rem]">
+                        <mat-icon>schedule</mat-icon>
+                        <span>{{ formatJalaliDate(reply.createdAt) }}</span>
+                      </div>
+                    </div>
+                  }
+
+                  @if (showReplyForm && replyReviewId === review.id) {
+                    <div class="mt-3">
+                      <mat-form-field appearance="outline" class="w-full">
+                        <mat-label>{{ 'modules.products.reviews.reply' | transloco }}</mat-label>
+                        <textarea matInput rows="3" [formControl]="replyCommentControl"></textarea>
+                      </mat-form-field>
+                      @if (replyError) {
+                        <p class="mt-2 mb-0 text-red-700 text-sm">{{ replyError }}</p>
+                      }
+                      @if (replySuccess) {
+                        <p class="mt-2 mb-0 text-emerald-700 text-sm">{{ replySuccess }}</p>
+                      }
+                      <div class="flex items-center gap-2">
+                        <base-button [disabled]="replyLoading || replyCommentControl.invalid" (click)="onSubmitReply()">
+                          {{ 'shared.submit' | transloco }}
+                        </base-button>
+                        <button mat-button type="button" (click)="cancelReply()">{{ 'shared.cancel' | transloco }}</button>
+                      </div>
+                    </div>
+                  } @else if (showReplyForm && reviewReplies(review).length) {
+                    <p class="mt-2 mb-0 text-[0.8125rem] text-gray-500">
+                      {{ 'modules.products.reviews.alreadyReplied' | transloco }}
+                    </p>
+                  }
+                </div>
+              }
+            </div>
+          </div>
+        </article>
+      }
+    </div>
+  } @else {
+    <p class="m-0 text-sm text-gray-500">{{ 'modules.products.emptyReviews' | transloco }}</p>
+  }
+
+  @if (canSubmitReview) {
+    <div class="mt-2 pt-5 border-t border-[#e8e8e8]">
+      <div class="flex items-start gap-3.5">
+        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 text-gray-500 shrink-0 mt-1.5 [&_mat-icon]:!w-[1.35rem] [&_mat-icon]:!h-[1.35rem] [&_mat-icon]:!text-[1.35rem]" aria-hidden="true">
+          <mat-icon>person</mat-icon>
+        </span>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-3 mb-3 flex-wrap">
+            <span class="text-sm font-semibold text-gray-700">{{ 'modules.products.reviews.rating' | transloco }}</span>
+            <div class="flex items-center gap-[0.15rem]" role="radiogroup">
+              @for (star of [1, 2, 3, 4, 5]; track star) {
+                <button
+                  type="button"
+                  class="inline-flex border-0 bg-transparent p-0 cursor-pointer text-gray-300 [&_mat-icon]:!w-[1.35rem] [&_mat-icon]:!h-[1.35rem] [&_mat-icon]:!text-[1.35rem]"
+                  [class.text-amber-500]="star <= (hoveredStar || ratingControl.value || 0)"
+                  (click)="setRating(star)"
+                  (mouseenter)="hoveredStar = star"
+                  (mouseleave)="hoveredStar = 0"
+                  [attr.aria-label]="star + '/5'"
+                >
+                  <mat-icon>star</mat-icon>
+                </button>
+              }
+            </div>
+          </div>
+          <textarea
+            class="w-full min-h-[6.5rem] py-3.5 px-4 border border-gray-300 rounded-lg text-[0.9375rem] leading-[1.7] resize-y font-inherit text-gray-900 bg-white focus:outline-none focus:border-red-700 focus:shadow-[0_0_0_2px_rgb(198_40_40/0.12)]"
+            rows="4"
+            [formControl]="commentControl"
+            [placeholder]="'modules.products.reviews.placeholder' | transloco"
+          ></textarea>
+          @if (submitError) {
+            <p class="mt-2 mb-0 text-red-700 text-sm">{{ submitError }}</p>
+          }
+          @if (submitSuccess) {
+            <p class="mt-2 mb-0 text-emerald-700 text-sm">{{ submitSuccess }}</p>
+          }
+          <div class="flex justify-end mt-3">
+            <base-button [disabled]="submitLoading || commentControl.invalid || ratingControl.invalid" (click)="onSubmitReview()">
+              {{ 'modules.products.reviews.submit' | transloco }}
+            </base-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  } @else if (hasPendingReview) {
+    <p class="m-0 text-sm py-3 px-4 bg-amber-50 border border-amber-200 rounded-lg text-amber-800">{{ 'modules.products.reviews.pendingApproval' | transloco }}</p>
+  } @else if (!isAuthenticated) {
+    <p class="m-0 text-sm text-gray-500">{{ 'modules.products.reviews.loginToReview' | transloco }}</p>
+  }
+</div>

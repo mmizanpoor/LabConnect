@@ -1,0 +1,34 @@
+<base-dialog
+  [title]="
+    (data.group
+      ? 'modules.profile.deviceGroups.editTitle'
+      : 'modules.profile.deviceGroups.addTitle'
+    ) | transloco
+  "
+>
+  <div class="min-w-[320px]" dir="rtl">
+    @if (error) {
+    <div class="mb-4 rounded-lg bg-red-50 p-3 text-sm text-red-700">{{ error }}</div>
+    }
+
+    <form [formGroup]="form" class="flex flex-col gap-5">
+      <base-form-field
+        class="w-full"
+        layout="floating"
+        icon="devices"
+        [required]="true"
+        [label]="'modules.profile.deviceGroups.fields.title' | transloco"
+        [control]="form.controls.title"
+      />
+    </form>
+  </div>
+
+  <div baseDialogActions class="flex items-center justify-end gap-2">
+    <base-button type="button" color="warn" size="sm" (click)="cancel()">
+      {{ "shared.cancel" | transloco }}
+    </base-button>
+    <base-button color="green" size="sm" [disabled]="form.invalid" [loading]="saving" (click)="save()">
+        {{ "shared.save" | transloco }}
+      </base-button>
+  </div>
+</base-dialog>

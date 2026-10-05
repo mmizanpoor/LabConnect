@@ -1,0 +1,18 @@
+<div class="relative mb-4 flex items-center justify-between gap-x-3 sm:mb-6">
+  <h2 class="m-0 min-w-0 text-start text-[0.9375rem] font-bold tracking-tight text-slate-900 sm:text-lg">
+    @if (title) {
+    {{ title }}
+    } @else {
+    {{ titleKey | transloco }}
+    }
+  </h2>
+  <a
+    [routerLink]="viewAllLink"
+    [queryParams]="viewAllQueryParams"
+    [queryParamsHandling]="queryParamsHandling"
+    class="inline-flex shrink-0 items-center gap-0.5 whitespace-nowrap text-xs font-medium text-[#35507c] no-underline hover:text-[#1e3a5f] hover:no-underline sm:text-sm"
+  >
+    {{ viewAllLabelKey | transloco }}
+    <span class="inline-block text-sm leading-none" aria-hidden="true">&gt;</span>
+  </a>
+</div>

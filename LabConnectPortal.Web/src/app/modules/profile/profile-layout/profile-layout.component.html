@@ -1,0 +1,403 @@
+<mat-sidenav-container
+  class="profile-shell h-screen"
+  [class.sidebar-collapsed]="sidebarCollapsed && !isMobile"
+  [class.profile-shell--chrome-hidden]="hideChrome"
+  [class.profile-shell--mobile]="isMobile"
+  [class.profile-shell--bottom-nav]="showBottomNav"
+  dir="rtl"
+>
+  @if (!hideChrome && showSidenav) {
+  <mat-sidenav
+    [mode]="sidenavMode"
+    [opened]="sidenavOpened"
+    (openedChange)="onSidenavOpenedChange($event)"
+    position="start"
+    class="profile-sidenav"
+    [class.collapsed]="sidebarCollapsed && !isMobile"
+    [class.profile-sidenav--mobile]="isMobile"
+    [style.width]="isMobile ? '100%' : sidebarCollapsed ? sidebarCollapsedWidth : sidebarWidth"
+  >
+    <div
+      class="profile-sidenav__brand"
+      [class.profile-sidenav__brand--collapsed]="sidebarCollapsed && !isMobile"
+    >
+      <a
+        routerLink="/home"
+        class="profile-brand"
+        [class.profile-brand--compact]="sidebarCollapsed && !isMobile"
+        aria-label="LabConnect"
+      >
+        <span class="profile-brand__mark" aria-hidden="true">
+          <mat-icon class="profile-brand__mark-icon">science</mat-icon>
+        </span>
+        @if (!sidebarCollapsed || isMobile) {
+        <span class="profile-brand__text">
+          <strong>LabConnect</strong>
+          <small>{{ "modules.profile.layout.brandSubtitle" | transloco }}</small>
+        </span>
+        }
+      </a>
+      @if (isMobile) {
+      <button
+        type="button"
+        class="profile-sidenav__toggle"
+        (click)="closeMobileMenu()"
+        [attr.aria-label]="'shared.close' | transloco"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+      } @else if (!sidebarCollapsed) {
+      <button
+        type="button"
+        class="profile-sidenav__toggle"
+        (click)="toggleSidebar()"
+        [attr.aria-label]="'shared.collapseMenu' | transloco"
+      >
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+      } @else {
+      <button
+        type="button"
+        class="profile-sidenav__toggle profile-sidenav__toggle--collapsed"
+        (click)="toggleSidebar()"
+        [attr.aria-label]="'shared.openMenu' | transloco"
+      >
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+      }
+    </div>
+
+    <div class="profile-sidenav__scroll">
+      @if (!sidebarCollapsed || isMobile) {
+        <div class="profile-nav-search" dir="rtl">
+          <mat-icon class="profile-nav-search__icon" aria-hidden="true">search</mat-icon>
+          <input
+            type="text"
+            class="profile-nav-search__input"
+            [formControl]="menuSearch"
+            [placeholder]="'modules.profile.layout.searchMenu' | transloco"
+            [attr.aria-label]="'modules.profile.layout.searchMenu' | transloco"
+            autocomplete="off"
+          />
+          @if (menuSearch.value) {
+            <button
+              type="button"
+              class="profile-nav-search__clear"
+              (click)="clearMenuSearch()"
+              [attr.aria-label]="'shared.close' | transloco"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
+          }
+        </div>
+      }
+
+      <nav class="profile-nav" [attr.aria-label]="'shared.menu' | transloco">
+        <mat-nav-list class="profile-nav__list">
+        @if (showDashboardLink) {
+          <a
+            class="profile-nav-top-link"
+            [class.profile-nav-top-link--active]="isLinkActive(dashboardLink)"
+            [routerLink]="dashboardLink.route"
+          >
+            <mat-icon class="profile-nav-top-link__icon">{{ dashboardLink.icon }}</mat-icon>
+            @if (!sidebarCollapsed || isMobile) {
+              <span class="profile-nav-top-link__label">{{ dashboardLink.labelKey | transloco }}</span>
+            }
+          </a>
+        }
+
+        @if (showProductListingsLink) {
+          <a
+            class="profile-nav-top-link"
+            [class.profile-nav-top-link--active]="isLinkActive(productListingsLink)"
+            [routerLink]="productListingsLink.route"
+          >
+            <mat-icon class="profile-nav-top-link__icon">{{ productListingsLink.icon }}</mat-icon>
+            @if (!sidebarCollapsed || isMobile) {
+              <span class="profile-nav-top-link__label">{{ productListingsLink.labelKey | transloco }}</span>
+            }
+          </a>
+        }
+
+        @if (showMessagesLink) {
+          <a
+            class="profile-nav-top-link"
+            [class.profile-nav-top-link--active]="isLinkActive(messagesLink)"
+            [routerLink]="messagesLink.route"
+          >
+            <mat-icon class="profile-nav-top-link__icon">{{ messagesLink.icon }}</mat-icon>
+            @if (!sidebarCollapsed || isMobile) {
+              <span class="profile-nav-top-link__label">{{ messagesLink.labelKey | transloco }}</span>
+            }
+          </a>
+        }
+
+        @if (showActivityLogsLink) {
+          <a
+            class="profile-nav-top-link"
+            [class.profile-nav-top-link--active]="isLinkActive(activityLogsLink)"
+            [routerLink]="activityLogsLink.route"
+          >
+            <mat-icon class="profile-nav-top-link__icon">{{ activityLogsLink.icon }}</mat-icon>
+            @if (!sidebarCollapsed || isMobile) {
+              <span class="profile-nav-top-link__label">{{ activityLogsLink.labelKey | transloco }}</span>
+            }
+          </a>
+        }
+
+        @if (showLoginReportLink) {
+          <a
+            class="profile-nav-top-link"
+            [class.profile-nav-top-link--active]="isLinkActive(loginReportLink)"
+            [routerLink]="loginReportLink.route"
+          >
+            <mat-icon class="profile-nav-top-link__icon">{{ loginReportLink.icon }}</mat-icon>
+            @if (!sidebarCollapsed || isMobile) {
+              <span class="profile-nav-top-link__label">{{ loginReportLink.labelKey | transloco }}</span>
+            }
+          </a>
+        }
+
+        @if (showCenterProfileLink) {
+          <a
+            class="profile-nav-top-link"
+            [class.profile-nav-top-link--active]="isLinkActive(centerProfileLink)"
+            [routerLink]="centerProfileLink.route"
+          >
+            <mat-icon class="profile-nav-top-link__icon">{{ centerProfileLink.icon }}</mat-icon>
+            @if (!sidebarCollapsed || isMobile) {
+              <span class="profile-nav-top-link__label">{{ centerProfileLink.labelKey | transloco }}</span>
+            }
+          </a>
+        }
+
+        @if (showTopNavDivider) {
+          <div class="profile-nav-divider" role="separator"></div>
+        }
+
+        @for (group of navGroups; track group.id) {
+        <div class="profile-nav-group">
+          @if (group.route) {
+          <a
+            class="profile-nav-group__header"
+            [class.profile-nav-group__header--active]="isGroupActive(group)"
+            [routerLink]="group.route"
+          >
+            <mat-icon class="profile-nav-group__icon">{{ group.icon }}</mat-icon>
+            @if (!sidebarCollapsed || isMobile) {
+            <span class="profile-nav-group__label">{{ group.labelKey | transloco }}</span>
+            }
+          </a>
+          } @else {
+          <button
+            type="button"
+            class="profile-nav-group__header"
+            [class.profile-nav-group__header--active]="isGroupActive(group)"
+            (click)="toggleGroup(group)"
+          >
+            <mat-icon class="profile-nav-group__icon">{{ group.icon }}</mat-icon>
+            @if (!sidebarCollapsed || isMobile) {
+            <span class="profile-nav-group__label">{{ group.labelKey | transloco }}</span>
+            <mat-icon
+              class="profile-nav-group__chevron"
+              [class.profile-nav-group__chevron--expanded]="isGroupExpanded(group.id)"
+              >expand_more</mat-icon
+            >
+            }
+          </button>
+
+          @if ((!sidebarCollapsed || isMobile) && isGroupExpanded(group.id)) {
+          <div class="profile-nav-group__items">
+            @for (item of group.items; track item.route) {
+            <a
+              mat-list-item
+              class="profile-nav-sub-link"
+              [class.profile-nav-link--active]="isLinkActive(item)"
+              [routerLink]="item.route"
+            >
+              <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+              <span matListItemTitle>{{ item.labelKey | transloco }}</span>
+            </a>
+            }
+          </div>
+          }
+          }
+        </div>
+        }
+        </mat-nav-list>
+      </nav>
+    </div>
+
+    <div class="profile-sidenav__footer">
+      @if (sidebarCollapsed && !isMobile) {
+      <button
+        mat-icon-button
+        type="button"
+        class="profile-logout-btn profile-logout-btn--collapsed"
+        (click)="logout()"
+        [attr.aria-label]="'shared.logout' | transloco"
+      >
+        <mat-icon>logout</mat-icon>
+      </button>
+      } @else {
+      <button
+        mat-stroked-button
+        type="button"
+        class="profile-logout-btn"
+        (click)="logout()"
+        [attr.aria-label]="'shared.logout' | transloco"
+      >
+        <mat-icon>logout</mat-icon>
+        <span>{{ "shared.logout" | transloco }}</span>
+      </button>
+      }
+    </div>
+  </mat-sidenav>
+  }
+
+  <mat-sidenav-content class="rtl flex min-w-0 flex-col overflow-hidden">
+    @if (!hideChrome) {
+    <header
+      class="profile-topbar flex shrink-0 items-center gap-3 px-3 py-2.5 sm:px-4"
+      [class.profile-topbar--mobile]="isMobile"
+      dir="rtl"
+    >
+      @if (!isMobile) {
+      <button
+        mat-icon-button
+        type="button"
+        class="profile-topbar__menu"
+        (click)="toggleSidebar()"
+        [attr.aria-label]="'shared.menu' | transloco"
+      >
+        <mat-icon>menu</mat-icon>
+      </button>
+      }
+
+      <div class="flex min-w-0 flex-1 items-center">
+        <h1 class="profile-topbar__title m-0 min-w-0 truncate">
+          {{ activePageTitleKey | transloco }}
+        </h1>
+      </div>
+
+      <app-header-user-menu
+        [hideNotifications]="isMobile"
+        [compact]="isMobile"
+      />
+    </header>
+    }
+
+    @if (!hideChrome && showRejectionBanner) {
+    <div
+      class="flex shrink-0 cursor-pointer flex-col gap-1 border-b-2 border-red-500 bg-red-50 px-5 py-3 text-red-800 transition-colors hover:bg-red-100 focus-visible:bg-red-100 focus-visible:outline-none"
+      role="button"
+      tabindex="0"
+      (click)="goToEditProfile()"
+      (keyup.enter)="goToEditProfile()"
+    >
+      <strong>{{
+        "modules.profile.center.rejectionBanner.title" | transloco
+      }}</strong>
+      <span
+        >{{ "modules.profile.center.rejectionBanner.reason" | transloco }}:
+        {{ centerProfile?.rejectionReason }}</span
+      >
+      <span class="font-semibold underline">{{
+        "modules.profile.center.rejectionBanner.clickToEdit" | transloco
+      }}</span>
+    </div>
+    }
+
+    <main class="profile-main flex min-h-0 min-w-0 flex-1 flex-col overflow-x-hidden overflow-y-auto bg-slate-50">
+      <router-outlet />
+    </main>
+
+    @if (showBottomNav) {
+    <nav
+      class="profile-bottom-nav"
+      dir="rtl"
+      [attr.aria-label]="'modules.profile.layout.bottomNav' | transloco"
+    >
+      @if (canShowDashboardLink) {
+      <a
+        class="profile-bottom-nav__item"
+        [class.profile-bottom-nav__item--active]="isBottomNavLinkActive(dashboardLink)"
+        [routerLink]="dashboardLink.route"
+      >
+        <mat-icon class="profile-bottom-nav__icon">dashboard</mat-icon>
+        <span class="profile-bottom-nav__label">{{ dashboardLink.labelKey | transloco }}</span>
+      </a>
+      } @else if (canShowCenterProfileLink) {
+      <a
+        class="profile-bottom-nav__item"
+        [class.profile-bottom-nav__item--active]="isBottomNavLinkActive(centerProfileLink)"
+        [routerLink]="centerProfileLink.route"
+      >
+        <mat-icon class="profile-bottom-nav__icon">apartment</mat-icon>
+        <span class="profile-bottom-nav__label">{{ centerProfileLink.labelKey | transloco }}</span>
+      </a>
+      } @else {
+      <a
+        class="profile-bottom-nav__item"
+        [class.profile-bottom-nav__item--active]="isAccountHomeActive()"
+        routerLink="/profile"
+      >
+        <mat-icon class="profile-bottom-nav__icon">person</mat-icon>
+        <span class="profile-bottom-nav__label">{{ "modules.profile.layout.account" | transloco }}</span>
+      </a>
+      }
+
+      @if (canShowProductListingsLink) {
+      <a
+        class="profile-bottom-nav__item"
+        [class.profile-bottom-nav__item--active]="isBottomNavLinkActive(productListingsLink)"
+        [routerLink]="productListingsLink.route"
+      >
+        <mat-icon class="profile-bottom-nav__icon">campaign</mat-icon>
+        <span class="profile-bottom-nav__label">{{ productListingsLink.labelKey | transloco }}</span>
+      </a>
+      }
+
+      @if (showCreateAdLink) {
+      <a
+        class="profile-bottom-nav__item profile-bottom-nav__item--create"
+        [class.profile-bottom-nav__item--active]="isCreateAdActive()"
+        [routerLink]="createAdRoute"
+      >
+        <span class="profile-bottom-nav__fab" aria-hidden="true">
+          <mat-icon>add</mat-icon>
+        </span>
+        <span class="profile-bottom-nav__label">{{ "modules.profile.layout.createAd" | transloco }}</span>
+      </a>
+      }
+
+      @if (canShowMessagesLink) {
+      <a
+        class="profile-bottom-nav__item"
+        [class.profile-bottom-nav__item--active]="isBottomNavLinkActive(messagesLink)"
+        [routerLink]="messagesLink.route"
+      >
+        <span class="profile-bottom-nav__icon-wrap">
+          <mat-icon class="profile-bottom-nav__icon">notifications_none</mat-icon>
+          @if (unreadCount > 0) {
+          <span class="profile-bottom-nav__badge">{{ unreadBadgeLabel }}</span>
+          }
+        </span>
+        <span class="profile-bottom-nav__label">{{ messagesLink.labelKey | transloco }}</span>
+      </a>
+      }
+
+      <button
+        type="button"
+        class="profile-bottom-nav__item"
+        [class.profile-bottom-nav__item--active]="mobileMenuOpen"
+        (click)="toggleMobileMenu()"
+      >
+        <mat-icon class="profile-bottom-nav__icon">menu</mat-icon>
+        <span class="profile-bottom-nav__label">{{ "shared.menu" | transloco }}</span>
+      </button>
+    </nav>
+    }
+  </mat-sidenav-content>
+</mat-sidenav-container>

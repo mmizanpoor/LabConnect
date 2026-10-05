@@ -1,0 +1,125 @@
+<div class="min-h-[calc(100vh-12rem)] bg-white" dir="rtl">
+  @if (loading) {
+    <p class="max-w-6xl mx-auto my-8 px-6 text-gray-500">{{ 'shared.loading' | transloco }}</p>
+  } @else if (error) {
+    <div class="max-w-6xl mx-auto my-8 px-6 bg-red-50 text-red-700 py-3 px-4 rounded-lg">{{ error }}</div>
+  } @else if (offer) {
+    <div class="max-w-6xl mx-auto p-6 grid grid-cols-1 min-[960px]:grid-cols-[1fr_300px] gap-6 items-start">
+      <main class="min-w-0">
+        <span class="inline-flex mb-2 text-xs font-bold text-[#35507c]">{{ 'modules.specialOffers.detailTitle' | transloco }}</span>
+        <h1 class="m-0 mb-3 text-[1.75rem] font-extrabold text-gray-900 leading-[1.35]">{{ offer.title }}</h1>
+        <p class="m-0 mb-5 text-base leading-[1.8] text-gray-600 text-justify">{{ offer.summary }}</p>
+
+        <div class="flex flex-wrap gap-3 mb-6">
+          <div class="inline-flex items-center gap-1.5 py-2 px-3 rounded-full bg-slate-50 text-slate-600 text-[0.8125rem] font-semibold [&_mat-icon]:!w-4 [&_mat-icon]:!h-4 [&_mat-icon]:!text-base">
+            <mat-icon>event</mat-icon>
+            <span>{{ 'modules.specialOffers.startDate' | transloco }}: {{ formatDate(offer.startDate) }}</span>
+          </div>
+          <div class="inline-flex items-center gap-1.5 py-2 px-3 rounded-full bg-[#eef4ff] text-[#35507c] text-[0.8125rem] font-semibold [&_mat-icon]:!w-4 [&_mat-icon]:!h-4 [&_mat-icon]:!text-base">
+            <mat-icon>hourglass_bottom</mat-icon>
+            <span>{{ 'modules.specialOffers.endDate' | transloco }}: {{ formatDate(offer.endDate) }}</span>
+          </div>
+          @if (daysRemaining() != null && daysRemaining()! >= 0) {
+            <div class="inline-flex items-center py-2 px-3.5 rounded-full bg-gradient-to-br from-[#35507c] to-[#4a6fa5] text-white text-[0.8125rem] font-bold">
+              {{ 'modules.specialOffers.daysRemaining' | transloco: { count: daysRemaining() } }}
+            </div>
+          }
+        </div>
+
+        @if (offer.fullBody) {
+          <section class="mt-6">
+            <h2 class="m-0 mb-3 text-lg font-bold text-gray-900">{{ 'modules.specialOffers.fullBody' | transloco }}</h2>
+            <div class="leading-[1.8] text-gray-700 text-justify [&_p]:text-justify [&_li]:text-justify [&_div]:text-justify [&_img]:max-w-full [&_img]:h-auto" [innerHTML]="fullBodyHtml()"></div>
+          </section>
+        }
+
+        @if (offer.tests.length) {
+          <section class="mt-6">
+            <h2 class="m-0 mb-3 text-lg font-bold text-gray-900">{{ 'modules.specialOffers.includedTests' | transloco }}</h2>
+            <div class="overflow-x-auto rounded-xl border border-slate-200">
+              <table mat-table [dataSource]="offer.tests" class="w-full">
+                <ng-container matColumnDef="cpnCode">
+                  <th mat-header-cell *matHeaderCellDef class="!text-right">{{ 'modules.profile.testInfos.columns.cpnCode' | transloco }}</th>
+                  <td mat-cell *matCellDef="let row" class="!text-right text-sm">{{ row.cpnCode || '—' }}</td>
+                </ng-container>
+                <ng-container matColumnDef="nationalCode">
+                  <th mat-header-cell *matHeaderCellDef class="!text-right">{{ 'modules.profile.testInfos.columns.nationalCode' | transloco }}</th>
+                  <td mat-cell *matCellDef="let row" class="!text-right text-sm">{{ row.nationalCode || '—' }}</td>
+                </ng-container>
+                <ng-container matColumnDef="fullName">
+                  <th mat-header-cell *matHeaderCellDef class="!text-right">{{ 'modules.profile.testInfos.columns.fullName' | transloco }}</th>
+                  <td mat-cell *matCellDef="let row" class="!text-right text-sm font-medium">{{ row.fullName || '—' }}</td>
+                </ng-container>
+                <ng-container matColumnDef="shortName">
+                  <th mat-header-cell *matHeaderCellDef class="!text-right">{{ 'modules.profile.testInfos.columns.shortName' | transloco }}</th>
+                  <td mat-cell *matCellDef="let row" class="!text-right text-sm">{{ row.shortName || '—' }}</td>
+                </ng-container>
+                <ng-container matColumnDef="discount">
+                  <th mat-header-cell *matHeaderCellDef class="!text-right">{{ 'modules.profile.specialOffers.columns.discount' | transloco }}</th>
+                  <td mat-cell *matCellDef="let row" class="!text-right text-sm">
+                    {{ row.discount != null ? (row.discount + '%') : '—' }}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="maxSamples">
+                  <th mat-header-cell *matHeaderCellDef class="!text-right">{{ 'modules.profile.specialOffers.columns.maxSamples' | transloco }}</th>
+                  <td mat-cell *matCellDef="let row" class="!text-right text-sm">{{ row.maxSamples ?? '—' }}</td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+              </table>
+            </div>
+          </section>
+        }
+      </main>
+
+      <aside>
+        <div class="bg-white border border-[#e0e0e2] rounded-lg py-4 px-5 pb-5 shadow-[0_1px_2px_rgb(0_0_0/0.04)]">
+          <div>
+            <span class="block text-sm font-bold text-gray-900 mb-3">{{ 'modules.specialOffers.lab' | transloco }}</span>
+            <div class="flex items-center gap-2 mb-2.5">
+              <span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-[#35507c] text-white shrink-0 [&_mat-icon]:!w-4 [&_mat-icon]:!h-4 [&_mat-icon]:!text-base" aria-hidden="true">
+                <mat-icon>storefront</mat-icon>
+              </span>
+              <span class="text-[0.9375rem] font-bold text-gray-900 leading-relaxed break-words">{{ proposerLabName }}</span>
+            </div>
+          </div>
+
+          <div class="h-px bg-[#eceff3] my-3 mb-4"></div>
+
+          <div>
+            <span class="block text-sm font-bold text-[#35507c] text-right">{{ 'modules.specialOffers.negotiableOffer' | transloco }}</span>
+          </div>
+
+          @if (showDescriptionField) {
+            <label class="block mt-3 mb-1.5 text-[0.8125rem] font-semibold text-slate-600">
+              {{ 'modules.specialOffers.requestDescription' | transloco }}
+            </label>
+            <textarea
+              class="w-full resize-y min-h-[5.5rem] border border-[#dbe3ee] rounded-lg py-2.5 px-3 text-[0.8125rem] leading-relaxed text-gray-800 bg-white focus:outline-none focus:border-[#35507c] focus:shadow-[0_0_0_3px_rgb(53_80_124/0.12)]"
+              rows="4"
+              maxlength="2000"
+              [formControl]="descriptionControl"
+              [placeholder]="'modules.specialOffers.requestDescriptionPlaceholder' | transloco"
+            ></textarea>
+          }
+
+          @if (submitError) {
+            <p class="mt-3 mb-0 text-[0.8125rem] text-red-700">{{ submitError }}</p>
+          }
+          @if (submitSuccess) {
+            <p class="mt-3 mb-0 text-[0.8125rem] text-emerald-700">{{ submitSuccess }}</p>
+          }
+
+          <button
+            type="button"
+            class="w-full mt-4 border-0 rounded-lg bg-[#35507c] text-white py-3.5 px-4 text-[0.9375rem] font-extrabold cursor-pointer transition-colors hover:bg-[#2a4063] disabled:opacity-65 disabled:cursor-not-allowed"
+            [disabled]="isSubmitDisabled"
+            (click)="onSubmitRequest()"
+          >
+            {{ submitButtonLabelKey | transloco }}
+          </button>
+        </div>
+      </aside>
+    </div>
+  }
+</div>

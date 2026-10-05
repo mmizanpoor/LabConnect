@@ -1,0 +1,131 @@
+<div class="order-track" dir="rtl">
+  <base-back-button
+    class="order-track__back"
+    link="/admin/product-orders"
+    ariaLabelKey="modules.admin.productOrders.backToList"
+  />
+
+  @if (loading) {
+    <div class="order-track__state">
+      <span class="order-track__spinner"></span>
+      <p>{{ 'shared.loading' | transloco }}</p>
+    </div>
+  } @else if (error) {
+    <div class="order-track__error">{{ error }}</div>
+  } @else if (order) {
+    <article class="order-track__panel">
+      <header class="order-track__hero">
+        <div class="order-track__hero-main">
+          <p class="order-track__eyebrow">{{ 'modules.admin.productOrders.trackingTitle' | transloco }}</p>
+          <h1 class="order-track__title">{{ order.centerName }}</h1>
+          <p class="order-track__subtitle">
+            @if (order.buyerName) {
+              {{ order.buyerName }}
+            }
+            @if (order.buyerPhone) {
+              <span class="order-track__dot">·</span>
+              <span dir="ltr">{{ order.buyerPhone }}</span>
+            }
+          </p>
+        </div>
+        <div class="order-track__hero-aside">
+          <span class="order-track__badge" [class]="statusClass(order.status)">
+            {{ statusLabel(order.status) }}
+          </span>
+          <p class="order-track__total">
+            {{ order.totalAmount | number }}
+            <small>{{ 'shared.currency' | transloco }}</small>
+          </p>
+        </div>
+      </header>
+
+      <ol class="order-track__steps">
+        @for (step of trackingSteps; track step.key; let i = $index) {
+          <li
+            class="order-track__step"
+            [class.is-done]="step.done"
+            [class.is-current]="step.current"
+            [class.is-cancelled]="step.key === 'cancelled'"
+          >
+            @if (i > 0) {
+              <span
+                class="order-track__step-line"
+                [class.is-active]="step.done"
+                aria-hidden="true"
+              ></span>
+            }
+            <span class="order-track__step-index">{{ i + 1 }}</span>
+            <span class="order-track__step-label">{{ step.label }}</span>
+          </li>
+        }
+      </ol>
+
+      <div class="order-track__facts">
+        <div class="order-track__fact">
+          <span>{{ 'modules.orders.columns.createdAt' | transloco }}</span>
+          <strong>{{ order.createdAt | date: 'yyyy/MM/dd HH:mm' }}</strong>
+        </div>
+        @if (order.shippingMethod != null) {
+          <div class="order-track__fact">
+            <span>{{ 'modules.orders.shippingMethod' | transloco }}</span>
+            <strong>{{ shippingMethodLabel(order.shippingMethod) }}</strong>
+          </div>
+        }
+        @if (order.shippingCost != null && order.shippingCost > 0) {
+          <div class="order-track__fact">
+            <span>{{ 'modules.orders.shippingCost' | transloco }}</span>
+            <strong>{{ order.shippingCost | number }} {{ 'shared.currency' | transloco }}</strong>
+          </div>
+        }
+        @if (order.shippingAddress) {
+          <div class="order-track__fact order-track__fact--wide">
+            <span>{{ 'modules.orders.shippingAddress' | transloco }}</span>
+            <strong>{{ order.shippingAddress }}</strong>
+          </div>
+        }
+      </div>
+
+      @if (order.trackingCode || order.shippingCompany) {
+        <div class="order-track__tracking">
+          <mat-icon>local_shipping</mat-icon>
+          <div>
+            @if (order.shippingCompany) {
+              <p class="order-track__tracking-company">{{ order.shippingCompany }}</p>
+            }
+            @if (order.trackingCode) {
+              <p class="order-track__tracking-code" dir="ltr">{{ order.trackingCode }}</p>
+            } @else {
+              <p class="order-track__tracking-muted">{{ 'modules.orders.trackingCode' | transloco }}: —</p>
+            }
+          </div>
+        </div>
+      }
+
+      <section class="order-track__items">
+        <h2>{{ 'modules.orders.items' | transloco }}</h2>
+        <ul>
+          @for (item of order.items; track item.id) {
+            <li>
+              <div class="order-track__item-main">
+                <p class="order-track__item-title">{{ item.productTitle }}</p>
+                <p class="order-track__item-meta">
+                  {{ item.quantity }} × {{ item.unitPrice | number }}
+                </p>
+              </div>
+              <div class="order-track__item-side">
+                <strong>{{ item.lineTotal | number }}</strong>
+                <span [class]="item.isShipped ? 'chip-shipped' : 'chip-wait'">
+                  {{
+                    item.isShipped
+                      ? ('modules.orders.itemShipped' | transloco)
+                      : ('modules.orders.itemAwaitingShipment' | transloco)
+                  }}
+                </span>
+              </div>
+            </li>
+          }
+        </ul>
+      </section>
+    </article>
+  }
+</div>

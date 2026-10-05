@@ -1,0 +1,108 @@
+<div
+  class="product-orders-page mx-auto box-border flex h-full min-h-0 w-full flex-col overflow-hidden p-4"
+  dir="rtl"
+>
+  <mat-drawer-container class="product-orders-drawer-container min-h-0 flex-1 bg-transparent">
+    <mat-drawer
+      #filterDrawer
+      class="product-orders-filter-drawer z-20 w-[min(100vw,22rem)] border-s border-gray-200 bg-white !shadow-[-14px_0_36px_rgba(15,23,42,0.28)]"
+      mode="over"
+      position="start"
+      [autoFocus]="false"
+    >
+      <div class="flex h-full flex-col">
+        <div
+          class="product-orders-filter-header filter-panel-header flex shrink-0 items-center justify-between px-4 py-3"
+        >
+          <h2 class="m-0 text-base font-bold text-[#35507c]">
+            {{ "modules.profile.productOrders.filters.title" | transloco }}
+          </h2>
+          <button
+            type="button"
+            class="inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-md border-0 bg-white/50 text-[#35507c] hover:bg-white hover:text-[#2a4063]"
+            (click)="filterDrawer.close()"
+            [attr.aria-label]="'modules.profile.productOrders.filters.close' | transloco"
+          >
+            <mat-icon class="!h-5 !w-5 !text-[1.25rem]">close</mat-icon>
+          </button>
+        </div>
+
+        <div
+          class="product-orders-filters flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto overflow-x-hidden p-4 pt-5"
+        >
+          <base-form-field
+            class="w-full"
+            layout="floating"
+            icon="filter_list"
+            [select]="true"
+            [options]="statusFilterOptions"
+            [label]="'modules.profile.productOrders.filters.status' | transloco"
+            [control]="statusFilter"
+          />
+        </div>
+
+        <div class="filter-panel-footer shrink-0 p-4">
+          <base-button type="button" size="sm" [disabled]="loading" (click)="applyFilters()">
+            {{ "shared.search" | transloco }}
+          </base-button>
+        </div>
+      </div>
+    </mat-drawer>
+
+    <mat-drawer-content
+      class="product-orders-drawer-content !flex !min-h-0 !flex-col !overflow-hidden bg-transparent"
+    >
+      <div class="mb-3 flex shrink-0 flex-wrap items-center justify-between gap-3">
+        <button
+          type="button"
+          class="inline-flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-md border-0 filter-open-btn text-white shadow-sm transition"
+          (click)="filterDrawer.open()"
+          [attr.aria-label]="'modules.profile.productOrders.filters.open' | transloco"
+        >
+          <mat-icon class="!h-5 !w-5 !text-white" svgIcon="heroicons_outline:funnel"></mat-icon>
+        </button>
+
+        @if (canExport) {
+          <button
+            type="button"
+            class="inline-flex items-center gap-2 rounded-lg border border-green-200 bg-green-50 px-3 py-2 text-sm font-semibold text-green-700 transition hover:border-green-300 hover:bg-green-100 disabled:cursor-not-allowed disabled:opacity-50"
+            [disabled]="loading || exporting || !totalCount"
+            (click)="exportOrdersToExcel()"
+          >
+            <mat-icon class="!h-5 !w-5 !text-xl" svgIcon="mat_solid:excel"></mat-icon>
+            <span>{{ "modules.profile.productOrders.exportExcel" | transloco }}</span>
+          </button>
+        }
+      </div>
+
+      @if (error) {
+        <div class="mb-3 shrink-0 rounded-lg bg-red-50 p-3 text-sm text-red-700">
+          {{ error }}
+        </div>
+      }
+
+      <div class="base-grid-panel flex min-h-0 flex-1 flex-col overflow-hidden">
+        <base-grid
+          gridId="7aaaf2aa-2b3a-4e85-9a62-4662d1a07ac9"
+          class="min-h-0 w-full flex-1"
+          [framed]="false"
+          [visibleOrder]="false"
+          [columnDefs]="colDef"
+          [dataSource$]="list$"
+          [disabled]="loading"
+          [toolbarDisabled]="true"
+          [noRowsMessage]="'modules.profile.productOrders.empty' | transloco"
+          forceDirection="rtl"
+        />
+      </div>
+
+      <base-paging
+        class="mt-3 shrink-0"
+        [page]="page"
+        [pageSize]="pageSize"
+        [totalCount]="totalCount"
+        (pageChange)="onPageChange($event)"
+      />
+    </mat-drawer-content>
+  </mat-drawer-container>
+</div>

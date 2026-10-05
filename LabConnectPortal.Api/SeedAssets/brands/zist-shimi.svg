@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 110" role="img" aria-label="Zist Shimi">
+  <rect width="360" height="110" fill="#ffffff"/>
+  <path d="M40 70c20-40 60-40 80 0" fill="none" stroke="#1B7F5A" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="80" cy="42" r="10" fill="#1B7F5A"/>
+  <text x="230" y="68" text-anchor="middle" font-family="Tahoma, Arial, sans-serif" font-size="36" font-weight="700" fill="#1B7F5A">زیست شیمی</text>
+</svg>

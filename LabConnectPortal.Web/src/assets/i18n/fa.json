@@ -1,0 +1,3267 @@
+﻿{
+  "shared": {
+    "mobileNumber": "شماره موبایل",
+    "verificationCode": "کد تأیید",
+    "email": "ایمیل",
+    "save": "ذخیره",
+    "saving": "در حال ذخیره...",
+    "cancel": "انصراف",
+    "back": "بازگشت",
+    "close": "بستن",
+    "yes": "بله",
+    "no": "خیر",
+    "loading": "در حال بارگذاری...",
+    "logout": "خروج",
+    "menu": "منو",
+    "openMenu": "باز کردن منو",
+    "collapseMenu": "جمع کردن منو",
+    "all": "همه",
+    "home": "خانه",
+    "status": "وضعیت",
+    "active": "فعال",
+    "inactive": "غیرفعال",
+    "mobile": "موبایل",
+    "type": "نوع",
+    "resendCode": "ارسال مجدد کد",
+    "codeExpired": "اعتبار کد به پایان رسیده است.",
+    "codeValidity": "اعتبار کد: {{time}}",
+    "error": "خطا",
+    "loadFailed": "بارگذاری این بخش انجام نشد.",
+    "retry": "تلاش مجدد",
+    "edit": "ویرایش",
+    "delete": "حذف",
+    "view": "مشاهده",
+    "add": "افزودن",
+    "search": "جستجو",
+    "selectedCount": "{{count}} مورد انتخاب شده",
+    "confirm": "تأیید",
+    "enableApiKey": "فعالسازی ApiKey",
+    "confirmEnableApiKey": "آیا می‌خواهید ApiKey را فعال کنید؟",
+    "enableApiKeyFailed": "فعالسازی ApiKey ناموفق بود.",
+    "apiKeys": {
+      "title": "کلیدهای API",
+      "adminTitle": "لیست کلیدهای API",
+      "description": "مدیریت کلیدهای دسترسی به سرویس‌های API",
+      "guide": "راهنمای استفاده از سرویس",
+      "create": "ایجاد کلید",
+      "createTitle": "ایجاد کلید API",
+      "editTitle": "ویرایش کلید API",
+      "name": "نام کلید",
+      "key": "کلید API",
+      "center": "مرکز",
+      "permissions": "دسترسی‌ها",
+      "createdAt": "تاریخ ایجاد",
+      "allowAdd": "اجازه افزودن",
+      "allowEdit": "اجازه ویرایش",
+      "allowView": "اجازه مشاهده",
+      "addAndEdit": "افزودن و ویرایش",
+      "readOnly": "فقط خواندن",
+      "noAccess": "بدون دسترسی",
+      "empty": "کلید API ثبت نشده است.",
+      "copy": "کپی کلید",
+      "copied": "کلید کپی شد.",
+      "copyWarning": "این کلید فقط همین یک‌بار به‌صورت کامل نمایش داده می‌شود؛ آن را در محل امنی نگهداری کنید.",
+      "deleteTitle": "حذف کلید API",
+      "confirmDelete": "آیا از حذف این کلید API مطمئن هستید؟"
+    },
+    "upload": "آپلود",
+    "none": "—",
+    "backToList": "بازگشت به لیست",
+    "actions": "عملیات",
+    "currency": "تومان",
+    "noRows": "رکوردی برای نمایش وجود ندارد",
+    "rowCount": "{{count}} مورد",
+    "breadcrumb": "مسیر صفحه",
+    "filters": {
+      "title": "فیلترها",
+      "open": "باز کردن فیلترها",
+      "close": "بستن فیلترها",
+      "clear": "پاک کردن فیلترها"
+    },
+    "imageUpload": {
+      "dragDrop": "برای آپلود تصویر، اینجا بکشید و رها کنید",
+      "selectFile": "یا فایل را انتخاب کنید",
+      "idealSize": "اندازه ایده‌آل ۱۰۰۰ در ۸۰۰ پیکسل برای نمایشگرهای با وضوح بالا"
+    }
+  },
+  "message": {
+    "validation": {
+      "required": "این فیلد الزامی است",
+      "maxLength": "تعداد کاراکتر بیش از حد مجاز است",
+      "invalidMobile": "شماره موبایل معتبر وارد کنید",
+      "enterCode": "کد را وارد کنید"
+    },
+    "auth": {
+      "sendCodeFailed": "خطا در ارسال کد",
+      "invalidCode": "کد نامعتبر است",
+      "loadProfileFailed": "خطا در دریافت پروفایل",
+      "saveProfileFailed": "خطا در ذخیره پروفایل",
+      "noRefreshToken": "توکن رفرش موجود نیست",
+      "refreshSessionFailed": "خطا در تمدید نشست",
+      "otpExpiredResend": "کد منقضی شده است. لطفاً ارسال مجدد را بزنید.",
+      "invalidUsernameOrPassword": "نام کاربری یا گذرواژه نامعتبر است",
+      "registerStoreFailed": "ثبت‌نام فروشگاه انجام نشد"
+    }
+  },
+  "modules": {
+    "auth": {
+      "login": {
+        "title": "ورود به حساب کاربری",
+        "signupOrLoginTitle": "ثبت نام یا ورود به حساب کاربری",
+        "enterMobileHint": "شماره موبایل خود را وارد نمایید",
+        "passwordLoginTitle": "ورود با نام کاربری و گذرواژه",
+        "enterUsernamePasswordHint": "نام کاربری و گذرواژه خود را وارد نمایید",
+        "backToHome": "بازگشت به صفحه اصلی",
+        "sendVerificationCode": "ارسال کد تأیید",
+        "codeSentTo": "کد به {{mobile}} ارسال شد",
+        "submit": "ورود",
+        "changeMobile": "تغییر شماره موبایل",
+        "loginWithPassword": "ورود با نام کاربری و گذرواژه",
+        "loginWithMobile": "ورود با شماره موبایل",
+        "username": "نام کاربری",
+        "password": "گذرواژه",
+        "userType": {
+          "user": "کاربر",
+          "lab": "آزمایشگاه",
+          "store": "فروشگاه"
+        },
+        "success": {
+          "codeResent": "کد جدید ارسال شد",
+          "codeSent": "کد تأیید ارسال شد"
+        },
+        "registerStore": "ثبت نام فروشگاه"
+      },
+      "registerStore": {
+        "title": "ثبت نام فروشگاه",
+        "subtitle": "اطلاعات حساب فروشگاه خود را وارد نمایید",
+        "storeName": "نام فروشگاه",
+        "confirmPassword": "تکرار رمز عبور",
+        "submit": "ثبت نام",
+        "backToLogin": "بازگشت به ورود",
+        "success": {
+          "registered": "ثبت‌نام با موفقیت انجام شد"
+        },
+        "errors": {
+          "passwordMismatch": "تکرار رمز عبور با رمز عبور یکسان نیست"
+        }
+      },
+      "forgotPassword": {
+        "title": "بازیابی رمز عبور",
+        "newPassword": "رمز عبور جدید",
+        "changePassword": "تغییر رمز عبور",
+        "sendCode": "ارسال کد",
+        "backToLogin": "بازگشت به ورود",
+        "success": {
+          "passwordChanged": "رمز عبور با موفقیت تغییر کرد."
+        }
+      }
+    },
+    "profile": {
+      "layout": {
+        "profile": "پروفایل",
+        "centerProfile": "پروفایل",
+        "labUsers": "کاربران آزمایشگاه",
+        "deviceGroups": "گروه‌بندی دستگاه‌ها",
+        "kitGroups": "گروه‌بندی کیت‌ها",
+        "testInfos": "لیست آزمایشات",
+        "specialOffers": "پیشنهاد ویژه",
+        "receptions": "مشاهده پذیرش‌ها",
+        "agreements": "مشاهده قراردادها",
+        "agreementSettings": "تنظیمات قرارداد",
+        "dashboard": "داشبورد",
+        "home": "صفحه اصلی",
+        "locations": "شعبه‌ها",
+        "jobPostings": "آگهی‌ها",
+        "productListings": "محصولات من",
+        "products": "آگهی ها",
+        "requestList": "لیست درخواست",
+        "productOffers": "آگهی‌های فروش",
+        "catalogProducts": "محصولات من",
+        "productOrders": "سفارش محصولات",
+        "account": "حساب کاربری",
+        "viewProfile": "مشاهده پروفایل",
+        "usernameLabel": "نام کاربری:",
+        "messages": "اعلان ها",
+        "createAd": "درج آگهی",
+        "bottomNav": "ناوبری پایین",
+        "activityLogs": "تاریخچه تغییرات",
+        "searchMenu": "جستجوی منو...",
+        "mainMenu": "منوی اصلی",
+        "brandSubtitle": "پنل مدیریت ",
+        "myProfile": "پروفایل من",
+        "changeUsername": "تغییر نام کاربری / ایمیل",
+        "changePassword": "تغییر رمز عبور",
+        "loginReport": "گزارش ورود",
+        "orderDetails": "جزئیات سفارش",
+        "groups": {
+          "account": "حساب کاربری",
+          "business": "مدیریت کسب‌وکار",
+          "products": "آگهی ها",
+          "laboratory": "مدیریت آزمایشگاه",
+          "testManagement": "مدیریت آزمایشات",
+          "labServices": "خدمات آزمایشگاه"
+        }
+      },
+      "messages": {
+        "title": "اعلان‌ها",
+        "empty": "اعلانی وجود ندارد.",
+        "emptyUnread": "اعلان خوانده‌نشده‌ای ندارید.",
+        "emptyHint": "وقتی رویداد جدیدی رخ دهد، اینجا نمایش داده می‌شود.",
+        "unread": "خوانده نشده",
+        "markAllRead": "علامت‌گذاری همه به‌عنوان خوانده‌شده",
+        "loadMore": "نمایش بیشتر",
+        "filters": {
+          "all": "همه",
+          "unread": "خوانده‌نشده"
+        },
+        "actions": {
+          "read": "خواندن",
+          "viewed": "مشاهده‌شده"
+        },
+        "time": {
+          "justNow": "همین الان",
+          "minutesAgo": "{{count}} دقیقه پیش",
+          "todayAt": "امروز، {{time}}",
+          "yesterdayAt": "دیروز، {{time}}",
+          "daysAgo": "{{count}} روز پیش"
+        },
+        "errors": {
+          "loadFailed": "خطا در بارگذاری پیغام‌ها"
+        }
+      },
+      "center": {
+        "title": "پروفایل مرکز",
+        "viewTitle": "مشاهده پروفایل",
+        "name": "نام مرکز",
+        "address": "آدرس",
+        "phone": "تلفن ثابت",
+        "introSection": "معرفی مجموعه",
+        "tabs": {
+          "basic": "اطلاعات پایه",
+          "location": "موقعیت",
+          "documents": "مدارک"
+        },
+        "establishedYear": "سال تأسیس",
+        "description": "معرفی مجموعه",
+        "website": "وب‌سایت",
+        "employeeCount": "تعداد پرسنل",
+        "economicCode": "کد اقتصادی",
+        "registrationNumber": "کد ثبت شرکت",
+        "defaultShippingCost": "هزینه ارسال پیش‌فرض",
+        "documentsSection": "مدارک و مستندات",
+        "logo": "لوگو",
+        "nationalCard": "تصویر کارت ملی مدیر عامل",
+        "license": "تصویر مجوز شرکت / پروانه تاسیس آزمایشگاه",
+        "officialImage": "تصویر روزنامه رسمی",
+        "tradeCard": "کارت بازرگانی",
+        "status": {
+          "incomplete": "وضعیت: ناقص —برای دسترسی به امکانات سیستم باید پروفایل مرکز خود را تکمیل کنید",
+          "awaitingApproval": "وضعیت: تکمیل شده — در انتظار تأیید مدیر",
+          "approved": "وضعیت: تأیید شده",
+          "rejected": "وضعیت: رد شده — لطفاً اطلاعات را اصلاح و مجدداً ارسال کنید"
+        },
+        "incompleteDialog": {
+          "title": "موارد ناقص پروفایل",
+          "intro": "برای تکمیل پروفایل، موارد زیر را تکمیل کنید:"
+        },
+        "rejectionBanner": {
+          "title": "پروفایل شما تأیید نشد.",
+          "reason": "دلیل",
+          "clickToEdit": "برای ویرایش کلیک کنید."
+        },
+        "success": {
+          "saved": "پروفایل مرکز ذخیره شد",
+          "savedPendingReapproval": "پروفایل ذخیره شد و برای بررسی مجدد به مدیر ارسال شد",
+          "uploaded": "فایل با موفقیت بارگذاری شد",
+          "uploadedPendingReapproval": "فایل بارگذاری شد و برای بررسی مجدد به مدیر ارسال شد",
+          "deleted": "فایل حذف شد",
+          "deletedPendingReapproval": "فایل حذف شد و برای بررسی مجدد به مدیر ارسال شد"
+        },
+        "confirmEditApprovedTitle": "تأیید ویرایش پروفایل",
+        "confirmEditApproved": "در صورت ویرایش پروفایل، وضعیت تأیید شما لغو می‌شود و مدیر سیستم باید مجدداً پروفایل شما را بررسی کند. آیا ادامه می‌دهید؟",
+        "confirmEditApprovedAction": "ادامه و ذخیره",
+        "contactOtpChannelTitle": "تأیید تغییر اطلاعات تماس",
+        "contactOtpChannelHint": "از طریق کدام روش کد تأیید را دریافت می‌کنید؟",
+        "contactOtpChannelSubhint": "کد یک‌بارمصرف به کانال انتخابی شما ارسال می‌شود.",
+        "contactOtpCode": "کد تأیید",
+        "contactOtpSentMobile": "کد تأیید به شماره موبایل شما ارسال شد",
+        "contactOtpSentEmail": "کد تأیید به ایمیل شما ارسال شد",
+        "sms": {
+          "title": "شارژ پیامک",
+          "hint": "مانده پیامک خود را ببینید و تعداد مورد نظر را خریداری کنید.",
+          "back": "بازگشت به پروفایل",
+          "remaining": "مانده پیامک",
+          "unit": "پیامک",
+          "charge": "شارژ",
+          "buySection": "افزایش موجودی",
+          "countLabel": "تعداد پیامک",
+          "unitPrice": "قیمت هر پیامک",
+          "payableTotal": "مبلغ قابل پرداخت",
+          "packageLabel": "بسته",
+          "paymentStub": "پرداخت از طریق درگاه بانکی (نسخه آزمایشی).",
+          "pay": "پرداخت",
+          "success": "شارژ پیامک با موفقیت انجام شد",
+          "errors": {
+            "loadFailed": "خطا در بارگذاری اطلاعات شارژ پیامک",
+            "payFailed": "خطا در پرداخت و شارژ پیامک"
+          }
+        },
+        "errors": {
+          "loadFailed": "خطا در بارگذاری پروفایل مرکز",
+          "saveFailed": "خطا در ذخیره پروفایل مرکز",
+          "uploadFailed": "خطا در بارگذاری فایل",
+          "deleteFailed": "خطا در حذف فایل",
+          "establishedYearDigits": "سال تأسیس باید دقیقاً ۴ رقم باشد",
+          "contactOtpRequired": "کد تأیید الزامی است",
+          "contactOtpSendFailed": "خطا در ارسال کد تأیید تغییر اطلاعات تماس",
+          "contactNoChannel": "برای تغییر موبایل یا ایمیل باید حداقل یکی از آن‌ها از قبل ثبت باشد"
+        }
+      },
+      "locations": {
+        "title": "شعبه‌ها",
+        "add": "افزودن شعبه",
+        "addTitle": "افزودن شعبه",
+        "editTitle": "ویرایش شعبه",
+        "empty": "شعبه‌ای ثبت نشده است.",
+        "confirmDelete": "آیا از حذف «{{name}}» مطمئن هستید؟",
+        "columns": {
+          "name": "نام شعبه",
+          "province": "استان",
+          "address": "آدرس",
+          "phone": "تلفن",
+          "actions": "عملیات"
+        },
+        "fields": {
+          "name": "نام شعبه",
+          "province": "استان",
+          "address": "آدرس",
+          "phone": "شماره تماس"
+        },
+        "errors": {
+          "loadFailed": "خطا در بارگذاری شعبه‌ها",
+          "saveFailed": "خطا در ذخیره شعبه",
+          "deleteFailed": "خطا در حذف شعبه"
+        }
+      },
+      "jobPostings": {
+        "title": "آگهی‌ها",
+        "add": "آگهی جدید",
+        "edit": "ویرایش آگهی",
+        "backToList": "بازگشت به لیست",
+        "orgPreview": "معرفی مجموعه (نمایش خودکار در آگهی)",
+        "publish": "انتشار",
+        "close": "بستن آگهی",
+        "reopen": "بازگشایی",
+        "statusFilter": "وضعیت",
+        "empty": "آگهی‌ای ثبت نشده است.",
+        "confirmDelete": "آیا از حذف این آگهی مطمئن هستید؟",
+        "profileNotApprovedBanner": "برای ثبت یا ویرایش آگهی، پروفایل مرکز باید توسط مدیر تأیید شود.",
+        "profileAwaitingApproval": "پروفایل در انتظار تأیید است.",
+        "profileRejectedBanner": "پروفایل مرکز رد شده است. لطفاً اطلاعات را اصلاح و مجدداً ارسال کنید.",
+        "goToCenterProfile": "رفتن به پروفایل مرکز",
+        "columns": {
+          "category": "دسته شغلی",
+          "location": "شعبه",
+          "status": "وضعیت",
+          "createdAt": "تاریخ ایجاد",
+          "actions": "عملیات"
+        },
+        "fields": {
+          "category": "دسته‌بندی شغلی",
+          "location": "شعبه",
+          "salaryRange": "بازه حقوق",
+          "minExperience": "حداقل سابقه (سال)",
+          "description": "توضیحات شغل",
+          "contractTypes": "نوع همکاری",
+          "traits": "ویژگی‌های فردی",
+          "skills": "مهارت‌های ضروری",
+          "benefits": "مزایا",
+          "gender": "جنسیت",
+          "military": "وضعیت نظام وظیفه",
+          "degree": "حداقل مدرک تحصیلی",
+          "notes": "توضیحات تکمیلی"
+        },
+        "errors": {
+          "loadFailed": "خطا در بارگذاری آگهی‌ها",
+          "saveFailed": "خطا در ذخیره آگهی",
+          "publishFailed": "خطا در انتشار آگهی",
+          "closeFailed": "خطا در بستن آگهی",
+          "reopenFailed": "خطا در بازگشایی آگهی",
+          "deleteFailed": "خطا در حذف آگهی",
+          "noLocations": "ابتدا حداقل یک شعبه ثبت کنید.",
+          "profileNotApproved": "پروفایل مرکز تأیید نشده است. امکان مدیریت آگهی وجود ندارد"
+        }
+      },
+      "productResumeApplications": {
+        "title": "لیست درخواست رزومه‌ها",
+        "view": "رزومه",
+        "empty": "رزومه‌ای ارسال نشده است.",
+        "backToList": "بازگشت به آگهی‌ها",
+        "columns": {
+          "applicant": "متقاضی",
+          "jobTitle": "عنوان شغلی",
+          "degreeLevel": "مدرک تحصیلی",
+          "status": "وضعیت",
+          "submittedAt": "تاریخ ارسال"
+        },
+        "status": {
+          "pending": "در انتظار بررسی",
+          "approved": "تأیید شده",
+          "rejected": "رد شده"
+        },
+        "review": {
+          "title": "بررسی درخواست",
+          "reason": "دلیل",
+          "reasonPlaceholder": "دلیل تأیید یا رد را بنویسید...",
+          "reasonRequired": "برای رد درخواست، نوشتن دلیل الزامی است.",
+          "approve": "تأیید",
+          "reject": "رد",
+          "failed": "خطا در ثبت نتیجه بررسی"
+        },
+        "errors": {
+          "loadFailed": "خطا در بارگذاری رزومه‌ها"
+        }
+      },
+      "myResumeApplications": {
+        "title": "لیست درخواست",
+        "empty": "هنوز رزومه‌ای ارسال نکرده‌اید.",
+        "viewStatus": "مشاهده وضعیت",
+        "statusTitle": "وضعیت درخواست",
+        "columns": {
+          "listing": "آگهی",
+          "submittedAt": "تاریخ ارسال",
+          "status": "وضعیت"
+        },
+        "errors": {
+          "loadFailed": "خطا در بارگذاری درخواست‌ها"
+        }
+      },
+      "jobApplications": {
+        "title": "درخواست‌های همکاری",
+        "view": "درخواست‌ها",
+        "approve": "تأیید",
+        "reject": "رد",
+        "approveTitle": "تأیید درخواست",
+        "rejectTitle": "رد درخواست",
+        "empty": "درخواستی ثبت نشده است.",
+        "columns": {
+          "applicant": "متقاضی",
+          "submittedAt": "تاریخ ارسال",
+          "status": "وضعیت",
+          "actions": "عملیات"
+        },
+        "fields": {
+          "reviewNotes": "توضیحات",
+          "visitScheduledAt": "زمان مراجعه",
+          "visitLocation": "مکان مراجعه"
+        },
+        "errors": {
+          "loadFailed": "خطا در بارگذاری درخواست‌ها",
+          "approveFailed": "خطا در تأیید درخواست",
+          "rejectFailed": "خطا در رد درخواست"
+        }
+      },
+      "profile": {
+        "title": "پروفایل",
+        "optionalHint": "تکمیل اطلاعات اختیاری است و می‌توانید بعداً آن را ویرایش کنید.",
+        "firstName": "نام",
+        "lastName": "نام خانوادگی",
+        "address": "آدرس",
+        "landline": "تلفن ثابت",
+        "locationSection": "موقعیت جغرافیایی",
+        "latitude": "عرض جغرافیایی",
+        "longitude": "طول جغرافیایی",
+        "mapHint": "روی نقشه کلیک کنید یا مارکر را جابه‌جا کنید تا مختصات تنظیم شود.",
+        "success": {
+          "saved": "پروفایل با موفقیت ذخیره شد"
+        },
+        "errors": {
+          "loadFailed": "خطا در بارگذاری پروفایل",
+          "saveFailed": "خطا در ذخیره پروفایل"
+        }
+      },
+      "accountSecurity": {
+        "changeUsernameTitle": "تغییر نام کاربری / ایمیل",
+        "changeUsernameHint": "نام کاربری ورود و ایمیل حساب را در یک‌جا مدیریت کنید.",
+        "changePasswordTitle": "تغییر رمز عبور",
+        "changePasswordHint": "رمز عبور جدید را وارد کنید. اگر قبلاً رمز نداشته‌اید، رمز فعلی را خالی بگذارید.",
+        "usernameSection": "نام کاربری",
+        "emailSection": "ایمیل",
+        "username": "نام کاربری",
+        "email": "ایمیل",
+        "emailHint": "ایمیل را وارد کنید و کد تأیید را دریافت کنید. پس از تأیید، ایمیل حساب شما تأیید می‌شود.",
+        "emailVerified": "تأییدشده",
+        "emailUnverified": "تأییدنشده",
+        "changeEmail": "تغییر ایمیل",
+        "sendOtp": "ارسال کد",
+        "resendIn": "ارسال مجدد ({{seconds}})",
+        "otpCode": "کد تأیید",
+        "verifyOtp": "تأیید ایمیل",
+        "usernameOtpChannelTitle": "تأیید تغییر نام کاربری",
+        "usernameOtpChannelHint": "از طریق کدام روش کد تأیید را دریافت می‌کنید؟",
+        "usernameOtpChannelSubhint": "کد یک‌بارمصرف به کانال انتخابی شما ارسال می‌شود.",
+        "usernameOtpViaMobile": "موبایل",
+        "usernameOtpViaEmail": "ایمیل",
+        "usernameOtpSentMobile": "کد تأیید به شماره موبایل شما ارسال شد",
+        "usernameOtpSentEmail": "کد تأیید به ایمیل شما ارسال شد",
+        "verifyUsernameOtp": "تأیید و ذخیره",
+        "forgotPassword": "فراموشی رمز عبور",
+        "passwordOtpChannelTitle": "تأیید فراموشی رمز عبور",
+        "passwordOtpChannelHint": "از طریق کدام روش کد تأیید را دریافت می‌کنید؟",
+        "passwordOtpChannelSubhint": "کد یک‌بارمصرف به کانال انتخابی شما ارسال می‌شود.",
+        "passwordOtpSentMobile": "کد تأیید به شماره موبایل شما ارسال شد",
+        "passwordOtpSentEmail": "کد تأیید به ایمیل شما ارسال شد",
+        "passwordOtpCode": "کد تأیید",
+        "currentPassword": "رمز عبور فعلی",
+        "newPassword": "رمز عبور جدید",
+        "confirmPassword": "تکرار رمز عبور جدید",
+        "changePasswordAction": "ذخیره رمز عبور",
+        "success": {
+          "usernameSaved": "نام کاربری با موفقیت ذخیره شد",
+          "passwordSaved": "رمز عبور با موفقیت تغییر کرد",
+          "emailOtpSent": "کد تأیید به ایمیل شما ارسال شد",
+          "emailConfirmed": "ایمیل با موفقیت تأیید شد"
+        },
+        "errors": {
+          "loadFailed": "خطا در بارگذاری اطلاعات حساب",
+          "usernameSaveFailed": "خطا در ذخیره نام کاربری",
+          "usernameTaken": "این نام کاربری قبلاً ثبت شده است",
+          "usernameOtpSendFailed": "خطا در ارسال کد تأیید تغییر نام کاربری",
+          "usernameUnchanged": "نام کاربری تغییری نکرده است",
+          "usernameNoContact": "برای تغییر نام کاربری باید ایمیل یا موبایل ثبت باشد",
+          "emailTaken": "این ایمیل قبلاً توسط کاربر دیگری ثبت شده است",
+          "passwordSaveFailed": "خطا در تغییر رمز عبور",
+          "passwordMismatch": "تکرار رمز عبور با رمز جدید یکسان نیست",
+          "passwordInvalid": "لطفاً فیلدهای رمز عبور را کامل و صحیح وارد کنید",
+          "passwordOtpSendFailed": "خطا در ارسال کد تأیید فراموشی رمز عبور",
+          "passwordOtpRequired": "کد تأیید الزامی است",
+          "passwordNoContact": "برای فراموشی رمز عبور باید ایمیل یا موبایل ثبت باشد",
+          "emailOtpSendFailed": "خطا در ارسال کد تأیید ایمیل",
+          "emailOtpConfirmFailed": "خطا در تأیید کد ایمیل"
+        }
+      },
+      "resume": {
+        "title": "رزومه من",
+        "edit": "ویرایش",
+        "empty": "—",
+        "enter": "وارد کنید",
+        "specify": "مشخص کنید",
+        "section": {
+          "complete": "تکمیل‌شده",
+          "incomplete": "تکمیل‌نشده",
+          "progress": "{{completed}} از {{total}} بخش تکمیل شده"
+        },
+        "basicInfo": {
+          "title": "اطلاعات پایه",
+          "fullName": "نام و نام خانوادگی",
+          "jobTitle": "عنوان شغلی",
+          "employmentStatus": "وضعیت اشتغال",
+          "latestWork": "آخرین شرکت",
+          "latestEducation": "آخرین مدرک تحصیلی",
+          "addWork": "+ اضافه‌کردن سابقه‌کار",
+          "addEducation": "+ اضافه‌کردن تحصیلات",
+          "uploadPhoto": "+ آپلود عکس"
+        },
+        "aboutMe": {
+          "title": "درباره من",
+          "placeholder": "از شخصیت و ویژگی‌های حرفه‌ای و شخصی خود بنویسید..."
+        },
+        "personalInfo": {
+          "title": "اطلاعات فردی",
+          "mobilePhone": "شماره موبایل",
+          "province": "استان محل سکونت",
+          "maritalStatus": "وضعیت تاهل",
+          "birthYear": "سال تولد",
+          "gender": "جنسیت",
+          "militaryStatus": "وضعیت خدمت سربازی"
+        },
+        "skills": {
+          "title": "مهارت‌های حرفه‌ای",
+          "placeholder": "مهارت شما..."
+        },
+        "workExperience": {
+          "title": "سوابق شغلی",
+          "jobTitle": "عنوان شغلی (سمت)",
+          "companyName": "نام شرکت",
+          "employmentDate": "تاریخ اشتغال",
+          "startMonth": "ماه شروع همکاری",
+          "startYear": "سال شروع همکاری",
+          "endMonth": "ماه پایان همکاری",
+          "endYear": "سال پایان همکاری",
+          "currentlyEmployed": "هنوز مشغولم",
+          "current": "در حال اشتغال",
+          "description": "توضیحات (اختیاری)",
+          "add": "ایجاد سابقه‌کاری"
+        },
+        "education": {
+          "title": "سوابق تحصیلی",
+          "fieldOfStudy": "رشته تحصیلی",
+          "institutionName": "نام دانشگاه / موسسه آموزشی",
+          "degreeLevel": "مقطع تحصیلی",
+          "startYear": "سال شروع به تحصیل",
+          "endYear": "سال فارغ‌التحصیلی",
+          "currentlyStudying": "هنوز مشغول به تحصیل هستم",
+          "description": "توضیحات (اختیاری)",
+          "add": "ایجاد سابقه تحصیلی"
+        },
+        "languages": {
+          "title": "زبان‌ها",
+          "name": "نام زبان",
+          "proficiency": "سطح تسلط",
+          "add": "افزودن زبان"
+        },
+        "jobPreferences": {
+          "title": "ترجیحات شغلی",
+          "provinces": "استان‌های مورد نظر برای کار",
+          "categories": "دسته‌بندی شغلی و زمینه‌کاری",
+          "seniority": "سطح ارشدیت در زمینه فعالیت",
+          "contractTypes": "نوع قراردادهای قابل قبول",
+          "minimumSalary": "حداقل حقوق درخواستی"
+        },
+        "resumeFile": {
+          "title": "تنظیمات رزومه شما",
+          "hint": "اگر فایل رزومه‌ی جداگانه‌ای دارید، می‌توانید آن را به پروفایل خود ضمیمه کنید.",
+          "upload": "آپلود رزومه‌ی ضمیمه",
+          "constraints": "فایل PDF یا WORD حداکثر حجم ۸ مگابایت",
+          "download": "دانلود",
+          "delete": "حذف"
+        },
+        "enums": {
+          "employmentStatus": {
+            "JobSeeker": "جویای‌کار",
+            "LookingForBetter": "به دنبال شغل بهتر",
+            "Employed": "شاغل"
+          },
+          "maritalStatus": {
+            "Single": "مجرد",
+            "Married": "متأهل"
+          },
+          "gender": {
+            "Female": "زن",
+            "Male": "مرد"
+          },
+          "militaryStatus": {
+            "Exempt": "معاف",
+            "Completed": "پایان خدمت",
+            "InProgress": "در حال خدمت"
+          },
+          "degreeLevel": {
+            "Diploma": "دیپلم",
+            "Associate": "کاردانی",
+            "Bachelor": "کارشناسی",
+            "Master": "کارشناسی ارشد",
+            "Doctorate": "دکترا و بالاتر",
+            "Other": "دیگر"
+          },
+          "persianMonth": {
+            "Farvardin": "فروردین",
+            "Ordibehesht": "اردیبهشت",
+            "Khordad": "خرداد",
+            "Tir": "تیر",
+            "Mordad": "مرداد",
+            "Shahrivar": "شهریور",
+            "Mehr": "مهر",
+            "Aban": "آبان",
+            "Azar": "آذر",
+            "Dey": "دی",
+            "Bahman": "بهمن",
+            "Esfand": "اسفند"
+          },
+          "languageProficiency": {
+            "Beginner": "مبتدی",
+            "Intermediate": "متوسط",
+            "Advanced": "پیشرفته",
+            "Native": "زبان مادری"
+          },
+          "seniorityLevel": {
+            "EntryLevel": "تازه‌کار",
+            "Specialist": "متخصص",
+            "Manager": "مدیر",
+            "Executive": "مدیر ارشد"
+          },
+          "contractType": {
+            "FullTime": "تمام‌وقت",
+            "PartTime": "پاره‌وقت",
+            "Remote": "دورکاری",
+            "Internship": "کارآموزی"
+          }
+        },
+        "success": {
+          "saved": "ذخیره شد"
+        },
+        "errors": {
+          "loadFailed": "خطا در بارگذاری رزومه",
+          "saveFailed": "خطا در ذخیره‌سازی",
+          "uploadFailed": "خطا در بارگذاری فایل"
+        }
+      },
+      "labUsers": {
+        "title": "کاربران آزمایشگاه",
+        "registeredMobileLabel": "شماره موبایل کاربر ثبت‌شده",
+        "filters": {
+          "title": "فیلترها",
+          "open": "باز کردن فیلترها",
+          "close": "بستن فیلترها",
+          "mobile": "جستجو بر اساس موبایل",
+          "mobilePlaceholder": "شماره موبایل",
+          "status": "وضعیت"
+        },
+        "resultCount": "{{count}} کاربر",
+        "addUser": "افزودن کاربر",
+        "addUserDialog": {
+          "title": "افزودن کاربر",
+          "subtitle": "شماره موبایل کاربر ثبت‌شده را وارد کنید"
+        },
+        "confirmAndAdd": "تأیید و افزودن",
+        "noUsersFound": "کاربری یافت نشد.",
+        "columns": {
+          "mobileConfirmed": "تأیید موبایل",
+          "createdAt": "تاریخ ایجاد",
+          "actions": "عملیات"
+        },
+        "confirmRemove": "آیا از حذف کاربر با شماره {{mobile}} از آزمایشگاه مطمئن هستید؟",
+        "removeDialog": {
+          "title": "حذف کاربر از آزمایشگاه"
+        },
+        "success": {
+          "transferred": "کاربر با موفقیت به آزمایشگاه شما منتقل شد",
+          "added": "کاربر با موفقیت به آزمایشگاه اضافه شد",
+          "activated": "کاربر فعال شد",
+          "deactivated": "کاربر غیرفعال شد و امکان ورود ندارد",
+          "removed": "کاربر از آزمایشگاه حذف شد",
+          "codeResent": "کد جدید برای تأیید مالکیت موبایل ارسال شد",
+          "transferCodeSent": "این کاربر در آزمایشگاه دیگری ثبت شده است. کد تأیید به موبایل ارسال شد",
+          "userCodeSent": "این شماره به‌عنوان کاربر عادی ثبت شده است. کد تأیید به موبایل ارسال شد",
+          "createCodeSent": "کد تأیید به موبایل ارسال شد"
+        },
+        "errors": {
+          "loadFailed": "خطا در بارگذاری",
+          "confirmFailed": "خطا در تأیید و افزودن کاربر",
+          "duplicateMobile": "این شماره موبایل قبلاً در لیست ثبت شده است",
+          "otpRequired": "برای افزودن کاربر، تأیید OTP الزامی است",
+          "addFailed": "خطا در افزودن کاربر",
+          "fetchListFailed": "خطا در دریافت لیست",
+          "addMemberFailed": "خطا در افزودن کاربر",
+          "confirmAddFailed": "خطا در تأیید و افزودن کاربر",
+          "toggleActiveFailed": "خطا در تغییر وضعیت کاربر",
+          "removeFailed": "خطا در حذف کاربر از آزمایشگاه",
+          "cannotManageAdmin": "کاربر با نقش مدیر آزمایشگاه قابل حذف یا غیرفعال‌سازی نیست"
+        },
+        "permissions": {
+          "title": "مدیریت دسترسی",
+          "manage": "مدیریت دسترسی",
+          "entity": "بخش",
+          "view": "مشاهده",
+          "create": "افزودن",
+          "update": "ویرایش",
+          "delete": "حذف",
+          "success": {
+            "saved": "دسترسی‌ها با موفقیت ذخیره شد"
+          },
+          "errors": {
+            "loadFailed": "خطا در بارگذاری دسترسی‌ها",
+            "saveFailed": "خطا در ذخیره دسترسی‌ها"
+          },
+          "selectAllView": "همه مشاهده",
+          "selectAllCreate": "همه افزودن",
+          "selectAllUpdate": "همه ویرایش",
+          "selectAllDelete": "همه حذف"
+        },
+        "hints": {
+          "transfer": "این کاربر در آزمایشگاه دیگری ثبت شده است. کد تأیید به موبایل ارسال شد تا انتقال به آزمایشگاه شما تأیید شود.",
+          "ownership": "کد تأیید به موبایل ارسال شد تا مالکیت موبایل تأیید شود.",
+          "create": "کد تأیید به موبایل ارسال شد. پس از وارد کردن کد، کاربر به آزمایشگاه اضافه می‌شود."
+        }
+      },
+      "receptions": {
+        "title": "مشاهده پذیرش‌ها",
+        "empty": "پذیرشی یافت نشد.",
+        "resultCount": "{{count}} پذیرش",
+        "clearReceiver": {
+          "button": "حذف پذیرش‌ها در دریافت‌کننده",
+          "rowAction": "حذف پذیرش دریافت‌کننده",
+          "title": "حذف پذیرش در دریافت‌کننده",
+          "confirm": "شماره پذیرش‌های سمت آزمایشگاه مقصد خالی می‌شود. آیا مطمئن هستید؟"
+        },
+        "filters": {
+          "title": "فیلترها",
+          "open": "باز کردن فیلترها",
+          "close": "بستن فیلترها",
+          "ownLab": "آزمایشگاه مرجع",
+          "ownLabPlaceholder": "کد ۴ یا ۵ رقمی",
+          "lab": "آزمایشگاه مقابل",
+          "labPlaceholder": "کد ۴ یا ۵ رقمی",
+          "sent": "ارسالی",
+          "received": "دریافتی",
+          "receptionType": "نوع پذیرش :",
+          "incoming": "ارسال شده برای من",
+          "rejected": "رد شده",
+          "isReception": "پذیرش شده",
+          "fromDate": "از تاریخ",
+          "toDate": "تا تاریخ"
+        },
+        "columns": {
+          "sourceReceptId": "شماره پذیرش مبدا",
+          "ourReceptId": "شماره پذیرش مقصد",
+          "patientName": "نام بیمار",
+          "sendDate": "تاریخ پذیرش",
+          "testCount": "تعداد آزمایش",
+          "urgent": "اورژانس",
+          "resultStatus": "وضعیت جواب",
+          "hasResult": "دارد",
+          "tests": "آزمایشات"
+        },
+        "viewTests": "آزمایشات",
+        "testsDialog": {
+          "title": "لیست آزمایشات",
+          "close": "بستن",
+          "testCount": "{{count}} آزمایش",
+          "empty": "آزمایشی برای این پذیرش ثبت نشده است.",
+          "columns": {
+            "cpn": "کد CPN",
+            "testName": "نام آزمایش",
+            "result": "نتیجه آزمایش",
+            "normalRange": "نرمال رنج"
+          }
+        },
+        "errors": {
+          "loadFailed": "خطا در بارگذاری پذیرش‌ها",
+          "loadLabsFailed": "خطا در بارگذاری لیست آزمایشگاه‌ها",
+          "loadStatsFailed": "خطا در بارگذاری آمار پذیرش‌ها",
+          "noLabCode": "کد آزمایشگاه برای حساب کاربری شما یافت نشد",
+          "dateRequired": "لطفاً بازه تاریخ را مشخص کنید",
+          "ownLabRequired": "کد آزمایشگاه مرجع باید ۴ یا ۵ رقمی باشد",
+          "labRequired": "کد آزمایشگاه مقابل باید ۴ یا ۵ رقمی باشد",
+          "labCodeNotFound": "آزمایشگاه با کد {{code}} یافت نشد",
+          "clearReceiverFailed": "خطا در حذف پذیرش‌ها در دریافت‌کننده"
+        }
+      },
+      "agreements": {
+        "title": "مشاهده قراردادها",
+        "add": "افزودن قرارداد",
+        "empty": "قراردادی یافت نشد.",
+        "resultCount": "{{count}} قرارداد",
+        "viewDetail": "جزئیات",
+        "viewAddendums": "الحاقیه‌ها",
+        "viewTests": "مشاهده تست‌ها",
+        "viewAttachments": "ضمیمه",
+        "filters": {
+          "title": "فیلترها",
+          "open": "باز کردن فیلترها",
+          "close": "بستن فیلترها",
+          "startDate": "از تاریخ شروع",
+          "agreementType": "نوع قرارداد :",
+          "isReceived": "دریافت‌شده",
+          "sent": "ارسالی",
+          "received": "دریافتی"
+        },
+        "columns": {
+          "contractNumber": "شماره قرارداد",
+          "title": "عنوان قرارداد",
+          "primaryLab": "آزمایشگاه مبدأ",
+          "receiverLab": "آزمایشگاه مقصد",
+          "startDate": "تاریخ شروع",
+          "expDate": "تاریخ پایان",
+          "childrenCount": "تعداد الحاقیه",
+          "attachmentCount": "تعداد ضمیمه",
+          "testPricesCount": "تعداد آزمایش",
+          "actions": "عملیات"
+        },
+        "detailDialog": {
+          "title": "جزئیات قرارداد",
+          "close": "بستن",
+          "primaryLab": "مرکز ارسال کننده",
+          "receiverLab": "مرکز دریافت کننده",
+          "titleLabel": "عنوان",
+          "addendum": "الحاقیه",
+          "attachment": "ضمیمه",
+          "test": "آزمایش",
+          "none": "ندارد",
+          "getSampling": "نمونه‌گیری",
+          "getRecept": "پذیرش",
+          "primarySignDate": "تاریخ امضای مبدأ",
+          "receiverSignDate": "تاریخ امضای مقصد",
+          "primarySign": "امضای مبدأ",
+          "receiverSign": "امضای مقصد",
+          "text": "متن قرارداد",
+          "attachments": "ضمائم"
+        },
+        "addendumsDialog": {
+          "title": "الحاقیه‌های قرارداد",
+          "detailTitle": "جزئیات الحاقیه",
+          "resultCount": "{{count}} الحاقیه",
+          "empty": "الحاقیه‌ای یافت نشد."
+        },
+        "testPricesDialog": {
+          "title": "لیست آزمایش‌ها",
+          "resultCount": "{{count}} آزمایش",
+          "empty": "آزمایشی یافت نشد.",
+          "columns": {
+            "testName": "نام آزمایش",
+            "cpnCode": "کد CPN",
+            "nationalCode": "کد ملی",
+            "approved": "تعرفه دریافت",
+            "baseTariffApproved": "تعرفه مصوب",
+            "firstAdditions": "اضافات اول",
+            "secondAdditions": "اضافات دوم",
+            "urgentAmount": "مبلغ اورژانس",
+            "addendumTitle": "الحاقیه"
+          }
+        },
+        "attachmentsDialog": {
+          "title": "لیست ضمائم قرارداد",
+          "resultCount": "{{count}} ضمیمه",
+          "empty": "ضمیمه‌ای یافت نشد.",
+          "previewTitle": "پیش‌نمایش فایل",
+          "noPreview": "فایلی انتخاب نشده است"
+        },
+        "form": {
+          "title": "افزودن قرارداد",
+          "backToList": "بازگشت به لیست قراردادها",
+          "noRequestHint": "برای ایجاد قرارداد، ابتدا درخواست پیشنهاد ویژه را تأیید کنید و از لیست درخواست‌ها وارد این صفحه شوید.",
+          "addendumHint": "قرارداد فعالی بین این دو آزمایشگاه وجود دارد. این قرارداد به‌صورت الحاقیه برای قرارداد فعال ثبت می‌شود و تاریخ پایان آن با قرارداد فعال یکسان است.",
+          "save": "ذخیره قرارداد",
+          "addAttachment": "افزودن پیوست",
+          "noAttachments": "پیوستی اضافه نشده است.",
+          "sections": {
+            "basic": "اطلاعات پایه",
+            "text": "متن قرارداد",
+            "attachments": "پیوست‌ها",
+            "tests": "آزمایشات قرارداد"
+          },
+          "fields": {
+            "title": "عنوان قرارداد",
+            "contractNumber": "شماره قرارداد",
+            "startDate": "تاریخ شروع",
+            "expDate": "تاریخ پایان",
+            "primaryLab": "آزمایشگاه مبدأ (پیشنهاددهنده)",
+            "receiverLab": "آزمایشگاه مقصد (درخواست‌دهنده)"
+          },
+          "columns": {
+            "basePrice": "تعرفه پایه",
+            "approvedPrice": "تعرفه مصوب"
+          },
+          "errors": {
+            "loadRequestFailed": "خطا در بارگذاری اطلاعات درخواست",
+            "saveFailed": "خطا در ذخیره قرارداد",
+            "textRequired": "متن قرارداد الزامی است",
+            "noTestsSelected": "حداقل یک آزمایش باید انتخاب شود",
+            "invalidDates": "تاریخ‌های وارد شده معتبر نیستند",
+            "invalidLabCodes": "کد آزمایشگاه پیشنهاددهنده یا درخواست‌دهنده نامعتبر است",
+            "invalidAttachment": "فقط فایل تصویر یا PDF مجاز است",
+            "attachmentTooLarge": "حجم هر پیوست حداکثر ۵ مگابایت است"
+          }
+        },
+        "errors": {
+          "loadFailed": "خطا در بارگذاری قراردادها",
+          "loadDetailFailed": "خطا در بارگذاری جزئیات قرارداد",
+          "loadAddendumsFailed": "خطا در بارگذاری الحاقیه‌ها",
+          "loadTestPricesFailed": "خطا در بارگذاری لیست آزمایش‌ها",
+          "loadLabsFailed": "خطا در بارگذاری نام آزمایشگاه‌ها",
+          "loadStatsFailed": "خطا در بارگذاری آمار قراردادها",
+          "noLabCode": "کد آزمایشگاه جدید برای حساب کاربری شما یافت نشد",
+          "dateRequired": "لطفاً تاریخ شروع را مشخص کنید"
+        }
+      },
+      "agreementSettings": {
+        "title": "تنظیمات قرارداد",
+        "subtitle": "تنظیمات سربرگ قرارداد برای آزمایشگاه شما",
+        "useHeaderImage": "استفاده از تصویر سربرگ",
+        "headerImage": "تصویر سربرگ",
+        "labName": "نام آزمایشگاه",
+        "headerAddress": "آدرس در سربرگ",
+        "description1": "توضیح ۱",
+        "headerLogo": "لوگو در سربرگ",
+        "saved": "تنظیمات با موفقیت ذخیره شد",
+        "uploaded": "فایل با موفقیت آپلود شد",
+        "errors": {
+          "loadFailed": "خطا در بارگذاری تنظیمات قرارداد",
+          "saveFailed": "خطا در ذخیره تنظیمات قرارداد",
+          "uploadFailed": "خطا در آپلود فایل"
+        }
+      },
+      "dashboard": {
+        "title": "داشبورد",
+        "subtitle": "خلاصه وضعیت آگهی‌ها و دسترسی سریع",
+        "shortcutsSection": "میانبر",
+        "jobPostingsSection": "آگهی‌های شغلی",
+        "productListingsSection": "آگهی‌ها",
+        "publishedProducts": "منتشرشده",
+        "pendingProducts": "در انتظار تأیید",
+        "expiredProducts": "منقضی‌شده",
+        "rejectedProducts": "رد شده",
+        "activeJobPostings": "آگهی‌های فعال",
+        "expiredJobPostings": "آگهی‌های منقضی‌شده",
+        "sentJobApplications": "درخواست‌های ارسال‌شده",
+        "receivedAgreements": "دریافتی",
+        "sentAgreements": "ارسالی",
+        "agreementsSection": "قراردادها",
+        "receptionsSection": "پذیرش‌ها و آزمایشات",
+        "receptionsUsageSection": "پذیرش‌ها",
+        "receptionsTestsSection": "آزمایشات",
+        "activeAgreements": "قراردادهای فعال",
+        "expiredAgreements": "قراردادهای منقضی‌شده",
+        "pendingAgreements": "قراردادهای در انتظار",
+        "dailyUsage": "استفاده روز جاری",
+        "monthlyUsage": "استفاده ماه جاری",
+        "dailyTests": "آزمایشات روز جاری",
+        "monthlyTests": "آزمایشات ماه جاری",
+        "monthlyLabsTable": "جدول آزمایشگاه‌ها (ماه جاری)",
+        "table": {
+          "labCode": "کد مرکز",
+          "labName": "نام آزمایشگاه",
+          "receptionCount": "تعداد پذیرش",
+          "testsCount": "تعداد آزمایش",
+          "empty": "داده‌ای یافت نشد."
+        }
+      },
+      "deviceGroups": {
+        "title": "گروه‌بندی دستگاه‌ها",
+        "add": "افزودن گروه",
+        "addTitle": "افزودن گروه دستگاه",
+        "editTitle": "ویرایش گروه دستگاه",
+        "empty": "گروهی ثبت نشده است.",
+        "confirmDelete": "آیا از حذف «{{title}}» مطمئن هستید؟",
+        "columns": {
+          "id": "شناسه",
+          "title": "عنوان",
+          "actions": "عملیات"
+        },
+        "fields": {
+          "title": "عنوان"
+        },
+        "errors": {
+          "loadFailed": "خطا در بارگذاری گروه‌های دستگاه",
+          "saveFailed": "خطا در ذخیره گروه دستگاه",
+          "deleteFailed": "خطا در حذف گروه دستگاه"
+        }
+      },
+      "kitGroups": {
+        "title": "گروه‌بندی کیت‌ها",
+        "add": "افزودن گروه",
+        "addTitle": "افزودن گروه کیت",
+        "editTitle": "ویرایش گروه کیت",
+        "empty": "گروهی ثبت نشده است.",
+        "confirmDelete": "آیا از حذف «{{title}}» مطمئن هستید؟",
+        "columns": {
+          "id": "شناسه",
+          "title": "عنوان",
+          "actions": "عملیات"
+        },
+        "fields": {
+          "title": "عنوان"
+        },
+        "errors": {
+          "loadFailed": "خطا در بارگذاری گروه‌های کیت",
+          "saveFailed": "خطا در ذخیره گروه کیت",
+          "deleteFailed": "خطا در حذف گروه کیت"
+        }
+      },
+      "testInfos": {
+        "title": "لیست آزمایشات",
+        "empty": "آزمایشی یافت نشد.",
+        "resultCount": "{{count}} آزمایش",
+        "viewDetail": "جزئیات",
+        "editPrice": "ویرایش",
+        "filters": {
+          "title": "فیلترها",
+          "open": "باز کردن فیلترها",
+          "close": "بستن فیلترها",
+          "search": "جستجو",
+          "searchPlaceholder": "جستجو بر اساس نام کامل، نام کوتاه، نام بخش، CPN یا کد ملی…",
+          "clear": "پاک کردن جستجو",
+          "resultCount": "{{count}} نتیجه از {{total}} آزمایش",
+          "noResults": "آزمایشی با این مشخصات یافت نشد."
+        },
+        "columns": {
+          "cpnCode": "کد CPN",
+          "nationalCode": "کد ملی",
+          "fullName": "نام کامل تست",
+          "shortName": "نام کوتاه تست",
+          "measurName": "نام اندازه‌گیری",
+          "approvePrice": "قیمت مبنا",
+          "actions": "عملیات"
+        },
+        "detailDialog": {
+          "title": "جزئیات آزمایش",
+          "testId": "شناسه تست",
+          "fullName": "نام کامل تست",
+          "shortName": "نام کوتاه تست",
+          "sectionName": "نام بخش",
+          "similarName": "نام مشابه",
+          "kd": "KD",
+          "volume": "حجم",
+          "minVolume": "حداقل حجم",
+          "maintenance": "نگهداری",
+          "transportation": "حمل و نقل",
+          "needs": "نیازها",
+          "guidance": "راهنما",
+          "patientInfo": "اطلاعات بیمار",
+          "denial": "موارد رد",
+          "preparation": "آماده‌سازی",
+          "clinicalInfo": "اطلاعات بالینی",
+          "sources": "منابع",
+          "comment": "توضیحات",
+          "caution": "احتیاط",
+          "sClinical": "SClinical",
+          "detail": "جزئیات",
+          "date": "تاریخ",
+          "resultDuration": "مدت نتیجه",
+          "maxDurResult": "حداکثر مدت نتیجه",
+          "maintenanceDur": "مدت نگهداری",
+          "criteria": "معیار",
+          "freezer": "فریزر",
+          "deliveryCondition": "شرایط ارسال",
+          "kitGroup": "گروه کیت",
+          "deviceGroup": "گروه دستگاه"
+        },
+        "editPriceDialog": {
+          "title": "ویرایش قیمت مبنا",
+          "subtitle": "مبلغ جدید را وارد کنید",
+          "currentPrice": "قیمت فعلی"
+        },
+        "editDialog": {
+          "title": "ویرایش",
+          "deviceGroup": "انتخاب دستگاه",
+          "kitGroup": "انتخاب کیت",
+          "noSelection": "انتخاب نشده"
+        },
+        "errors": {
+          "loadFailed": "خطا در بارگذاری لیست آزمایشات",
+          "loadDeviceGroupsFailed": "خطا در بارگذاری گروه‌های دستگاه",
+          "loadKitGroupsFailed": "خطا در بارگذاری گروه‌های کیت",
+          "saveFailed": "خطا در ذخیره‌سازی"
+        }
+      },
+      "specialOffers": {
+        "title": "پیشنهاد ویژه",
+        "add": "افزودن پیشنهاد",
+        "addTitle": "افزودن پیشنهاد ویژه",
+        "editTitle": "ویرایش پیشنهاد ویژه",
+        "edit": "ویرایش",
+        "empty": "پیشنهاد ویژه‌ای ثبت نشده است.",
+        "backToList": "بازگشت به لیست",
+        "confirmDelete": "آیا از حذف «{{title}}» مطمئن هستید؟",
+        "requestList": "لیست درخواست‌ها",
+        "bulkDiscount": "تخفیف",
+        "testsSearchPlaceholder": "جستجو در آزمایشات…",
+        "filters": {
+          "title": "فیلترها",
+          "open": "باز کردن فیلترها",
+          "close": "بستن فیلترها",
+          "search": "جستجو (عنوان، خلاصه)",
+          "status": "وضعیت"
+        },
+        "sections": {
+          "basic": "اطلاعات پایه",
+          "tests": "آزمایشات پیشنهاد"
+        },
+        "fields": {
+          "title": "عنوان",
+          "summary": "متن خلاصه",
+          "fullBody": "متن کامل",
+          "startDate": "تاریخ شروع",
+          "endDate": "تاریخ پایان",
+          "isActive": "فعال"
+        },
+        "columns": {
+          "title": "عنوان",
+          "startDate": "شروع",
+          "endDate": "پایان",
+          "status": "وضعیت",
+          "testCount": "تعداد آزمایش",
+          "requestCount": "درخواست‌ها",
+          "actions": "عملیات",
+          "discount": "تخفیف (%)",
+          "maxSamples": "حداکثر نمونه"
+        },
+        "status": {
+          "active": "فعال",
+          "inactive": "غیرفعال",
+          "expired": "منقضی‌شده"
+        },
+        "requestsDialog": {
+          "title": "لیست درخواست‌ها",
+          "empty": "درخواستی ثبت نشده است.",
+          "user": "کاربر",
+          "mobile": "موبایل",
+          "date": "تاریخ ثبت",
+          "requesterLab": "آزمایشگاه درخواست‌دهنده",
+          "description": "توضیحات",
+          "status": "وضعیت",
+          "approve": "تأیید",
+          "reject": "رد",
+          "createContract": "ایجاد قرارداد"
+        },
+        "requestStatus": {
+          "pending": "در انتظار بررسی",
+          "rejected": "رد شده",
+          "awaitingContract": "در انتظار ایجاد قرارداد",
+          "contractCreated": "قرارداد ایجاد شد"
+        },
+        "rejectDialog": {
+          "title": "رد درخواست",
+          "reason": "دلیل رد",
+          "reasonPlaceholder": "دلیل رد درخواست را بنویسید…",
+          "confirm": "رد درخواست"
+        },
+        "errors": {
+          "loadFailed": "خطا در بارگذاری پیشنهادات",
+          "loadTestsFailed": "خطا در بارگذاری آزمایشات",
+          "loadRequestsFailed": "خطا در بارگذاری درخواست‌ها",
+          "approveFailed": "خطا در تأیید درخواست",
+          "rejectFailed": "خطا در رد درخواست",
+          "saveFailed": "خطا در ذخیره پیشنهاد",
+          "deleteFailed": "خطا در حذف پیشنهاد",
+          "noTestsSelected": "حداقل یک آزمایش باید انتخاب شود",
+          "invalidDates": "تاریخ‌های وارد شده معتبر نیستند"
+        }
+      },
+      "productListings": {
+        "title": "آگهی‌ها",
+        "add": "افزودن آگهی فروش",
+        "addNew": "آگهی جدید",
+        "edit": "ویرایش آگهی فروش",
+        "backToList": "بازگشت به لیست",
+        "empty": "آگهی ثبت نشده است.",
+        "resultCount": "{{count}} آگهی",
+        "searchPlaceholder": "جستجو در آگهی‌ها...",
+        "actions": "عملیات",
+        "noActions": "عملیات دیگری نیست",
+        "viewResumes": "مشاهده رزومه‌ها",
+        "showingRange": "نمایش {{from}} تا {{to}} از {{total}} آگهی",
+        "tabs": {
+          "active": "فعال",
+          "draft": "پیش‌نویس",
+          "published": "منتشر شده"
+        },
+        "meta": {
+          "category": "دسته‌بندی",
+          "createdAt": "تاریخ ایجاد",
+          "resume": "رزومه",
+          "negotiablePrice": "استعلام خرید"
+        },
+        "statusFilter": "وضعیت",
+        "filters": {
+          "title": "فیلترها",
+          "open": "باز کردن فیلترها",
+          "close": "بستن فیلترها",
+          "status": "وضعیت"
+        },
+        "productInfo": "اطلاعات محصول",
+        "selectProductSection": "انتخاب محصول از کاتالوگ",
+        "listingDetailsSection": "اطلاعات آگهی",
+        "selectProductHint": "فقط محصولات تأییدشده قابل انتخاب هستند. ابتدا محصول را جستجو و انتخاب کنید، سپس جزئیات آگهی را تکمیل کنید.",
+        "publish": "انتشار",
+        "unpublish": "لغو انتشار",
+        "viewComments": "مشاهده نظرات",
+        "goToCenterProfile": "رفتن به پروفایل مرکز",
+        "profileNotApprovedBanner": "پروفایل مرکز تأیید نشده است. تا زمان تأیید، فقط مشاهده امکان‌پذیر است.",
+        "profileRejectedBanner": "پروفایل مرکز رد شده است. لطفاً اطلاعات را اصلاح کنید.",
+        "profileAwaitingApproval": "پروفایل تکمیل شده و در انتظار تأیید مدیر است.",
+        "confirmDelete": "آیا از حذف این آگهی مطمئن هستید؟",
+        "columns": {
+          "product": "محصول",
+          "brand": "برند",
+          "price": "قیمت",
+          "stock": "موجودی",
+          "status": "وضعیت",
+          "actions": "عملیات"
+        },
+        "fields": {
+          "searchProduct": "جستجو و انتخاب محصول از کاتالوگ",
+          "product": "محصول",
+          "price": "قیمت (تومان)",
+          "stock": "موجودی",
+          "discount": "درصد تخفیف",
+          "negotiablePrice": "استعلام قیمت و شرایط خرید",
+          "isUsed": "کارکرده",
+          "sellerDescription": "توضیح فروشنده"
+        },
+        "listingImagesTitle": "تصاویر محصول کارکرده",
+        "uploadListingImage": "آپلود تصویر",
+        "noListingImages": "تصویری آپلود نشده است.",
+        "saveBeforeUploadImages": "برای آپلود تصویر، ابتدا آگهی را ذخیره کنید.",
+        "noCatalogProducts": "محصول تأییدشده‌ای در کاتالوگ یافت نشد. ابتدا از «محصولات من» محصول تعریف کنید و پس از تأیید مدیر، اینجا آگهی بسازید.",
+        "saveSuccess": "آگهی با موفقیت ذخیره شد.",
+        "publishSuccess": "آگهی با موفقیت منتشر شد.",
+        "form": {
+          "addTitle": "درج آگهی",
+          "editTitle": "ویرایش آگهی",
+          "basicInfoSection": "مشخصات",
+          "basicInfoHint": "دسته‌بندی، عنوان و مشخصات اصلی آگهی را وارد کنید.",
+          "attributesSection": "ویژگی‌های آگهی",
+          "specsSection": "ویژگی",
+          "specsHint": "ویژگی‌ها و بررسی‌های تخصصی آگهی را تکمیل کنید.",
+          "specsNeedCategory": "ابتدا دسته‌بندی را انتخاب کنید تا ویژگی‌ها نمایش داده شود.",
+          "mediaSection": "تصاویر",
+          "mediaHint": "تصاویر را انتخاب کنید؛ همراه ذخیره یا ثبت آگهی آپلود می‌شوند.",
+          "submitProduct": "ثبت آگهی",
+          "submitAndPublish": "انتشار آگهی",
+          "saveDraft": "ذخیره",
+          "confirmPublishTitle": "انتشار آگهی",
+          "confirmPublishMessage": "آیا از انتشار این آگهی مطمئن هستید؟",
+          "confirmPublishConfirm": "انتشار",
+          "publishRequiresSave": "ابتدا آگهی را ذخیره کنید، سپس منتشر کنید.",
+          "previewTitle": "پیش‌نمایش آگهی",
+          "previewUntitled": "عنوان آگهی",
+          "stepperLabel": "مراحل درج آگهی",
+          "tipAccurate": "اطلاعات آگهی را دقیق و کامل وارد کنید.",
+          "unpublishSuccess": "انتشار آگهی لغو شد.",
+          "republishSuccess": "آگهی دوباره منتشر شد.",
+          "fields": {
+            "description": "معرفی آگهی",
+            "negotiablePrice": "استعلام قیمت و شرایط خرید",
+            "discountPercent": "تخفیف",
+            "stockUnit": "عدد"
+          },
+          "errors": {
+            "loadFailed": "خطا در بارگذاری آگهی",
+            "saveFailed": "خطا در ذخیره آگهی",
+            "deleteFailed": "خطا در حذف آگهی",
+            "uploadFailed": "خطا در آپلود تصویر",
+            "deleteImageFailed": "خطا در حذف تصویر",
+            "unpublishFailed": "خطا در لغو انتشار آگهی",
+            "republishFailed": "خطا در انتشار مجدد آگهی"
+          }
+        },
+        "errors": {
+          "loadFailed": "خطا در بارگذاری آگهی‌ها",
+          "catalogLoadFailed": "خطا در بارگذاری لیست محصولات کاتالوگ",
+          "saveFailed": "خطا در ذخیره آگهی",
+          "publishFailed": "خطا در انتشار",
+          "unpublishFailed": "خطا در لغو انتشار",
+          "deleteFailed": "خطا در حذف آگهی",
+          "uploadImageFailed": "خطا در آپلود تصویر",
+          "deleteImageFailed": "خطا در حذف تصویر"
+        },
+        "reviews": {
+          "title": "نظرات محصول",
+          "backToList": "بازگشت به لیست محصولات",
+          "errors": {
+            "loadFailed": "خطا در بارگذاری نظرات",
+            "notFound": "محصول یافت نشد"
+          }
+        }
+      },
+      "productOrders": {
+        "title": "سفارش‌های دریافتی",
+        "empty": "سفارشی یافت نشد.",
+        "statusFilter": "وضعیت",
+        "filters": {
+          "title": "فیلترها",
+          "open": "باز کردن فیلترها",
+          "close": "بستن فیلترها",
+          "status": "وضعیت"
+        },
+        "markPaid": "ثبت پرداخت",
+        "complete": "تکمیل سفارش",
+        "shipOrder": "ارسال سفارش",
+        "markDelivered": "ثبت تحویل",
+        "trackOrder": "پیگیری سفارش",
+        "trackingTitle": "پیگیری سفارش",
+        "backToList": "بازگشت به لیست",
+        "confirmCancel": "آیا از لغو این سفارش مطمئن هستید؟",
+        "confirmShip": "آیا از ثبت ارسال همه اقلام این سفارش مطمئن هستید؟",
+        "confirmDeliver": "آیا از ثبت تحویل این سفارش مطمئن هستید؟ در صورت نیاز توضیحات را وارد کنید.",
+        "confirmComplete": "آیا از تکمیل این سفارش مطمئن هستید؟",
+        "shipCompany": "نام شرکت حمل (اختیاری)",
+        "shipTracking": "کد رهگیری (اختیاری)",
+        "deliveryNotes": "توضیحات تحویل (اختیاری)",
+        "deliveryNotesLabel": "توضیحات تحویل",
+        "exportExcel": "خروجی اکسل",
+        "columns": {
+          "center": "خریدار",
+          "address": "آدرس خریدار",
+          "phone": "تلفن خریدار",
+          "items": "تعداد اقلام",
+          "total": "مبلغ کل",
+          "status": "وضعیت",
+          "createdAt": "تاریخ",
+          "actions": "عملیات"
+        },
+        "errors": {
+          "loadFailed": "خطا در بارگذاری سفارش‌ها",
+          "notFound": "سفارش یافت نشد",
+          "markPaidFailed": "خطا در ثبت پرداخت",
+          "completeFailed": "خطا در تکمیل سفارش",
+          "cancelFailed": "خطا در لغو سفارش",
+          "shipFailed": "خطا در ثبت ارسال سفارش",
+          "deliverFailed": "خطا در ثبت تحویل سفارش",
+          "exportFailed": "خطا در خروجی اکسل",
+          "exportEmpty": "با فیلتر فعلی موردی برای خروجی اکسل وجود ندارد."
+        },
+        "shipment": {
+          "title": "ارسال محصول",
+          "subtitle": "اقلام سفارش‌های پرداخت‌شده که هنوز ارسال نشده‌اند در این لیست نمایش داده می‌شوند.",
+          "exportExcel": "خروجی اکسل",
+          "markShipped": "ارسال محصول",
+          "confirmShipped": "آیا از ثبت ارسال این محصول مطمئن هستید؟",
+          "empty": "محصولی با این فیلتر یافت نشد.",
+          "filters": {
+            "status": "وضعیت ارسال",
+            "search": "جستجوی محصول یا خریدار",
+            "pending": "در انتظار ارسال",
+            "shipped": "ارسال‌شده",
+            "all": "همه"
+          },
+          "status": {
+            "pending": "در انتظار ارسال",
+            "shipped": "ارسال‌شده"
+          },
+          "columns": {
+            "product": "نام محصول",
+            "buyerName": "نام مرکز (خریدار)",
+            "address": "آدرس پروفایل مرکز",
+            "phone": "تلفن",
+            "quantity": "تعداد",
+            "shipmentStatus": "وضعیت ارسال",
+            "paidAt": "تاریخ پرداخت",
+            "actions": "عملیات"
+          },
+          "errors": {
+            "loadFailed": "خطا در بارگذاری لیست ارسال",
+            "shipFailed": "خطا در ثبت ارسال محصول",
+            "exportFailed": "خطا در خروجی اکسل",
+            "exportEmpty": "با فیلتر فعلی موردی برای خروجی اکسل وجود ندارد."
+          }
+        }
+      }
+    },
+    "admin": {
+      "layout": {
+        "dashboard": "داشبورد",
+        "home": "صفحه اصلی",
+        "users": "مدیریت کاربران",
+        "laboratories": "لیست آزمایشگاه‌ها",
+        "specialOffers": "پیشنهادات ویژه",
+        "receptions": "مشاهده پذیرش‌ها",
+        "shops": "لیست فروشگاه‌ها",
+        "productCategories": "دسته‌بندی",
+        "productAttributes": "ویژگی‌ها",
+        "brands": "برندها",
+        "products": "آگهی‌ها",
+        "productReviews": "نظرات محصولات",
+        "productOrders": "پیگیری سفارش",
+        "contentGroups": "گروه‌های مطالب",
+        "posts": "مطالب",
+        "contentNews": "اخبار",
+        "contentArticles": "مقالات",
+        "contentDocuments": "اسناد",
+        "contentAds": "تبلیغات",
+        "adPositions": "جایگاه‌های تبلیغ",
+        "adPrices": "تعرفه تبلیغات",
+        "categoryPrices": "تعرفه ثبت آگهی",
+        "adOrders": "سفارش‌های تبلیغ",
+        "sliderGroups": "مدیریت اسلایدر",
+        "companyRegulations": "قوانین و مقررات",
+        "settings": "تنظیمات",
+        "settingsSeo": "سئو",
+        "settingsUsefulLinks": "لینک‌های مفید",
+        "siteServices": "سرویس‌های سایت",
+        "siteChargeServices": "سرویس‌های شارژ",
+        "account": "حساب کاربری",
+        "messages": "اعلان ها",
+        "activityLogs": "تاریخچه تغییرات",
+        "loginReports": "گزارش ورود کاربران",
+        "title": "پنل مدیریت",
+        "brandSubtitle": "پنل مدیریت سیستم",
+        "searchMenu": "جستجوی منو...",
+        "groups": {
+          "users": "مدیریت کاربران",
+          "products": "مدیریت آگهی‌ها",
+          "content": "مدیریت مطالب",
+          "ads": "تبلیغات",
+          "settings": "تنظیمات عمومی"
+        },
+        "siteUsers": "کاربران سایت"
+      },
+      "siteChargeServices": {
+        "title": "سرویس‌های شارژ",
+        "subtitle": "تعریف سرویس‌های شارژ سایت و تنظیم تعرفه بصورت ثابت / بازه ای / بسته ای.",
+        "add": "سرویس جدید",
+        "empty": "سرویسی ثبت نشده است.",
+        "active": "فعال",
+        "inactive": "غیرفعال",
+        "pricesTitle": "تعرفه‌ها",
+        "addPrice": "افزودن ردیف",
+        "saved": "سرویس شارژ ذخیره شد",
+        "deleted": "سرویس حذف شد",
+        "confirmDelete": "آیا از حذف «{{title}}» مطمئن هستید؟",
+        "codes": {
+          "sms": "پیامک"
+        },
+        "pricingModes": {
+          "fixed": "قیمت ثابت (هر واحد)",
+          "range": "بر اساس بازه تعداد",
+          "package": "بسته"
+        },
+        "hints": {
+          "fixed": "یک قیمت واحد برای هر تعدادی که کاربر وارد کند.",
+          "range": "برای هر بازه تعداد، قیمت واحد جداگانه تعریف کنید. سقف خالی = بدون محدودیت.",
+          "package": "هر بسته تعداد مشخص و مبلغ کل دارد؛ کاربر یکی از بسته‌ها را انتخاب می‌کند."
+        },
+        "fields": {
+          "code": "کد سرویس",
+          "title": "عنوان",
+          "description": "توضیحات",
+          "pricingMode": "حالت قیمت‌گذاری",
+          "isActive": "فعال",
+          "unitPrice": "قیمت هر واحد",
+          "minQuantity": "از تعداد",
+          "maxQuantity": "تا تعداد",
+          "packageTitle": "عنوان بسته",
+          "packageQuantity": "تعداد واحد بسته",
+          "packagePrice": "مبلغ بسته"
+        },
+        "errors": {
+          "loadFailed": "خطا در بارگذاری سرویس‌های شارژ",
+          "saveFailed": "خطا در ذخیره سرویس شارژ",
+          "deleteFailed": "خطا در حذف سرویس شارژ",
+          "invalidForm": "لطفاً فیلدهای الزامی را کامل کنید"
+        }
+      },
+      "advertisements": {
+        "title": "تبلیغات",
+        "add": "افزودن تبلیغ",
+        "editTitle": "ویرایش تبلیغ",
+        "backToList": "بازگشت به لیست",
+        "empty": "تبلیغی ثبت نشده است.",
+        "confirmDelete": "آیا از حذف «{{title}}» مطمئن هستید؟",
+        "sections": {
+          "basic": "اطلاعات تبلیغ"
+        },
+        "fields": {
+          "title": "عنوان",
+          "shortDescription": "توضیح مختصر",
+          "image": "تصویر",
+          "startAt": "تاریخ شروع",
+          "endAt": "تاریخ پایان",
+          "isActive": "فعال"
+        },
+        "columns": {
+          "image": "تصویر",
+          "title": "عنوان",
+          "startAt": "شروع",
+          "endAt": "پایان",
+          "isActive": "فعال",
+          "createdBy": "ایجادکننده",
+          "createdAt": "تاریخ ایجاد"
+        },
+        "errors": {
+          "loadFailed": "خطا در بارگذاری تبلیغات",
+          "saveFailed": "خطا در ذخیره تبلیغ",
+          "deleteFailed": "خطا در حذف تبلیغ",
+          "uploadFailed": "خطا در آپلود تصویر",
+          "validationFailed": "لطفاً فیلدهای الزامی را تکمیل کنید",
+          "dateRange": "تاریخ پایان باید بعد از تاریخ شروع باشد"
+        }
+      },
+      "adCommerce": {
+        "orderStatus": {
+          "draft": "پیش‌نویس",
+          "pendingPayment": "در انتظار پرداخت",
+          "paid": "پرداخت‌شده",
+          "active": "فعال",
+          "expired": "منقضی",
+          "cancelled": "لغو‌شده"
+        },
+        "positions": {
+          "title": "جایگاه‌های تبلیغ",
+          "add": "افزودن جایگاه",
+          "editTitle": "ویرایش جایگاه",
+          "confirmDelete": "آیا از حذف این جایگاه مطمئن هستید؟",
+          "fields": {
+            "code": "کد",
+            "title": "عنوان",
+            "description": "توضیحات",
+            "maxSlots": "حداکثر فروش هم‌زمان",
+            "maxDisplay": "حداکثر نمایش",
+            "isActive": "فعال"
+          },
+          "columns": {
+            "code": "کد",
+            "title": "عنوان",
+            "maxSlots": "ظرفیت فروش",
+            "maxDisplay": "ظرفیت نمایش",
+            "isActive": "فعال"
+          },
+          "errors": {
+            "loadFailed": "خطا در بارگذاری جایگاه‌ها",
+            "saveFailed": "خطا در ذخیره جایگاه"
+          }
+        },
+        "prices": {
+          "title": "تعرفه تبلیغات",
+          "positionColumn": "جایگاه / مدت",
+          "currency": "ریال",
+          "notSet": "تعیین نشده",
+          "change": "تغییر قیمت",
+          "setPrice": "ثبت قیمت",
+          "history": "تاریخچه قیمت",
+          "fields": {
+            "price": "قیمت",
+            "validFrom": "اعتبار از"
+          },
+          "errors": {
+            "loadFailed": "خطا در بارگذاری تعرفه",
+            "saveFailed": "خطا در ثبت قیمت"
+          }
+        },
+        "categoryPrices": {
+          "title": "تعرفه ثبت آگهی",
+          "subtitle": "برای هر دسته‌بندی محصول، هزینه ثبت آگهی را مشخص کنید.",
+          "currency": "ریال",
+          "ungrouped": "بدون گروه",
+          "empty": "دسته‌بندی‌ای یافت نشد",
+          "saved": "تعرفه‌ها با موفقیت ذخیره شد",
+          "applyToAll": "اعمال روی همه",
+          "fields": {
+            "price": "قیمت",
+            "bulkPrice": "قیمت کلی"
+          },
+          "errors": {
+            "loadFailed": "خطا در بارگذاری تعرفه دسته‌بندی",
+            "saveFailed": "خطا در ذخیره تعرفه دسته‌بندی",
+            "invalidPrice": "قیمت وارد شده نامعتبر است",
+            "noPrices": "حداقل یک قیمت وارد کنید"
+          }
+        },
+        "orders": {
+          "title": "سفارش‌های تبلیغ",
+          "add": "ثبت سفارش",
+          "editTitle": "جزئیات سفارش",
+          "confirmDelete": "آیا از حذف این سفارش مطمئن هستید؟",
+          "fields": {
+            "user": "کاربر",
+            "position": "جایگاه",
+            "duration": "مدت",
+            "startDate": "تاریخ شروع",
+            "status": "وضعیت"
+          },
+          "columns": {
+            "position": "جایگاه",
+            "duration": "مدت",
+            "user": "کاربر",
+            "price": "قیمت",
+            "startDate": "شروع",
+            "endDate": "پایان",
+            "status": "وضعیت"
+          },
+          "errors": {
+            "loadFailed": "خطا در بارگذاری سفارش‌ها",
+            "saveFailed": "خطا در ذخیره سفارش"
+          }
+        }
+      },
+      "contentGroups": {
+        "title": "گروه‌های مطالب",
+        "add": "افزودن گروه",
+        "addTitle": "افزودن گروه",
+        "editTitle": "ویرایش گروه",
+        "empty": "گروهی ثبت نشده است.",
+        "confirmDelete": "آیا از حذف «{{title}}» مطمئن هستید؟",
+        "filters": {
+          "title": "عنوان"
+        },
+        "columns": {
+          "id": "شناسه",
+          "code": "شناسه متنی",
+          "title": "عنوان گروه"
+        },
+        "fields": {
+          "code": "شناسه متنی (اختیاری)",
+          "title": "عنوان گروه"
+        },
+        "errors": {
+          "loadFailed": "خطا در بارگذاری گروه‌ها",
+          "saveFailed": "خطا در ذخیره گروه",
+          "deleteFailed": "خطا در حذف گروه"
+        }
+      },
+      "companyRegulations": {
+        "title": "قوانین و مقررات",
+        "add": "افزودن",
+        "addTitle": "افزودن قوانین و مقررات",
+        "editTitle": "ویرایش قوانین و مقررات",
+        "backToList": "بازگشت به لیست",
+        "empty": "موردی ثبت نشده است.",
+        "confirmDelete": "آیا از حذف «{{title}}» مطمئن هستید؟",
+        "types": {
+          "rulesAndRegulations": "قوانین مقررات شرکت",
+          "companyPolicy": "سیاست خط مشی شرکت"
+        },
+        "columns": {
+          "type": "نوع",
+          "createdAt": "تاریخ ایجاد",
+          "modifiedAt": "تاریخ ویرایش"
+        },
+        "sections": {
+          "basic": "اطلاعات سند"
+        },
+        "fields": {
+          "type": "نوع سند",
+          "body": "متن"
+        },
+        "errors": {
+          "loadFailed": "خطا در بارگذاری قوانین و مقررات",
+          "saveFailed": "خطا در ذخیره",
+          "deleteFailed": "خطا در حذف",
+          "validationFailed": "لطفاً فیلدهای الزامی را تکمیل کنید",
+          "allTypesExist": "برای هر دو نوع سند قبلاً رکورد ثبت شده است"
+        }
+      },
+      "posts": {
+        "title": "مدیریت مطالب",
+        "add": "افزودن مطلب",
+        "addTitle": "افزودن مطلب",
+        "editTitle": "ویرایش مطلب",
+        "backToList": "بازگشت به لیست",
+        "empty": "مطلبی ثبت نشده است.",
+        "confirmDelete": "آیا از حذف «{{title}}» مطمئن هستید؟",
+        "publishedYes": "منتشر شده",
+        "publishedNo": "پیش‌نویس",
+        "uploadImage": "انتخاب تصویر",
+        "deleteImage": "حذف تصویر",
+        "filters": {
+          "title": "عنوان",
+          "group": "گروه",
+          "isPublished": "وضعیت انتشار"
+        },
+        "columns": {
+          "image": "تصویر",
+          "title": "عنوان",
+          "group": "گروه",
+          "type": "نوع",
+          "isPublished": "انتشار",
+          "showOnHomePage": "صفحه اصلی",
+          "viewCount": "بازدید"
+        },
+        "sections": {
+          "basic": "اطلاعات پایه",
+          "display": "تنظیمات نمایش",
+          "seo": "تنظیمات سئو",
+          "linkStats": "لینک و آمار"
+        },
+        "fields": {
+          "group": "گروه",
+          "title": "عنوان مطلب",
+          "shortDescription": "توضیح مختصر",
+          "fullBody": "توضیح کامل",
+          "featuredImage": "تصویر برجسته",
+          "isPublished": "انتشار در سایت",
+          "isActive": "فعال",
+          "showOnHomePage": "نمایش در صفحه اصلی",
+          "useInPromotions": "استفاده در تبلیغات",
+          "showAuthor": "نمایش نویسنده",
+          "authorName": "نام نویسنده",
+          "publishedAt": "تاریخ انتشار",
+          "publishedAtTime": "ساعت انتشار",
+          "browserTitle": "عنوان نمایشی در مرورگر",
+          "metaKeywords": "کلمات کلیدی",
+          "metaDescription": "متا توضیحات",
+          "customMetaTags": "سایر متا تگ‌ها",
+          "externalLink": "لینک خارجی",
+          "viewCount": "تعداد بازدید"
+        },
+        "errors": {
+          "loadFailed": "خطا در بارگذاری مطالب",
+          "loadGroupsFailed": "ابتدا یک گروه مطلب ایجاد کنید",
+          "saveFailed": "خطا در ذخیره مطلب",
+          "validationFailed": "لطفاً خطاهای فرم را برطرف کنید",
+          "deleteFailed": "خطا در حذف مطلب",
+          "uploadFailed": "خطا در آپلود تصویر"
+        }
+      },
+      "specialOffers": {
+        "title": "پیشنهادات ویژه",
+        "detailTitle": "جزئیات پیشنهاد ویژه",
+        "backToList": "بازگشت به لیست پیشنهادات",
+        "details": "جزئیات",
+        "empty": "پیشنهاد ویژه‌ای یافت نشد.",
+        "filters": {
+          "title": "عنوان",
+          "labName": "آزمایشگاه پیشنهاددهنده",
+          "status": "وضعیت"
+        },
+        "columns": {
+          "labName": "آزمایشگاه پیشنهاددهنده",
+          "requesterLabNames": "آزمایشگاه درخواست‌دهنده"
+        },
+        "errors": {
+          "loadFailed": "خطا در بارگذاری پیشنهادات",
+          "notFound": "پیشنهاد یافت نشد"
+        }
+      },
+      "laboratories": {
+        "title": "لیست آزمایشگاه‌ها",
+        "add": "افزودن آزمایشگاه",
+        "addTitle": "افزودن آزمایشگاه",
+        "editMobileTitle": "ویرایش موبایل آزمایشگاه",
+        "empty": "آزمایشگاهی یافت نشد.",
+        "detailTitle": "جزئیات آزمایشگاه",
+        "backToList": "بازگشت به لیست",
+        "approve": "تأیید پروفایل",
+        "complete": "تکمیل شده",
+        "incomplete": "ناقص",
+        "approved": "تأیید شده",
+        "notApproved": "تأیید نشده",
+        "status": {
+          "pending": "در انتظار",
+          "active": "فعال",
+          "suspended": "معلق"
+        },
+        "filters": {
+          "name": "نام",
+          "labCode": "کد آزمایشگاه",
+          "mobile": "موبایل",
+          "completion": "وضعیت تکمیل"
+        },
+        "columns": {
+          "name": "نام",
+          "labCode": "کد آزمایشگاه",
+          "status": "وضعیت",
+          "completion": "تکمیل",
+          "approval": "تأیید"
+        },
+        "fields": {
+          "centerCode": "کد ۵ رقمی مرکز"
+        },
+        "reject": "رد پروفایل",
+        "revokeApproval": "لغو تأیید",
+        "rejectedWithReason": "دلیل رد",
+        "contactInfo": "اطلاعات تماس",
+        "documents": "مدارک و تصاویر",
+        "documentMissing": "آپلود نشده",
+        "reviewActions": "بررسی و تأیید",
+        "reviewHintPending": "پروفایل تکمیل شده و آماده بررسی است.",
+        "reviewHintApproved": "در صورت نیاز می‌توانید تأیید این پروفایل را لغو کنید.",
+        "reviewHintIncomplete": "تا زمان تکمیل پروفایل، امکان تأیید یا رد وجود ندارد.",
+        "reviewHintIncompleteApprove": "مدارک این آزمایشگاه هنوز کامل نیست؛ در صورت صلاح‌دید می‌توانید پروفایل را تأیید کنید.",
+        "approvedAt": "تاریخ تأیید: {{date}}",
+        "confirmRevokeApproval": "آیا از لغو تأیید «{{name}}» مطمئن هستید؟",
+        "success": {
+          "approved": "پروفایل آزمایشگاه تأیید شد",
+          "rejected": "پروفایل آزمایشگاه رد شد",
+          "revoked": "تأیید پروفایل آزمایشگاه لغو شد"
+        },
+        "errors": {
+          "loadFailed": "خطا در بارگذاری",
+          "approveFailed": "خطا در تأیید پروفایل",
+          "rejectFailed": "خطا در رد پروفایل",
+          "revokeFailed": "خطا در لغو تأیید"
+        }
+      },
+      "shared": {
+        "rejectTitle": "رد پروفایل",
+        "rejectReason": "دلیل رد (اجباری)",
+        "rejectConfirm": "ثبت رد"
+      },
+      "shops": {
+        "title": "لیست فروشگاه‌ها",
+        "empty": "فروشگاهی یافت نشد.",
+        "detailTitle": "جزئیات فروشگاه",
+        "backToList": "بازگشت به لیست",
+        "approve": "تأیید پروفایل",
+        "complete": "تکمیل شده",
+        "incomplete": "ناقص",
+        "approved": "تأیید شده",
+        "notApproved": "تأیید نشده",
+        "filters": {
+          "name": "نام",
+          "mobile": "موبایل",
+          "completion": "وضعیت تکمیل"
+        },
+        "columns": {
+          "name": "نام",
+          "completion": "تکمیل",
+          "approval": "تأیید"
+        },
+        "reject": "رد پروفایل",
+        "revokeApproval": "لغو تأیید",
+        "rejectedWithReason": "دلیل رد",
+        "contactInfo": "اطلاعات تماس",
+        "documents": "مدارک و تصاویر",
+        "documentMissing": "آپلود نشده",
+        "reviewActions": "بررسی و تأیید",
+        "reviewHintPending": "پروفایل تکمیل شده و آماده بررسی است.",
+        "reviewHintApproved": "در صورت نیاز می‌توانید تأیید این پروفایل را لغو کنید.",
+        "reviewHintIncomplete": "تا زمان تکمیل پروفایل، امکان تأیید یا رد وجود ندارد.",
+        "approvedAt": "تاریخ تأیید: {{date}}",
+        "confirmRevokeApproval": "آیا از لغو تأیید «{{name}}» مطمئن هستید؟",
+        "success": {
+          "approved": "پروفایل فروشگاه تأیید شد",
+          "rejected": "پروفایل فروشگاه رد شد",
+          "revoked": "تأیید پروفایل فروشگاه لغو شد"
+        },
+        "errors": {
+          "loadFailed": "خطا در بارگذاری",
+          "approveFailed": "خطا در تأیید پروفایل",
+          "rejectFailed": "خطا در رد پروفایل",
+          "revokeFailed": "خطا در لغو تأیید"
+        }
+      },
+      "productCategories": {
+        "title": "دسته‌بندی",
+        "add": "افزودن دسته",
+        "addTitle": "افزودن دسته",
+        "edit": "ویرایش دسته",
+        "editTitle": "ویرایش دسته",
+        "empty": "دسته‌ای ثبت نشده است.",
+        "confirmDelete": "آیا از حذف «{{title}}» مطمئن هستید؟",
+        "tabs": {
+          "categories": "دسته‌ها",
+          "categoryGroups": "سرگروه‌ها"
+        },
+        "filters": {
+          "title": "عنوان"
+        },
+        "columns": {
+          "title": "عنوان",
+          "acceptsResume": "دریافت رزومه",
+          "image": "تصویر",
+          "showOnHomePage": "نمایش در صفحه اصلی"
+        },
+        "fields": {
+          "title": "عنوان دسته",
+          "acceptsResume": "دریافت رزومه",
+          "homePageImage": "تصویر نمایش در صفحه اصلی",
+          "showOnHomePage": "نمایش در صفحه اصلی"
+        },
+        "uploadImage": "انتخاب تصویر",
+        "deleteImage": "حذف تصویر",
+        "showOnHomePageYes": "بله",
+        "showOnHomePageNo": "خیر",
+        "errors": {
+          "loadFailed": "خطا در بارگذاری دسته‌ها",
+          "saveFailed": "خطا در ذخیره دسته",
+          "deleteFailed": "خطا در حذف دسته",
+          "uploadFailed": "خطا در آپلود تصویر"
+        },
+        "categoryGroups": {
+          "add": "افزودن سرگروه",
+          "addTitle": "افزودن سرگروه",
+          "editTitle": "ویرایش سرگروه",
+          "empty": "سرگروهی ثبت نشده است.",
+          "confirmDelete": "آیا از حذف سرگروه «{{name}}» مطمئن هستید؟",
+          "filters": {
+            "name": "نام سرگروه"
+          },
+          "columns": {
+            "image": "تصویر",
+            "showOnHomePage": "نمایش در صفحه اصلی",
+            "name": "نام سرگروه",
+            "categoryCount": "تعداد دسته‌ها",
+            "categories": "دسته‌های زیرمجموعه"
+          },
+          "fields": {
+            "name": "نام سرگروه",
+            "categories": "دسته‌های زیرمجموعه",
+            "homePageImage": "تصویر نمایش در صفحه اصلی",
+            "showOnHomePage": "نمایش در صفحه اصلی"
+          },
+          "errors": {
+            "loadFailed": "خطا در بارگذاری سرگروه‌ها",
+            "saveFailed": "خطا در ذخیره سرگروه",
+            "deleteFailed": "خطا در حذف سرگروه",
+            "uploadFailed": "خطا در آپلود تصویر"
+          }
+        }
+      },
+      "productAttributes": {
+        "title": "ویژگی‌ها",
+        "add": "افزودن ویژگی",
+        "addTitle": "افزودن ویژگی",
+        "edit": "ویرایش ویژگی",
+        "editTitle": "ویرایش ویژگی",
+        "empty": "ویژگی‌ای ثبت نشده است.",
+        "confirmDelete": "آیا از حذف «{{title}}» مطمئن هستید؟",
+        "filters": {
+          "category": "دسته",
+          "title": "عنوان"
+        },
+        "columns": {
+          "category": "دسته",
+          "title": "عنوان",
+          "fieldType": "نوع فیلد"
+        },
+        "fields": {
+          "category": "دسته",
+          "title": "عنوان ویژگی",
+          "fieldType": "نوع فیلد"
+        },
+        "fieldTypes": {
+          "none": "متنی",
+          "date": "تاریخ",
+          "expiryDate": "تاریخ انقضاء"
+        },
+        "errors": {
+          "loadFailed": "خطا در بارگذاری ویژگی‌ها",
+          "saveFailed": "خطا در ذخیره ویژگی",
+          "deleteFailed": "خطا در حذف ویژگی"
+        }
+      },
+      "brands": {
+        "title": "برندها",
+        "add": "افزودن برند",
+        "addTitle": "افزودن برند",
+        "edit": "ویرایش برند",
+        "editTitle": "ویرایش برند",
+        "empty": "برندی ثبت نشده است.",
+        "confirmDelete": "آیا از حذف «{{title}}» مطمئن هستید؟",
+        "filters": {
+          "title": "عنوان"
+        },
+        "columns": {
+          "title": "عنوان",
+          "image": "تصویر",
+          "showOnHomePage": "نمایش در صفحه اصلی"
+        },
+        "fields": {
+          "title": "عنوان برند",
+          "image": "لوگوی برند",
+          "showOnHomePage": "نمایش در صفحه اصلی"
+        },
+        "uploadImage": "انتخاب تصویر",
+        "deleteImage": "حذف تصویر",
+        "showOnHomePageYes": "بله",
+        "showOnHomePageNo": "خیر",
+        "errors": {
+          "loadFailed": "خطا در بارگذاری برندها",
+          "saveFailed": "خطا در ذخیره برند",
+          "deleteFailed": "خطا در حذف برند",
+          "uploadFailed": "خطا در آپلود تصویر"
+        }
+      },
+      "products": {
+        "title": "آگهی‌ها",
+        "add": "افزودن محصول",
+        "addTitle": "درج محصول",
+        "editTitle": "ویرایش محصول",
+        "reviewTitle": "بررسی آگهی",
+        "backToList": "بازگشت به لیست",
+        "empty": "محصولی ثبت نشده است.",
+        "confirmDelete": "آیا از حذف «{{name}}» مطمئن هستید؟",
+        "confirmDeleteImage": "آیا از حذف این تصویر مطمئن هستید؟",
+        "deleteImageTitle": "حذف تصویر",
+        "basicInfoSection": "اطلاعات پایه",
+        "basicInfoHint": "دسته‌بندی، عنوان و مشخصات اصلی را وارد کنید.",
+        "attributesSection": "ویژگی‌های محصول",
+        "expertReviewsSection": "بررسی‌های تخصصی",
+        "specsSection": "مشخصات محصول",
+        "specsHint": "ویژگی‌ها و بررسی‌های تخصصی محصول را تکمیل کنید.",
+        "specsNeedCategory": "ابتدا دسته‌بندی را انتخاب کنید تا مشخصات نمایش داده شود.",
+        "mediaSection": "تصاویر محصول",
+        "mediaHint": "تصاویر را انتخاب کنید؛ همراه ذخیره یا ثبت محصول آپلود می‌شوند.",
+        "imagesSection": "گالری تصاویر",
+        "featuredImageSection": "تصویر اصلی",
+        "dropzoneHint": "تصاویر را اینجا رها کنید یا برای انتخاب کلیک کنید",
+        "dropzoneFormats": "فرمت‌های مجاز: JPG، PNG، WebP",
+        "submitProduct": "ثبت محصول",
+        "submitAndPublish": "انتشار محصول",
+        "previewTitle": "پیش‌نمایش محصول",
+        "previewUntitled": "عنوان محصول",
+        "previewNoCategory": "دسته‌بندی انتخاب نشده",
+        "completionTitle": "وضعیت تکمیل",
+        "tipsTitle": "نکات",
+        "tipAccurate": "اطلاعات را دقیق و کامل وارد کنید.",
+        "tipImages": "از تصاویر با کیفیت و واضح استفاده کنید.",
+        "tipLocation": "موقعیت روی نقشه را نزدیک به محل واقعی تنظیم کنید.",
+        "mapSearchPlaceholder": "جستجوی آدرس روی نقشه",
+        "useCurrentLocation": "استفاده از موقعیت فعلی",
+        "imagesDisabledHint": "تصاویر انتخاب‌شده همراه ذخیره آگهی آپلود می‌شوند.",
+        "deleteFeaturedImage": "حذف تصویر شاخص",
+        "saveDraft": "ذخیره",
+        "confirmPublishTitle": "انتشار",
+        "confirmPublishMessage": "آیا از انتشار این مورد مطمئن هستید؟",
+        "confirmPublishConfirm": "انتشار",
+        "publishRequiresSave": "ابتدا ذخیره کنید، سپس منتشر کنید.",
+        "stepperLabel": "مراحل درج محصول",
+        "continueTo": "ادامه: {{step}}",
+        "offerNotApplicable": "این مرحله برای این نوع آگهی لازم نیست. می‌توانید ادامه دهید.",
+        "submitForApproval": "ارسال برای تأیید",
+        "submitForApprovalSuccess": "آگهی شما ثبت گردید و در انتظار تایید مدیر می‌باشد.",
+        "approveAndPublish": "تأیید و انتشار",
+        "approve": "تأیید",
+        "reject": "رد",
+        "rejectListing": "رد آگهی",
+        "needsRevision": "نیاز به اصلاح",
+        "review": "بررسی",
+        "unpublish": "لغو انتشار",
+        "republish": "انتشار مجدد",
+        "rejectReasonPrompt": "دلیل رد محصول را وارد کنید:",
+        "rejectDialogTitle": "رد آگهی",
+        "rejectDialogHint": "دلیل رد یا توضیحات مدیر را برای ارسال‌کننده آگهی وارد کنید.",
+        "rejectConfirm": "رد آگهی",
+        "approveSuccess": "محصول تأیید و منتشر شد.",
+        "rejectSuccess": "محصول رد شد.",
+        "revisionSuccess": "آگهی برای اصلاح به ارسال‌کننده بازگردانده شد.",
+        "unpublishSuccess": "انتشار محصول لغو شد.",
+        "republishSuccess": "محصول دوباره منتشر شد.",
+        "rejectionReason": "دلیل رد / توضیحات مدیر",
+        "adminNotesTitle": "توضیحات مدیر",
+        "adminNotesPlaceholder": "یادداشت یا توضیحات خود را وارد کنید...",
+        "adminNotesRequired": "برای «نیاز به اصلاح» لطفاً توضیحات مدیر را وارد کنید.",
+        "locationShort": "موقعیت",
+        "viewOnMap": "مشاهده در نقشه",
+        "locationCoordinatesOnly": "موقعیت روی نقشه ثبت شده است",
+        "attributesSectionShort": "ویژگی‌ها",
+        "moreImagesSection": "تصاویر بیشتر",
+        "otherInfoSection": "سایر اطلاعات",
+        "pendingTab": "در انتظار تأیید",
+        "allTab": "همه محصولات",
+        "reviewMeta": {
+          "overview": "اطلاعات کلی",
+          "submittedAt": "زمان ارسال برای تأیید",
+          "approvedAt": "زمان تأیید"
+        },
+        "reviewEmpty": {
+          "description": "توضیحی ثبت نشده است.",
+          "attributes": "ویژگی‌ای ثبت نشده است.",
+          "location": "موقعیت ثبت نشده است."
+        },
+        "centerType": {
+          "shop": "فروشگاه",
+          "lab": "آزمایشگاه"
+        },
+        "addReview": "افزودن بررسی",
+        "removeReview": "حذف",
+        "noReviews": "بررسی تخصصی ثبت نشده است.",
+        "uploadImage": "آپلود تصویر",
+        "noImages": "تصویری آپلود نشده است.",
+        "offerSection": "قیمت و موجودی",
+        "offerHint": "قیمت، موجودی و شرایط فروش را مشخص کنید.",
+        "offerOptions": "شرایط فروش",
+        "locationSection": "موقعیت و آدرس",
+        "locationHint": "آدرس را جستجو کنید یا روی نقشه انتخاب کنید.",
+        "status": {
+          "draft": "پیش‌نویس",
+          "pendingApproval": "در انتظار تأیید",
+          "pendingAdminApproval": "در انتظار تأیید مدیر",
+          "approved": "منتشر شده",
+          "rejected": "رد شده",
+          "unpublished": "لغو انتشار"
+        },
+        "filters": {
+          "title": "عنوان",
+          "createdBy": "ثبت‌کننده",
+          "center": "فروشگاه / آزمایشگاه",
+          "brand": "برند",
+          "category": "دسته",
+          "status": "وضعیت",
+          "fromDate": "از تاریخ",
+          "toDate": "تا تاریخ"
+        },
+        "columns": {
+          "image": "تصویر",
+          "title": "عنوان",
+          "brand": "برند",
+          "createdBy": "ثبت‌کننده",
+          "center": "فروشگاه / آزمایشگاه",
+          "categories": "دسته‌ها",
+          "status": "وضعیت",
+          "updatedAt": "آخرین بروزرسانی"
+        },
+        "fields": {
+          "title": "عنوان",
+          "brand": "برند",
+          "center": "فروشگاه / آزمایشگاه",
+          "categoryGroup": "سرگروه دسته‌بندی",
+          "categories": "دسته‌ها",
+          "warranty": "گارانتی",
+          "description": "معرفی محصول",
+          "featuredImage": "تصویر شاخص (کارت و صفحه اصلی)",
+          "reviewTitle": "عنوان بررسی",
+          "reviewDescription": "متن بررسی",
+          "negotiablePrice": "قیمت توافقی",
+          "isUsed": "کارکرده",
+          "price": "قیمت (تومان)",
+          "stock": "موجودی",
+          "discountPercent": "درصد تخفیف",
+          "stockUnit": "عدد",
+          "province": "استان"
+        },
+        "errors": {
+          "loadFailed": "خطا در بارگذاری محصولات",
+          "saveFailed": "خطا در ذخیره محصول",
+          "deleteFailed": "خطا در حذف محصول",
+          "uploadFailed": "خطا در آپلود تصویر",
+          "deleteImageFailed": "خطا در حذف تصویر",
+          "approveFailed": "خطا در تأیید محصول",
+          "rejectFailed": "خطا در رد محصول",
+          "unpublishFailed": "خطا در لغو انتشار محصول",
+          "republishFailed": "خطا در انتشار مجدد محصول",
+          "centerProductReadOnly": "این محصول توسط فروشگاه یا آزمایشگاه ثبت شده و فقط از طریق «بررسی» قابل تأیید یا رد است."
+        }
+      },
+      "productReviews": {
+        "title": "تأیید نظرات محصول",
+        "empty": "نظر در انتظار تأیید وجود ندارد.",
+        "approve": "تأیید انتشار",
+        "reject": "رد",
+        "confirmReject": "آیا از رد این نظر مطمئن هستید؟",
+        "columns": {
+          "author": "کاربر",
+          "product": "محصول",
+          "rating": "امتیاز",
+          "comment": "متن نظر",
+          "createdAt": "تاریخ"
+        },
+        "errors": {
+          "loadFailed": "خطا در بارگذاری نظرات",
+          "approveFailed": "خطا در تأیید نظر",
+          "rejectFailed": "خطا در رد نظر"
+        }
+      },
+      "productOrders": {
+        "title": "پیگیری سفارش",
+        "trackingTitle": "پیگیری سفارش",
+        "trackOrder": "پیگیری سفارش",
+        "backToList": "بازگشت به لیست",
+        "empty": "سفارشی یافت نشد.",
+        "filters": {
+          "title": "فیلترها",
+          "open": "باز کردن فیلترها",
+          "close": "بستن فیلترها",
+          "status": "وضعیت",
+          "search": "جستجو (مرکز، خریدار، کد رهگیری)",
+          "apply": "اعمال فیلتر"
+        },
+        "columns": {
+          "center": "فروشنده",
+          "buyer": "خریدار",
+          "phone": "تلفن",
+          "items": "تعداد اقلام",
+          "total": "مبلغ کل",
+          "tracking": "کد رهگیری",
+          "status": "وضعیت",
+          "createdAt": "تاریخ"
+        },
+        "errors": {
+          "loadFailed": "خطا در بارگذاری سفارش‌ها",
+          "notFound": "سفارش یافت نشد"
+        }
+      },
+      "dashboard": {
+        "title": "داشبورد مدیریت",
+        "subtitle": "خلاصه وضعیت کاربران و نقش‌های سیستم در یک نگاه",
+        "overview": "نمای کلی",
+        "keyMetrics": "شاخص‌های کلیدی",
+        "activitySummary": "وضعیت فعالیت کاربران",
+        "activeRate": "نرخ فعال",
+        "inactiveUsers": "کاربران غیرفعال",
+        "userTypes": "توزیع نوع کاربر",
+        "quickLinks": "دسترسی سریع",
+        "totalUsers": "کل کاربران",
+        "activeUsers": "کاربران فعال",
+        "administrators": "ادمین",
+        "monthlySiteVisits": "بازدید ماهانه سایت",
+        "onlineUsers": "کاربران آنلاین",
+        "laboratories": "آزمایشگاه",
+        "user": "عادی",
+        "stores": "فروشگاه",
+        "agreements": {
+          "title": "آمار قراردادهای آزمایشگاهی",
+          "active": "قراردادهای فعال",
+          "expired": "قراردادهای منقضی‌شده",
+          "pending": "قراردادهای در انتظار"
+        },
+        "jobPostings": {
+          "title": "آمار آگهی‌های استخدام",
+          "active": "آگهی‌های فعال",
+          "expired": "آگهی‌های منقضی‌شده",
+          "sentApplications": "درخواست‌های ارسال‌شده"
+        },
+        "specialOffers": {
+          "title": "پیشنهادات ویژه",
+          "monthlyTable": "پیشنهادات ثبت‌شده ماه جاری",
+          "exportExcel": "دانلود اکسل",
+          "table": {
+            "labCode": "کد مرکز",
+            "labName": "نام آزمایشگاه",
+            "offerCount": "تعداد پیشنهاد ثبت‌شده",
+            "empty": "داده‌ای یافت نشد."
+          }
+        },
+        "services": {
+          "title": "سرویس‌های سایت",
+          "add": "افزودن سرویس",
+          "edit": "ویرایش سرویس",
+          "confirmDelete": "آیا از حذف «{title}» اطمینان دارید؟",
+          "loadFailed": "خطا در بارگذاری سرویس‌ها",
+          "saveFailed": "خطا در ذخیره‌سازی سرویس",
+          "deleteFailed": "خطا در حذف سرویس",
+          "columns": {
+            "title": "عنوان",
+            "image": "تصویر",
+            "linkUrl": "لینک",
+            "sortOrder": "ترتیب",
+            "isActive": "فعال"
+          },
+          "table": {
+            "title": "عنوان سرویس",
+            "image": "تصویر",
+            "sortOrder": "ترتیب نمایش",
+            "isActive": "وضعیت",
+            "empty": "داده‌ای یافت نشد."
+          }
+        },
+        "receptions": {
+          "title": "آمار پذیرش‌ها و آزمایشات",
+          "dailyMostUsage": "بیشترین استفاده روز جاری",
+          "monthlyMostUsage": "بیشترین استفاده ماه جاری",
+          "dailyMostSentTests": "بیشترین آزمایشات ارسالی روز جاری",
+          "monthlyMostSentTests": "بیشترین آزمایشات ارسالی ماه جاری",
+          "dailyMostReceivedTests": "بیشترین آزمایشات دریافتی روز جاری",
+          "monthlyMostReceivedTests": "بیشترین آزمایشات دریافتی ماه جاری",
+          "popularTests": "محبوب‌ترین تست‌ها (یکسال گذشته)",
+          "popularTestsMonthly": "محبوب‌ترین تست‌ها (ماه جاری)",
+          "popularTestsTable": {
+            "testName": "نام تست",
+            "count": "تعداد"
+          },
+          "dailySentLabsTable": "جدول آزمایشگاه‌های ارسال‌کننده (روز جاری)",
+          "dailyReceivedLabsTable": "جدول آزمایشگاه‌های دریافت‌کننده (روز جاری)",
+          "monthlySentLabsTable": "جدول آزمایشگاه‌های ارسال‌کننده (ماه جاری)",
+          "monthlyReceivedLabsTable": "جدول آزمایشگاه‌های دریافت‌کننده (ماه جاری)",
+          "exportExcel": "دانلود اکسل",
+          "reload": "بارگذاری مجدد",
+          "loadHint": "برای مشاهده این گزارش، دکمه بارگذاری مجدد را بزنید.",
+          "table": {
+            "labCode": "کد مرکز",
+            "labName": "نام آزمایشگاه",
+            "receptionCount": "تعداد پذیرش",
+            "testsCount": "تعداد آزمایش",
+            "empty": "داده‌ای یافت نشد."
+          }
+        }
+      },
+      "settings": {
+        "title": "تنظیمات عمومی",
+        "placeholder": "این بخش در نسخه‌های بعدی تکمیل می‌شود.",
+        "sections": {
+          "general": "اطلاعات عمومی",
+          "support": "پشتیبانی",
+          "enamad": "نماد اعتماد",
+          "footer": "فوتر",
+          "seo": "سئو"
+        },
+        "fields": {
+          "siteTitle": "عنوان سایت",
+          "tagline": "زیرعنوان سایت",
+          "logo": "لوگو",
+          "supportLandline": "تلفن ثابت پشتیبانی",
+          "supportMobile": "موبایل پشتیبانی",
+          "googleMapEmbedCode": "کد embed نقشه Google",
+          "enamadEmbedCode": "کد embed نماد اعتماد",
+          "enamadLinkUrl": "لینک نماد اعتماد",
+          "footerAboutText": "درباره ما",
+          "footerLogo": "لوگوی فوتر",
+          "footerAddress": "آدرس",
+          "footerEmail": "ایمیل",
+          "footerCopyrightText": "متن کپی‌رایت",
+          "usefulLinks": "لینک‌های مفید",
+          "metaTitle": "متا عنوان",
+          "metaDescription": "متا توضیحات",
+          "metaKeywords": "متا کلمات کلیدی",
+          "metaViewport": "متا viewport (اختیاری)",
+          "metaCanonical": "لینک canonical (اختیاری)"
+        },
+        "columns": {
+          "linkTitle": "عنوان",
+          "linkUrl": "لینک"
+        },
+        "actions": {
+          "addUsefulLink": "افزودن لینک",
+          "addUsefulLinkTitle": "افزودن لینک مفید"
+        },
+        "emptyUsefulLinks": "لینک مفیدی ثبت نشده است.",
+        "deleteUsefulLinkTitle": "حذف لینک مفید",
+        "confirmDeleteUsefulLink": "آیا از حذف لینک «{{title}}» مطمئن هستید؟",
+        "success": {
+          "saved": "تنظیمات ذخیره شد",
+          "logoUploaded": "لوگو با موفقیت آپلود شد",
+          "footerLogoUploaded": "لوگوی فوتر با موفقیت آپلود شد",
+          "usefulLinkAdded": "لینک مفید افزوده شد",
+          "usefulLinkDeleted": "لینک مفید حذف شد"
+        },
+        "errors": {
+          "loadFailed": "خطا در بارگذاری تنظیمات",
+          "saveFailed": "خطا در ذخیره تنظیمات",
+          "uploadFailed": "خطا در آپلود لوگو"
+        }
+      },
+      "sliderGroups": {
+        "title": "مدیریت اسلایدر",
+        "add": "افزودن گروه",
+        "edit": "ویرایش گروه",
+        "backToList": "بازگشت به لیست",
+        "empty": "گروه اسلایدری ثبت نشده است.",
+        "active": "فعال",
+        "inactive": "غیرفعال",
+        "slidesTitle": "اسلایدها",
+        "addSlide": "افزودن اسلاید",
+        "noSlides": "اسلایدی برای این گروه ثبت نشده است.",
+        "groupInfo": "اطلاعات گروه",
+        "editSlide": "ویرایش",
+        "cancelEdit": "انصراف",
+        "orderLabel": "ترتیب",
+        "untitledSlide": "بدون عنوان",
+        "noLink": "بدون لینک",
+        "dragHandle": "جابجایی ترتیب",
+        "confirmDelete": "آیا از حذف گروه «{{title}}» مطمئن هستید؟",
+        "confirmDeleteSlide": "آیا از حذف این اسلاید مطمئن هستید؟",
+        "filters": {
+          "title": "عنوان",
+          "status": "وضعیت"
+        },
+        "columns": {
+          "title": "عنوان",
+          "dates": "بازه فعالسازی",
+          "status": "وضعیت",
+          "slides": "تعداد اسلاید",
+          "actions": "عملیات"
+        },
+        "fields": {
+          "title": "عنوان گروه",
+          "startDate": "تاریخ شروع",
+          "endDate": "تاریخ پایان",
+          "isActive": "وضعیت",
+          "sortOrder": "ترتیب",
+          "slideTitle": "عنوان / متن جایگزین",
+          "linkUrl": "لینک (اختیاری)"
+        },
+        "success": {
+          "saved": "گروه ذخیره شد",
+          "slideUploaded": "تصویر اسلاید آپلود شد",
+          "slideSaved": "اسلاید ذخیره شد"
+        },
+        "errors": {
+          "loadFailed": "خطا در بارگذاری گروه اسلایدر",
+          "saveFailed": "خطا در ذخیره",
+          "deleteFailed": "خطا در حذف",
+          "uploadFailed": "خطا در آپلود تصویر",
+          "reorderFailed": "خطا در تغییر ترتیب اسلایدها",
+          "validationFailed": "لطفاً فیلدهای الزامی گروه را تکمیل کنید"
+        }
+      },
+      "users": {
+        "title": "مدیریت کاربران",
+        "empty": "کاربری یافت نشد.",
+        "search": "جستجو",
+        "searchPlaceholder": "نام، موبایل، ایمیل...",
+        "role": "نقش",
+        "userType": "نوع کاربر",
+        "status": "وضعیت",
+        "applyFilters": "اعمال فیلتر",
+        "actions": "عملیات",
+        "details": "جزئیات",
+        "delete": "حذف",
+        "viewResume": "مشاهده رزومه",
+        "confirmDelete": "آیا از حذف {{firstName}} {{lastName}} مطمئن هستید؟",
+        "resumeDialog": {
+          "title": "رزومه {{name}}",
+          "loading": "در حال بارگذاری رزومه...",
+          "loadFailed": "خطا در بارگذاری رزومه",
+          "downloadFailed": "خطا در دانلود فایل رزومه",
+          "fileNotFound": "فایل رزومه یافت نشد"
+        },
+        "columns": {
+          "fullName": "نام کامل",
+          "userType": "نوع کاربر",
+          "roles": "نقش‌ها",
+          "status": "وضعیت"
+        },
+        "detail": {
+          "title": "جزئیات کاربر",
+          "name": "نام:",
+          "mobile": "موبایل",
+          "email": "ایمیل",
+          "type": "نوع:",
+          "roles": "نقش‌ها",
+          "contactInfo": "اطلاعات تماس",
+          "accessSettings": "تنظیمات دسترسی",
+          "accountStatus": "وضعیت حساب",
+          "accountStatusHint": "کاربران غیرفعال نمی‌توانند وارد سیستم شوند.",
+          "rolesHint": "نقش‌های مجاز این کاربر را انتخاب کنید.",
+          "emailNotSet": "ثبت نشده",
+          "createdAt": "تاریخ عضویت",
+          "mobileConfirmed": "موبایل تأیید شده",
+          "mobileNotConfirmed": "موبایل تأیید نشده",
+          "emailConfirmed": "ایمیل تأیید شده",
+          "emailNotConfirmed": "ایمیل تأیید نشده"
+        }
+      },
+      "siteUsers": {
+        "addUser": "افزودن کاربر سایت",
+        "errors": {
+          "loadFailed": "خطا در بارگذاری",
+          "duplicateMobile": "این موبایل قبلاً در لیست است",
+          "otpRequired": "نیاز به کد تأیید است",
+          "addMemberFailed": "خطا در افزودن کاربر",
+          "confirmFailed": "خطا در تأیید",
+          "toggleActiveFailed": "خطا در تغییر وضعیت",
+          "addFailed": "خطا در افزودن",
+          "confirmAddFailed": "خطا در تأیید افزودن",
+          "removeFailed": "خطا در حذف",
+          "fetchListFailed": "خطا در دریافت لیست"
+        },
+        "addUserDialog": {
+          "subtitle": "شماره موبایل کاربر را وارد کنید",
+          "title": "افزودن کاربر سایت"
+        },
+        "registeredMobileLabel": "شماره موبایل",
+        "removeDialog": {
+          "title": "حذف کاربر سایت"
+        },
+        "success": {
+          "userCodeSent": "کد تأیید ارسال شد",
+          "added": "کاربر سایت با موفقیت اضافه شد",
+          "removed": "کاربر سایت حذف شد",
+          "codeResent": "کد جدید ارسال شد",
+          "createCodeSent": "کد تأیید ارسال شد"
+        },
+        "filters": {
+          "mobilePlaceholder": "جستجوی موبایل",
+          "mobile": "موبایل",
+          "open": "باز کردن فیلتر",
+          "close": "بستن",
+          "title": "فیلترها",
+          "status": "وضعیت"
+        },
+        "permissions": {
+          "manage": "دسترسی‌ها",
+          "errors": {
+            "loadFailed": "خطا در بارگذاری دسترسی‌ها",
+            "saveFailed": "خطا در ذخیره دسترسی‌ها"
+          },
+          "success": {
+            "saved": "دسترسی‌ها ذخیره شد"
+          },
+          "create": "ایجاد",
+          "delete": "حذف",
+          "entity": "ماژول",
+          "view": "مشاهده",
+          "title": "مدیریت دسترسی‌ها",
+          "update": "ویرایش",
+          "selectAllView": "همه مشاهده",
+          "selectAllCreate": "همه ایجاد",
+          "selectAllUpdate": "همه ویرایش",
+          "selectAllDelete": "همه حذف"
+        },
+        "hints": {
+          "create": "کد تأیید برای ثبت کاربر جدید ارسال شد",
+          "ownership": "کد تأیید برای تبدیل کاربر به کاربر سایت ارسال شد"
+        },
+        "columns": {
+          "createdAt": "تاریخ ثبت",
+          "mobileConfirmed": "تأیید موبایل"
+        },
+        "noUsersFound": "کاربر سایتی یافت نشد",
+        "confirmRemove": "آیا از حذف کاربر {{mobile}} مطمئن هستید؟",
+        "resultCount": "{{count}} کاربر",
+        "confirmAndAdd": "تأیید و افزودن"
+      }
+    },
+    "home": {
+      "login": "ورود",
+      "loginRegister": "ورود / ثبت نام",
+      "myAccount": "حساب کاربری من",
+      "searchPlaceholder": "جستجو",
+      "searchClear": "پاک کردن جستجو",
+      "searchInCategory": "در {{category}}",
+      "searchNoResults": "نتیجه‌ای یافت نشد",
+      "cart": "سبد خرید",
+      "mainNav": "منوی اصلی",
+      "openMenu": "باز کردن منو",
+      "closeMenu": "بستن منو",
+      "portalLoginConfirm": {
+        "loginFailed": "ورود آزمایشگاه انجام نشد."
+      },
+      "nav": {
+        "home": "خانه",
+        "posts": "مطالب",
+        "news": "اخبار",
+        "articles": "مقالات",
+        "documents": "اسناد",
+        "categories": "دسته‌بندی",
+        "products": "آگهی ها",
+        "specialOffers": "پیشنهادات ویژه",
+        "contactUs": "ارتباط با ما",
+        "companyRegulations": "قوانین و مقررات"
+      },
+      "slider": {
+        "label": "اسلایدر تبلیغاتی",
+        "prev": "اسلاید قبلی",
+        "next": "اسلاید بعدی",
+        "goTo": "رفتن به اسلاید {{index}}"
+      },
+      "welcomeTitle": "به LabConnect خوش آمدید",
+      "welcomeBody": "پورتال یکپارچه اتصال آزمایشگاه‌ها — برای دسترسی به حساب کاربری، دکمه ورود را در بالای صفحه بزنید.",
+      "latestJobs": "آخرین آگهی‌ها",
+      "categoryMenu": {
+        "allGroupProducts": "همه محصولات {{group}}",
+        "emptyGroups": "سرگروهی برای نمایش وجود ندارد.",
+        "emptyCategories": "زیردسته‌ای برای این سرگروه وجود ندارد."
+      },
+      "promotions": {
+        "badge": "تبلیغات",
+        "cta": "مشاهده"
+      },
+      "shopByCategory": "دسته بندی‌ها",
+      "viewAllCategories": "مشاهده همه",
+      "latestPosts": "آخرین مطالب",
+      "viewAllPosts": "مشاهده همه",
+      "viewAllJobs": "مشاهده همه",
+      "viewAllJobsCount": "مشاهده همه ({{count}})",
+      "latestProducts": "آخرین محصولات",
+      "viewAllProducts": "مشاهده همه",
+      "latestBrands": "محبوب ترین برندها",
+      "viewAllBrands": "مشاهده همه",
+      "viewAllSpecialOffers": "مشاهده همه",
+      "mostViewedProducts": "پربازدیدترین محصولات",
+      "specialOffers": {
+        "title": "پیشنهادات ویژه",
+        "endsAt": "پایان: {{date}}",
+        "daysLeft": "{{count}} روز مانده",
+        "viewOffer": "مشاهده پیشنهاد",
+        "viewOfferCompact": "مشاهده",
+        "emptyTitle": "هنوز پیشنهاد ویژه‌ای ثبت نشده است",
+        "emptyHint": "به‌محض ثبت پیشنهادهای منتخب آزمایشگاه‌ها، در این بخش نمایش داده می‌شوند."
+      },
+      "products": {
+        "specialSale": "فروش ویژه",
+        "discountBadge": "{{percent}} درصد"
+      },
+      "footer": {
+        "landline": "تلفن",
+        "mobile": "موبایل",
+        "enamad": "نماد اعتماد الکترونیکی",
+        "aboutTitle": "درباره فروشگاه ما",
+        "contactTitle": "تماس با ما",
+        "usefulLinksTitle": "لینک‌های مفید",
+        "trustTitle": "نمادهای اعتماد",
+        "address": "آدرس",
+        "email": "ایمیل",
+        "features": {
+          "fastDeliveryTitle": "ارسال سریع سفارش",
+          "fastDeliveryDesc": "تحویل به‌موقع و مطمئن سفارش‌های شما",
+          "securePaymentTitle": "درگاه امن بانکی",
+          "securePaymentDesc": "پرداخت امن از طریق درگاه‌های معتبر",
+          "supportTitle": "پشتیبانی و مشاوره",
+          "supportDesc": "پاسخگویی در ساعات کاری",
+          "authenticityTitle": "ضمانت اصالت کالا",
+          "authenticityDesc": "تضمین اصالت و کیفیت محصولات"
+        },
+        "defaultCopyright": "تمام حقوق این سایت محفوظ است."
+      }
+    },
+    "companyRegulations": {
+      "title": "قوانین و مقررات",
+      "subtitle": "قوانین مقررات و سیاست‌های خط مشی شرکت",
+      "empty": "هنوز محتوایی منتشر نشده است.",
+      "errors": {
+        "loadFailed": "خطا در بارگذاری قوانین و مقررات"
+      }
+    },
+    "posts": {
+      "title": "مطالب",
+      "empty": "مطلبی یافت نشد.",
+      "emptyTitle": "مطلبی یافت نشد",
+      "emptyHint": "هنوز مطلبی منتشر نشده است. کمی بعد دوباره سر بزنید.",
+      "emptyFilteredHint": "با جستجو یا فیلتر انتخاب‌شده نتیجه‌ای پیدا نشد. فیلترها را تغییر دهید یا حذف کنید.",
+      "summary": "خلاصه",
+      "fullText": "متن مطلب",
+      "group": "گروه",
+      "groups": "گروه‌های مطلب",
+      "allGroups": "همه گروه‌ها",
+      "filterByGroup": "فیلتر بر اساس گروه",
+      "searchPlaceholder": "جستجو در عنوان، خلاصه یا متن...",
+      "filteredBySearch": "جستجو: {{term}}",
+      "filteredByGroup": "گروه: {{group}}",
+      "clearFilter": "حذف فیلتر",
+      "viewGroupPosts": "مشاهده مطالب گروه {{group}}",
+      "viewCount": "{{count}} بازدید",
+      "errors": {
+        "loadFailed": "خطا در بارگذاری مطلب"
+      }
+    },
+    "specialOffers": {
+      "detailTitle": "پیشنهاد ویژه",
+      "empty": "پیشنهاد فعالی یافت نشد.",
+      "searchPlaceholder": "جستجو در عنوان، خلاصه یا نام آزمایشگاه...",
+      "filteredBySearch": "جستجو: {{term}}",
+      "clearFilter": "حذف فیلتر",
+      "startDate": "تاریخ شروع",
+      "endDate": "تاریخ پایان",
+      "daysRemaining": "{{count}} روز تا پایان",
+      "fullBody": "توضیحات کامل",
+      "includedTests": "آزمایشات شامل پیشنهاد",
+      "lab": "آزمایشگاه",
+      "negotiableOffer": "پیشنهاد ویژه",
+      "submitRequest": "ثبت درخواست",
+      "alreadySubmitted": "درخواست شما ثبت شده است",
+      "submitOwnOfferNotAllowed": "امکان ثبت درخواست برای پیشنهاد آزمایشگاه خود وجود ندارد",
+      "submitNotAvailable": "امکان ثبت درخواست وجود ندارد",
+      "submitSuccess": "درخواست شما با موفقیت ثبت شد",
+      "requestDescription": "توضیحات درخواست",
+      "requestDescriptionPlaceholder": "توضیحات خود را درباره این پیشنهاد بنویسید…",
+      "errors": {
+        "notFound": "پیشنهاد یافت نشد",
+        "submitFailed": "خطا در ثبت درخواست",
+        "descriptionTooLong": "توضیحات نباید بیشتر از ۲۰۰۰ کاراکتر باشد"
+      }
+    },
+    "contactUs": {
+      "title": "ارتباط با ما",
+      "infoTitle": "اطلاعات تماس",
+      "mapTitle": "موقعیت روی نقشه",
+      "empty": "اطلاعات تماسی ثبت نشده است."
+    },
+    "products": {
+      "title": "فروشگاه",
+      "backToList": "بازگشت به لیست",
+      "search": "جستجوی عنوان",
+      "empty": "محصولی یافت نشد.",
+      "emptyTitle": "محصولی یافت نشد",
+      "emptyHint": "هنوز محصولی در فروشگاه منتشر نشده است. کمی بعد دوباره سر بزنید.",
+      "emptyFilteredHint": "با فیلترهای انتخاب‌شده نتیجه‌ای پیدا نشد. فیلترها را تغییر دهید یا حذف کنید.",
+      "filters": {
+        "title": "جستجوی پیشرفته",
+        "searchTitle": "جستجوی عنوان",
+        "province": "استان",
+        "selectProvince": "-- انتخاب استان --",
+        "categoryGroup": "سرگروه دسته‌بندی",
+        "selectCategoryGroup": "-- انتخاب سرگروه --",
+        "categorySub": "زیردسته",
+        "selectCategorySub": "-- انتخاب زیردسته --",
+        "attributes": "ویژگی‌ها",
+        "apply": "اعمال فیلتر",
+        "clearAll": "پاک کردن فیلتر",
+        "brand": "برند",
+        "category": "دسته‌بندی",
+        "priceRange": "محدوده قیمت",
+        "from": "از",
+        "to": "تا",
+        "cheapest": "ارزان‌ترین",
+        "mostExpensive": "گران‌ترین",
+        "applyPrice": "اعمال",
+        "searchBrand": "جستجوی برند...",
+        "searchCategory": "جستجوی دسته‌بندی...",
+        "search": "جستجو",
+        "clearBrand": "حذف فیلتر",
+        "clearCategory": "حذف فیلتر",
+        "clearSearch": "حذف فیلتر",
+        "clearPrice": "حذف فیلتر"
+      },
+      "sort": {
+        "label": "مرتب‌سازی:",
+        "mostDiscount": "بیشترین تخفیف",
+        "mostViewed": "پربازدیدترین",
+        "newest": "جدیدترین",
+        "cheapest": "ارزان‌ترین",
+        "mostExpensive": "گران‌ترین"
+      },
+      "quantity": "تعداد",
+      "negotiablePrice": "استعلام قیمت",
+      "negotiablePriceDetail": "استعلام قیمت و شرایط خرید",
+      "sellerImageDisclaimer": "تصویر متعلق به محصول نمی‌باشد",
+      "viewImage": "نمایش تصویر بزرگ",
+      "viewContactInfo": "مشاهده اطلاعات تماس",
+      "contactLogin": {
+        "mobilePrompt": "لطفاً شماره موبایل خود را وارد نمایید",
+        "mobileHint": "کد تایید به این شماره پیامک می‌شود.",
+        "termsPrefix": "ورود به پرتال، ",
+        "termsLink": "شرایط و قوانین استفاده و سیاست نامهٔ حریم خصوصی",
+        "termsSuffix": " را می‌پذیرم."
+      },
+      "sellerPhone": "تلفن",
+      "sellerMobile": "موبایل",
+      "addToCart": "افزودن به سبد",
+      "viewCart": "مشاهده سبد خرید",
+      "expertReviews": "بررسی‌های تخصصی",
+      "userReviews": "نظرات کاربران",
+      "discountPercentBadge": "{{percent}}٪ تخفیف",
+      "relativeTime": {
+        "daysAgo": "{{count}} روز قبل",
+        "monthsAgo": "{{count}} ماه قبل",
+        "oneYearAgo": "یکسال قبل",
+        "yearsAgo": "{{count}} سال قبل"
+      },
+      "tabs": {
+        "intro": "معرفی محصول",
+        "description": "توضیحات",
+        "specs": "ویژگی‌های محصول",
+        "expert": "بررسی محصول",
+        "sellerDescription": "توضیح فروشنده",
+        "reviews": "نظرات"
+      },
+      "locationSection": "موقعیت مکانی",
+      "emptySpecs": "مشخصاتی ثبت نشده است.",
+      "emptyIntro": "معرفی محصولی ثبت نشده است.",
+      "emptyDescription": "توضیحاتی ثبت نشده است.",
+      "emptyExpert": "بررسی تخصصی ثبت نشده است.",
+      "emptyReviews": "نظری ثبت نشده است.",
+      "fields": {
+        "description": "معرفی محصول",
+        "warranty": "گارانتی",
+        "attributes": "مشخصات",
+        "stock": "موجودی",
+        "province": "استان"
+      },
+      "addToCartSuccess": "به سبد خرید اضافه شد.",
+      "addToCartFailed": "خطا در افزودن به سبد",
+      "reviews": {
+        "reply": "پاسخ",
+        "sellerReply": "پاسخ فروشنده",
+        "replySuccess": "پاسخ شما با موفقیت ثبت شد.",
+        "replyFailed": "خطا در ثبت پاسخ",
+        "alreadyReplied": "برای این نظر قبلاً پاسخ ثبت شده است.",
+        "rating": "امتیاز شما",
+        "placeholder": "نظر بنویسید...",
+        "submit": "ارسال نظر",
+        "submitFailed": "خطا در ثبت نظر",
+        "submitPending": "نظر شما ثبت شد و پس از تأیید مدیر نمایش داده می‌شود.",
+        "pendingApproval": "نظر شما در انتظار تأیید مدیر است.",
+        "loginToReview": "برای ثبت نظر باید محصول را خریداری کرده و وارد حساب کاربری شوید."
+      },
+      "applyResume": {
+        "title": "ارسال رزومه",
+        "loginPrompt": "برای ارسال رزومه وارد حساب کاربری شوید.",
+        "login": "ورود",
+        "submit": "ارسال رزومه",
+        "completeResume": "تکمیل رزومه",
+        "onlyUser": "فقط کاربران عادی می‌توانند رزومه ارسال کنند.",
+        "incompleteResume": "برای ارسال رزومه، اطلاعات پایه رزومه باید تکمیل شود.",
+        "alreadySent": "رزومه شما برای این آگهی ارسال شده است.",
+        "success": "رزومه شما با موفقیت ارسال شد.",
+        "submitFailed": "خطا در ارسال رزومه"
+      },
+      "errors": {
+        "loadFailed": "خطا در بارگذاری محصولات",
+        "notFound": "محصول یافت نشد",
+        "contactLoadFailed": "خطا در دریافت اطلاعات تماس"
+      }
+    },
+    "cart": {
+      "title": "سبد خرید",
+      "breadcrumb": "مسیر صفحه",
+      "empty": "سبد خرید خالی است.",
+      "emptyTitle": "سبد خرید شما خالی است!",
+      "emptyHint": "می‌توانید برای مشاهده محصولات بیشتر به صفحات زیر بروید:",
+      "loginCardTitle": "ورود به حساب کاربری",
+      "loginCardDesc": "برای مشاهده محصولاتی که پیش‌تر به سبد خرید خود اضافه کرده‌اید وارد شوید.",
+      "center": "فروشنده",
+      "total": "جمع کل",
+      "cartTotal": "جمع سبد خرید",
+      "itemsPrice": "قیمت کالاها ({{count}})",
+      "yourSavings": "سود شما از خرید",
+      "discount": "تخفیف",
+      "clear": "خالی کردن سبد",
+      "checkout": "ثبت سفارش",
+      "confirmCheckout": "تایید و تکمیل سفارش",
+      "paymentNote": "هزینه این سفارش هنوز پرداخت نشده و در صورت اتمام موجودی کالاها از سبد حذف می‌شوند.",
+      "confirmClear": "آیا سبد خرید خالی شود؟",
+      "errors": {
+        "loadFailed": "خطا در بارگذاری سبد خرید",
+        "centerMismatch": "سبد خرید فقط می‌تواند شامل کالاهای یک فروشنده باشد.",
+        "stockExceeded": "تعداد درخواستی بیش از موجودی کالا است."
+      },
+      "maxQuantity": "حداکثر"
+    },
+    "checkout": {
+      "title": "تسویه حساب",
+      "backToCart": "بازگشت به سبد خرید",
+      "deliveryAddress": "آدرس تحویل",
+      "deliveryPhone": "تلفن",
+      "editAddress": "ویرایش",
+      "shippingMethod": "روش ارسال",
+      "shippingCost": "هزینه ارسال",
+      "payableTotal": "مبلغ قابل پرداخت",
+      "noAddress": "آدرسی ثبت نشده است.",
+      "orderItems": "اقلام سفارش ({{count}})",
+      "submitOrder": "ثبت سفارش",
+      "orderCreated": "سفارش ثبت شد",
+      "replaceExisting": "جایگزینی اقلام سبد با سفارش جدید",
+      "retry": "تلاش مجدد",
+      "orderId": "شماره سفارش",
+      "center": "فروشنده",
+      "total": "مبلغ کل",
+      "paymentStub": "پرداخت از طریق درگاه بانکی (نسخه آزمایشی).",
+      "confirmPayment": "تأیید پرداخت",
+      "paymentSuccess": "پرداخت با موفقیت ثبت شد.",
+      "addressRequired": "لطفاً آدرس خود را در پروفایل تکمیل کنید، سپس ثبت سفارش را انجام دهید.",
+      "completeAddressLink": "تکمیل آدرس در پروفایل",
+      "errors": {
+        "checkoutFailed": "خطا در ثبت سفارش",
+        "paymentFailed": "خطا در تأیید پرداخت"
+      }
+    },
+    "orders": {
+      "title": "سفارش‌های من",
+      "detailTitle": "جزئیات سفارش",
+      "trackingTitle": "پیگیری سفارش",
+      "trackOrder": "پیگیری سفارش",
+      "listCount": "{{count}} سفارش",
+      "trackingPending": "هنوز انجام نشده",
+      "shipmentInfo": "اطلاعات ارسال",
+      "shippingCompany": "شرکت حمل",
+      "trackingCode": "کد رهگیری",
+      "orderSummary": "خلاصه سفارش",
+      "trackingSteps": {
+        "created": "ثبت سفارش",
+        "paid": "پرداخت",
+        "completed": "آماده‌سازی",
+        "shipped": "ارسال شده",
+        "delivered": "تحویل شده",
+        "cancelled": "لغو شده"
+      },
+      "backToList": "بازگشت به لیست",
+      "empty": "سفارشی یافت نشد.",
+      "statusFilter": "وضعیت",
+      "items": "اقلام سفارش",
+      "paidAt": "تاریخ پرداخت",
+      "completedAt": "تاریخ تکمیل",
+      "shippedAt": "تاریخ ارسال",
+      "deliveredAt": "تاریخ دریافت",
+      "shippingAddress": "آدرس تحویل",
+      "shippingMethod": "روش ارسال",
+      "shippingCost": "هزینه ارسال",
+      "deliveryNotes": "توضیحات تحویل",
+      "tracking": "پیگیری ارسال",
+      "itemShipped": "ارسال‌شده",
+      "itemAwaitingShipment": "در انتظار ارسال",
+      "confirmCancel": "آیا از لغو سفارش مطمئن هستید؟",
+      "confirmDelivery": "آیا دریافت سفارش را تأیید می‌کنید؟",
+      "confirmDeliveryAction": "تأیید دریافت",
+      "columns": {
+        "center": "فروشنده",
+        "items": "تعداد",
+        "total": "مبلغ",
+        "status": "وضعیت",
+        "createdAt": "تاریخ",
+        "actions": "عملیات"
+      },
+      "review": {
+        "write": "ثبت نظر",
+        "rating": "امتیاز (۱ تا ۵)",
+        "ratingLabel": "امتیاز شما",
+        "comment": "متن نظر",
+        "commentPlaceholder": "نظر خود را درباره این محصول بنویسید...",
+        "submit": "ثبت دیدگاه",
+        "submitted": "نظر ثبت شده",
+        "success": "نظر شما ثبت شد و پس از تأیید مدیر نمایش داده می‌شود.",
+        "failed": "خطا در ثبت نظر"
+      },
+      "errors": {
+        "loadFailed": "خطا در بارگذاری سفارش‌ها",
+        "notFound": "سفارش یافت نشد",
+        "cancelFailed": "خطا در لغو سفارش",
+        "confirmDeliveryFailed": "خطا در تأیید دریافت سفارش"
+      }
+    },
+    "jobs": {
+      "title": "آگهی‌ها",
+      "search": "جستجوی آگهی",
+      "backToList": "بازگشت به لیست",
+      "empty": "آگهی فعالی یافت نشد.",
+      "emptyTitle": "آگهی فعالی یافت نشد",
+      "emptyHint": "هنوز آگهی استخدامی منتشر نشده است. کمی بعد دوباره سر بزنید.",
+      "emptyFilteredHint": "با فیلترهای انتخاب‌شده نتیجه‌ای پیدا نشد. فیلترها را تغییر دهید یا حذف کنید.",
+      "filters": {
+        "title": "فیلترها",
+        "province": "استان",
+        "searchProvince": "جستجوی استان...",
+        "salary": "نوع حقوق",
+        "contract": "نوع همکاری",
+        "gender": "جنسیت",
+        "degree": "حداقل مدرک",
+        "clearAll": "حذف فیلتر"
+      },
+      "organization": "معرفی مجموعه",
+      "establishedYear": "سال تأسیس",
+      "details": "جزئیات",
+      "description": "شرح شغل",
+      "jobDescriptionTitle": "شرح موقعیت شغلی",
+      "responsibilities": "مسئولیت‌ها:",
+      "requirements": "نیازمندی‌ها:",
+      "skills": "مهارت‌های ضروری",
+      "traits": "ویژگی‌های شخصیتی",
+      "benefits": "مزایا",
+      "additionalNotes": "توضیحات تکمیلی",
+      "bookmark": "نشان کردن",
+      "bookmarked": "نشان‌شده",
+      "hiringTitle": "استخدام {{title}}",
+      "years": "سال",
+      "experience": {
+        "none": "بدون سابقه کار",
+        "lessThanThreeYears": "کمتر از سه سال",
+        "years": "حداقل {{count}} سال"
+      },
+      "fields": {
+        "jobCategory": "دسته‌بندی شغلی",
+        "location": "موقعیت مکانی",
+        "salary": "حقوق",
+        "experience": "حداقل سابقه کار",
+        "contract": "نوع همکاری",
+        "gender": "جنسیت",
+        "degree": "حداقل مدرک"
+      },
+      "apply": {
+        "title": "از اینجا شروع کنید",
+        "loginPrompt": "برای ارسال رزومه وارد حساب کاربری شوید.",
+        "login": "ورود",
+        "submit": "ارسال رزومه",
+        "completeResume": "تکمیل رزومه",
+        "onlyUser": "فقط کاربران عادی می‌توانند درخواست همکاری ارسال کنند.",
+        "incompleteResume": "برای ارسال درخواست، اطلاعات پایه رزومه باید تکمیل شود.",
+        "pendingHint": "درخواست شما در انتظار بررسی است.",
+        "success": "درخواست شما با موفقیت ثبت شد.",
+        "submitFailed": "خطا در ارسال درخواست"
+      },
+      "errors": {
+        "loadFailed": "خطا در بارگذاری آگهی‌ها",
+        "notFound": "آگهی یافت نشد"
+      }
+    },
+    "loginReport": {
+      "title": "گزارش ورود",
+      "adminTitle": "گزارش ورود کاربران",
+      "empty": "موردی یافت نشد.",
+      "searchPrompt": "برای مشاهده گزارش، فیلترها را تنظیم و جستجو کنید.",
+      "exportExcel": "خروجی اکسل",
+      "exportFileName": "گزارش-ورود",
+      "filters": {
+        "fromDate": "از تاریخ",
+        "toDate": "تا تاریخ",
+        "status": "وضعیت",
+        "method": "نوع ورود",
+        "search": "نام کاربری یا موبایل"
+      },
+      "methods": {
+        "Mobile": "موبایل",
+        "Username": "نام کاربری"
+      },
+      "status": {
+        "success": "موفق",
+        "failed": "ناموفق"
+      },
+      "columns": {
+        "createdAt": "زمان",
+        "user": "کاربر",
+        "identity": "شناسه ورود",
+        "method": "نوع ورود",
+        "status": "وضعیت",
+        "ip": "آی‌پی",
+        "failureReason": "دلیل ناموفق"
+      },
+      "errors": {
+        "loadFailed": "خطا در بارگذاری گزارش ورود",
+        "exportEmpty": "داده‌ای برای خروجی وجود ندارد"
+      }
+    },
+    "activityLog": {
+      "title": "تاریخچه تغییرات",
+      "adminSubtitle": "همه تغییرات ثبت‌شده در سیستم",
+      "profileSubtitle": "تغییرات مربوط به مرکز شما",
+      "empty": "لاگی ثبت نشده است.",
+      "emptyValue": "(خالی)",
+      "unknownUser": "کاربر ناشناس",
+      "changeCount": "تغییر",
+      "emptyHint": "با فیلترهای انتخاب‌شده نتیجه‌ای پیدا نشد.",
+      "searchPromptTitle": "برای مشاهده لاگ‌ها جستجو کنید",
+      "searchPromptHint": "فیلترها را باز کنید؛ می‌توانید بر اساس کاربر آزمایشگاه، تاریخ و نوع تغییر جستجو کنید.",
+      "historyTitle": "تاریخچه تغییرات این رکورد",
+      "showHistory": "نمایش تاریخچه",
+      "hideHistory": "مخفی کردن تاریخچه",
+      "filters": {
+        "entity": "موجودیت",
+        "action": "نوع عملیات",
+        "recordKey": "شناسه رکورد",
+        "fromDate": "از تاریخ",
+        "toDate": "تا تاریخ",
+        "user": "کاربر آزمایشگاه"
+      },
+      "actions": {
+        "Create": "ایجاد",
+        "Update": "ویرایش",
+        "Delete": "حذف"
+      },
+      "entities": {
+        "Product": "محصول",
+        "Brand": "برند",
+        "ProductCategory": "دسته محصول",
+        "ProductCategoryGroup": "سرگروه دسته محصول",
+        "ProductAttribute": "ویژگی محصول",
+        "ProductImage": "تصویر محصول",
+        "ProductExpertReview": "نقد تخصصی محصول",
+        "ProductCategoryAssignment": "انتساب دسته محصول",
+        "ProductAttributeValue": "مقدار ویژگی محصول",
+        "ContentGroup": "گروه محتوا",
+        "ContentPost": "مطلب",
+        "SliderGroup": "گروه اسلایدر",
+        "SliderSlide": "اسلاید",
+        "SiteUsefulLink": "لینک مفید",
+        "SiteSettings": "تنظیمات سایت",
+        "SiteUserPermission": "دسترسی کاربر سایت",
+        "ProductUserReview": "نظر کاربر",
+        "ProductReviewReply": "پاسخ نظر",
+        "SpecialOffer": "پیشنهاد ویژه",
+        "SpecialOfferTest": "آزمایش پیشنهاد ویژه",
+        "SpecialOfferRequest": "درخواست پیشنهاد ویژه",
+        "CenterProfile": "پروفایل مرکز",
+        "DeviceGroup": "گروه دستگاه",
+        "KitGroup": "گروه کیت",
+        "TestInfo": "اطلاعات آزمایش",
+        "LabAgreement": "قرارداد آزمایشگاه",
+        "LabAgreementAttachment": "ضمیمه قرارداد",
+        "LabAgreementTestPrice": "قیمت آزمایش قرارداد",
+        "ProductOrder": "سفارش محصول",
+        "ProductOrderItem": "قلم سفارش",
+        "User": "کاربر",
+        "LabUserPermission": "دسترسی کاربر آزمایشگاه",
+        "OrganizationLocation": "محل سازمان",
+        "JobPostingRequest": "آگهی شغلی",
+        "JobPostingBenefit": "مزایای آگهی شغلی",
+        "JobPostingContractType": "نوع قرارداد آگهی",
+        "JobPostingEssentialSkill": "مهارت ضروری آگهی",
+        "JobPostingPersonalTrait": "ویژگی شخصیتی آگهی",
+        "JobApplication": "درخواست شغلی",
+        "UserProfile": "پروفایل کاربری",
+        "WorkExperience": "سابقه کاری",
+        "EducationalBackground": "سوابق تحصیلی",
+        "UserSkill": "مهارت کاربر",
+        "UserLanguage": "زبان کاربر",
+        "JobPreference": "ترجیحات شغلی",
+        "Skill": "مهارت"
+      },
+      "fields": {
+        "Title": "عنوان",
+        "Description": "توضیحات",
+        "Warranty": "گارانتی",
+        "BrandId": "برند",
+        "Price": "قیمت",
+        "StockQuantity": "موجودی",
+        "DiscountPercent": "درصد تخفیف",
+        "IsNegotiablePrice": "قیمت توافقی",
+        "IsUsed": "دست دوم",
+        "SellerDescription": "توضیحات فروشنده",
+        "Status": "وضعیت",
+        "IsActive": "فعال",
+        "Summary": "خلاصه",
+        "FullBody": "متن کامل",
+        "StartDate": "تاریخ شروع",
+        "EndDate": "تاریخ پایان",
+        "Name": "نام",
+        "Address": "آدرس",
+        "Phone": "تلفن",
+        "IsComplete": "تکمیل‌شده",
+        "IsApproved": "تاییدشده",
+        "ShowOnHomePage": "نمایش در صفحه اصلی",
+        "ImagePath": "تصویر",
+        "HomePageImagePath": "تصویر صفحه اصلی",
+        "ProductCategoryId": "دسته"
+      }
+    }
+  },
+  "paging": {
+    "pageInfo": "صفحه {{page}} از {{totalPages}} ({{totalCount}} مورد)",
+    "previous": "صفحه قبل",
+    "next": "صفحه بعد"
+  },
+  "enum": {
+    "userType": {
+      "User": "کاربر عادی",
+      "UserLab": "کاربر آزمایشگاه",
+      "Store": "فروشگاه",
+      "AdminLab": "مدیر آزمایشگاه",
+      "Administrator": "مدیر سیستم",
+      "Admin": "کاربر سایت"
+    },
+    "systemEntity": {
+      "CenterProfile": "پروفایل مرکز",
+      "Location": "موقعیت‌ها",
+      "JobPosting": "آگهی استخدام",
+      "Product": "آگهی‌ها",
+      "ProductOrder": "سفارش محصول",
+      "LabUser": "کاربران آزمایشگاه",
+      "DeviceGroup": "گروه دستگاه",
+      "KitGroup": "گروه کیت",
+      "TestInfo": "اطلاعات آزمون",
+      "SpecialOffer": "پیشنهاد ویژه",
+      "Reception": "پذیرش",
+      "LabAgreement": "قرارداد",
+      "Message": "پیام‌ها",
+      "ActivityLog": "تاریخچه تغییرات",
+      "LoginReport": "گزارش ورود",
+      "User": "مدیریت کاربران",
+      "Shop": "فروشگاه‌ها",
+      "Laboratory": "آزمایشگاه‌ها",
+      "ProductCategory": "دسته‌بندی",
+      "ProductAttribute": "ویژگی‌ها",
+      "Brand": "برندها",
+      "ProductReview": "نظرات محصول",
+      "ContentGroup": "گروه‌های مطالب",
+      "Post": "مطالب",
+      "ContentNews": "اخبار",
+      "ContentArticles": "مقالات",
+      "ContentDocuments": "اسناد",
+      "ContentAds": "تبلیغات",
+      "SliderGroup": "اسلایدرها",
+      "CompanyRegulation": "قوانین و مقررات",
+      "Settings": "تنظیمات",
+      "SiteUser": "کاربران سایت"
+    },
+    "appRole": {
+      "Administrator": "مدیر سیستم",
+      "UserLab": "کاربر آزمایشگاه",
+      "User": "کاربر عادی",
+      "Store": "فروشگاه",
+      "AdminLab": "مدیر آزمایشگاه"
+    },
+    "employeeCountRange": {
+      "LessThan10": "کمتر از ۱۰ نفر",
+      "Between10And50": "۱۰ تا ۵۰ نفر",
+      "Between50And200": "۵۰ تا ۲۰۰ نفر",
+      "MoreThan200": "بیش از ۲۰۰ نفر"
+    },
+    "genderRequirement": {
+      "Male": "مرد",
+      "Female": "زن",
+      "NoPreference": "بدون اولویت"
+    },
+    "jobMilitaryRequirement": {
+      "Exempted": "معاف",
+      "Completed": "پایان خدمت",
+      "NotImportant": "مهم نیست"
+    },
+    "jobPostingStatus": {
+      "Draft": "پیش‌نویس",
+      "Active": "فعال",
+      "Closed": "بسته"
+    },
+    "jobApplicationStatus": {
+      "Pending": "در انتظار بررسی",
+      "Approved": "تأیید شده",
+      "Rejected": "رد شده"
+    },
+    "productListingStatus": {
+      "Draft": "پیش‌نویس",
+      "Published": "منتشر شده",
+      "Unpublished": "لغو انتشار"
+    },
+    "productOrderStatus": {
+      "PendingPayment": "در انتظار پرداخت",
+      "Paid": "پرداخت شده",
+      "Completed": "تکمیل شده",
+      "Shipped": "ارسال شده",
+      "Delivered": "تحویل شده",
+      "Cancelled": "لغو شده"
+    },
+    "shippingMethod": {
+      "Post": "پست",
+      "Courier": "پیک",
+      "Pickup": "تحویل حضوری"
+    }
+  }
+}

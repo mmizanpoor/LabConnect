@@ -1,0 +1,32 @@
+<div class="flex h-full min-h-0 min-w-0 flex-col bg-white" dir="rtl">
+  <header
+    class="flex min-h-12 items-center justify-between gap-3 bg-gradient-to-r from-[#4a6f94] to-[#6b92b8] px-4 py-3 text-white"
+  >
+    <div class="flex min-w-0 items-center gap-2">
+      @if (showClose) {
+      <button
+        type="button"
+        class="inline-flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center rounded-md border-0 bg-transparent p-0 text-white transition hover:bg-white/15"
+        (click)="close()"
+        [attr.aria-label]="'shared.cancel' | transloco"
+      >
+        <mat-icon class="!h-5 !w-5 !text-[1.25rem] !leading-none text-white">close</mat-icon>
+      </button>
+      }
+      <h2 class="m-0 truncate text-xs font-semibold leading-snug text-white">
+        {{ title }}
+      </h2>
+    </div>
+    <div class="flex shrink-0 items-center gap-2 empty:hidden">
+      <ng-content select="[baseDialogHeaderExtra]"></ng-content>
+    </div>
+  </header>
+
+  <div class="min-h-0 flex-1 overflow-auto px-6 pb-4 pt-5">
+    <ng-content></ng-content>
+  </div>
+
+  <div class="px-6 pb-5 empty:hidden">
+    <ng-content select="[baseDialogActions]"></ng-content>
+  </div>
+</div>

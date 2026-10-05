@@ -1,0 +1,283 @@
+<header
+  class="sticky top-0 z-40 bg-white shadow-[0_1px_0_rgb(0_0_0/0.06)]"
+  dir="rtl"
+>
+  <div class="border-b border-[#ececec]">
+    <div
+      class="mx-auto flex max-w-[90rem] flex-col gap-4 px-5 py-4 lg:flex-row lg:items-center lg:gap-x-4"
+    >
+      <div class="flex min-w-0 items-center gap-2.5 sm:gap-3">
+        <button
+          type="button"
+          class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-0 bg-transparent text-[#35507c] transition active:bg-[#f0f3f8] hover:bg-[#f4f7fb] sm:hidden"
+          (click)="toggleMobileMenu()"
+          [attr.aria-expanded]="mobileMenuOpen"
+          [attr.aria-controls]="'site-mobile-menu'"
+          [attr.aria-label]="
+            (mobileMenuOpen
+              ? 'modules.home.closeMenu'
+              : 'modules.home.openMenu'
+            ) | transloco
+          "
+        >
+          <mat-icon class="!h-7 !w-7 !text-[1.75rem] !leading-none">{{
+            mobileMenuOpen ? 'close' : 'menu'
+          }}</mat-icon>
+        </button>
+
+        <a
+          routerLink="/home"
+          class="flex min-w-0 shrink-0 items-center gap-3 text-inherit no-underline"
+        >
+          @if (logoUrl) {
+          <img
+            [src]="logoUrl"
+            [alt]="siteTitle"
+            class="h-11 w-11 shrink-0 object-contain sm:h-[52px] sm:w-[52px]"
+          />
+          }
+          <div class="flex min-w-0 flex-col gap-0.5">
+            <span
+              class="truncate whitespace-nowrap text-lg font-extrabold text-[#35507c]"
+              >{{ siteTitle }}</span
+            >
+            @if (siteTagline) {
+            <span class="truncate whitespace-nowrap text-xs text-gray-500">{{
+              siteTagline
+            }}</span>
+            }
+          </div>
+        </a>
+      </div>
+
+      <div class="relative w-full min-w-0 lg:w-[min(50%,42rem)]">
+        <form class="relative w-full" (submit)="onSearch($event)">
+          <mat-icon
+            class="pointer-events-none absolute right-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-xl text-gray-400"
+          >
+            search
+          </mat-icon>
+          @if (searchControl.value) {
+          <button
+            type="button"
+            class="absolute left-[0.55rem] top-1/2 inline-flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full border-0 bg-transparent p-0 text-gray-400 transition hover:bg-black/[0.04] hover:text-gray-500"
+            (click)="clearSearch($event)"
+            [attr.aria-label]="'modules.home.searchClear' | transloco"
+          >
+            <mat-icon class="!h-[1.125rem] !w-[1.125rem] !text-[1.125rem]"
+              >close</mat-icon
+            >
+          </button>
+          }
+          <input
+            type="search"
+            dir="rtl"
+            class="h-11 w-full rounded-full border-0 bg-[#f0f0f0] pl-10 pr-10 text-right text-xs font-[inherit] text-gray-900 outline-none transition placeholder:text-right placeholder:text-xs placeholder:text-gray-400 focus:bg-[#ececec] focus:shadow-[0_0_0_2px_rgb(53_80_124/0.15)] [&::-webkit-search-cancel-button]:hidden"
+            [formControl]="searchControl"
+            (focus)="onSearchFocus()"
+            [placeholder]="'modules.home.searchPlaceholder' | transloco"
+            [attr.aria-label]="'modules.home.searchPlaceholder' | transloco"
+            [attr.aria-expanded]="showSuggestions"
+            aria-autocomplete="list"
+            autocomplete="off"
+          />
+        </form>
+
+        @if (showSuggestions) {
+        <div
+          class="absolute inset-x-0 top-[calc(100%+0.35rem)] z-30 overflow-hidden rounded-b-2xl bg-white shadow-[0_12px_32px_rgb(0_0_0/0.12)]"
+          role="listbox"
+        >
+          @if (searchLoading) {
+          <div class="px-5 py-4 text-sm text-gray-500">
+            {{ "shared.loading" | transloco }}
+          </div>
+          } @else if (!suggestions.length) {
+          <div class="px-5 py-4 text-sm text-gray-500">
+            {{ "modules.home.searchNoResults" | transloco }}
+          </div>
+          } @else { @for (item of suggestions; track trackSuggestion(item)) {
+          <button
+            type="button"
+            class="flex w-full cursor-pointer items-center justify-between gap-4 border-0 border-b border-gray-100 bg-white px-4 py-3.5 text-right font-[inherit] last:border-b-0 hover:bg-gray-50 focus-visible:bg-gray-50 focus-visible:outline-none"
+            role="option"
+            (click)="selectSuggestion(item, $event)"
+          >
+            <span class="inline-flex min-w-0 items-center gap-2.5">
+              <mat-icon
+                class="!h-[1.125rem] !w-[1.125rem] shrink-0 text-[1.125rem] text-gray-400"
+              >
+                {{ item.type === "category" ? "category" : "apps" }}
+              </mat-icon>
+              <span
+                class="truncate whitespace-nowrap text-[0.9375rem] text-gray-900"
+                >{{ item.title }}</span
+              >
+            </span>
+            @if (item.categoryLabel) {
+            <span
+              class="shrink-0 whitespace-nowrap text-[0.8125rem] text-[#35507c]"
+            >
+              {{
+                "modules.home.searchInCategory"
+                  | transloco : { category: item.categoryLabel }
+              }}
+            </span>
+            }
+          </button>
+          } }
+        </div>
+        }
+      </div>
+
+      <div
+        class="flex flex-wrap items-center justify-end gap-3 lg:ms-auto lg:shrink-0"
+      >
+        @if (isAuthenticated) {
+        <app-header-user-menu />
+        } @else {
+        <button
+          type="button"
+          class="cursor-pointer whitespace-nowrap border-0 bg-transparent px-2 py-1 text-[0.8125rem] text-gray-700 transition hover:text-[#35507c] sm:text-sm"
+          (click)="goToLogin()"
+        >
+          {{ loginLabelKey | transloco }}
+        </button>
+        } @if (supportPhone) {
+        <a
+          [href]="'tel:' + supportPhone"
+          class="inline-flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-full border border-gray-200 bg-white px-3.5 py-2.5 text-sm text-gray-700 no-underline shadow-[0_4px_14px_rgb(0_0_0/0.06)] hover:border-[#dce4ef] lg:w-auto"
+        >
+          <mat-icon class="!h-[1.1rem] !w-[1.1rem] !text-[1.1rem] text-gray-500"
+            >headset_mic</mat-icon
+          >
+          <span dir="ltr">{{ supportPhone }}</span>
+        </a>
+        }
+      </div>
+    </div>
+  </div>
+
+  <nav
+    class="hidden border-b border-[#e0e0e2] bg-white sm:block"
+    [attr.aria-label]="'modules.home.mainNav' | transloco"
+  >
+    <div class="mx-auto max-w-[90rem] px-4 sm:px-5">
+      <div class="relative flex items-stretch gap-0 py-0">
+        <app-header-category-menu />
+
+        <span
+          class="mx-3 hidden h-4 w-px shrink-0 self-center bg-[#e0e0e2] sm:block"
+          aria-hidden="true"
+        ></span>
+
+        <div
+          class="flex min-w-0 flex-1 items-stretch gap-0 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        >
+          @for (item of navItems; track item.link) {
+          <a
+            [routerLink]="item.link"
+            routerLinkActive="!text-[#35507c] !font-semibold"
+            [routerLinkActiveOptions]="{ exact: item.exact }"
+            class="group relative inline-flex shrink-0 items-center gap-1.5 self-stretch whitespace-nowrap px-3 py-[15px] text-[13px] font-normal text-[#424750] no-underline transition-colors after:pointer-events-none after:absolute after:bottom-0 after:start-0 after:h-[2px] after:w-0 after:bg-[#35507c] after:transition-[width] after:duration-200 after:ease-out hover:text-[#35507c] hover:after:w-full sm:px-4"
+          >
+            <mat-icon
+              class="!h-[18px] !w-[18px] !text-[18px] text-[#424750] transition-colors group-hover:text-[#35507c] group-[.router-link-active]:text-[#35507c]"
+            >
+              {{ item.icon }}
+            </mat-icon>
+            <span>{{ item.labelKey | transloco }}</span>
+          </a>
+          }
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+@if (mobileMenuOpen) {
+<div
+  class="fixed inset-0 z-[200] sm:hidden"
+  style="position: fixed; inset: 0; width: 100vw; height: 100dvh; height: 100vh;"
+  role="dialog"
+  aria-modal="true"
+  [attr.aria-label]="'modules.home.mainNav' | transloco"
+>
+  <button
+    type="button"
+    class="absolute inset-0 border-0 bg-slate-900/45"
+    style="position: absolute; inset: 0;"
+    (click)="closeMobileMenu()"
+    [attr.aria-label]="'modules.home.closeMenu' | transloco"
+  ></button>
+
+  <aside
+    id="site-mobile-menu"
+    class="absolute top-0 bottom-0 overflow-y-auto overscroll-contain bg-white shadow-[-8px_0_32px_rgb(15_23_42/0.18)]"
+    style="position: absolute; top: 0; right: 0; bottom: 0; left: auto; width: min(20.5rem, 88vw); max-height: 100%; -webkit-overflow-scrolling: touch; touch-action: pan-y;"
+    dir="rtl"
+    (click)="$event.stopPropagation()"
+  >
+    <div
+      class="sticky top-0 z-10 flex items-center justify-between gap-3 border-b border-[#ececec] bg-white px-4 py-3.5"
+    >
+      <div class="flex min-w-0 items-center gap-2.5">
+        @if (logoUrl) {
+        <img
+          [src]="logoUrl"
+          [alt]="siteTitle"
+          class="h-9 w-9 shrink-0 object-contain"
+        />
+        }
+        <span class="truncate text-base font-extrabold text-[#35507c]">{{
+          siteTitle
+        }}</span>
+      </div>
+      <button
+        type="button"
+        class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border-0 bg-[#f4f5f7] text-[#35507c] transition hover:bg-[#e9edf3]"
+        (click)="closeMobileMenu()"
+        [attr.aria-label]="'modules.home.closeMenu' | transloco"
+      >
+        <mat-icon class="!h-5 !w-5 !text-xl">close</mat-icon>
+      </button>
+    </div>
+
+    <nav class="px-2 py-2 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
+      <a
+        routerLink="/products"
+        class="mb-0.5 flex items-center gap-3 rounded-xl px-3 py-3 text-[#35507c] no-underline transition-colors hover:bg-[#f4f7fb]"
+        (click)="closeMobileMenu()"
+      >
+        <span
+          class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#35507c]/10 text-[#35507c]"
+        >
+          <mat-icon class="!h-5 !w-5 !text-xl">menu</mat-icon>
+        </span>
+        <span class="text-[0.9375rem] font-bold">{{
+          'modules.home.nav.categories' | transloco
+        }}</span>
+      </a>
+
+      <div class="mx-3 my-1.5 h-px bg-[#ececec]" aria-hidden="true"></div>
+
+      @for (item of navItems; track item.link) {
+      <a
+        [routerLink]="item.link"
+        routerLinkActive="!bg-[#f4f7fb] !text-[#35507c] !font-semibold"
+        [routerLinkActiveOptions]="{ exact: item.exact }"
+        class="flex items-center gap-3 rounded-xl px-3 py-3 text-[#424750] no-underline transition-colors hover:bg-[#f7f8fa] hover:text-[#35507c]"
+        (click)="closeMobileMenu()"
+      >
+        <span
+          class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#f4f5f7] text-[#5b6470]"
+        >
+          <mat-icon class="!h-5 !w-5 !text-xl">{{ item.icon }}</mat-icon>
+        </span>
+        <span class="text-[0.9375rem]">{{ item.labelKey | transloco }}</span>
+      </a>
+      }
+    </nav>
+  </aside>
+</div>
+}

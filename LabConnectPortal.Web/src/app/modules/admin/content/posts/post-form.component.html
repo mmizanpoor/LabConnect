@@ -1,0 +1,199 @@
+<div class="mx-auto max-w-4xl p-6" dir="rtl">
+  <div class="mb-4 flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <base-back-button
+        [link]="listLink"
+        ariaLabelKey="modules.admin.posts.backToList"
+      />
+      <!-- <h1 class="text-2xl font-bold">
+        {{ (isEdit ? 'modules.admin.posts.editTitle' : 'modules.admin.posts.addTitle') | transloco }}
+      </h1> -->
+    </div>
+  </div>
+
+  @if (error) {
+  <div
+    class="mb-4 rounded-[5px] border border-red-100 bg-red-50 p-3 text-sm text-red-700"
+  >
+    {{ error }}
+  </div>
+  } @if (loading) {
+  <p class="text-gray-500">{{ "shared.loading" | transloco }}</p>
+  } @else {
+  <form
+    [formGroup]="form"
+    class="overflow-hidden rounded-[5px] border border-slate-200 bg-white shadow-[0_1px_3px_rgba(15,23,42,0.06)]"
+  >
+    <section class="border-b border-slate-100 p-5 md:p-6">
+      <h2 class="mb-4 text-lg font-semibold text-slate-800">
+        {{ "modules.admin.posts.sections.basic" | transloco }}
+      </h2>
+      <div class="flex flex-col gap-4">
+        @if (showGroupField) {
+          <base-form-field
+            class="w-full"
+            layout="floating"
+            [required]="requireGroup"
+            [select]="true"
+            [options]="groupOptions"
+            [label]="'modules.admin.posts.fields.group' | transloco"
+            [control]="form.controls.contentGroupId"
+          />
+        }
+        <base-form-field
+          class="w-full"
+          layout="floating"
+          [required]="true"
+          [label]="'modules.admin.posts.fields.title' | transloco"
+          [control]="form.controls.title"
+          [maxLength]="300"
+        />
+        <base-form-field
+          class="w-full"
+          layout="floating"
+          [multiline]="true"
+          [rows]="3"
+          [label]="'modules.admin.posts.fields.shortDescription' | transloco"
+          [control]="form.controls.shortDescription"
+          [maxLength]="500"
+        />
+        <div class="flex flex-col gap-2">
+          <span class="text-sm font-semibold text-slate-700">
+            {{ "modules.admin.posts.fields.fullBody" | transloco }}
+          </span>
+          <app-rich-text-editor formControlName="fullBody" variant="extended" />
+        </div>
+        <base-image-upload
+          [label]="'modules.admin.posts.fields.featuredImage' | transloco"
+          previewShape="square"
+          [previewSize]="160"
+          [clearable]="true"
+          [imageUrl]="imagePreviewUrl"
+          [fileName]="imageFileName"
+          [loading]="uploadingImage"
+          (fileSelected)="onImageSelected($event)"
+          (cleared)="removeImage()"
+        />
+      </div>
+    </section>
+
+    <section class="border-b border-slate-100 p-5 md:p-6">
+      <h2 class="mb-4 text-lg font-semibold text-slate-800">
+        {{ "modules.admin.posts.sections.display" | transloco }}
+      </h2>
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <base-checkbox formControlName="isActive">{{
+          "modules.admin.posts.fields.isActive" | transloco
+        }}</base-checkbox>
+        <base-checkbox formControlName="showOnHomePage">{{
+          "modules.admin.posts.fields.showOnHomePage" | transloco
+        }}</base-checkbox>
+        <base-checkbox formControlName="showAuthor">{{
+          "modules.admin.posts.fields.showAuthor" | transloco
+        }}</base-checkbox>
+        <base-form-field
+          class="w-full"
+          layout="floating"
+          [label]="'modules.admin.posts.fields.authorName' | transloco"
+          [control]="form.controls.authorName"
+          [maxLength]="200"
+        />
+        <base-form-field
+          class="w-full"
+          layout="floating"
+          icon="event"
+          [jalaliDate]="true"
+          [label]="'modules.admin.posts.fields.publishedAt' | transloco"
+          [control]="form.controls.publishedAtDate"
+        />
+        <base-form-field
+          class="w-full"
+          layout="floating"
+          type="time"
+          icon="schedule"
+          [label]="'modules.admin.posts.fields.publishedAtTime' | transloco"
+          [control]="form.controls.publishedAtTime"
+        />
+      </div>
+    </section>
+
+    <section class="border-b border-slate-100 p-5 md:p-6">
+      <h2 class="mb-4 text-lg font-semibold text-slate-800">
+        {{ "modules.admin.posts.sections.seo" | transloco }}
+      </h2>
+      <div class="flex flex-col gap-4">
+        <base-form-field
+          class="w-full"
+          layout="floating"
+          [label]="'modules.admin.posts.fields.browserTitle' | transloco"
+          [control]="form.controls.browserTitle"
+          [maxLength]="300"
+        />
+        <base-form-field
+          class="w-full"
+          layout="floating"
+          [label]="'modules.admin.posts.fields.metaKeywords' | transloco"
+          [control]="form.controls.metaKeywords"
+          [maxLength]="500"
+        />
+        <base-form-field
+          class="w-full"
+          layout="floating"
+          [multiline]="true"
+          [rows]="2"
+          [label]="'modules.admin.posts.fields.metaDescription' | transloco"
+          [control]="form.controls.metaDescription"
+          [maxLength]="500"
+        />
+        <base-form-field
+          class="w-full"
+          layout="floating"
+          [multiline]="true"
+          [rows]="3"
+          [label]="'modules.admin.posts.fields.customMetaTags' | transloco"
+          [control]="form.controls.customMetaTags"
+          [maxLength]="2000"
+        />
+      </div>
+    </section>
+
+    <section class="border-b border-slate-100 p-5 md:p-6">
+      <h2 class="mb-4 text-lg font-semibold text-slate-800">
+        {{ "modules.admin.posts.sections.linkStats" | transloco }}
+      </h2>
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <base-form-field
+          class="w-full"
+          layout="floating"
+          [label]="'modules.admin.posts.fields.externalLink' | transloco"
+          [control]="form.controls.externalLink"
+          [maxLength]="500"
+        />
+        <base-form-field
+          class="w-full"
+          layout="floating"
+          type="number"
+          [label]="'modules.admin.posts.fields.viewCount' | transloco"
+          [control]="form.controls.viewCount"
+        />
+      </div>
+    </section>
+
+    <div class="flex justify-end gap-2 p-5 md:p-6">
+      <base-button type="button" color="warn" size="sm" (click)="backToList()">
+        {{ "shared.cancel" | transloco }}
+      </base-button>
+      <base-button
+        type="button"
+        color="green"
+        size="sm"
+        [loading]="saving"
+        [disabled]="saving || uploadingImage || form.invalid"
+        (click)="save()"
+      >
+        {{ "shared.save" | transloco }}
+      </base-button>
+    </div>
+  </form>
+  }
+</div>

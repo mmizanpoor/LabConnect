@@ -1,0 +1,23 @@
+:host ::ng-deep .ck-content {
+  direction: rtl;
+  text-align: right !important;
+
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  li,
+  blockquote,
+  figcaption {
+    text-align: right !important;
+  }
+
+  ul,
+  ol {
+    padding-right: 1.25rem;
+    padding-left: 0;
+  }
+}

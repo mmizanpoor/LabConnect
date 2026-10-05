@@ -1,0 +1,39 @@
+<div class="mx-auto box-border flex h-full min-h-0 w-full flex-col overflow-hidden p-4" dir="rtl">
+  <div class="mb-3 flex shrink-0 items-center justify-end gap-3">
+    @if (canUpdate) {
+      <base-button type="button" color="blue" size="sm" [disabled]="loading || saving" (click)="openAddDialog()">
+          <mat-icon class="!h-4 !w-4 !text-[1rem] text-white">add</mat-icon>
+          {{ 'modules.admin.settings.actions.addUsefulLink' | transloco }}
+        </base-button>
+    }
+  </div>
+
+  @if (error) {
+    <div class="mb-3 shrink-0 rounded-lg bg-red-50 p-3 text-sm text-red-700">{{ error }}</div>
+  }
+  @if (success) {
+    <div class="mb-3 shrink-0 rounded-lg bg-green-50 p-3 text-sm text-green-700">{{ success }}</div>
+  }
+
+  @if (loading) {
+    <div class="flex min-h-0 flex-1 flex-col items-center justify-center gap-3 text-slate-500">
+      <mat-icon class="h-8 w-8 animate-spin text-lab">hourglass_top</mat-icon>
+      <p class="m-0 text-sm">{{ 'shared.loading' | transloco }}</p>
+    </div>
+  } @else {
+    <div class="base-grid-panel flex min-h-0 flex-1 flex-col overflow-hidden">
+      <base-grid
+        gridId="c3e8f1a2-5b47-4d9e-8c6f-2a1d0b9e7f53"
+        class="min-h-0 w-full flex-1"
+        [framed]="false"
+        [visibleOrder]="false"
+        [columnDefs]="colDef"
+        [dataSource$]="list$"
+        [disabled]="loading || saving"
+        [toolbarDisabled]="true"
+        forceDirection="rtl"
+        [noRowsMessage]="'modules.admin.settings.emptyUsefulLinks' | transloco"
+      />
+    </div>
+  }
+</div>

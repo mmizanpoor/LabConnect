@@ -1,0 +1,355 @@
+<div class="center-profile" dir="rtl">
+  @if (success) {
+    <div
+      class="center-profile__toast center-profile__toast--success"
+      role="status"
+      tabindex="0"
+      (click)="clearSuccess()"
+      (keydown.enter)="clearSuccess()"
+      (keydown.space)="clearSuccess(); $event.preventDefault()"
+    >
+      <mat-icon>check_circle</mat-icon>
+      <span>{{ success }}</span>
+    </div>
+  }
+
+  <div class="center-profile__card">
+    @if (profile) {
+      <div class="center-profile__identity">
+        <div class="center-profile__identity-main">
+          <div class="center-profile__avatar" aria-hidden="true">
+            @if (logoUrl) {
+              <img [src]="logoUrl" alt="" />
+            } @else {
+              <mat-icon>apartment</mat-icon>
+            }
+          </div>
+          <div class="center-profile__identity-text">
+            <h2 class="center-profile__name">
+              {{ profile.name || ("modules.profile.center.title" | transloco) }}
+            </h2>
+            <p class="center-profile__subtitle">
+              {{ "modules.profile.layout.centerProfile" | transloco }}
+            </p>
+          </div>
+        </div>
+        <div class="center-profile__identity-actions">
+          @if (viewMode && canEdit) {
+            <base-button
+              color="blue"
+              size="sm"
+              type="button"
+              (click)="goToEdit()"
+            >
+              {{ "shared.edit" | transloco }}
+            </base-button>
+          }
+          <!-- <div
+            class="center-profile__sms"
+            title="{{ 'modules.profile.center.sms.remaining' | transloco }}"
+          >
+            <mat-icon aria-hidden="true">sms</mat-icon>
+
+            <span class="center-profile__sms-count">
+              {{ "modules.profile.center.sms.remaining" | transloco }}:
+              {{ profile.smsCount ?? 0 | number }}</span
+            >
+            <base-button
+              class="center-profile__sms-charge-btn"
+              color="soft"
+              size="sm"
+              type="button"
+              (click)="goToSmsCharge()"
+            >
+              {{ "modules.profile.center.sms.charge" | transloco }}
+            </base-button>
+          </div> -->
+        </div>
+      </div>
+
+      <div
+        class="center-profile__status-card"
+        [ngClass]="statusClass()"
+        [attr.role]="statusClass() === 'is-incomplete' ? 'button' : null"
+        [attr.tabindex]="statusClass() === 'is-incomplete' ? 0 : null"
+        (click)="openIncompleteDialog()"
+        (keydown.enter)="openIncompleteDialog()"
+        (keydown.space)="openIncompleteDialog(); $event.preventDefault()"
+      >
+        <mat-icon class="center-profile__status-icon" aria-hidden="true">
+          {{
+            statusClass() === "is-approved"
+              ? "verified"
+              : statusClass() === "is-rejected"
+                ? "cancel"
+                : statusClass() === "is-pending"
+                  ? "hourglass_top"
+                  : "error_outline"
+          }}
+        </mat-icon>
+        <span class="center-profile__status-text">{{
+          statusKey() | transloco
+        }}</span>
+        @if (statusClass() === "is-incomplete") {
+          <mat-icon class="center-profile__status-chevron" aria-hidden="true"
+            >chevron_left</mat-icon
+          >
+        }
+      </div>
+    }
+    @if (error) {
+      <div class="center-profile__alerts">
+        <p class="center-profile__alert center-profile__alert--error">
+          {{ error }}
+        </p>
+      </div>
+    }
+    @if (loading) {
+      <p class="center-profile__loading">{{ "shared.loading" | transloco }}</p>
+    } @else {
+      <div class="center-profile__tabs" role="tablist">
+        @for (tab of tabs; track tab.id) {
+          <button
+            type="button"
+            class="center-profile__tab"
+            role="tab"
+            [attr.aria-selected]="activeTab === tab.id"
+            [class.is-active]="activeTab === tab.id"
+            (click)="setTab(tab.id)"
+          >
+            <mat-icon>{{ tab.icon }}</mat-icon>
+            <span>{{ tab.labelKey | transloco }}</span>
+          </button>
+        }
+      </div>
+
+      <form class="center-profile__body" [formGroup]="form">
+        <div class="center-profile__panel">
+          @if (activeTab === "basic") {
+            <div class="center-profile__panel-inner center-profile__basic">
+              <div class="center-profile__logo-row">
+                <base-image-upload
+                  [class.is-invalid]="highlightMissing && !hasLogoFile"
+                  [label]="'modules.profile.center.logo' | transloco"
+                  labelAlign="center"
+                  previewShape="circle"
+                  [compact]="true"
+                  [showFileName]="false"
+                  [previewSize]="64"
+                  [clearable]="true"
+                  [imageUrl]="logoUrl"
+                  [fileName]="logoFileName"
+                  [disabled]="readOnly"
+                  [loading]="uploading === 'Logo'"
+                  (fileSelected)="onFileSelected('Logo', $event)"
+                  (cleared)="onFileCleared('Logo')"
+                />
+              </div>
+              <div class="flex flex-col gap-1">
+                <base-form-field
+                  class="w-full"
+                  layout="floating"
+                  icon="storefront"
+                  [label]="'modules.profile.center.name' | transloco"
+                  [control]="form.controls.name"
+                />
+                <base-form-field
+                  class="w-full"
+                  layout="floating"
+                  icon="location_on"
+                  [label]="'modules.profile.center.address' | transloco"
+                  [control]="form.controls.address"
+                />
+                <div class="grid w-full grid-cols-1 gap-1 sm:grid-cols-3">
+                  <base-form-field
+                    layout="floating"
+                    icon="call"
+                    [label]="'modules.profile.center.phone' | transloco"
+                    [control]="form.controls.phone"
+                  />
+                  <base-form-field
+                    layout="floating"
+                    icon="smartphone"
+                    [label]="'shared.mobileNumber' | transloco"
+                    [control]="form.controls.mobileNumber"
+                  />
+                  <base-form-field
+                    layout="floating"
+                    icon="mail"
+                    type="email"
+                    [label]="'shared.email' | transloco"
+                    [control]="form.controls.email"
+                  />
+                </div>
+                <base-form-field
+                  class="w-full"
+                  layout="floating"
+                  [multiline]="true"
+                  [rows]="3"
+                  [label]="'modules.profile.center.description' | transloco"
+                  [control]="form.controls.description"
+                />
+                <div class="grid w-full grid-cols-1 gap-1 sm:grid-cols-2">
+                  <base-form-field
+                    layout="floating"
+                    icon="language"
+                    [label]="'modules.profile.center.website' | transloco"
+                    [control]="form.controls.website"
+                  />
+                  <base-form-field
+                    layout="floating"
+                    icon="groups"
+                    [select]="true"
+                    [options]="employeeCountOptions"
+                    [label]="'modules.profile.center.employeeCount' | transloco"
+                    [control]="form.controls.employeeCount"
+                  />
+                </div>
+                <div class="grid w-full grid-cols-1 gap-1 sm:grid-cols-3">
+                  <base-form-field
+                    layout="floating"
+                    icon="receipt_long"
+                    [label]="'modules.profile.center.economicCode' | transloco"
+                    [control]="form.controls.economicCode"
+                  />
+                  <base-form-field
+                    layout="floating"
+                    icon="event"
+                    type="text"
+                    [maxLength]="4"
+                    [label]="
+                      'modules.profile.center.establishedYear' | transloco
+                    "
+                    [control]="form.controls.establishedYear"
+                    errorMessage="modules.profile.center.errors.establishedYearDigits"
+                  />
+                  <base-form-field
+                    layout="floating"
+                    icon="badge"
+                    [label]="
+                      'modules.profile.center.registrationNumber' | transloco
+                    "
+                    [control]="form.controls.registrationNumber"
+                  />
+                </div>
+              </div>
+            </div>
+          }
+          @if (activeTab === "location") {
+            <div class="center-profile__panel-inner center-profile__location">
+              <app-location-map-picker
+                [compact]="true"
+                [fill]="true"
+                [latitude]="form.controls.latitude.value"
+                [longitude]="form.controls.longitude.value"
+                [disabled]="readOnly"
+                (locationChange)="onLocationChange($event)"
+              />
+            </div>
+          }
+          @if (activeTab === "documents") {
+            <div class="center-profile__panel-inner center-profile__docs">
+              <base-image-upload
+                class="center-profile__upload"
+                [class.is-invalid]="highlightMissing && !hasNationalCardFile"
+                [label]="'modules.profile.center.nationalCard' | transloco"
+                [fill]="true"
+                [showFileName]="false"
+                [clearable]="true"
+                [imageUrl]="nationalCardUrl"
+                [fileName]="nationalCardFileName"
+                [disabled]="readOnly"
+                [loading]="uploading === 'NationalCard'"
+                (fileSelected)="onFileSelected('NationalCard', $event)"
+                (cleared)="onFileCleared('NationalCard')"
+              />
+              <base-image-upload
+                class="center-profile__upload"
+                [class.is-invalid]="highlightMissing && !hasLicenseFile"
+                [label]="'modules.profile.center.license' | transloco"
+                [fill]="true"
+                [showFileName]="false"
+                [clearable]="true"
+                [imageUrl]="licenseUrl"
+                [fileName]="licenseFileName"
+                [disabled]="readOnly"
+                [loading]="uploading === 'License'"
+                (fileSelected)="onFileSelected('License', $event)"
+                (cleared)="onFileCleared('License')"
+              />
+              @if (showCompanyDocuments) {
+                <base-image-upload
+                  class="center-profile__upload"
+                  [label]="'modules.profile.center.officialImage' | transloco"
+                  [fill]="true"
+                  [showFileName]="false"
+                  [clearable]="true"
+                  [imageUrl]="officialImageUrl"
+                  [fileName]="officialImageFileName"
+                  [disabled]="readOnly"
+                  [loading]="uploading === 'OfficialImage'"
+                  (fileSelected)="onFileSelected('OfficialImage', $event)"
+                  (cleared)="onFileCleared('OfficialImage')"
+                />
+                <base-image-upload
+                  class="center-profile__upload"
+                  [label]="'modules.profile.center.tradeCard' | transloco"
+                  [fill]="true"
+                  [showFileName]="false"
+                  [clearable]="true"
+                  [imageUrl]="tradeCardUrl"
+                  [fileName]="tradeCardFileName"
+                  [disabled]="readOnly"
+                  [loading]="uploading === 'TradeCard'"
+                  (fileSelected)="onFileSelected('TradeCard', $event)"
+                  (cleared)="onFileCleared('TradeCard')"
+                />
+              }
+            </div>
+          }
+        </div>
+
+        @if (!readOnly) {
+          <div class="center-profile__footer">
+            @if (contactOtpPending) {
+              <div class="center-profile__otp-row">
+                <base-form-field
+                  class="center-profile__otp-field"
+                  layout="floating"
+                  icon="pin"
+                  [required]="true"
+                  [label]="'modules.profile.center.contactOtpCode' | transloco"
+                  [control]="contactOtpControl"
+                />
+                <base-button
+                  size="sm"
+                  [disabled]="!canResendContactOtp"
+                  (click)="resendContactOtp()"
+                >
+                  @if (sendingContactOtp) {
+                    {{ "shared.loading" | transloco }}
+                  } @else if (contactOtpCountdown > 0) {
+                    {{
+                      "modules.profile.accountSecurity.resendIn"
+                        | transloco: { seconds: contactOtpCountdown }
+                    }}
+                  } @else {
+                    {{ "modules.profile.accountSecurity.sendOtp" | transloco }}
+                  }
+                </base-button>
+              </div>
+            }
+            <base-button
+              color="green"
+              size="sm"
+              [disabled]="saving || sendingContactOtp"
+              (click)="save()"
+            >
+              {{ "shared.save" | transloco }}
+            </base-button>
+          </div>
+        }
+      </form>
+    }
+  </div>
+</div>

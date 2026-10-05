@@ -1,0 +1,87 @@
+<div class="self-stretch" (mouseenter)="openMenu()" (mouseleave)="scheduleClose()">
+  <button
+    type="button"
+    class="group relative inline-flex h-full cursor-pointer items-center gap-1.5 whitespace-nowrap border-0 bg-transparent px-3.5 py-[15px] font-[inherit] text-[13px] font-bold text-[#424750] transition-colors after:pointer-events-none after:absolute after:bottom-0 after:start-0 after:h-[2px] after:w-0 after:bg-[#35507c] after:transition-[width] after:duration-200 after:ease-out hover:text-[#35507c] hover:after:w-full max-sm:gap-2 max-sm:px-4 max-sm:py-3.5 max-sm:text-sm sm:px-4"
+    [ngClass]="isOpen ? 'text-[#35507c]' : ''"
+    [attr.aria-expanded]="isOpen"
+    [attr.aria-label]="'modules.home.nav.categories' | transloco"
+    (click)="onTriggerClick($event)"
+  >
+    <mat-icon
+      class="!h-[18px] !w-[18px] !text-[18px] text-[#424750] transition-colors group-hover:text-[#35507c] max-sm:!h-5 max-sm:!w-5 max-sm:!text-xl"
+      [ngClass]="isOpen ? 'text-[#35507c]' : ''"
+    >
+      menu
+    </mat-icon>
+    <span>{{ 'modules.home.nav.categories' | transloco }}</span>
+  </button>
+
+  @if (isOpen) {
+    <div
+      class="absolute inset-x-0 top-full z-40 overflow-hidden rounded-b-2xl border border-t-0 border-gray-200 bg-white shadow-[0_18px_40px_rgb(15_23_42/0.16)]"
+      role="menu"
+      (mouseenter)="openMenu()"
+    >
+      <div class="flex min-h-[18rem] max-h-[min(28rem,70vh)]">
+        <aside class="w-[15.5rem] shrink-0 overflow-y-auto border-e border-gray-100 bg-[#fafbfc] [scrollbar-width:thin]">
+          @if (loading) {
+            <div class="px-4 py-6 text-sm text-gray-500">{{ 'shared.loading' | transloco }}</div>
+          } @else if (!groups.length) {
+            <div class="px-4 py-6 text-sm text-gray-500">
+              {{ 'modules.home.categoryMenu.emptyGroups' | transloco }}
+            </div>
+          } @else {
+            @for (group of groups; track group.productCategoryGroupId) {
+              <a
+                class="flex items-center justify-between gap-2 px-4 py-3 text-sm text-gray-700 no-underline transition-colors hover:bg-white hover:text-[#35507c]"
+                [ngClass]="
+                  activeGroup?.productCategoryGroupId === group.productCategoryGroupId
+                    ? 'bg-white font-semibold text-[#35507c]'
+                    : ''
+                "
+                [routerLink]="['/products']"
+                [queryParams]="groupQueryParams(group)"
+                (mouseenter)="setActiveGroup(group)"
+                (focus)="setActiveGroup(group)"
+              >
+                <span class="truncate">{{ group.title }}</span>
+                <mat-icon class="!h-4 !w-4 shrink-0 !text-base text-gray-300">chevron_left</mat-icon>
+              </a>
+            }
+          }
+        </aside>
+
+        <div class="min-w-0 flex-1 overflow-y-auto p-5 [scrollbar-width:thin]">
+          @if (activeGroup) {
+            <a
+              class="mb-4 inline-flex items-center gap-1 text-sm font-semibold text-[#35507c] no-underline hover:underline"
+              [routerLink]="['/products']"
+              [queryParams]="groupQueryParams(activeGroup)"
+            >
+              {{ 'modules.home.categoryMenu.allGroupProducts' | transloco: { group: activeGroup.title } }}
+              <mat-icon class="!h-4 !w-4 !text-base">chevron_left</mat-icon>
+            </a>
+          }
+
+          @if (!loading && activeGroup && !activeCategories.length) {
+            <p class="m-0 text-sm text-gray-500">
+              {{ 'modules.home.categoryMenu.emptyCategories' | transloco }}
+            </p>
+          } @else {
+            <div class="columns-2 gap-x-10 lg:columns-3">
+              @for (category of activeCategories; track category.productCategoryId) {
+                <a
+                  class="mb-2.5 block break-inside-avoid text-sm text-gray-600 no-underline hover:text-[#35507c]"
+                  [routerLink]="['/products']"
+                  [queryParams]="categoryQueryParams(category)"
+                >
+                  {{ category.title }}
+                </a>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  }
+</div>

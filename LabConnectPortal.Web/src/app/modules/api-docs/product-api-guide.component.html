@@ -1,0 +1,436 @@
+<a class="skip-link" href="#main-content">پرش به محتوای اصلی</a>
+
+  <div class="layout">
+    <main id="main-content" class="content">
+      <header class="hero">
+        <p class="eyebrow">LABCONNECT · PRODUCT API</p>
+        <h1>مستند API مدیریت آگهی محصول</h1>
+        <p>راهنمای ایجاد، ویرایش و دریافت آگهی‌های محصول برای سامانه‌های بیرونی، همراه با احراز هویت، اعتبارسنجی، نمونه درخواست و پاسخ.</p>
+        <div class="meta-row" aria-label="مشخصات سند">
+          <span class="meta-chip">نسخهٔ فارسی</span>
+          <span class="meta-chip">جهت نوشتار RTL</span>
+          <span class="meta-chip">JSON: camelCase</span>
+          <span class="meta-chip">احراز هویت: ApiKey</span>
+        </div>
+      </header>
+
+      <section id="introduction" class="doc-section">
+        <h2>معرفی</h2>
+        <p>این API برای ایجاد، ویرایش و مشاهده آگهی‌های محصول توسط سامانه‌های بیرونی طراحی شده است. احراز هویت تمام درخواست‌ها با <code>ApiKey</code> انجام می‌شود و هر کلید فقط به آگهی‌های مرکز صاحب همان کلید دسترسی دارد.</p>
+        <h3>آدرس پایه کنترلر</h3>
+        <pre><code>https://{{ '{' }}host{{ '}' }}/api/ProductApi</code></pre>
+        <p>تمام نام فیلدهای JSON به‌صورت <code>camelCase</code> هستند. مقدار enumها در پاسخ به‌صورت رشته برگردانده می‌شود.</p>
+      </section>
+
+      <section id="response-format" class="doc-section">
+        <h2>قالب عمومی پاسخ</h2>
+        <h3>پاسخ موفق</h3>
+        <pre><code>{{ '{' }}
+  "status": true,
+  "success": true,
+  "message": null,
+  "errors": null,
+  "data": {{ '{' }}{{ '}' }}
+{{ '}' }}</code></pre>
+        <h3>پاسخ ناموفق اعتبارسنجی یا عملیات</h3>
+        <pre><code>{{ '{' }}
+  "status": false,
+  "success": false,
+  "message": "متن خطا",
+  "errors": null,
+  "data": null
+{{ '}' }}</code></pre>
+        <aside class="note">در خطاهای منطقی سرویس ممکن است HTTP status برابر <code>200</code> باشد و نتیجه عملیات از طریق <code>status</code> یا <code>success</code> مشخص شود. خطای دسترسی ApiKey با HTTP status برابر <code>403</code> برگردانده می‌شود.</aside>
+      </section>
+
+      <section id="get-brands" class="doc-section">
+        <div class="endpoint-title">
+          <span class="method get">GET</span>
+          <h2>۱. دریافت برندها</h2>
+        </div>
+        <pre><code>GET /api/ProductApi/GetBrands
+Authorization: ApiKey {{ '{' }}YOUR_API_KEY{{ '}' }}</code></pre>
+        <p class="permission">مجوز لازم: <code>AllowAdd</code></p>
+        <h3>نمونه پاسخ</h3>
+        <pre><code>{{ '{' }}
+  "status": true,
+  "success": true,
+  "message": null,
+  "errors": null,
+  "data": [
+    {{ '{' }}
+      "id": 12,
+      "title": "برند نمونه"
+    {{ '}' }},
+    {{ '{' }}
+      "id": 15,
+      "title": "برند دوم"
+    {{ '}' }}
+  ]
+{{ '}' }}</code></pre>
+      </section>
+
+      <section id="get-categories" class="doc-section">
+        <div class="endpoint-title">
+          <span class="method get">GET</span>
+          <h2>۲. دریافت دسته‌ها</h2>
+        </div>
+        <pre><code>GET /api/ProductApi/GetCategories
+Authorization: ApiKey {{ '{' }}YOUR_API_KEY{{ '}' }}</code></pre>
+        <p class="permission">مجوز لازم: <code>AllowAdd</code></p>
+        <p>این endpoint شناسه دسته و گروه آن را برمی‌گرداند. مقدار <code>id</code> را در <code>categoryIds</code> و مقدار <code>productCategoryGroupId</code> را در فیلد هم‌نام درخواست‌های <code>Create</code> و <code>Update</code> ارسال کنید.</p>
+        <h3>نمونه پاسخ</h3>
+        <pre><code>{{ '{' }}
+  "status": true,
+  "success": true,
+  "message": null,
+  "errors": null,
+  "data": [
+    {{ '{' }}
+      "id": 21,
+      "title": "تجهیزات عمومی",
+      "productCategoryGroupId": 3,
+      "productCategoryGroupTitle": "تجهیزات آزمایشگاهی",
+      "acceptsResume": false
+    {{ '}' }}
+  ]
+{{ '}' }}</code></pre>
+      </section>
+
+      <section id="get-attributes" class="doc-section">
+        <div class="endpoint-title">
+          <span class="method post">POST</span>
+          <h2>۳. دریافت ویژگی‌ها</h2>
+        </div>
+        <pre><code>POST /api/ProductApi/GetAttributes
+Content-Type: application/json
+Authorization: ApiKey {{ '{' }}YOUR_API_KEY{{ '}' }}</code></pre>
+        <p class="permission">مجوز لازم: <code>AllowAdd</code></p>
+        <h3>نمونه درخواست</h3>
+        <pre><code>{{ '{' }}
+  "categoryIds": [21, 22]
+{{ '}' }}</code></pre>
+        <p>اگر <code>categoryIds</code> خالی باشد، تمام ویژگی‌ها برگردانده می‌شوند.</p>
+        <h3>نمونه پاسخ</h3>
+        <pre><code>{{ '{' }}
+  "status": true,
+  "success": true,
+  "message": null,
+  "errors": null,
+  "data": [
+    {{ '{' }}
+      "id": 105,
+      "title": "سال ساخت"
+    {{ '}' }},
+    {{ '{' }}
+      "id": 110,
+      "title": "وضعیت کارکرد"
+    {{ '}' }}
+  ]
+{{ '}' }}</code></pre>
+      </section>
+
+      <section id="create-product" class="doc-section">
+        <div class="endpoint-title">
+          <span class="method post">POST</span>
+          <h2>۴. ایجاد آگهی</h2>
+        </div>
+        <pre><code>POST /api/ProductApi/Create
+Content-Type: application/json
+Authorization: ApiKey {{ '{' }}YOUR_API_KEY{{ '}' }}</code></pre>
+        <p class="permission">مجوز لازم: <code>AllowAdd</code></p>
+
+        <h3>پارامترهای درخواست و معادل فارسی</h3>
+        <p>برچسب‌های فارسی از ترجمه‌های فارسی سامانه استخراج شده‌اند.</p>
+        <div class="table-wrap">
+          <table class="param-table">
+            <thead>
+              <tr>
+                <th>پارامتر</th>
+                <th>معادل فارسی</th>
+                <th>نوع</th>
+                <th>وضعیت</th>
+                <th>توضیح</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>title</td><td>عنوان</td><td>string</td><td><span class="req">الزامی</span></td><td>عنوان آگهی محصول.</td></tr>
+              <tr><td>brandId</td><td>برند</td><td>integer?</td><td><span class="opt">شرطی</span></td><td>شناسه برند؛ برای دسته‌های نیازمند برند الزامی است.</td></tr>
+              <tr><td>warranty</td><td>گارانتی</td><td>string?</td><td><span class="opt">اختیاری</span></td><td>شرح ضمانت یا گارانتی محصول.</td></tr>
+              <tr><td>description</td><td>معرفی محصول</td><td>string?</td><td><span class="opt">اختیاری</span></td><td>متن معرفی و توضیحات محصول.</td></tr>
+              <tr><td>productCategoryGroupId</td><td>سرگروه دسته‌بندی</td><td>integer</td><td><span class="req">الزامی</span></td><td>شناسه گروهی که دسته‌های انتخاب‌شده به آن تعلق دارند.</td></tr>
+              <tr><td>price</td><td>قیمت (تومان)</td><td>number</td><td><span class="opt">شرطی</span></td><td>اگر قیمت توافقی نباشد باید بزرگ‌تر از صفر باشد.</td></tr>
+              <tr><td>isNegotiablePrice</td><td>قیمت توافقی</td><td>boolean</td><td><span class="opt">اختیاری</span></td><td>مشخص می‌کند قیمت قابل مذاکره است یا خیر.</td></tr>
+              <tr><td>isUsed</td><td>کارکرده</td><td>boolean</td><td><span class="opt">اختیاری</span></td><td>وضعیت نو یا کارکرده بودن محصول.</td></tr>
+              <tr><td>stockQuantity</td><td>موجودی</td><td>integer</td><td><span class="opt">اختیاری</span></td><td>تعداد موجودی؛ نمی‌تواند منفی باشد.</td></tr>
+              <tr><td>discountPercent</td><td>درصد تخفیف</td><td>number?</td><td><span class="opt">اختیاری</span></td><td>عددی بین صفر و صد.</td></tr>
+              <tr><td>latitude</td><td>عرض جغرافیایی</td><td>number?</td><td><span class="opt">اختیاری</span></td><td>عرض جغرافیایی محل محصول.</td></tr>
+              <tr><td>longitude</td><td>طول جغرافیایی</td><td>number?</td><td><span class="opt">اختیاری</span></td><td>طول جغرافیایی محل محصول.</td></tr>
+              <tr><td>featuredImageBase64</td><td>تصویر شاخص (کارت و صفحه اصلی)</td><td>string?</td><td><span class="opt">اختیاری</span></td><td>Data URI یا Base64 خام تصویر شاخص.</td></tr>
+              <tr><td>featuredImageFileName</td><td>نام فایل تصویر شاخص</td><td>string?</td><td><span class="opt">شرطی</span></td><td>برای Base64 خام، نام فایل با پسوند معتبر الزامی است.</td></tr>
+              <tr><td>categoryIds</td><td>دسته‌ها</td><td>integer[]</td><td><span class="req">الزامی</span></td><td>حداقل یک شناسه دسته باید ارسال شود.</td></tr>
+              <tr><td>attributeValues</td><td>ویژگی‌های محصول</td><td>object[]</td><td><span class="opt">اختیاری</span></td><td>فهرست ویژگی‌های انتخاب‌شده و مقدار آن‌ها.</td></tr>
+              <tr><td>attributeValues[].productAttributeId</td><td>شناسه ویژگی</td><td>integer</td><td><span class="req">الزامی در هر سطر</span></td><td>شناسه ویژگی متعلق به یکی از دسته‌های انتخاب‌شده.</td></tr>
+              <tr><td>attributeValues[].value</td><td>مقدار ویژگی</td><td>string?</td><td><span class="opt">اختیاری</span></td><td>مقدار واردشده برای ویژگی.</td></tr>
+              <tr><td>expertReviews</td><td>بررسی‌های تخصصی</td><td>object[]</td><td><span class="opt">اختیاری</span></td><td>فهرست بررسی‌های تخصصی محصول.</td></tr>
+              <tr><td>expertReviews[].title</td><td>عنوان بررسی</td><td>string</td><td><span class="req">الزامی در هر سطر</span></td><td>عنوان بررسی تخصصی.</td></tr>
+              <tr><td>expertReviews[].description</td><td>متن بررسی</td><td>string?</td><td><span class="opt">اختیاری</span></td><td>متن بررسی تخصصی.</td></tr>
+              <tr><td>expertReviews[].sortOrder</td><td>ترتیب</td><td>integer</td><td><span class="opt">اختیاری</span></td><td>ترتیب نمایش بررسی‌ها.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>نمونه درخواست</h3>
+        <pre><code>{{ '{' }}
+  "title": "دستگاه آزمایشگاهی مدل X",
+  "brandId": 12,
+  "warranty": "یک سال ضمانت",
+  "description": "دستگاه سالم و آماده بهره‌برداری است.",
+  "productCategoryGroupId": 3,
+  "price": 250000000,
+  "isNegotiablePrice": false,
+  "isUsed": true,
+  "stockQuantity": 1,
+  "discountPercent": 5,
+  "latitude": 35.7219,
+  "longitude": 51.3347,
+  "featuredImageBase64": "data:image/png;base64,iVBORw0KGgoAAA...",
+  "featuredImageFileName": "device.png",
+  "categoryIds": [21],
+  "attributeValues": [
+    {{ '{' }}
+      "productAttributeId": 105,
+      "value": "2025"
+    {{ '}' }}
+  ],
+  "expertReviews": [
+    {{ '{' }}
+      "title": "وضعیت فنی",
+      "description": "سرویس دوره‌ای انجام شده است.",
+      "sortOrder": 0
+    {{ '}' }}
+  ]
+{{ '}' }}</code></pre>
+
+        <h3>قواعد اعتبارسنجی</h3>
+        <ul>
+          <li><code>title</code> الزامی است.</li>
+          <li>حداقل یک مقدار در <code>categoryIds</code> باید ارسال شود.</li>
+          <li>تمام دسته‌ها باید معتبر و متعلق به <code>productCategoryGroupId</code> باشند.</li>
+          <li>اگر دسته انتخاب‌شده نیازمند برند باشد، <code>brandId</code> الزامی است.</li>
+          <li>هر <code>productAttributeId</code> باید متعلق به یکی از دسته‌های انتخاب‌شده باشد.</li>
+          <li><code>price</code> نمی‌تواند منفی باشد.</li>
+          <li>اگر <code>isNegotiablePrice</code> برابر <code>false</code> باشد، قیمت باید بزرگ‌تر از صفر باشد.</li>
+          <li><code>stockQuantity</code> نمی‌تواند منفی باشد.</li>
+          <li><code>discountPercent</code> در صورت ارسال باید بین صفر و صد باشد.</li>
+          <li>مقدار <code>createdByCenterProfileId</code> توسط مصرف‌کننده تعیین نمی‌شود؛ مرکز از ApiKey معتبر استخراج می‌شود.</li>
+          <li><code>featuredImageBase64</code> اختیاری است و تصویر شاخص محصول را دریافت می‌کند.</li>
+          <li>مقدار <code>featuredImageBase64</code> می‌تواند Data URI مانند <code>data:image/png;base64,...</code> یا Base64 خام باشد.</li>
+          <li>هنگام ارسال Base64 خام، مقدار <code>featuredImageFileName</code> با پسوند معتبر الزامی است؛ در Data URI این فیلد اختیاری است.</li>
+          <li>فرمت‌های مجاز تصویر <code>jpg</code>، <code>jpeg</code>، <code>png</code> و <code>webp</code> و حداکثر اندازه فایل پس از Decode برابر ۵ مگابایت است.</li>
+        </ul>
+
+        <h3>نمونه پاسخ موفق</h3>
+        <pre><code>{{ '{' }}
+  "status": true,
+  "success": true,
+  "message": null,
+  "errors": null,
+  "data": {{ '{' }}
+    "productId": "6c425665-e0fc-47bf-874f-c5346a1f87db",
+    "title": "دستگاه آزمایشگاهی مدل X",
+    "brandId": 12,
+    "brandTitle": "برند نمونه",
+    "warranty": "یک سال ضمانت",
+    "description": "دستگاه سالم و آماده بهره‌برداری است.",
+    "productCategoryGroupId": 3,
+    "productCategoryGroupName": "تجهیزات آزمایشگاهی",
+    "categoryIds": [21],
+    "categoryTitles": ["تجهیزات عمومی"],
+    "attributeValues": [
+      {{ '{' }}
+        "productAttributeId": 105,
+        "attributeTitle": "سال ساخت",
+        "productCategoryId": 21,
+        "categoryTitle": "تجهیزات عمومی",
+        "value": "2025",
+        "fieldType": null
+      {{ '}' }}
+    ],
+    "images": [],
+    "expertReviews": [
+      {{ '{' }}
+        "id": "7a79848c-28e6-4cf2-92c4-24e706673403",
+        "title": "وضعیت فنی",
+        "description": "سرویس دوره‌ای انجام شده است.",
+        "sortOrder": 0
+      {{ '}' }}
+    ],
+    "status": "Draft",
+    "featuredImagePath": "uploads/products/6c425665-e0fc-47bf-874f-c5346a1f87db/8fe1a1e62f23442f93ab22fe34735de4.png",
+    "hasFeaturedImage": true,
+    "price": 250000000,
+    "isNegotiablePrice": false,
+    "isUsed": true,
+    "stockQuantity": 1,
+    "discountPercent": 5,
+    "latitude": 35.7219,
+    "longitude": 51.3347
+  {{ '}' }}
+{{ '}' }}</code></pre>
+
+        <h3>نمونه cURL</h3>
+        <pre><code>curl --request POST "https://{{ '{' }}host{{ '}' }}/api/ProductApi/Create" \
+  --header "Authorization: ApiKey {{ '{' }}YOUR_API_KEY{{ '}' }}" \
+  --header "Content-Type: application/json" \
+  --data '{{ '{' }}
+    "title": "دستگاه آزمایشگاهی مدل X",
+    "brandId": 12,
+    "warranty": "یک سال ضمانت",
+    "description": "دستگاه سالم است.",
+    "productCategoryGroupId": 3,
+    "price": 250000000,
+    "isNegotiablePrice": false,
+    "isUsed": true,
+    "stockQuantity": 1,
+    "featuredImageBase64": "data:image/png;base64,iVBORw0KGgoAAA...",
+    "categoryIds": [21],
+    "attributeValues": []
+  {{ '}' }}'</code></pre>
+      </section>
+
+      <section id="get-products" class="doc-section">
+        <div class="endpoint-title">
+          <span class="method post">POST</span>
+          <h2>۵. دریافت فهرست آگهی‌ها</h2>
+        </div>
+        <pre><code>POST /api/ProductApi/GetAll
+Content-Type: application/json
+Authorization: ApiKey {{ '{' }}YOUR_API_KEY{{ '}' }}</code></pre>
+        <p class="permission">مجوز لازم: <code>AllowView</code></p>
+        <p>صرف‌نظر از فیلترهای ورودی، فقط آگهی‌های مرکز صاحب ApiKey برگردانده می‌شوند.</p>
+        <h3>نمونه درخواست</h3>
+        <pre><code>{{ '{' }}
+  "title": "دستگاه",
+  "brandId": 12,
+  "categoryId": 21,
+  "status": "Draft",
+  "pendingApprovalOnly": false,
+  "acceptsResume": false,
+  "updatedFrom": "2026-09-01T00:00:00",
+  "updatedTo": "2026-09-30T23:59:59",
+  "page": 1,
+  "pageSize": 20
+{{ '}' }}</code></pre>
+        <p>تمام فیلترها اختیاری هستند. حداکثر مقدار مؤثر <code>pageSize</code> برابر ۱۰۰ است.</p>
+        <h3>نمونه پاسخ</h3>
+        <pre><code>{{ '{' }}
+  "status": true,
+  "success": true,
+  "message": null,
+  "errors": null,
+  "data": {{ '{' }}
+    "items": [
+      {{ '{' }}
+        "productId": "6c425665-e0fc-47bf-874f-c5346a1f87db",
+        "title": "دستگاه آزمایشگاهی مدل X",
+        "brandTitle": "برند نمونه",
+        "categoryTitles": ["تجهیزات عمومی"],
+        "status": "Draft",
+        "featuredImagePath": null,
+        "hasFeaturedImage": false,
+        "price": 250000000,
+        "isNegotiablePrice": false,
+        "stockQuantity": 1,
+        "discountPercent": 5,
+        "createdByUserId": "9a89b439-4680-4163-949f-cb4181d59fc7",
+        "createdByCenterProfileId": "fcf21b0f-b6af-438f-95c8-c65cf4f6b091",
+        "createdByCenterName": "مرکز نمونه",
+        "createdBySiteAdmin": false,
+        "acceptsResume": false,
+        "createdAt": "2026-09-29T12:00:00",
+        "updatedAt": "2026-09-29T12:00:00"
+      {{ '}' }}
+    ],
+    "totalCount": 1,
+    "page": 1,
+    "pageSize": 20
+  {{ '}' }}
+{{ '}' }}</code></pre>
+      </section>
+
+      <section id="update-product" class="doc-section">
+        <div class="endpoint-title">
+          <span class="method post">POST</span>
+          <h2>۶. ویرایش آگهی</h2>
+        </div>
+        <pre><code>POST /api/ProductApi/Update
+Content-Type: application/json
+Authorization: ApiKey {{ '{' }}YOUR_API_KEY{{ '}' }}</code></pre>
+        <p class="permission">مجوز لازم: <code>AllowEdit</code></p>
+        <p>بدنه درخواست با ایجاد آگهی یکسان است و علاوه بر آن باید <code>productId</code> ارسال شود.</p>
+        <h3>نمونه درخواست</h3>
+        <pre><code>{{ '{' }}
+  "productId": "6c425665-e0fc-47bf-874f-c5346a1f87db",
+  "title": "دستگاه آزمایشگاهی مدل X - ویرایش‌شده",
+  "brandId": 15,
+  "warranty": "دو سال ضمانت",
+  "description": "توضیحات جدید آگهی",
+  "productCategoryGroupId": 3,
+  "price": 240000000,
+  "isNegotiablePrice": false,
+  "isUsed": true,
+  "stockQuantity": 2,
+  "discountPercent": 10,
+  "categoryIds": [22],
+  "attributeValues": [
+    {{ '{' }}
+      "productAttributeId": 110,
+      "value": "کم‌کارکرد"
+    {{ '}' }}
+  ],
+  "expertReviews": []
+{{ '}' }}</code></pre>
+        <h3>رفتار ویرایش</h3>
+        <ul>
+          <li>فقط آگهی متعلق به مرکز صاحب ApiKey قابل ویرایش است.</li>
+          <li>دسته‌ها، ویژگی‌ها و بررسی‌های تخصصی قبلی با مقادیر جدید جایگزین می‌شوند؛ بنابراین لیست کامل جدید باید ارسال شود.</li>
+          <li>آگهی با وضعیت <code>PendingApproval</code> یا <code>Approved</code> مستقیماً قابل ویرایش نیست.</li>
+          <li>ویرایش آگهی <code>Rejected</code> وضعیت آن را به <code>Draft</code> تغییر می‌دهد.</li>
+          <li>ویرایش آگهی <code>Unpublished</code> وضعیت آن را به <code>PendingApproval</code> تغییر می‌دهد.</li>
+          <li>خروجی موفق از نوع کامل <code>ProductDto</code> و مشابه پاسخ ایجاد است.</li>
+        </ul>
+      </section>
+
+      <section id="images" class="doc-section">
+        <h2>تصاویر محصول</h2>
+        <p>در عملیات <code>Create</code> می‌توان تصویر شاخص را با فیلد <code>featuredImageBase64</code> داخل JSON ارسال کرد. تصویر قبل از ایجاد محصول اعتبارسنجی، Decode و از طریق زیرساخت ذخیره‌سازی فایل روی دیسک ذخیره می‌شود. اگر Base64، فرمت یا حجم تصویر معتبر نباشد، محصول ایجاد نمی‌شود.</p>
+        <p>در عملیات <code>Update</code> هنوز تصویر Base64 پذیرفته نمی‌شود و endpoint مستقل آپلود یا حذف تصویر با ApiKey ارائه نشده است.</p>
+        <p>اگر محصول از قبل تصویر داشته باشد، مسیر نسبی آن در فیلدهای <code>featuredImagePath</code> و <code>images[].imagePath</code> برگردانده می‌شود. برای دریافت فایل تصویر می‌توان از endpoint عمومی زیر استفاده کرد:</p>
+        <pre><code>GET /Product/GetImage?path={{ '{' }}URL_ENCODED_IMAGE_PATH{{ '}' }}&amp;w={{ '{' }}OPTIONAL_WIDTH{{ '}' }}</code></pre>
+        <h3>مثال</h3>
+        <pre><code>https://{{ '{' }}host{{ '}' }}/Product/GetImage?path=uploads%2Fproducts%2F6c425665-e0fc-47bf-874f-c5346a1f87db%2Fimage.jpg&amp;w=800
+https://{{ '{' }}host{{ '}' }}/Product/GetImage?path=uploads/products/4d10d58e-90d5-46da-8bab-08834f3ef80a/1e86edf746554a919dd062dde9bc5288.jpg&amp;w=800</code></pre>
+        <p>فایل فیزیکی در ساختار زیر ذخیره می‌شود و فقط مسیر نسبی آن در دیتابیس قرار می‌گیرد:</p>
+        <pre><code>uploads/products/{{ '{' }}productId{{ '}' }}/{{ '{' }}randomGuid{{ '}' }}.{{ '{' }}extension{{ '}' }}</code></pre>
+        <p>فرمت‌های قابل قبول در زیرساخت فعلی محصول عبارت‌اند از <code>jpg</code>، <code>jpeg</code>، <code>png</code> و <code>webp</code> و حداکثر حجم مؤثر فایل ۵ مگابایت است.</p>
+      </section>
+
+      <footer>مستند فارسی API مدیریت آگهی محصول</footer>
+    </main>
+
+    <nav class="sidebar" aria-label="فهرست مطالب">
+      <h2>فهرست مطالب</h2>
+      <ol>
+        <li><a href="#introduction">معرفی</a></li>
+        <li><a href="#response-format">قالب عمومی پاسخ</a></li>
+        <li><a href="#get-brands">دریافت برندها</a></li>
+        <li><a href="#get-categories">دریافت دسته‌ها</a></li>
+        <li><a href="#get-attributes">دریافت ویژگی‌ها</a></li>
+        <li><a href="#create-product">ایجاد آگهی</a></li>
+        <li><a href="#get-products">دریافت فهرست آگهی‌ها</a></li>
+        <li><a href="#update-product">ویرایش آگهی</a></li>
+        <li><a href="#images">تصاویر محصول</a></li>
+      </ol>
+    </nav>
+  </div>

@@ -1,0 +1,109 @@
+<div class="mx-auto max-w-5xl p-6" dir="rtl">
+  <base-back-button
+    link="/admin/special-offers"
+    ariaLabelKey="modules.admin.specialOffers.backToList"
+    class="mb-4"
+  />
+
+  @if (loading) {
+    <div class="flex flex-col items-center gap-3 py-12 text-slate-500">
+      <div class="h-10 w-10 animate-spin rounded-full border-4 border-slate-200 border-t-violet-600"></div>
+      <p class="m-0 text-sm">{{ 'shared.loading' | transloco }}</p>
+    </div>
+  } @else if (error) {
+    <div class="rounded-lg bg-red-50 p-3 text-sm text-red-700">{{ error }}</div>
+  } @else if (offer) {
+    <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      <p class="mb-2 text-xs font-semibold text-violet-600">
+        {{ 'modules.admin.specialOffers.detailTitle' | transloco }}
+      </p>
+      <h1 class="m-0 text-2xl font-bold text-slate-900">{{ offer.title }}</h1>
+      <p class="mt-2 text-sm leading-7 text-slate-600">{{ offer.summary }}</p>
+
+      <div class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <div class="flex items-center justify-between rounded-lg bg-slate-50 px-4 py-3">
+          <span class="text-sm text-slate-500">{{ 'modules.admin.specialOffers.columns.labName' | transloco }}</span>
+          <span class="text-sm font-semibold text-slate-900">
+            {{ offer.labName || '—' }}
+            @if (offer.labCodeNew) {
+              <span class="mr-1 text-xs text-slate-500" dir="ltr">({{ offer.labCodeNew }})</span>
+            }
+          </span>
+        </div>
+        <div class="flex items-center justify-between rounded-lg bg-slate-50 px-4 py-3">
+          <span class="text-sm text-slate-500">{{ 'modules.profile.specialOffers.columns.status' | transloco }}</span>
+          <span class="text-sm font-semibold text-slate-900">{{ statusLabel() }}</span>
+        </div>
+        <div class="flex items-center justify-between rounded-lg bg-slate-50 px-4 py-3">
+          <span class="text-sm text-slate-500">{{ 'modules.profile.specialOffers.columns.startDate' | transloco }}</span>
+          <span class="text-sm font-semibold text-slate-900">{{ formatDate(offer.startDate) }}</span>
+        </div>
+        <div class="flex items-center justify-between rounded-lg bg-slate-50 px-4 py-3">
+          <span class="text-sm text-slate-500">{{ 'modules.profile.specialOffers.columns.endDate' | transloco }}</span>
+          <span class="text-sm font-semibold text-slate-900">{{ formatDate(offer.endDate) }}</span>
+        </div>
+        <div class="flex items-center justify-between rounded-lg bg-slate-50 px-4 py-3">
+          <span class="text-sm text-slate-500">{{ 'modules.profile.specialOffers.columns.testCount' | transloco }}</span>
+          <span class="text-sm font-semibold text-slate-900">{{ offer.tests.length | number }}</span>
+        </div>
+        <div class="flex items-center justify-between rounded-lg bg-slate-50 px-4 py-3">
+          <span class="text-sm text-slate-500">{{ 'modules.profile.specialOffers.columns.requestCount' | transloco }}</span>
+          <span class="text-sm font-semibold text-violet-700">{{ offer.requestCount | number }}</span>
+        </div>
+      </div>
+
+      @if (offer.fullBody) {
+        <section class="mt-6">
+          <h2 class="mb-3 text-base font-bold text-slate-800">
+            {{ 'modules.profile.specialOffers.fields.fullBody' | transloco }}
+          </h2>
+          <div
+            class="prose prose-sm max-w-none rounded-xl border border-slate-200 bg-slate-50 p-4 text-slate-800"
+            [innerHTML]="fullBodyHtml()"
+          ></div>
+        </section>
+      }
+
+      @if (offer.tests.length) {
+        <section class="mt-6">
+          <h2 class="mb-3 text-base font-bold text-slate-800">
+            {{ 'modules.profile.specialOffers.sections.tests' | transloco }}
+          </h2>
+          <div
+            class="overflow-y-auto rounded-xl border border-slate-200"
+            [style.max-height]="'calc(3.25rem * ' + (testsVisibleRowCount + 1) + ')'"
+          >
+            <table mat-table [dataSource]="offer.tests" class="admin-table w-full">
+              <ng-container matColumnDef="cpnCode">
+                <th mat-header-cell *matHeaderCellDef>{{ 'modules.profile.testInfos.columns.cpnCode' | transloco }}</th>
+                <td mat-cell *matCellDef="let row">{{ row.cpnCode || '—' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="nationalCode">
+                <th mat-header-cell *matHeaderCellDef>{{ 'modules.profile.testInfos.columns.nationalCode' | transloco }}</th>
+                <td mat-cell *matCellDef="let row">{{ row.nationalCode || '—' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="fullName">
+                <th mat-header-cell *matHeaderCellDef>{{ 'modules.profile.testInfos.columns.fullName' | transloco }}</th>
+                <td mat-cell *matCellDef="let row" class="font-medium">{{ row.fullName || '—' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="shortName">
+                <th mat-header-cell *matHeaderCellDef>{{ 'modules.profile.testInfos.columns.shortName' | transloco }}</th>
+                <td mat-cell *matCellDef="let row">{{ row.shortName || '—' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="discount">
+                <th mat-header-cell *matHeaderCellDef>{{ 'modules.profile.specialOffers.columns.discount' | transloco }}</th>
+                <td mat-cell *matCellDef="let row">{{ row.discount != null ? row.discount + '%' : '—' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="maxSamples">
+                <th mat-header-cell *matHeaderCellDef>{{ 'modules.profile.specialOffers.columns.maxSamples' | transloco }}</th>
+                <td mat-cell *matCellDef="let row">{{ row.maxSamples ?? '—' }}</td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+          </div>
+        </section>
+      }
+    </div>
+  }
+</div>

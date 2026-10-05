@@ -1,0 +1,199 @@
+<mat-sidenav-container
+  class="admin-shell h-screen"
+  [class.sidebar-collapsed]="sidebarCollapsed"
+  dir="rtl"
+>
+  <mat-sidenav
+    mode="side"
+    opened
+    position="start"
+    class="admin-sidenav"
+    [class.collapsed]="sidebarCollapsed"
+    [style.width]="sidebarCollapsed ? sidebarCollapsedWidth : sidebarWidth"
+  >
+    <div
+      class="admin-sidenav__brand"
+      [class.admin-sidenav__brand--collapsed]="sidebarCollapsed"
+    >
+      <a
+        routerLink="/home"
+        class="admin-brand"
+        [class.admin-brand--compact]="sidebarCollapsed"
+        aria-label="LabConnect"
+      >
+        <span class="admin-brand__mark" aria-hidden="true">
+          <mat-icon class="admin-brand__mark-icon">science</mat-icon>
+        </span>
+        @if (!sidebarCollapsed) {
+        <span class="admin-brand__text">
+          <strong>LabConnect</strong>
+          <small>{{ "modules.admin.layout.brandSubtitle" | transloco }}</small>
+        </span>
+        }
+      </a>
+      @if (!sidebarCollapsed) {
+      <button
+        type="button"
+        class="admin-sidenav__toggle"
+        (click)="toggleSidebar()"
+        [attr.aria-label]="'shared.collapseMenu' | transloco"
+      >
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+      } @else {
+      <button
+        type="button"
+        class="admin-sidenav__toggle admin-sidenav__toggle--collapsed"
+        (click)="toggleSidebar()"
+        [attr.aria-label]="'shared.openMenu' | transloco"
+      >
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+      }
+    </div>
+
+    <div class="admin-sidenav__scroll">
+      @if (!sidebarCollapsed) {
+        <div class="admin-nav-search" dir="rtl">
+          <mat-icon class="admin-nav-search__icon" aria-hidden="true">search</mat-icon>
+          <input
+            type="text"
+            class="admin-nav-search__input"
+            [formControl]="menuSearch"
+            [placeholder]="'modules.admin.layout.searchMenu' | transloco"
+            [attr.aria-label]="'modules.admin.layout.searchMenu' | transloco"
+            autocomplete="off"
+          />
+          @if (menuSearch.value) {
+            <button
+              type="button"
+              class="admin-nav-search__clear"
+              (click)="clearMenuSearch()"
+              [attr.aria-label]="'shared.close' | transloco"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
+          }
+        </div>
+      }
+
+      <nav class="admin-nav" [attr.aria-label]="'shared.menu' | transloco">
+        <mat-nav-list class="admin-nav__list">
+          @if (showDashboardLink) {
+            <a
+              class="admin-nav-top-link"
+              [class.admin-nav-top-link--active]="isLinkActive(dashboardLink)"
+              [routerLink]="dashboardLink.route"
+            >
+              <mat-icon class="admin-nav-top-link__icon">{{ dashboardLink.icon }}</mat-icon>
+              @if (!sidebarCollapsed) {
+                <span class="admin-nav-top-link__label">{{ dashboardLink.labelKey | transloco }}</span>
+              }
+            </a>
+          }
+
+          @for (group of navGroups; track group.id) {
+            <div class="admin-nav-group">
+              <button
+                type="button"
+                class="admin-nav-group__header"
+                [class.admin-nav-group__header--active]="isGroupActive(group)"
+                (click)="toggleGroup(group)"
+              >
+                <mat-icon class="admin-nav-group__icon">{{ group.icon }}</mat-icon>
+                @if (!sidebarCollapsed) {
+                  <span class="admin-nav-group__label">{{ group.labelKey | transloco }}</span>
+                  <mat-icon
+                    class="admin-nav-group__chevron"
+                    [class.admin-nav-group__chevron--expanded]="isGroupExpanded(group.id)"
+                    >expand_more</mat-icon
+                  >
+                }
+              </button>
+
+              @if (!sidebarCollapsed && isGroupExpanded(group.id)) {
+                <div class="admin-nav-group__items">
+                  @for (item of group.items; track item.route) {
+                    <a
+                      mat-list-item
+                      class="admin-nav-sub-link"
+                      [class.admin-nav-link--active]="isLinkActive(item)"
+                      [routerLink]="item.route"
+                    >
+                      <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+                      <span matListItemTitle>{{ item.labelKey | transloco }}</span>
+                    </a>
+                  }
+                </div>
+              }
+            </div>
+          }
+
+          @for (link of standaloneLinks; track link.route) {
+            <a
+              class="admin-nav-top-link"
+              [class.admin-nav-top-link--active]="isLinkActive(link)"
+              [routerLink]="link.route"
+            >
+              <mat-icon class="admin-nav-top-link__icon">{{ link.icon }}</mat-icon>
+              @if (!sidebarCollapsed) {
+                <span class="admin-nav-top-link__label">{{ link.labelKey | transloco }}</span>
+              }
+            </a>
+          }
+        </mat-nav-list>
+      </nav>
+    </div>
+
+    <div class="admin-sidenav__footer">
+      @if (sidebarCollapsed) {
+        <button
+          mat-icon-button
+          type="button"
+          class="admin-logout-btn admin-logout-btn--collapsed"
+          (click)="logout()"
+          [attr.aria-label]="'shared.logout' | transloco"
+        >
+          <mat-icon>logout</mat-icon>
+        </button>
+      } @else {
+        <button
+          mat-stroked-button
+          type="button"
+          class="admin-logout-btn"
+          (click)="logout()"
+          [attr.aria-label]="'shared.logout' | transloco"
+        >
+          <mat-icon>logout</mat-icon>
+          <span>{{ "shared.logout" | transloco }}</span>
+        </button>
+      }
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="rtl flex flex-col overflow-hidden">
+    <header class="admin-topbar flex shrink-0 items-center gap-3 px-3 py-2.5 sm:px-4" dir="rtl">
+      <button
+        mat-icon-button
+        type="button"
+        class="admin-topbar__menu"
+        (click)="toggleSidebar()"
+        [attr.aria-label]="'shared.menu' | transloco"
+      >
+        <mat-icon>menu</mat-icon>
+      </button>
+
+      <div class="flex min-w-0 flex-1 items-center">
+        <h1 class="admin-topbar__title m-0 min-w-0 truncate">
+          {{ activePageTitleKey | transloco }}
+        </h1>
+      </div>
+
+      <app-header-user-menu />
+    </header>
+
+    <main class="admin-main flex min-h-0 min-w-0 flex-1 flex-col overflow-x-hidden overflow-y-auto bg-slate-50">
+      <router-outlet />
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

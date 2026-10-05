@@ -1,0 +1,294 @@
+<div class="account-security-page mx-auto box-border w-full max-w-2xl p-3 sm:p-4" dir="rtl">
+  @if (emailSuccess) {
+    <div
+      class="account-security-toast account-security-toast--success"
+      role="status"
+      tabindex="0"
+      (click)="clearEmailSuccess()"
+      (keydown.enter)="clearEmailSuccess()"
+      (keydown.space)="clearEmailSuccess(); $event.preventDefault()"
+    >
+      <mat-icon>check_circle</mat-icon>
+      <span>{{ emailSuccess }}</span>
+    </div>
+  }
+  @if (emailError) {
+    <div
+      class="account-security-toast account-security-toast--error"
+      role="alert"
+      tabindex="0"
+      (click)="clearEmailError()"
+      (keydown.enter)="clearEmailError()"
+      (keydown.space)="clearEmailError(); $event.preventDefault()"
+    >
+      <mat-icon>error</mat-icon>
+      <span>{{ emailError }}</span>
+    </div>
+  }
+
+  <div class="account-security-shell">
+    <header class="account-security-header">
+      <div class="flex min-w-0 items-start gap-3">
+        <span
+          class="grid h-11 w-11 shrink-0 place-items-center rounded-[5px] bg-[#35507c] text-white"
+        >
+          <mat-icon>{{ isUsernameMode ? 'manage_accounts' : 'lock_reset' }}</mat-icon>
+        </span>
+        <div class="min-w-0">
+          <h1 class="m-0 text-base font-bold text-slate-800 sm:text-lg">
+            {{
+              (isUsernameMode
+                ? 'modules.profile.accountSecurity.changeUsernameTitle'
+                : 'modules.profile.accountSecurity.changePasswordTitle') | transloco
+            }}
+          </h1>
+          <p class="m-0 mt-1 text-xs leading-5 text-slate-500">
+            {{
+              (isUsernameMode
+                ? 'modules.profile.accountSecurity.changeUsernameHint'
+                : 'modules.profile.accountSecurity.changePasswordHint') | transloco
+            }}
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <div class="account-security-body">
+      @if (loading) {
+        <p class="m-0 text-xs text-slate-400">{{ 'shared.loading' | transloco }}</p>
+      } @else if (isUsernameMode) {
+        <section class="account-section">
+          <div class="mb-3 flex items-center gap-2">
+            <mat-icon class="!h-4 !w-4 !text-[1rem] text-[#35507c]">alternate_email</mat-icon>
+            <h2 class="m-0 text-sm font-bold text-slate-800">
+              {{ 'modules.profile.accountSecurity.usernameSection' | transloco }}
+            </h2>
+          </div>
+
+          <form [formGroup]="usernameForm" class="flex flex-col gap-3">
+            <div class="flex flex-col gap-2 sm:flex-row sm:items-end">
+              <base-form-field
+                class="min-w-0 flex-1"
+                layout="floating"
+                icon="alternate_email"
+                [required]="true"
+                [label]="'modules.profile.accountSecurity.username' | transloco"
+                [control]="usernameForm.controls.username"
+              />
+              <base-button
+                class="shrink-0"
+                color="green"
+                size="sm"
+                [disabled]="saving || sendingUsernameOtp"
+                (click)="saveUsername()"
+              >
+                @if (sendingUsernameOtp) {
+                  {{ 'shared.loading' | transloco }}
+                } @else {
+                  {{ 'shared.save' | transloco }}
+                }
+              </base-button>
+            </div>
+
+            @if (usernameOtpSent) {
+              <div class="flex flex-col gap-2 sm:flex-row sm:items-end">
+                <base-form-field
+                  class="min-w-0 flex-1"
+                  layout="floating"
+                  icon="pin"
+                  [required]="true"
+                  [label]="'modules.profile.accountSecurity.otpCode' | transloco"
+                  [control]="usernameForm.controls.code"
+                />
+                <div class="flex shrink-0 gap-2">
+                  <base-button
+                    size="sm"
+                    [disabled]="!canResendUsernameOtp"
+                    (click)="resendUsernameOtp()"
+                  >
+                    @if (usernameOtpCountdown > 0) {
+                      {{
+                        'modules.profile.accountSecurity.resendIn'
+                          | transloco: { seconds: usernameOtpCountdown }
+                      }}
+                    } @else {
+                      {{ 'modules.profile.accountSecurity.sendOtp' | transloco }}
+                    }
+                  </base-button>
+                  <base-button
+                    color="green"
+                    size="sm"
+                    [disabled]="confirmingUsernameOtp"
+                    (click)="confirmUsernameOtp()"
+                  >
+                    {{ 'modules.profile.accountSecurity.verifyUsernameOtp' | transloco }}
+                  </base-button>
+                </div>
+              </div>
+            }
+          </form>
+        </section>
+
+        <section class="account-section">
+          <div class="mb-3 flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <mat-icon class="!h-4 !w-4 !text-[1rem] text-[#35507c]">mail</mat-icon>
+              <h2 class="m-0 text-sm font-bold text-slate-800">
+                {{ 'modules.profile.accountSecurity.emailSection' | transloco }}
+              </h2>
+            </div>
+            @if (emailConfirmed) {
+              <span
+                class="inline-flex items-center gap-1 rounded-[5px] bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold text-emerald-700 ring-1 ring-inset ring-emerald-200"
+              >
+                <mat-icon class="!h-3 !w-3 !text-[0.75rem]">verified</mat-icon>
+                {{ 'modules.profile.accountSecurity.emailVerified' | transloco }}
+              </span>
+            } @else {
+              <span
+                class="inline-flex items-center gap-1 rounded-[5px] bg-amber-50 px-2 py-0.5 text-[10px] font-semibold text-amber-700 ring-1 ring-inset ring-amber-200"
+              >
+                <mat-icon class="!h-3 !w-3 !text-[0.75rem]">mark_email_unread</mat-icon>
+                {{ 'modules.profile.accountSecurity.emailUnverified' | transloco }}
+              </span>
+            }
+          </div>
+
+          <p class="mb-3 m-0 text-[11px] leading-5 text-slate-500">
+            {{ 'modules.profile.accountSecurity.emailHint' | transloco }}
+          </p>
+
+          <form [formGroup]="emailForm" class="flex flex-col gap-3">
+            <div class="flex flex-col gap-2 sm:flex-row sm:items-end">
+              <base-form-field
+                class="min-w-0 flex-1"
+                layout="floating"
+                icon="mail"
+                type="email"
+                [required]="true"
+                [label]="'modules.profile.accountSecurity.email' | transloco"
+                [control]="emailForm.controls.email"
+              />
+              @if (isEmailLocked) {
+                <base-button class="shrink-0" size="sm" (click)="beginChangeEmail()">
+                  {{ 'modules.profile.accountSecurity.changeEmail' | transloco }}
+                </base-button>
+              } @else {
+                <base-button
+                  class="shrink-0"
+                  size="sm"
+                  [disabled]="!canResendEmailOtp"
+                  (click)="sendEmailOtp()"
+                >
+                  @if (sendingEmailOtp) {
+                    {{ 'shared.loading' | transloco }}
+                  } @else if (emailOtpCountdown > 0) {
+                    {{
+                      'modules.profile.accountSecurity.resendIn'
+                        | transloco: { seconds: emailOtpCountdown }
+                    }}
+                  } @else {
+                    {{ 'modules.profile.accountSecurity.sendOtp' | transloco }}
+                  }
+                </base-button>
+              }
+            </div>
+
+            @if (emailOtpSent && !isEmailLocked) {
+              <div class="flex flex-col gap-2 sm:flex-row sm:items-end">
+                <base-form-field
+                  class="min-w-0 flex-1"
+                  layout="floating"
+                  icon="pin"
+                  [required]="true"
+                  [label]="'modules.profile.accountSecurity.otpCode' | transloco"
+                  [control]="emailForm.controls.code"
+                />
+                <base-button
+                  class="shrink-0"
+                  color="green"
+                  size="sm"
+                  [disabled]="confirmingEmailOtp"
+                  (click)="confirmEmailOtp()"
+                >
+                  {{ 'modules.profile.accountSecurity.verifyOtp' | transloco }}
+                </base-button>
+              </div>
+            }
+          </form>
+        </section>
+      } @else {
+        <section class="account-section">
+          <form [formGroup]="passwordForm" class="flex flex-col gap-3">
+            <base-form-field
+              layout="floating"
+              icon="lock"
+              type="password"
+              [label]="'modules.profile.accountSecurity.currentPassword' | transloco"
+              [control]="passwordForm.controls.currentPassword"
+            />
+            <base-form-field
+              layout="floating"
+              icon="vpn_key"
+              type="password"
+              [required]="true"
+              [label]="'modules.profile.accountSecurity.newPassword' | transloco"
+              [control]="passwordForm.controls.newPassword"
+            />
+            <base-form-field
+              layout="floating"
+              icon="check_circle"
+              type="password"
+              [required]="true"
+              [label]="'modules.profile.accountSecurity.confirmPassword' | transloco"
+              [control]="passwordForm.controls.confirmPassword"
+            />
+
+            @if (passwordForgotMode) {
+              <div class="flex flex-col gap-2 sm:flex-row sm:items-end">
+                <base-form-field
+                  class="min-w-0 flex-1"
+                  layout="floating"
+                  icon="pin"
+                  [required]="true"
+                  [label]="'modules.profile.accountSecurity.passwordOtpCode' | transloco"
+                  [control]="passwordForm.controls.code"
+                />
+                <base-button
+                  class="shrink-0"
+                  size="sm"
+                  [disabled]="!canResendPasswordOtp"
+                  (click)="resendPasswordOtp()"
+                >
+                  @if (sendingPasswordOtp) {
+                    {{ 'shared.loading' | transloco }}
+                  } @else if (passwordOtpCountdown > 0) {
+                    {{
+                      'modules.profile.accountSecurity.resendIn'
+                        | transloco: { seconds: passwordOtpCountdown }
+                    }}
+                  } @else {
+                    {{ 'modules.profile.accountSecurity.sendOtp' | transloco }}
+                  }
+                </base-button>
+              </div>
+            }
+
+            <div class="flex items-center justify-between gap-3">
+              <a
+                href="#"
+                class="account-security-forgot-link text-xs font-semibold text-[#35507c] no-underline hover:underline"
+                (click)="beginForgotPassword($event)"
+              >
+                {{ 'modules.profile.accountSecurity.forgotPassword' | transloco }}
+              </a>
+              <base-button [disabled]="saving || sendingPasswordOtp" (click)="changePassword()">
+                {{ 'modules.profile.accountSecurity.changePasswordAction' | transloco }}
+              </base-button>
+            </div>
+          </form>
+        </section>
+      }
+    </div>
+  </div>
+</div>

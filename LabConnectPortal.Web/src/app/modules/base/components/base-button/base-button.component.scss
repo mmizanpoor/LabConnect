@@ -1,0 +1,76 @@
+:host {
+  display: inline-block;
+  width: auto;
+  max-width: 100%;
+  vertical-align: middle;
+}
+
+:host(.w-full) {
+  display: block;
+  width: 100%;
+}
+
+:host ::ng-deep button.base-button-root.mat-mdc-unelevated-button {
+  --mdc-filled-button-container-color: transparent;
+  --mdc-filled-button-label-text-color: #ffffff;
+  --mat-filled-button-state-layer-color: transparent;
+  --mat-filled-button-label-text-color: #ffffff;
+  color: #ffffff !important;
+  background-image: none !important;
+  width: auto;
+  min-width: 4.75rem;
+  letter-spacing: 0.01em;
+  box-shadow: none !important;
+}
+
+:host(.w-full) ::ng-deep button.base-button-root.mat-mdc-unelevated-button {
+  width: 100%;
+}
+
+:host ::ng-deep button.base-button-root.base-button--md {
+  --mdc-filled-button-container-height: 1.95rem;
+  --mat-filled-button-container-height: 1.95rem;
+  min-height: 1.95rem;
+  height: 1.95rem;
+  padding-inline: 0.8rem;
+  font-size: 0.6875rem;
+  line-height: 1.2;
+}
+
+:host ::ng-deep button.base-button-root.base-button--sm {
+  --mdc-filled-button-container-height: 1.75rem;
+  --mat-filled-button-container-height: 1.75rem;
+  min-height: 1.75rem;
+  height: 1.75rem;
+  padding-inline: 0.65rem;
+  font-size: 0.625rem;
+  line-height: 1.2;
+}
+
+:host ::ng-deep button.base-button-root.base-button--primary {
+  background-color: #35507c !important;
+}
+
+:host ::ng-deep button.base-button-root.base-button--soft {
+  background-color: #6f97c2 !important;
+}
+
+:host ::ng-deep button.base-button-root.base-button--blue {
+  background-color: #2563eb !important;
+}
+
+:host ::ng-deep button.base-button-root.base-button--green {
+  background-color: #16a34a !important;
+}
+
+:host ::ng-deep button.base-button-root.base-button--accent {
+  background-color: #4b5563 !important;
+}
+
+:host ::ng-deep button.base-button-root.base-button--warn {
+  background-color: #dc2626 !important;
+}
+
+:host ::ng-deep button.base-button-root.base-button--orange {
+  background-color: #f97316 !important;
+}

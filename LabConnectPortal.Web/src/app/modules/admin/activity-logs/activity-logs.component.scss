@@ -1,0 +1,16 @@
+:host {
+  display: block;
+  height: 100%;
+  min-height: 0;
+}
+
+:host ::ng-deep .activity-logs-drawer.mat-drawer-container {
+  height: 100%;
+}
+
+:host ::ng-deep .activity-logs-drawer > .mat-drawer-content {
+  display: flex !important;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden !important;
+}

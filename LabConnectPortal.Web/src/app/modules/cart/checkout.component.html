@@ -1,0 +1,188 @@
+<div class="checkout" dir="rtl">
+  <div class="checkout__wrap">
+    @if (error) {
+    <div class="checkout__alert checkout__alert--error">{{ error }}</div>
+    } @if (success) {
+    <div class="checkout__alert checkout__alert--success">{{ success }}</div>
+    } @if (addressError) {
+    <div class="checkout__alert checkout__alert--error">
+      {{ addressError }}
+      <a routerLink="/profile" class="checkout__alert-link">{{
+        "modules.checkout.completeAddressLink" | transloco
+      }}</a>
+    </div>
+    } @if (loading) {
+    <p class="checkout__loading">{{ "shared.loading" | transloco }}</p>
+    } @else if (order) {
+    <mat-card class="checkout__panel">
+      <h2 class="checkout__panel-title">
+        {{ "modules.checkout.orderCreated" | transloco }}
+      </h2>
+      <p>{{ "modules.checkout.orderId" | transloco }}: {{ order.id }}</p>
+      <p>{{ "modules.checkout.center" | transloco }}: {{ order.centerName }}</p>
+      @if (order.shippingCost != null) {
+      <p>
+        {{ "modules.checkout.shippingCost" | transloco }}:
+        {{ order.shippingCost | number }} {{ "shared.currency" | transloco }}
+      </p>
+      }
+      <p class="checkout__panel-total">
+        {{ "modules.checkout.total" | transloco }}:
+        {{ order.totalAmount | number }} {{ "shared.currency" | transloco }}
+      </p>
+      <p class="checkout__panel-hint">
+        {{ "modules.checkout.paymentStub" | transloco }}
+      </p>
+      <base-button
+        class="block w-full"
+        [disabled]="paying"
+        (click)="confirmPayment()"
+      >
+        {{ "modules.checkout.confirmPayment" | transloco }}
+      </base-button>
+    </mat-card>
+    } @else if (cart) {
+    <div class="checkout__grid">
+      <section class="checkout__main">
+        <article
+          class="checkout__card"
+          [class.checkout__card--warn]="!deliveryAddress"
+        >
+          <header class="checkout__card-head">
+            <span class="checkout__card-icon" aria-hidden="true">
+              <mat-icon>location_on</mat-icon>
+            </span>
+            <div class="checkout__card-head-text">
+              <h2>{{ "modules.checkout.deliveryAddress" | transloco }}</h2>
+              @if (deliveryRecipient) {
+              <p>{{ deliveryRecipient }}</p>
+              }
+            </div>
+            <a routerLink="/profile" class="checkout__edit-link">
+              <mat-icon>edit</mat-icon>
+              <span>{{ "modules.checkout.editAddress" | transloco }}</span>
+            </a>
+          </header>
+
+          @if (deliveryAddress) {
+          <div class="checkout__address-body">
+            <p class="checkout__address-text">{{ deliveryAddress }}</p>
+            @if (deliveryPhone) {
+            <p class="checkout__address-phone" dir="ltr">
+              <mat-icon>call</mat-icon>
+              <span>{{ deliveryPhone }}</span>
+            </p>
+            }
+          </div>
+          } @else {
+          <div class="checkout__address-empty">
+            <p>{{ "modules.checkout.noAddress" | transloco }}</p>
+            <a routerLink="/profile">{{
+              "modules.checkout.completeAddressLink" | transloco
+            }}</a>
+          </div>
+          }
+        </article>
+
+        <article class="checkout__card">
+          <header class="checkout__card-head">
+            <span class="checkout__card-icon" aria-hidden="true">
+              <mat-icon>shopping_bag</mat-icon>
+            </span>
+            <div class="checkout__card-head-text">
+              <h2>
+                {{
+                  "modules.checkout.orderItems"
+                    | transloco : { count: itemCount }
+                }}
+              </h2>
+              @if (cart.centerName) {
+              <p>{{ cart.centerName }}</p>
+              }
+            </div>
+          </header>
+
+          <ul class="checkout__items">
+            @for (item of cart.items; track item.id) {
+            <li class="checkout__item">
+              <div class="checkout__item-media">
+                <div class="checkout__item-thumb">
+                  @if (item.imagePath) {
+                    <img
+                      [src]="imageUrl(item.imagePath)"
+                      [alt]="item.productTitle"
+                    />
+                  } @else {
+                    <mat-icon>image</mat-icon>
+                  }
+                </div>
+                <span class="checkout__item-qty">{{ item.quantity }}</span>
+              </div>
+
+              <div class="checkout__item-body">
+                <h3>
+                  {{ item.productTitle }}
+                </h3>
+                <p>
+                  {{ item.quantity }} × {{ item.unitPrice | number }}
+                  {{ "shared.currency" | transloco }}
+                </p>
+              </div>
+
+              <strong class="checkout__item-total">
+                {{ item.lineTotal | number }}
+                <small>{{ "shared.currency" | transloco }}</small>
+              </strong>
+            </li>
+            }
+          </ul>
+        </article>
+
+        @if (error && !order) {
+        <mat-card class="checkout__panel checkout__panel--compact">
+          <mat-checkbox
+            [checked]="replaceExistingCenterItems"
+            (change)="replaceExistingCenterItems = $event.checked"
+          >
+            {{ "modules.checkout.replaceExisting" | transloco }}
+          </mat-checkbox>
+        </mat-card>
+        }
+      </section>
+
+      <aside class="checkout__aside">
+        <mat-card class="checkout__summary">
+          <div class="checkout__summary-row">
+            <span>{{ "modules.cart.cartTotal" | transloco }}</span>
+            <span
+              >{{ cart.totalAmount | number }}
+              {{ "shared.currency" | transloco }}</span
+            >
+          </div>
+          <div class="checkout__summary-row">
+            <span>{{ "modules.checkout.shippingCost" | transloco }}</span>
+            <span
+              >{{ shippingCost | number }}
+              {{ "shared.currency" | transloco }}</span
+            >
+          </div>
+          <div class="checkout__summary-row checkout__summary-row--total">
+            <span>{{ "modules.checkout.payableTotal" | transloco }}</span>
+            <span
+              >{{ payableTotal | number }}
+              {{ "shared.currency" | transloco }}</span
+            >
+          </div>
+          <base-button
+            class="block w-full"
+            [disabled]="submitting"
+            (click)="submitOrder()"
+          >
+            {{ "modules.checkout.submitOrder" | transloco }}
+          </base-button>
+        </mat-card>
+      </aside>
+    </div>
+    }
+  </div>
+</div>

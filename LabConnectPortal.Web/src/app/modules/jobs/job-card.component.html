@@ -1,0 +1,45 @@
+<a [routerLink]="['/jobs', job.jobPostingId]" class="block no-underline text-inherit h-full">
+  <article
+    class="flex flex-col h-full min-h-[168px] py-4 px-[1.125rem] bg-white border border-gray-200 rounded-lg transition-[border-color,box-shadow] duration-200 hover:border-slate-300 hover:shadow-[0_8px_24px_rgb(15_23_42/0.06)]"
+  >
+    <div class="flex items-start justify-between gap-3 mb-3.5">
+      <h3 class="flex-1 min-w-0 m-0 text-[15px] font-bold leading-relaxed text-blue-600">{{ job.title }}</h3>
+      <div
+        class="shrink-0 w-12 h-12 border border-gray-200 rounded-md flex items-center justify-center overflow-hidden text-slate-500 text-base font-bold"
+        [class.bg-slate-50]="!job.hasOrganizationLogo"
+        [class.bg-white]="job.hasOrganizationLogo"
+      >
+        @if (job.hasOrganizationLogo) {
+          <mat-icon class="!text-2xl !w-6 !h-6 text-slate-400">apartment</mat-icon>
+        } @else {
+          <span>{{ organizationInitial }}</span>
+        }
+      </div>
+    </div>
+
+    <ul class="list-none m-0 p-0 flex flex-col gap-[0.45rem] flex-1">
+      @if (job.organizationName) {
+        <li class="flex items-start gap-[0.35rem] text-[13px] leading-normal text-slate-500">
+          <mat-icon class="shrink-0 !text-base !w-4 !h-4 mt-[0.1rem] text-slate-400">business</mat-icon>
+          <span class="min-w-0">{{ job.organizationName }}</span>
+        </li>
+      }
+      @if (locationLabel) {
+        <li class="flex items-start gap-[0.35rem] text-[13px] leading-normal text-slate-500">
+          <mat-icon class="shrink-0 !text-base !w-4 !h-4 mt-[0.1rem] text-slate-400">location_on</mat-icon>
+          <span class="min-w-0">{{ locationLabel }}</span>
+        </li>
+      }
+      @if (contractSummary) {
+        <li class="flex items-start gap-[0.35rem] text-[13px] leading-normal text-slate-500">
+          <mat-icon class="shrink-0 !text-base !w-4 !h-4 mt-[0.1rem] text-slate-400">description</mat-icon>
+          <span class="min-w-0">{{ contractSummary }}</span>
+        </li>
+      }
+    </ul>
+
+    @if (relativeTime()) {
+      <p class="mt-3.5 mb-0 text-xs text-slate-400">{{ relativeTime() }}</p>
+    }
+  </article>
+</a>
