@@ -1,0 +1,3 @@
+# LabConnect
+
+Laboratory communication platform.
