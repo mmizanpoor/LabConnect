@@ -24,9 +24,6 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
-     deploy:
-      needs: build
-      environment: Production
     - name: Publish
       run: dotnet publish LabConnectPortal.Api/LabConnectPortal.Api.csproj -c Release -o ./publish
     - name: Upload publish artifact
@@ -36,3 +33,6 @@ jobs:
         path: ./publish
     - name: Test
       run: dotnet test --no-build --verbosity normal
+ deploy:
+      needs: build
+      environment: Production
