@@ -33,6 +33,6 @@ jobs:
         path: ./publish
     - name: Test
       run: dotnet test --no-build --verbosity normal
- deploy:
+   deploy:
       needs: build
       environment: Production
