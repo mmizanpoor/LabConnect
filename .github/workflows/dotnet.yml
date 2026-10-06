@@ -38,3 +38,6 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     environment: Production
+    steps:
+      - name: Deploy test
+        run: echo "Deployment approved!"
