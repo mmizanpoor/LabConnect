@@ -24,6 +24,8 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
+     deploy:
+      needs: build
     - name: Publish
       run: dotnet publish LabConnectPortal.Api/LabConnectPortal.Api.csproj -c Release -o ./publish
     - name: Upload publish artifact
