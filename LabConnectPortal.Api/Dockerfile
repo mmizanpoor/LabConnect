@@ -1,4 +1,5 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+RUN apt-get update && apt-get install -y nodejs npm
 WORKDIR /src
 
 COPY ["LabConnectPortal.Api/LabConnectPortal.Api.csproj", "LabConnectPortal.Api/"]
