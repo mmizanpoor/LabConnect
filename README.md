@@ -1,4 +1,4 @@
 # LabConnect
 
 Laboratory communication platform.
-PR protection test
+Required checks test
